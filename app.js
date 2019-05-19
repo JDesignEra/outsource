@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 
 //Routes
 const mainRoute = require('./routes/main');
+const servicesRoute = require('./routes/services');
 
 const app = express();
 
@@ -26,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 //Routes Part 2
 app.use('/', mainRoute);
-
+app.use('/services', servicesRoute);
 
 
 const PORT = 5000;
