@@ -14,7 +14,6 @@ router.get('/viewServices', (req,res) =>{
         raw: true
     })
         .then((services) => {
-            // pass object to listServices.handlebar
             res.render('./services/listServices', {
                 services: services,
                 user: req.user
@@ -48,7 +47,25 @@ router.post('/addService', (req, res) => {
 });
 
 router.get('/editService/:id', (req,res)=>{
-    res.render('./services/EditService')
+    Services.findOne({
+        where: {
+            id: req.params.id
+        }
+    }).then((services) => {
+        if (req.user.id === services.userId) {
+            res.render('./services/EditService', {
+                services
+            });
+        }
+        else {
+            alertMessage(res, 'danger', 'Access Denied', 'fas fa-exclamation-circle', true);
+            req.logOut();
+            res.redirect('/');
+        }
+    }
+
+    ).catch(err => console.log(err));
+    
 })
 
 module.exports = router;
