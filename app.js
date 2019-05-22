@@ -4,6 +4,7 @@ const exphbs = require('express-handlebars');
 const session = require('express-session');
 const path = require('path');
 const bodyParser = require('body-parser');
+const flash = require('connect-flash');
 
 //Routes
 const mainRoute = require('./routes/main');
