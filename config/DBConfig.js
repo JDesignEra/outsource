@@ -1,24 +1,19 @@
-// Bring in Sequelize
 const Sequelize = require('sequelize');
-// Bring in db.json which contains database name, username and password
 const db = require('./db');
-// Instantiates Sequelize with database parameters
-
 
 const sequelize = new Sequelize(db.database, db.username, db.password, {
-    host: db.host, // Name or IP address of MySQL server
-    dialect: 'mysql', // Tells sequelize that MySQL is used
+    host: db.host,
+    dialect: 'mysql',
     operatorsAliases: false,
     define: {
-        timestamps: false // Don't create timestamp fields in database
+        timestamps: false
     },
-
-    
-    pool: { // Database system params, don't need to know
+    pool: {
         max: 5,
         min: 0,
         acquire: 30000,
         idle: 10000
     },
 });
+
 module.exports = sequelize;
