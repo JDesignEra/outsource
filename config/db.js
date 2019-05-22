@@ -1,6 +1,6 @@
-module.exports = { 
-    host: 'localhost', 
-    database: 'ooadp', 
-    username: 'ooadp', 
-    password: 'ooadp' 
-}
+module.exports = {  
+    host: 'localhost',  
+    database: 'outsource',  
+    username: 'outsource',  
+    password: 'outsource'  
+} 
