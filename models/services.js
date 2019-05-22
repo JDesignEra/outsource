@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
-const db = require('../config/DBConfig');
+const db = require('../config/dbConfig');
+
 const Services = db.define('service', {
     name: {
         type: Sequelize.STRING
@@ -14,4 +15,5 @@ const Services = db.define('service', {
         type: Sequelize.STRING
     }
 });
+
 module.exports = Services;
