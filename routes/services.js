@@ -1,28 +1,31 @@
 const express = require('express');
 const router = express.Router();
-
 const Services = require('../models/Services');
 const ensureAuthenticated = require('../helpers/auth');
 
-router.get('/viewServices', (req,res) =>{
-    Services.findAll({
-        where: {
-            userId: req.user.id
-        },
-        order: [
-            ['name', 'ASC']
-        ],
-        raw: true
-    })
-        .then((services) => {
-            res.render('./services/listServices', {
-                services: services,
-                user: req.user
-            });
-        })
-        .catch(err => console.log(err));
-
+router.get('/viewServices',(req,res)=>{
+    res.render('./services/listServices')
 })
+
+// router.get('/viewServices', (req,res) =>{
+//     Services.findAll({
+//         where: {
+//             userId: req.user.id
+//         },
+//         order: [
+//             ['name', 'ASC']
+//         ],
+//         raw: true
+//     })
+//         .then((services) => {
+//             res.render('./services/listServices', {
+//                 services: services,
+//                 user: req.user
+//             });
+//         })
+//         .catch(err => console.log(err));
+
+// })
 
 router.get('/addService', (req,res)=>{
     res.render('./services/AddService')
@@ -59,7 +62,7 @@ router.get('/editService/:id', (req,res)=>{
             });
         }
         else {
-            alertMessage(res, 'danger', 'Access Denied', 'fas fa-exclamation-circle', true);
+            alertMessage(res, 'danger', 'You do not have permission to access this item!', 'fas fa-exclamation-circle', true);
             req.logOut();
             res.redirect('/');
         }
@@ -67,6 +70,21 @@ router.get('/editService/:id', (req,res)=>{
 
     ).catch(err => console.log(err));
     
+})
+
+router.put('/saveService/:id',(req,res)=>{
+    Services.update({
+        name: req.body.name,
+        desc: req.body.desc.slice(0,1999),
+        price: req.body.price,
+        posterURL: req.body.posterURL
+    }, {
+            where: {
+                id: req.params.id
+            }
+        }).then(() => {
+            res.redirect('/services/listServices');
+        }).catch(err => console.log(err));
 })
 
 module.exports = router;
