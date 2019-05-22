@@ -5,9 +5,11 @@ const session = require('express-session');
 const path = require('path');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
+
 //Routes
 const mainRoute = require('./routes/main');
 const servicesRoute = require('./routes/services');
+const userRoute = require('./routes/user');
 
 const app = express();
 
@@ -28,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 //Routes Part 2
 app.use('/', mainRoute);
 app.use('/services', servicesRoute);
-
+app.use('/user', userRoute);
 
 const PORT = 5000;
 // Starts the server and listen to port 5000
