@@ -32,3 +32,7 @@ nav.top-nav-collapse .navbar-brand {
     background-size: 100% cover;
     background-position: center;
 }
+
+main {
+    padding-top: 89px;
+}
