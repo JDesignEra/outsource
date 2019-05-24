@@ -7,7 +7,7 @@ router.get('/viewServices', (req, res)=>{
     res.render('./services/listServices');
 })
 
-// router.get('/viewServices', (req,res) =>{
+// router.get('/viewServices', ensureAuthenticated, (req,res) =>{
 //     Services.findAll({
 //         where: {
 //             userId: req.user.id
@@ -31,7 +31,7 @@ router.get('/addService', (req,res)=>{
     res.render('./services/AddService')
 })
 
-router.post('/addService', (req, res) => {
+router.post('/addService', ensureAuthenticated, (req, res) => {
     let name = req.body.name;
     let desc = req.body.desc.slice(0, 1999);
     let userId = req.user.id;
@@ -50,7 +50,7 @@ router.post('/addService', (req, res) => {
     .catch(err => console.log(err))
 });
 
-router.get('/editService/:id', (req,res)=>{
+router.get('/editService/:id', ensureAuthenticated, (req,res)=>{
     Services.findOne({
         where: {
             id: req.params.id
@@ -89,7 +89,7 @@ router.put('/saveService/:id', (req, res) => {
 })
 
 
-router.get('/delete/:id', (req, res) => {
+router.get('/delete/:id', ensureAuthenticated, (req, res) => {
     Services.findOne({
         where: {
             id: req.params.id,
