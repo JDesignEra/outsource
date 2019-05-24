@@ -1,12 +1,18 @@
 const express = require('express');
 const path = require('path');
+const exphbs = require('express-handlebars');
+const methodOverride = require('method-override');
+
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const bodyParser = require('body-parser');
+const passport = require('passport');
+
+const {formatDate} = require('./helpers/hbs');
 
 const mySqlStore = require('express-mysql-session'); 
 const db = require('./config/db');
-
-const exphbs = require('express-handlebars');
-const bodyParser = require('body-parser');
+const auth = require('./config/passport');
 
 const mainRoute = require('./routes/main');
 const servicesRoute = require('./routes/services');
@@ -17,6 +23,9 @@ const outsourceDB = require('./config/dbConnection');
 outsourceDB.setUpDB(false); 
 
 const app = express(); 
+
+// CookieParser
+app.use(cookieParser());
 
 // Session
 app.use(session({ 
@@ -36,8 +45,16 @@ app.use(session({
 	saveUninitialized: false, 
 }));
 
+// Passport
+app.use(passport.initialize());
+app.use(passport.session());
+auth.localStrategy(passport);
+
 // Handlebars
-app.engine('handlebars', exphbs({  
+app.engine('handlebars', exphbs({
+	helpers: {
+		formatDate: formatDate
+	},
 	defaultLayout: 'main',
 	layoutsDir: __dirname + '/views/layouts',
 	partialsDir: [
@@ -55,6 +72,9 @@ app.use(bodyParser.urlencoded({
 
 // Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Method override
+app.use(methodOverride('_method'));
 
 // Routes
 app.use('/', mainRoute); 
