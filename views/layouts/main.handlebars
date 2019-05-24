@@ -4,24 +4,27 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<title>OutSource</title>
+	<title>{{#if title}} {{ title }} - {{/if}}OutSource</title>
 
-	<link type="text/css" href="/css/bootstrap.min.css" rel="stylesheet">
-	<link type="text/css" href="/css/mdb.min.css" rel="stylesheet">
-	<link type="text/css" href="/css/fontawesome.min.css" rel="stylesheet">
+	<link type="text/css" href="/css/vendor/bootstrap.min.css" rel="stylesheet">
+	<link type="text/css" href="/css/vendor/mdb.min.css" rel="stylesheet">
+	<link type="text/css" href="/css/vendor/fontawesome.min.css" rel="stylesheet">
 	<link type="text/css" href="/css/style.css" rel="stylesheet">
 </head>
 
 <body class="deep-purple-skin">
 	{{>_navbar}}
 
-	<main>
+	<main class="container-fluid mt-5 pt-5 mb-4">
 		{{{ body }}}
 	</main>
+	
+	{{>_footer}}
 
-	<script src="/js/jquery.min.js"></script>
-	<script src="/js/popper.min.js"></script>
-	<script src="/js/bootstrap.min.js"></script>
-	<script src="/js/mdb.min.js"></script>
+	<script src="/js/vendor/jquery.min.js"></script>
+	<script src="/js/vendor/popper.min.js"></script>
+	<script src="/js/vendor/bootstrap.min.js"></script>
+	<script src="/js/vendor/mdb.min.js"></script>
+	<script src="/js/scripts.js"></script>
 </body>
 </html>

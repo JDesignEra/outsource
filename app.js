@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 const mainRoute = require('./routes/main');
 const servicesRoute = require('./routes/services');
 const userRoute = require('./routes/user');
+const fileRoute = require('./routes/files');
 
 const outsourceDB = require('./config/dbConnection'); 
 outsourceDB.setUpDB(false); 
@@ -37,7 +38,12 @@ app.use(session({
 
 // Handlebars
 app.engine('handlebars', exphbs({  
-    defaultLayout: 'main' 
+	defaultLayout: 'main',
+	layoutsDir: __dirname + '/views/layouts',
+	partialsDir: [
+		__dirname + '/views/partials',
+		__dirname + '/views/partials/main',
+	]
 })); 
 app.set('view engine', 'handlebars');
 
@@ -48,12 +54,13 @@ app.use(bodyParser.urlencoded({
 }));
 
 // Static Folder
-app.use(express.static(path.join(__dirname, 'public'))) 
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/', mainRoute); 
 app.use('/services', servicesRoute); 
 app.use('/user', userRoute);
+app.use('/files', fileRoute);
 
 app.listen(5000, () => {
 	console.log(`Server started on port 5000`);
