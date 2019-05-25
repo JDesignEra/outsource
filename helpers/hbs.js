@@ -1,7 +1,18 @@
-const moment = require('moment');
-
 module.exports = {
-    formatDate: function(date, format) {
-        return moment(date).format(format);
+    hbsIfEqual: function(a, b, ops) {
+        if (a == b) {
+            return ops.fn(this);
+        }
+        else {
+            return ops.inverse(this);
+        }
+    },
+    hbsIfNotEqual: function(a, b, ops) {
+        if (a != b) {
+            return ops.fn(this);
+        }
+        else {
+            return ops.inverse(this);
+        }
     }
-};
+}

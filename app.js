@@ -8,7 +8,8 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
-const {formatDate} = require('./helpers/hbs');
+const {formatDate, currYear} = require('./helpers/moment');
+const {hbsIfEqual, hbsIfNotEqual} = require('./helpers/hbs');
 
 const mySqlStore = require('express-mysql-session'); 
 const db = require('./config/db');
@@ -53,7 +54,10 @@ auth.localStrategy(passport);
 // Handlebars
 app.engine('handlebars', exphbs({
 	helpers: {
-		formatDate: formatDate
+		formatDate: formatDate,
+		currYear: currYear,
+		if_eq: hbsIfEqual,
+		if_not_eq: hbsIfNotEqual
 	},
 	defaultLayout: 'main',
 	layoutsDir: __dirname + '/views/layouts',
