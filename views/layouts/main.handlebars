@@ -14,8 +14,66 @@
 
 <body class="deep-purple-skin">
 	{{>_navbar}}
+	
+	{{#if_eq url "/"}}
+	<div id="carousel" class="carousel slide carousel-fade my-4" data-ride="carousel">
+		<div class="carousel-inner" role="listbox">
+			<div class="carousel-item active">
+				<video class="video-fluid" autoplay loop muted>
+					<source src="/vid/home_carousel/forest.mp4" type="video/mp4" />
+				</video>
 
-	<main class="container-fluid mt-5 pt-5 mb-4">
+				<div class="carousel-caption">
+					<div class="animated fadeInDown">
+						<h3 class="h3-responsive">Title</h3>
+						<p>Some Text</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="carousel-item">
+				<div class="view">
+					<video class="video-fluid" autoplay loop muted>
+						<source src="/vid/home_carousel/photography.mp4" type="video/mp4" />
+					</video>
+					<div class="mask rgba-deep-purple-light"></div>
+				</div>
+
+				<div class="carousel-caption">
+					<div class="animated fadeInDown">
+						<h3 class="h3-responsive">Title</h3>
+						<p>Some Text</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="carousel-item">
+				<div class="view">
+					<video class="video-fluid" autoplay loop muted>
+						<source src="/vid/home_carousel/typing.mp4" type="video/mp4" />
+					</video>
+					<div class="mask rgba-deep-purple-light"></div>
+				</div>
+
+				<div class="carousel-caption">
+					<div class="animated fadeInDown">
+						<h3 class="h3-responsive">Title</h3>
+						<p>Some Text</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+			<i class="fas fa-chevron-left fa-lg"></i>
+		</a>
+		<a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+			<i class="fas fa-chevron-right fa-lg"></i>
+		</a>
+	</div>
+	{{/if_eq}}
+
+	<main class="container-fluid {{#if_not_eq url "/"}}mt-5 pt-5 mb-4{{/if_not_eq}}">
 		{{{ body }}}
 	</main>
 	

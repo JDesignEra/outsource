@@ -2,10 +2,18 @@
 
 Initial Setup
 ------
-#### Install Required Modules / Libraries
+#### Install Required Packages
 ```cmd
 npm i
 ```
+
+
+How to Run?
+------
+```cmd
+node app.js
+```
+
 
 Frameworks / Libraries / APIs / Languages
 ------
