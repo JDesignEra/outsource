@@ -1,4 +1,4 @@
-<img src="public/img/logo/color.png" />
+<img src="public/img/logo/darker.png" />
 
 Initial Setup
 ------
