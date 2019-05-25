@@ -7,8 +7,10 @@
                 <h3 class="text-info font-weight-bold font-italic">Services</h3>
                 <object align="right">
                     <form class="form-inline mr-auto">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="search">
-                        <button class="btn aqua-gradient btn-rounded btn-sm my-0" type="submit" id="searchbut">Search</button>
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
+                            id="search">
+                        <button class="btn aqua-gradient btn-rounded btn-sm my-0" type="submit"
+                            id="searchbut">Search</button>
                     </form>
                     {{!-- <button type="submit" id="butsearch" onclick="search()"><i class="fas fa-search"></i></button> --}}
                 </object>
@@ -17,14 +19,13 @@
                 {{!-- {{#each services}} --}}
                 <div class="column services">
                     <div class="card oneserv">
-                        <img src="{{posterURL}}" alt="Poster unavailable" class="img-thumbnail img-fluid serviceimg">
+                        <img src="{{posterURL}}" alt="Poster unavailable"
+                            class="img-thumbnail img-fluid serviceimg card-img-top">
                         <div class="card-body">
-                            <div class="row" id="namedesc">
-                                <h5 class="card-title text-info text-left name" data-names="{{name}}">{{name}}
-                                </h5>
-                                <p class="text-primary text-left">{{desc}}</p>
-                            </div>
-                            <h4 class="text-danger font-weight-bold text-left">
+                            <h5 class="card-title text-info name" data-names="{{name}}">{{name}}
+                            </h5>
+                            <p class="card-text">{{desc}}</p>
+                            <h4 class="text-danger font-weight-bold text-left font-italic">
                                 ${{price}}
                             </h4>
                             <form action="/services/{{id}}">

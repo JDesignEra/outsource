@@ -31,7 +31,7 @@ router.get('/addService', (req,res)=>{
     res.render('./services/AddService')
 })
 
-router.post('/addService', ensureAuthenticated, (req, res) => {
+router.post('/addService', (req, res) => {
     let name = req.body.name;
     let desc = req.body.desc.slice(0, 1999);
     let userId = req.user.id;
@@ -83,7 +83,7 @@ router.put('/saveService/:id', (req, res) => {
                 id: req.params.id
             }
         }).then(() => {
-            alertMessage(res, 'Success', 'Changes saved', 'fas fa-exclamation-circle', true);
+            alertMessage(res, 'Success', 'Changes saved successfully!', 'fas fa-exclamation-circle', true);
             res.redirect('/services/listServices');
         }).catch(err => console.log(err));
 })
@@ -97,7 +97,7 @@ router.get('/delete/:id', ensureAuthenticated, (req, res) => {
         },
     }).then((services) => {
         if (services == null) {
-            alertMessage(res, 'danger', 'Access Denied', 'fas fa-exclamation-circle', true);
+            alertMessage(res, 'danger', 'You do not have permission to modify this service', 'fas fa-exclamation-circle', true);
             res.redirect('/logout');
         }
         else {
