@@ -16,6 +16,11 @@ nav.navbar.top-nav-collapse .navbar-brand {
     background-position: center;
 }
 
+/* Home */
+section.home .carousel-caption {
+    height: 100%;
+}
+
 @media (min-width: 768px) {
     .files input[name=search] {
         height: calc(1.5em + 1rem + 2px);

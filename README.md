@@ -1,4 +1,6 @@
-<img src="public/img/logo/darker.png" />
+<div style="width: 100%; background: #b39ddb; font-size: 1.75em; color: #ffffff;">
+    <img src="public/img/logo/darker.png" alt="OutSource" width="100px" style="background: #b39ddb;" />
+</div>
 
 Initial Setup
 ------
