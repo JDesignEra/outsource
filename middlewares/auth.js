@@ -1,4 +1,4 @@
-const alertMessage = require('./messenger');
+const alertMessage = require('../helpers/messenger');
 const ensureAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();

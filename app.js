@@ -8,20 +8,15 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
-const moment = require('./helpers/moment');
-const hbs = require('./helpers/hbs');
-
 const mySqlStore = require('express-mysql-session'); 
 const db = require('./config/db');
 const auth = require('./config/passport');
 
-const mainRoute = require('./routes/main');
-const servicesRoute = require('./routes/services');
-const userRoute = require('./routes/user');
-const fileRoute = require('./routes/files');
-
 const outsourceDB = require('./config/dbConnection'); 
 outsourceDB.setUpDB(false); 
+
+const moment = require('./helpers/moment');
+const hbs = require('./helpers/hbs');
 
 const app = express(); 
 
@@ -54,10 +49,9 @@ auth.localStrategy(passport);
 // Handlebars
 app.engine('handlebars', exphbs({
 	helpers: {
-		formatDate: moment.formatDate,
-		currYear: moment.currYear,
-		if_eq: hbs.hbsIfEqual,
-		if_not_eq: hbs.hbsIfNotEqual
+		currYear: moment.formatDate(new Date(), 'YYYY'),
+		if_eq: hbs.ifEqual,
+		if_not_eq: hbs.ifNotEqual
 	},
 	defaultLayout: 'main',
 	layoutsDir: __dirname + '/views/layouts',
@@ -78,11 +72,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
 
 // Routes
-app.use('/', mainRoute); 
-app.use('/services', servicesRoute); 
-app.use('/user', userRoute);
-app.use('/files', fileRoute);
+app.use('/', require('./routes/main')); 
+app.use('/services', require('./routes/services')); 
+app.use('/user', require('./routes/user'));
+app.use('/files', require('./routes/files'));
 
-app.listen(5000, () => {
-	console.log(`Server started on port 5000`);
+app.listen(port = 5000, () => {
+	console.log(`Server started on ${port}`);
 });

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Services = require('../models/Services');
-const ensureAuthenticated = require('../helpers/auth');
+const ensureAuthenticated = require('../middlewares/auth');
 
 router.get('/viewServices', (req, res)=>{
     res.render('./services/listServices');
