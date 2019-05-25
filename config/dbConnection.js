@@ -1,5 +1,6 @@
 const mysql = require('./dbConfig'); 
 const service = require('../models/services');
+const files = require('../models/files');
  
 const setUpDB = (drop) => { 
     mysql.authenticate() 

@@ -8,8 +8,8 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
-const {formatDate, currYear} = require('./helpers/moment');
-const {hbsIfEqual, hbsIfNotEqual} = require('./helpers/hbs');
+const moment = require('./helpers/moment');
+const hbs = require('./helpers/hbs');
 
 const mySqlStore = require('express-mysql-session'); 
 const db = require('./config/db');
@@ -54,17 +54,14 @@ auth.localStrategy(passport);
 // Handlebars
 app.engine('handlebars', exphbs({
 	helpers: {
-		formatDate: formatDate,
-		currYear: currYear,
-		if_eq: hbsIfEqual,
-		if_not_eq: hbsIfNotEqual
+		formatDate: moment.formatDate,
+		currYear: moment.currYear,
+		if_eq: hbs.hbsIfEqual,
+		if_not_eq: hbs.hbsIfNotEqual
 	},
 	defaultLayout: 'main',
 	layoutsDir: __dirname + '/views/layouts',
-	partialsDir: [
-		__dirname + '/views/partials',
-		__dirname + '/views/partials/main',
-	]
+	partialsDir: hbs.partialsDirs(__dirname + '/views/partials')
 })); 
 app.set('view engine', 'handlebars');
 
