@@ -1,21 +1,27 @@
 const express = require('express');
 const path = require('path');
+const exphbs = require('express-handlebars');
+const methodOverride = require('method-override');
+
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const bodyParser = require('body-parser');
+const passport = require('passport');
 
 const mySqlStore = require('express-mysql-session'); 
 const db = require('./config/db');
-
-const exphbs = require('express-handlebars');
-const bodyParser = require('body-parser');
-
-const mainRoute = require('./routes/main');
-const servicesRoute = require('./routes/services');
-const userRoute = require('./routes/user');
+const auth = require('./config/passport');
 
 const outsourceDB = require('./config/dbConnection'); 
 outsourceDB.setUpDB(false); 
 
+const moment = require('./helpers/moment');
+const hbs = require('./helpers/hbs');
+
 const app = express(); 
+
+// CookieParser
+app.use(cookieParser());
 
 // Session
 app.use(session({ 
@@ -35,9 +41,21 @@ app.use(session({
 	saveUninitialized: false, 
 }));
 
+// Passport
+app.use(passport.initialize());
+app.use(passport.session());
+auth.localStrategy(passport);
+
 // Handlebars
-app.engine('handlebars', exphbs({  
-    defaultLayout: 'main' 
+app.engine('handlebars', exphbs({
+	helpers: {
+		currYear: moment.formatDate(new Date(), 'YYYY'),
+		if_eq: hbs.ifEqual,
+		if_not_eq: hbs.ifNotEqual
+	},
+	defaultLayout: 'main',
+	layoutsDir: __dirname + '/views/layouts',
+	partialsDir: hbs.partialsDirs(__dirname + '/views/partials')
 })); 
 app.set('view engine', 'handlebars');
 
@@ -48,13 +66,17 @@ app.use(bodyParser.urlencoded({
 }));
 
 // Static Folder
-app.use(express.static(path.join(__dirname, 'public'))) 
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Method override
+app.use(methodOverride('_method'));
 
 // Routes
-app.use('/', mainRoute); 
-app.use('/services', servicesRoute); 
-app.use('/user', userRoute);
+app.use('/', require('./routes/main')); 
+app.use('/services', require('./routes/services')); 
+app.use('/user', require('./routes/user'));
+app.use('/files', require('./routes/files'));
 
-app.listen(5000, () => {
-	console.log(`Server started on port 5000`);
+app.listen(port = 5000, () => {
+	console.log(`Server started on ${port}`);
 });

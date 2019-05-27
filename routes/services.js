@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Services = require('../models/Services');
-const ensureAuthenticated = require('../helpers/auth');
+const ensureAuthenticated = require('../middlewares/auth');
 
 router.get('/viewServices', (req, res)=>{
     res.render('./services/listServices');
 })
 
-// router.get('/viewServices', (req,res) =>{
+// router.get('/viewServices', ensureAuthenticated, (req,res) =>{
 //     Services.findAll({
 //         where: {
 //             userId: req.user.id
@@ -50,7 +50,7 @@ router.post('/addService', (req, res) => {
     .catch(err => console.log(err))
 });
 
-router.get('/editService/:id', (req,res)=>{
+router.get('/editService/:id', ensureAuthenticated, (req,res)=>{
     Services.findOne({
         where: {
             id: req.params.id
@@ -83,13 +83,13 @@ router.put('/saveService/:id', (req, res) => {
                 id: req.params.id
             }
         }).then(() => {
-            alertMessage(res, 'Success', 'Changes saved', 'fas fa-exclamation-circle', true);
+            alertMessage(res, 'Success', 'Changes saved successfully!', 'fas fa-exclamation-circle', true);
             res.redirect('/services/listServices');
         }).catch(err => console.log(err));
 })
 
 
-router.get('/delete/:id', (req, res) => {
+router.get('/delete/:id', ensureAuthenticated, (req, res) => {
     Services.findOne({
         where: {
             id: req.params.id,
@@ -97,7 +97,7 @@ router.get('/delete/:id', (req, res) => {
         },
     }).then((services) => {
         if (services == null) {
-            alertMessage(res, 'danger', 'Access Denied', 'fas fa-exclamation-circle', true);
+            alertMessage(res, 'danger', 'You do not have permission to modify this service', 'fas fa-exclamation-circle', true);
             res.redirect('/logout');
         }
         else {

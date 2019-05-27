@@ -1,14 +1,14 @@
 <!--.col-	.col-sm-	.col-md-	.col-lg-	.col-xl- -->
 <div class="container">
-	<div class="card card-body border border-success">
-		<h3 class="text-info">Add Service</h3>
+	<div class="card card-body">
+		<h3 class="text-info font-weight-bold">Add Service</h3>
 		<form action="" method="post" id="addService">
 			<div class="row">
 				<div class="col-lg-9">
 					<div class="form-group">
 						{{!-- Practical 5 Exercise 2: Add a title input text here named 'title'--}}
 						<label class="font-italic" for="name">Service name:</label>
-						<input class="form-control" type="text" name="name" id="name">
+						<input class="form-control" type="text" name="name" id="name" style="width: 50%">
 					</div>
 					<div class="form-group mb-4">
 						<label class="font-italic" for="desc">Service Description:</label>
@@ -16,11 +16,17 @@
 					</div>
 					<div class="form-group">
 						<label class="font-italic" for="price">Price ($):</label>
-						<input class="form-control" type="number" name="price" id="price">
+						<input class="form-control" type="number" name="price" id="price" style="width: 20%">
 					</div>
 				</div>
 				<div class="col-lg-3">
-					<input type="file" id="serviceUpload" name="serviceUpload" accept="image/png,image/jpeg,image/jpg,image/gif">
+					<label class="font-italic">Service poster (Optional)</label>
+					<div class="custom-file">
+						<input type="file" class="custom-file-input" id="customFileLang">
+						<label class="custom-file-label primary-color" for="customFileLang" style="overflow-x: hidden">Upload an image</label>
+					</div>
+					{{!-- <input type="file" id="serviceUpload" name="serviceUpload"
+						accept="image/png,image/jpeg,image/jpg,image/gif"> --}}
 					<img id="poster" src="/img/no-image.jpg" alt="" class="border img-thumbnail img-fluid"
 						style="height:95%;width:100%">
 					<input id="posterURL" type="hidden" name="posterURL">
@@ -28,7 +34,7 @@
 				</div>
 			</div>
 			<br>
-            <button id="butcancel" type="submit" class="btn btn-danger" action="/">Cancel</button>
+			<a href="/user/profile" class="btn btn-danger">Cancel</a>
 			<button id="butaddService" type="submit" class="btn btn-info" action="/services/AddService">Add Service
 			</button>
 		</form>

@@ -15,7 +15,7 @@
 }
 
 /* Style the counter cards */
-.services {
+.oneserv {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
   padding: 16px;
   text-align: center;
@@ -29,4 +29,13 @@
     display: block;
     margin-bottom: 20px;
   }
+}
+
+.active-cyan-3 input[type=text] {
+  border: 1px solid #4dd0e1;
+  box-shadow: 0 0 0 1px #4dd0e1;
+}
+
+.serviceimg{
+  width: 100%;
 }

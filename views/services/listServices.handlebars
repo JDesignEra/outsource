@@ -1,16 +1,45 @@
 <link rel="stylesheet" href="/css/services.css">
-<div class="container">
-    {{!-- {{#if services}} --}}
-    <div class="card card-body">
-        <h3 class="text-info">Services</h3>
-        <div class="row">
-            {{!-- {{#each services}} --}}
-            <div class="column">
-                <div class="card services">
-                    
-                </div>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        {{!-- {{#if services}} --}}
+        <div class="card card-body">
+            <div class="search-container">
+                <h3 class="text-info font-weight-bold font-italic">Services</h3>
+                <object align="right">
+                    <form class="form-inline mr-auto">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
+                            id="search">
+                        <button class="btn aqua-gradient btn-rounded btn-sm my-0" type="submit"
+                            id="searchbut">Search</button>
+                    </form>
+                    {{!-- <button type="submit" id="butsearch" onclick="search()"><i class="fas fa-search"></i></button> --}}
+                </object>
             </div>
-            {{!-- {{/each}} --}}
+            <div class="row" id="servcontainer">
+                {{!-- {{#each services}} --}}
+                <div class="column services">
+                    <div class="card oneserv">
+                        <img src="{{posterURL}}" alt="Poster unavailable"
+                            class="img-thumbnail img-fluid serviceimg card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title text-info name" data-names="{{name}}">{{name}}
+                            </h5>
+                            <p class="card-text">{{desc}}</p>
+                            <h4 class="text-danger font-weight-bold text-left font-italic">
+                                ${{price}}
+                            </h4>
+                            <form action="/services/{{id}}">
+                                <button type="submit" class="btn btn-info">View Service</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {{!-- {{/each}} --}}
+            </div>
         </div>
     </div>
 </div>
+{{!-- {{else}}
+<h4 class="text-primary">No services available</h4>
+{{/if}} --}}
+<script type="text/javascript" src="/js/servicesscript.js"></script>
