@@ -1,4 +1,4 @@
-\node_modules
-\.DS_Store
-\public/scss
-package-lock.json
+/**/node_modules/
+/**/public/scss/
+/**/.vs/
+*.DS_Store
