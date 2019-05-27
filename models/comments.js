@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/dbConfig');
 
-const Comments = db.define('comment', {
+const comments = db.define('comment', {
     uid: {
         type: Sequelize.INTEGER,
         references: {
@@ -21,4 +21,4 @@ const Comments = db.define('comment', {
     }
 });
 
-module.exports = Comments;
+module.exports = comments;

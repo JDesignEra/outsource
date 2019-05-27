@@ -5,16 +5,12 @@
 Initial Setup
 ------
 #### Install Required Packages
-```cmd
-npm i
-```
+`npm i`
 
 
 How to Run?
 ------
-```cmd
-node app.js
-```
+`node app.js` **or** `npm start`
 
 
 Frameworks / Libraries / APIs / Languages
@@ -53,9 +49,7 @@ Commit Legends
 | { Variable / Code } | Variable / Code related
 | \[ File ] | File (e.g. style.css) |
 | ( Folder ) | Folder / Directory |
-| < Notes > | Notes / Things to note |
-<br>
-
+<br/>
 
 ------
 ##### Collaborator's Github Profile

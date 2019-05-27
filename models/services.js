@@ -1,37 +1,38 @@
 const Sequelize = require('sequelize');
 const db = require('../config/dbConfig');
+const users = require('./users');
 
-const Services = db.define('service', {
+const services = db.define('service', {
     sid: {
         type: Sequelize.INTEGER,
-        primaryKey = true,
-        allowNull = false
+        primaryKey: true,
+        allowNull: false
     },
     uid: {
         type: Sequelize.INTEGER,
         references: {
-            model: user,
+            model: users,
             key: "uid"
         }
     },
     name: {
         type: Sequelize.STRING,
-        allowNull = false
+        allowNull: false
     },
     desc: {
         type: Sequelize.STRING(2000)
     },
     price: {
         type: Sequelize.DECIMAL,
-        allowNull = false
+        allowNull: false
     },
     posterURL: {
         type: Sequelize.STRING,
     },
     category: {
         type: Sequelize.STRING,
-        allowNull = false
+        allowNull: false
     }
 });
 
-module.exports = Services;
+module.exports = services;

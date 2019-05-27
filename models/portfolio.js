@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/dbConfig');
 
-const Portfolio = db.define('portfolio', {
+const portfolio = db.define('portfolio', {
     pid: {
         type: Sequelize.INTEGER,
         allowNull:false,
@@ -30,4 +30,4 @@ const Portfolio = db.define('portfolio', {
     }
 });
 
-module.exports = Portfolio;
+module.exports = portfolio;
