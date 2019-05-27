@@ -1,6 +1,7 @@
 const mysql = require('./dbConfig'); 
 const users = require('../models/users');
 const comments = require('../models/comments');
+const portfolio = require('../models/portfolio');
 const files = require('../models/files');
 const services = require('../models/services');
  
