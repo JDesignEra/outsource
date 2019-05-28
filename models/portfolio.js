@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/dbConfig');
+const users = require('./users');
 
 const portfolio = db.define('portfolio', {
     pid: {
@@ -7,12 +8,11 @@ const portfolio = db.define('portfolio', {
         allowNull:false,
         primaryKey: true,
         autoIncrement: true
-        
     },
     fromUid: {
         type: Sequelize.INTEGER,
         references: {
-            model: user,
+            model: users,
             key: "uid"
         }
     },
