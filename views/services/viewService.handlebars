@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="service-overview">
+        <h1 class="font-weight-bold">{{services.name}}</h1>
+        <div class="user">
+            <img class="rounded-circle" src="{{user.profilepic}}" alt="{{user.name}}">
+            <span class="font-weight-bold">{{user.name}}</span>
+        </div>
+    </div>
+    <figure class="service-img">
+        <img class="img-thumbnail" src="{{services.posterURL}}" alt="Poster not available">
+    </figure>>
+    <div class="service-desc">
+        <header>
+            <h2 class="font-weight-bold">About this Service</h2>
+        </header>
+        <h4 class="text-danger font-weight-bold">Price: ${{services.price}}</h4>
+        <p>{{services.desc}}</p>
+    </div>
+</div>

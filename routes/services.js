@@ -5,7 +5,7 @@ const ensureAuthenticated = require('../middlewares/auth');
 const fs = require('fs');
 const upload = require('../helpers/imageUpload');
 
-router.get('/viewServices', (req, res)=>{
+router.get('/', (req, res)=>{
     res.render('./services/listServices');
 })
 
@@ -29,11 +29,15 @@ router.get('/viewServices', (req, res)=>{
 
 // })
 
-router.get('/addService', (req,res)=>{
+router.get('/add', (req,res)=>{
     res.render('./services/AddService')
 })
 
-router.post('/addService', (req, res) => {
+router.get('/:id', (req,res)=>{
+    res.render('./services/viewService')
+})
+
+router.post('/add', (req, res) => {
     let name = req.body.name;
     let desc = req.body.desc.slice(0, 1999);
     let userId = req.user.id;
@@ -54,7 +58,7 @@ router.post('/addService', (req, res) => {
     .catch(err => console.log(err))
 });
 
-router.get('/editService/:id', ensureAuthenticated, (req,res)=>{
+router.get('/edit/:id', ensureAuthenticated, (req,res)=>{
     Services.findOne({
         where: {
             id: req.params.id
@@ -76,7 +80,7 @@ router.get('/editService/:id', ensureAuthenticated, (req,res)=>{
     
 })
 
-router.put('/saveService/:id', (req, res) => {
+router.put('/save/:id', (req, res) => {
     Services.update({
         name: req.body.name,
         desc: req.body.desc.slice(0,1999),
