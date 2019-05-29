@@ -6,7 +6,7 @@ function search() {
     var name = document.querySelectorAll('.name');
     for (var i = 0; i < cards.length; i++) {
         var compare = name[i].dataset.names;
-        if (compare.toUpperCase() === filter) {
+        if (compare.toUpperCase().includes(filter)) {
             cards[i].style.display = "";
         }
         else {
