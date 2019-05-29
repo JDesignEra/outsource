@@ -51,7 +51,8 @@ app.engine('handlebars', exphbs({
 	helpers: {
 		currYear: moment.formatDate(new Date(), 'YYYY'),
 		if_eq: hbs.ifEqual,
-		if_not_eq: hbs.ifNotEqual
+		if_not_eq: hbs.ifNotEqual,
+		radioCheck: hbs.radioCheck
 	},
 	defaultLayout: 'main',
 	layoutsDir: __dirname + '/views/layouts',
