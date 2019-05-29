@@ -36,6 +36,7 @@ router.post('/addService', (req, res) => {
     let desc = req.body.desc.slice(0, 1999);
     let userId = req.user.id;
     let price = req.body.price;
+    let category = req.body.categories;
     let posterURL = req.body.posterURL;
     
     Services.create({
@@ -43,6 +44,7 @@ router.post('/addService', (req, res) => {
         desc,
         price,
         userId,
+        category,
         posterURL
     }).then((services) => {
         res.redirect('/services/listServices');
@@ -77,6 +79,7 @@ router.put('/saveService/:id', (req, res) => {
         name: req.body.name,
         desc: req.body.desc.slice(0,1999),
         price: req.body.price,
+        category: req.body.categories,
         posterURL: req.body.posterURL
     }, {
             where: {

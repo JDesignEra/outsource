@@ -25,5 +25,13 @@ module.exports = {
         }
 
         return partialsDir;
+    },
+    radioCheck: function(value, radioValue){
+        if (value === radioValue){
+            return 'checked';
+        }
+        else{
+            return '';
+        }
     }
 }
