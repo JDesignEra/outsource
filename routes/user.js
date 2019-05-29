@@ -6,7 +6,7 @@ const alertMessage = require('../helpers/messenger');
 
 const passport = require('passport');
 
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 router.get('/profile', (req , res) => {
 
