@@ -34,13 +34,11 @@ section.home .carousel-caption {
         margin: 0;
         height: 100%;
     }
+
+    /* Benedict */
 }
 
 /* Benedict */
-
-/* Lemuel */
-
-.profile-content{
-    padding: 0 5vw;
-    min-height: 100vh;
+.modal-backdrop {
+    z-index: -999 !important; 
 }
