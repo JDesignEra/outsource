@@ -90,7 +90,7 @@
 	</section>
 	{{/if_eq}}
 
-	<main class="container-fluid {{#if_not_eq url "/"}}mt-5 pt-5 mb-4{{/if_not_eq}}">
+	<main class="container-fluid{{#if_eq mainType "vCenter"}} d-flex flex-column justify-content-center{{/if_eq}}{{#if_not_eq url "/"}} mt-5 pt-5 mb-4{{/if_not_eq}}">
 		{{{ body }}}
 	</main>
 	

@@ -1,64 +1,71 @@
-<div class="tab-content card pt-5" id="myTabContentJust">
-	<ul class="nav nav-tabs nav-justified md-tabs indigo mb-5" id="myTabJust" role="tablist">
-		<li class="nav-item">
-			<a class="nav-link active" id="home-tab-just" data-toggle="tab" href="#home-just" role="tab"
-				aria-controls="home-just" aria-selected="true">Client Registration</a>
+{{setVar "mainType" "vCenter"}}
+
+<section class="register container">
+	<ul class="nav nav-tabs md-tabs primary-gradient" id="regTab" role="tablist">
+		<li class="nav-item flex-fill text-center">
+			<a class="nav-link active" data-toggle="tab" href="#cTab" role="tab">
+				Client Registration
+			</a>
 		</li>
-		<li class="nav-item">
-			<a class="nav-link" id="profile-tab-just" data-toggle="tab" href="#profile-just" role="tab"
-				aria-controls="profile-just" aria-selected="false">Service Provider Registration</a>
+		<li class="nav-item flex-fill text-center">
+			<a class="nav-link" data-toggle="tab" href="#spTab" role="tab">
+				Service Provider Registration
+			</a>
 		</li>
 	</ul>
-	<div class="tab-pane fade show active" id="home-just" role="tabpanel" aria-labelledby="home-tab-just">
-		<div class="row">
-			<div class="col-md-6 mx-auto">
-				<img class="logo" src="">
-				<form action="" method="post">
-					<div class="form-group">
-						<label for="name">Username</label>
-						<input type="text" class="form-control" name="username" value="" required>
-					</div>
-					<div class="form-group">
-						<label for="email">Email</label>
-						<input type="email" name="email" class="form-control" value="" required>
-					</div>
-					<div class="form-group">
-						<label for="password">Password</label>
-						<input type="password" name="password" class="form-control" value="" required>
-					</div>
-					<div class="form-group">
-						<label for="password2">Confirm Password</label>
-						<input type="password" name="password2" class="form-control" value="" required>
-					</div>
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</form>
+
+	<div class="tab-content card">
+		<div class="tab-pane fade show active" id="cTab" role="tabpanel">
+			<div class="row">
+				<div class="col-md-6 mx-auto">
+					<form action="" method="post">
+						<div class="form-group">
+							<label for="name">Username</label>
+							<input type="text" class="form-control" name="username" value="" required>
+						</div>
+						<div class="form-group">
+							<label for="email">Email</label>
+							<input type="email" name="email" class="form-control" value="" required>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" name="password" class="form-control" value="" required>
+						</div>
+						<div class="form-group">
+							<label for="password2">Confirm Password</label>
+							<input type="password" name="password2" class="form-control" value="" required>
+						</div>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<div class="tab-pane fade" id="spTab" role="tabpanel">
+			<div class="row">
+				<div class="col-md-6 mx-auto">
+					<img class="logo" src="">
+					<form action="" method="post">
+						<div class="form-group">
+							<label for="name">Username</label>
+							<input type="text" class="form-control" name="username" value="" required>
+						</div>
+						<div class="form-group">
+							<label for="email">Email</label>
+							<input type="email" name="email" class="form-control" value="" required>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" name="password" class="form-control" value="" required>
+						</div>
+						<div class="form-group">
+							<label for="password2">Confirm Password</label>
+							<input type="password" name="password2" class="form-control" value="" required>
+						</div>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="tab-pane fade" id="profile-just" role="tabpanel" aria-labelledby="profile-tab-just">
-		<div class="row">
-			<div class="col-md-6 mx-auto">
-				<img class="logo" src="">
-				<form action="" method="post">
-					<div class="form-group">
-						<label for="name">Username</label>
-						<input type="text" class="form-control" name="username" value="" required>
-					</div>
-					<div class="form-group">
-						<label for="email">Email</label>
-						<input type="email" name="email" class="form-control" value="" required>
-					</div>
-					<div class="form-group">
-						<label for="password">Password</label>
-						<input type="password" name="password" class="form-control" value="" required>
-					</div>
-					<div class="form-group">
-						<label for="password2">Confirm Password</label>
-						<input type="password" name="password2" class="form-control" value="" required>
-					</div>
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+</section>

@@ -35,8 +35,14 @@ section.home .carousel-caption {
 }
 
 /* Files */
-section.files .action-card .btn {
-    min-width: 12rem;
+section.files .action-card .list-group-item:hover {
+    color: #ffffff;
+    background-color: #ac85f0;
+}
+
+section.files .action-card .list-group-item:active {
+    color: #ffffff;
+    background-color: #6e2ae5;
 }
 
 @media (min-width: 768px) {

@@ -1,3 +1,4 @@
+/* Joel */
 let animationEnd = (function(el) {
     let animations = {
         "animation": "animationend",
@@ -45,6 +46,15 @@ $(function() {
     $('[data-tooltip="tooltip"]').tooltip();
 });
 
+$(function () {
+    $(".sticky").sticky({
+        topSpacing: 90,
+        zIndex: 2,
+        stopper: "footer"
+    });
+});
+
+/* Lemuel */
 $(function(){
     objectFitImages();
 

@@ -40,6 +40,6 @@ function output(gulpSrc, funcName) {
 exports.scss2css = sass2css;
 exports.imgmin = imgMin;
 exports.default = function() {
-    gulp.watch(['./public/scss/bootstrap/bootstrap.scss', './public/scss/mdb/mdb.scss'], sass2css);
+    gulp.watch('./public/scss/**/*', sass2css);
     gulp.watch('./public/img/**/*', imgMin);
 };

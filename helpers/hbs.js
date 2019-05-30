@@ -16,6 +16,13 @@ module.exports = {
         
         return ops.inverse(this);
     },
+    setVar: function(varName, varValue, ops) {  //set variable in .handlebars
+        if (!ops.data.root) {
+            ops.data.root = {};
+        }
+
+        ops.data.root[varName] = varValue;
+    },
     partialsDirs: function(p) {     // Handlebars return partials and all folders in partials as array
         let partialsDir = readdirSync(p).filter(f => lstatSync(join(p, f)).isDirectory());
         partialsDir.push(join(p));
