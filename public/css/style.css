@@ -24,6 +24,11 @@ nav.navbar .dropdown-menu a {
     vertical-align: middle;
 }
 
+nav.navbar .dropdown-menu .btn-floating,
+#loginModel .flex-fill .btn-floating {
+    border: 0;
+}
+
 /* Home */
 section.home .carousel-caption {
     height: 100%;
@@ -47,11 +52,6 @@ section.files .action-card .btn {
         margin: 0;
         height: 100%;
     }
-
-    /* Benedict */
 }
 
 /* Benedict */
-.modal-backdrop {
-    z-index: -999 !important; 
-}
