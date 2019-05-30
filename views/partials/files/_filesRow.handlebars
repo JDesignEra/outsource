@@ -1,5 +1,5 @@
 <tr>
-    <td>
+    <td class="d-none d-md-table-cell">
         <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="checkAll">
             <label class="custom-control-label" for="checkAll"></label>
@@ -9,18 +9,21 @@
     <td class="d-none d-md-table-cell">Something 1</td>
     <td class="d-none d-md-table-cell">Something 1</td>
     <td class="d-none d-md-table-cell">Something 1</td>
-    <td>
+    <td class="d-table-cell d-md-none">
         <a class="btn-floating btn-sm btn-cyan material-tooltip-sm" data-tooltip="tooltip" data-placement="top" title="Create Share Link">
             <i class="fas fa-link"></i>
         </a>
 
-        <a class="btn-floating btn-sm btn-primary material-tooltip-sm ml-2" type="button" data-toggle="dropdown" data-tooltip="tooltip" data-placement="top" title="More Action">
+        <a class="btn-floating btn-sm btn-primary material-tooltip-sm ml-0 ml-md-2" data-toggle="dropdown" data-tooltip="tooltip" data-placement="top" title="More Action">
             <i class="fas fa-ellipsis-h"></i>
         </a>
         
         <div class="dropdown-menu dropdown-primary">
             <button class="dropdown-item">
                 <i class="far fa-download"></i> Download
+            </button>
+            <button class="dropdown-item">
+                <i class="far fa-comments"></i> Comment
             </button>
             <button class="dropdown-item">
                 <i class="far fa-i-cursor" style="margin: 0 4px;"></i> Rename
