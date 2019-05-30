@@ -19,106 +19,125 @@
 		</ul>
 
 		<ul class="navbar-nav ml-auto">
-			<a class="btn btn-sm dusty-grass-gradient black-text" style="font-size: 0.81rem;" href="/user/register">
+			<a class="btn btn-sm dusty-grass-gradient black-text" href="/user/register">
 				<i class="far fa-user-plus"></i> Register
 			</a>
-			<div class="dropdown">
-				<a class="btn btn-secondary dropdown-toggle d-none d-lg-block" href="#" style="font-size: 0.81rem;" role="button" id="dropdownMenuLink"
-					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="far fa-user-plus"></i> Login
+
+			<!-- Mobile Login -->
+			<a class="btn btn-sm primary-gradient flex-fill d-lg-none" data-toggle="modal" data-target="#loginModel">
+				<i class="far fa-sign-in-alt"></i> Login
+			</a>
+
+			<!-- Desktop Login -->
+			<div class="dropdown d-none d-lg-block">
+				<a class="btn btn-sm primary-gradient dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+					<i class="far fa-sign-in-alt"></i> Login
 				</a>
-				<div class="dropdown-menu dropdown-menu-right">
-					<form class="px-4 py-3">
-						<div class="form-group">
-							<label for="exampleDropdownFormEmail1">Email address</label>
-							<input type="email" class="form-control" id="exampleDropdownFormEmail1"
-								placeholder="email@example.com">
+
+				<div class="dropdown-menu dropdown-menu-right text-right z-depth-1 px-4 pt-4 pb-2">
+					<h6 class="text-left">LOGIN</h6>
+					<div class="dropdown-divider mb-4"></div>
+
+					<form method="post">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text primary-gradient white-text align-middle">
+									<i class="far fa-envelope"></i>
+								</span>
+							</div>
+							<input class="form-control" type="email" placeholder="Password" name="email" />
 						</div>
-						<div class="form-group">
-							<label for="exampleDropdownFormPassword1">Password</label>
-							<input type="password" class="form-control" id="exampleDropdownFormPassword1"
-								placeholder="Password">
+
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text primary-gradient white-text align-middle">
+									<i class="far fa-lock"></i>
+								</span>
+							</div>
+							<input class="form-control" type="password" placeholder="Password" name="password" />
 						</div>
-						<div class="form-check">
-							<input type="checkbox" class="form-check-input" id="dropdownCheck">
-							<label class="form-check-label" for="dropdownCheck">
-								Remember me
-							</label>
-						</div>
-						<button type="submit" class="btn btn-primary">Sign in</button>
+						
+						<a class="deep-purple-text pt-0" href="#">
+							<small>Forgot Password?</small>
+						</a>
+
+						<button class="btn btn-outline-primary btn-rounded btn-block" type="button">
+							<i class="far fa-sign-in-alt"></i> Login
+						</button>
 					</form>
+
+					<h6 class="text-left mt-5">SOCIAL LOGIN</h6>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="#">New around here? Sign up</a>
-					<a class="dropdown-item" href="#">Forgot password?</a>
-				</div>
-			</div>
-			<!-- Modal -->
-			<div class="modal fade" id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-				aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<!--Content-->
-					<div class="modal-content form-elegant">
-						<!--Header-->
-						<div class="modal-header text-center">
-							<h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel">
-								<strong>Sign in</strong></h3>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<!--Body-->
-						<div class="modal-body mx-4">
-							<!--Body-->
-							<div class="md-form mb-5">
-								<input type="email" id="Form-email1" class="form-control validate">
-								<label data-error="wrong" data-success="right" for="Form-email1">Your email</label>
-							</div>
 
-							<div class="md-form pb-3">
-								<input type="password" id="Form-pass1" class="form-control validate">
-								<label data-error="wrong" data-success="right" for="Form-pass1">Your password</label>
-								<p class="font-small blue-text d-flex justify-content-end">Forgot <a href="#"
-										class="blue-text ml-1">
-										Password?</a></p>
-							</div>
-
-							<div class="text-center mb-3">
-								<button type="button" class="btn blue-gradient btn-block btn-rounded z-depth-1a">Sign
-									in</button>
-							</div>
-							<p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> or
-								Sign in
-								with:</p>
-
-							<div class="row my-3 d-flex justify-content-center">
-								<!--Facebook-->
-								<button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a"><i
-										class="fab fa-facebook-f text-center"></i></button>
-								<!--Twitter-->
-								<button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a"><i
-										class="fab fa-twitter"></i></button>
-								<!--Google +-->
-								<button type="button" class="btn btn-white btn-rounded z-depth-1a"><i
-										class="fab fa-google-plus-g"></i></button>
-							</div>
-						</div>
-						<!--Footer-->
-						<div class="modal-footer mx-5 pt-3 mb-1">
-							<p class="font-small grey-text d-flex justify-content-end">Not a member? <a href="#"
-									class="blue-text ml-1">
-									Sign Up</a></p>
-						</div>
+					<div class="flex-fill text-center">
+						<a class="btn-floating btn-lg btn-fb p-0" type="button" role="button">
+							<i class="fab fa-facebook-f"></i>
+						</a>
+						<a class="btn-floating btn-lg btn-tw p-0" type="button" role="button">
+							<i class="fab fa-twitter"></i>
+						</a>
+						<a class="btn-floating btn-lg btn-git p-0" type="button" role="button">
+							<i class="fab fa-github"></i>
+						</a>
 					</div>
-					<!--/.Content-->
+
+					<div class="dropdown-divider mt-5"></div>
+
+					<p class="text-left mb-0">
+						Don't have an account? <a class="deep-purple-text p-0" href="#" style="font-size: 1rem;">Register Now!</a>
+					</p>
 				</div>
-			</div>
-			<!-- Modal -->
-			<div class="text-center">
-				<a class="btn btn-sm btn-block primary-gradient d-lg-none" data-toggle="modal"
-					data-target="#elegantModalForm">
-					<i class="far fa-user-plus"></i> Login
-				</a>
 			</div>
 		</ul>
 	</div>
 </nav>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModel" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<form method="post">
+				<div class="modal-header">
+					<h5 class="modal-title">Login</h5>
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body text-right">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text primary-gradient white-text align-middle">
+								<i class="far fa-envelope"></i>
+							</span>
+						</div>
+						<input class="form-control" type="email" placeholder="Password" name="email" />
+					</div>
+
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text primary-gradient white-text align-middle">
+								<i class="far fa-lock"></i>
+							</span>
+						</div>
+						<input class="form-control" type="password" placeholder="Password" name="password" />
+					</div>
+
+					<a class="deep-purple-text pt-0" href="#">
+						<small>Forgot Password?</small>
+					</a>
+
+					<button class="btn btn-outline-primary btn-rounded btn-block mt-4" type="button">
+						<i class="far fa-sign-in-alt"></i> Login
+					</button>
+				</div>
+				
+				<div class="modal-footer">
+					<p>
+						Don't have an account? <a href="#">Register Now!</a>
+					</p>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

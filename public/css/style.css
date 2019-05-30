@@ -1,3 +1,4 @@
+/* Navbar */
 nav.navbar .navbar-brand {
     min-width: 93px;
     min-height: 30px;
@@ -14,6 +15,13 @@ nav.navbar.top-nav-collapse .navbar-brand {
     background-repeat: no-repeat;
     background-size: 100% cover;
     background-position: center;
+}
+
+/* Navbar Dropdown-Menu */
+nav.navbar .dropdown-menu a {
+    font-size: 1rem;
+    line-height: 2;
+    vertical-align: middle;
 }
 
 /* Home */
