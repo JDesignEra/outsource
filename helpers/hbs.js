@@ -1,5 +1,6 @@
 const { join } = require('path')
 const { readdirSync, lstatSync } = require('fs')
+var blocks = {};
 
 module.exports = {
     ifEqual: function(a, b, ops) {   // Handlebars if == condition
@@ -22,6 +23,21 @@ module.exports = {
         }
 
         ops.data.root[varName] = varValue;
+    },
+    extend: function(name, context) {
+        let block = blocks[name];
+
+        if (!block) {
+            block = blocks[name] = [];
+        }
+
+        block.push(context.fn(this));
+    },
+    block: function(name) {
+        let val = (blocks[name] || []).join('\n');
+
+        blocks[name] = [];
+        return val;
     },
     partialsDirs: function(p) {     // Handlebars return partials and all folders in partials as array
         let partialsDir = readdirSync(p).filter(f => lstatSync(join(p, f)).isDirectory());

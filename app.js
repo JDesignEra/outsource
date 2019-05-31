@@ -50,12 +50,14 @@ auth.localStrategy(passport);
 app.engine('handlebars', exphbs({
 	helpers: {
 		currYear: moment.formatDate(new Date(), 'YYYY'),
-		if_eq: hbs.ifEqual,
-		if_not_eq: hbs.ifNotEqual,
-		setVar: hbs.setVar,
-		radioCheck: hbs.radioCheck
+		if_eq: 			hbs.ifEqual,
+		if_not_eq: 		hbs.ifNotEqual,
+		setVar: 		hbs.setVar,
+		extend: 		hbs.extend,
+		block: 			hbs.block,
+		radioCheck: 	hbs.radioCheck
 	},
-	defaultLayout: 'main',
+	defaultLayout: 'base',
 	layoutsDir: __dirname + '/views/layouts',
 	partialsDir: hbs.partialsDirs(__dirname + '/views/partials')
 })); 

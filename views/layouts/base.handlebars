@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>{{#if title}} {{ title }} - {{/if}}OutSource</title>
+
+	<link type="text/css" href="/css/vendor/bootstrap.min.css" rel="stylesheet">
+	<link type="text/css" href="/css/vendor/mdb.min.css" rel="stylesheet">
+	<link type="text/css" href="/css/vendor/fontawesome.min.css" rel="stylesheet">
+	{{{block "stylesheets"}}}
+	<link type="text/css" href="/css/style.css" rel="stylesheet">
+</head>
+
+<body id="top" class="deep-purple-skin">
+	{{>_navbar}}
+	
+	{{#if_eq url "/"}}
+	<section class="home">
+		<div id="carousel" class="carousel slide carousel-fade z-depth-3" data-ride="carousel">
+			<div class="carousel-inner" role="listbox">
+				<div class="carousel-item active">
+					<div class="view">
+						<video class="video-fluid" autoplay loop muted>
+							<source src="/vid/home_carousel/forest.mp4" type="video/mp4" />
+						</video>
+					</div>
+
+					<div class="carousel-caption d-flex align-items-center">
+						<div class="animated fadeInDown mask rgba-black-light rounded z-depth-1 p-4 w-100">
+							<h1 class="h1-responsive">Welcome to OutSource</h1>
+							<p>A platform for freelancers to offer services to clients worldwide.</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="carousel-item">
+					<div class="view">
+						<video class="video-fluid" autoplay loop muted>
+							<source src="/vid/home_carousel/photography.mp4" type="video/mp4" />
+						</video>
+						<div class="mask rgba-deep-purple-light"></div>
+					</div>
+
+					<div class="carousel-caption d-flex align-items-center">
+						<div class="animated fadeInDown mask rgba-black-light rounded z-depth-1 p-4  w-100">
+							<h1 class="h1-responsive">Looking for Services?</h1>
+							<p>
+								Are you looking to hire someone for their services, look no further.<br />
+								OutSource provides you a platform where freelancers offer a wide range of services.
+							</p>
+
+							<a class="btn primary-gradient" href="user/services">
+								<i class="far fa-eye"></i> View Marketplace
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="carousel-item">
+					<div class="view">
+						<video class="video-fluid" autoplay loop muted>
+							<source src="/vid/home_carousel/typing.mp4" type="video/mp4" />
+						</video>
+						<div class="mask rgba-deep-purple-light"></div>
+					</div>
+
+					<div class="carousel-caption d-flex align-items-center">
+						<div class="animated fadeInDown mask rgba-black-light rounded z-depth-1 p-4  w-100">
+							<h1 class="h1-responsive">Register on OutSource</h1>
+							<p>
+								Register an account with us today as a service provider or as a client.<br />
+							</p>
+
+							<a class="btn primary-gradient" href="user/register">
+								<i class="far fa-user-plus"></i> Register
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+				<i class="fas fa-chevron-left fa-lg"></i>
+			</a>
+			<a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+				<i class="fas fa-chevron-right fa-lg"></i>
+			</a>
+		</div>
+	</section>
+	{{/if_eq}}
+
+	<main class="container-fluid{{#if_eq mainType "vCenter"}} d-flex flex-column justify-content-center{{/if_eq}}{{#if_not_eq url "/"}} mt-5 pt-5 mb-4{{/if_not_eq}}">
+		{{{ body }}}
+	</main>
+	
+	{{>_footer}}
+
+	<div id="toTopAction" class="fixed-action-btn smooth-scroll animated d-none" style="bottom: 45px; right: 24px;">
+		<a href="#top" class="btn-floating btn-large primary-gradient">
+			<i class="fas fa-arrow-up"></i>
+		</a>
+	</div>
+
+	<script src="/js/vendor/jquery.min.js"></script>
+	<script src="/js/vendor/popper.min.js"></script>
+	<script src="/js/vendor/bootstrap.min.js"></script>
+	<script src="/js/vendor/mdb/mdb.min.js"></script>
+	<script src="/js/scripts.js"></script>
+	{{{block "scripts"}}}
+</html>

@@ -36,14 +36,14 @@ a.deep-purple-text:hover {
 }
 
 // checkbox
-.deep-purple-skin input[type=checkbox]:checked+label:before {
-    border-color: #ac85f0;
-    background-color: #ac85f0;
-}
+// .deep-purple-skin input[type=checkbox]:checked+label:before {
+//     border-color: #ac85f0;
+//     background-color: #ac85f0;
+// }
 
-.custom-control-input:focus~.custom-control-label::before {
-    box-shadow: 0 0 0 0.2rem rgba(172, 133, 240, .25);
-}
+// .custom-control-input:focus~.custom-control-label::before {
+//     box-shadow: 0 0 0 0.2rem rgba(172, 133, 240, .25);
+// }
 
 // table
 table.table thead th {
@@ -81,4 +81,9 @@ nav > ol.breadcrumb {
 .dropdown-item.active, .dropdown-item:active {
     color: #ffffff !important;
     background-color: #6e2ae5;
+}
+
+// treeview
+.treeview li > i.rotate ~ span {
+    cursor: pointer !important;
 }
