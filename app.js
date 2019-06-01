@@ -55,7 +55,8 @@ app.engine('handlebars', exphbs({
 		setVar: 		hbs.setVar,
 		extend: 		hbs.extend,
 		block: 			hbs.block,
-		radioCheck: 	hbs.radioCheck
+		radioCheck: 	hbs.radioCheck,
+		replacecommas:  hbs.replacecommas
 	},
 	defaultLayout: 'base',
 	layoutsDir: __dirname + '/views/layouts',

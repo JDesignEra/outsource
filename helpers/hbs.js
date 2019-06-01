@@ -56,5 +56,15 @@ module.exports = {
         else{
             return '';
         }
+    },
+    replacecommas: function(components){
+        if (components == ''){
+            components = 'None';
+            return components;
+        }
+        else{
+            components = components.replace(',', ' ');
+            return components;
+        }
     }
 }

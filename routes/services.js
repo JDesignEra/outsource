@@ -42,7 +42,7 @@ router.post('/add', (req, res) => {
     let desc = req.body.desc.slice(0, 1999);
     let userId = req.user.id;
     let price = req.body.price;
-    let category = req.body.categories;
+    let category = req.body.categories.toString();
     let posterURL = req.body.posterURL;
     
     Services.create({
@@ -53,7 +53,7 @@ router.post('/add', (req, res) => {
         category,
         posterURL
     }).then((services) => {
-        res.redirect('/services/listServices');
+        res.redirect('/services');
     })
     .catch(err => console.log(err))
 });
@@ -85,7 +85,7 @@ router.put('/save/:id', (req, res) => {
         name: req.body.name,
         desc: req.body.desc.slice(0,1999),
         price: req.body.price,
-        category: req.body.categories,
+        category: req.body.categories.toString(),
         posterURL: req.body.posterURL
     }, {
             where: {
