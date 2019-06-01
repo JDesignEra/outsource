@@ -1,7 +1,14 @@
 <section class="services container mx-auto">
     <div class="row">
         <div class="col-12 col-md-6 order-2 order-md-1 mt-3 mt-md-0">
-            Filters Goes Here
+            <div id="filters">
+                <button class="btn active" onclick="showall()">Show All</button>
+                <button class="btn" onclick="filterSelection('Graphics&Design')">Graphics & Design</button>
+                <button class="btn" onclick="filterSelection('Writing&Translation')">Writing & Translation</button>
+                <button class="btn" onclick="filterSelection('Video&Animation')">Video & Animation</button>
+                <button class="btn" onclick="filterSelection('Music&Audio')">Music & Audio</button>
+                <button class="btn" onclick="filterSelection('Programming&Tech')">Programming & Tech</button>
+            </div>
             <!-- Some other form of filters here -->
         </div>
 
@@ -19,7 +26,7 @@
 
     <!-- services cards -->
     <div class="row">
-        <div class="col-12 col-md-4 col-lg-3 mt-4 servicecards">
+        <div class="col-12 col-md-4 col-lg-3 mt-4 servicecards Graphics&Design">
             <div class="card">
                 <div class="view overlay">
                     <img class="card-img-top" src="/img/services/default.jpg">
@@ -47,7 +54,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-4 col-lg-3 mt-4 servicecards">
+        <div class="col-12 col-md-4 col-lg-3 mt-4 servicecards Graphics&Design">
             <div class="card">
                 <div class="view overlay">
                     <img class="card-img-top" src="/img/services/default.jpg">
@@ -75,7 +82,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-4 col-lg-3 mt-4 servicecards">
+        <div class="col-12 col-md-4 col-lg-3 mt-4 servicecards Writing&Translation">
             <div class="card">
                 <div class="view overlay">
                     <img class="card-img-top" src="/img/services/default.jpg">
@@ -103,7 +110,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-4 col-lg-3 mt-4 servicecards">
+        <div class="col-12 col-md-4 col-lg-3 mt-4 servicecards Music&Audio">
             <div class="card">
                 <div class="view overlay">
                     <img class="card-img-top" src="/img/services/default.jpg">
