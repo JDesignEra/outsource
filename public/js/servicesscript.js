@@ -19,19 +19,12 @@ document.getElementById('searchbut').addEventListener('click', search);
 
 function filterSelection(category){
     var cards = document.querySelectorAll('.servicecards');
-    if (category === "all"){
-        for (var i = 0; i < cards.length; i++){
-            cards [i].style.display = "";
+    for (var i = 0; i < cards.length; i++) {
+        if (cards[i].classList.contains(category) || category === "all") {
+            cards[i].style.display = "";
         }
-    }
-    else{
-        for (var i = 0; i< cards.length; i++){
-            if (cards[i].classList.contains(category)){
-                cards[i].style.display = "";
-            }
-            else{
-                cards[i].style.display = "none";
-            }
+        else {
+            cards[i].style.display = "none";
         }
     }
 }
