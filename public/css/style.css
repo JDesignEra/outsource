@@ -17,6 +17,12 @@ nav.navbar.top-nav-collapse .navbar-brand {
     background-position: center;
 }
 
+/* toTopAction Button */
+div#toTopAction {
+    right: 5px;
+    bottom: 40px;
+}
+
 /* Navbar Dropdown-Menu */
 nav.navbar .dropdown-menu a {
     font-size: 1rem;
@@ -27,6 +33,11 @@ nav.navbar .dropdown-menu a {
 nav.navbar .dropdown-menu .btn-floating,
 #loginModel .flex-fill .btn-floating {
     border: 0;
+}
+
+nav.navbar .dropdown-menu .btn-floating i,
+#loginModel .flex-fill .btn-floating i {
+    padding: 0px !important;
 }
 
 /* Home */
@@ -43,6 +54,16 @@ section.files .action-card .list-group-item:hover {
 section.files .action-card .list-group-item:active {
     color: #ffffff;
     background-color: #6e2ae5;
+}
+
+section.files .action-card .list-group-item i {
+    min-width: 20px;
+}
+
+section.files #mobileActions.fixed-bottom {
+    right: 5px;
+    bottom: 5px;
+    z-index: 999;
 }
 
 @media (min-width: 768px) {

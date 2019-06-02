@@ -48,16 +48,7 @@ auth.localStrategy(passport);
 
 // Handlebars
 app.engine('handlebars', exphbs({
-	helpers: {
-		currYear: moment.formatDate(new Date(), 'YYYY'),
-		if_eq: 			hbs.ifEqual,
-		if_not_eq: 		hbs.ifNotEqual,
-		setVar: 		hbs.setVar,
-		extend: 		hbs.extend,
-		block: 			hbs.block,
-		radioCheck: 	hbs.radioCheck,
-		replacecommas:  hbs.replacecommas
-	},
+	helpers: hbs,
 	defaultLayout: 'base',
 	layoutsDir: __dirname + '/views/layouts',
 	partialsDir: hbs.partialsDirs(__dirname + '/views/partials')

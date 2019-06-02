@@ -25,7 +25,7 @@ $(document).ready(function() {
     focus.find('td.dataTables_empty').text('No files & folder to display.');
 
     function dataTable() {
-        if (window.innerWidth <= 768) {
+        if (window.innerWidth <= 767.98) {
             data = {'order' : 1, 'targets' : null};
         }
         else{

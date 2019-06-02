@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark z-depth-2 {{#if_eq url "/"}}home {{/if_eq}}fixed-top scrolling-navbar">
+<nav class="navbar navbar-expand-lg navbar-dark z-depth-2 {{#ifCond 'url == "/"'}}home {{/ifCond}}fixed-top scrolling-navbar">
 	<a class="navbar-brand" href="/"></a>
 
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
@@ -7,13 +7,13 @@
 
 	<div class="collapse navbar-collapse" id="nav">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item{{#if_eq url "/"}} active{{/if_eq}}">
+			<li class="nav-item{{#ifCond 'url == "/"'}} active{{/ifCond}}">
 				<a class="nav-link" href="/">Home</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="/">About</a>
 			</li>
-			<li class="nav-item{{#if_eq url "/services"}} active{{/if_eq}}">
+			<li class="nav-item{{#ifCond 'url == "/services"'}} active{{/ifCond}}">
 				<a class="nav-link" href="/services/">Marketplace</a>
 			</li>
 		</ul>
@@ -94,13 +94,13 @@
 
 <!-- Login Modal -->
 <div class="modal fade" id="loginModel" tabindex="-1" role="dialog">
-	<div class="modal-dialog modal-dialog-centered" role="document">
+	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<form method="post">
-				<div class="modal-header">
+				<div class="modal-header deep-purple accent-2 white-text">
 					<h5 class="modal-title">LOGIN</h5>
 					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">&times;</span>
+						<span class="white-text">&times;</span>
 					</button>
 				</div>
 

@@ -5,7 +5,7 @@ $(document).ready(function() {
             "animation": "animationend",
             "OAnimation": "oAnimationEnd",
             "MozAnimation": "mozAnimationEnd",
-        "WebkitAnimation": "webkitAnimationEnd"
+            "WebkitAnimation": "webkitAnimationEnd"
         };
 
         for(var t in animations) {

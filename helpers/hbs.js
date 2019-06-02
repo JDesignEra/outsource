@@ -1,21 +1,33 @@
 const { join } = require('path')
 const { readdirSync, lstatSync } = require('fs')
-var blocks = {};
+const moment = require('./moment');
+let blocks = {};
+let blocksFlag = {};
 
 module.exports = {
-    ifEqual: function(a, b, ops) {   // Handlebars if == condition
-        if (a == b) {
-            return ops.fn(this);
+    currYear: moment.format(new Date, 'YYYY'),
+    ifCond (expression, ops) {
+        var result;
+        var context = this;
+
+        with(context) {
+            result = (function() {
+                try {
+                    return eval(expression);
+                }
+                catch (e) {
+                    if (e instanceof ReferenceError) {
+                        return false;
+                    }
+                    else {
+                        console.warn('•Expression: {{ifCond \'' + expression + '\'}}\n•JS-Error: ', e, '\n•Context: ', context);
+                    }
+                }
+            }).call(context);
         }
-        
-        return ops.inverse(this);
-    },
-    ifNotEqual: function(a, b, ops) {    // Handlebars if != condition
-        if (a != b) {
-            return ops.fn(this);
-        }
-        
-        return ops.inverse(this);
+
+        console.log(expression + ': ' + result);
+        return result ? ops.fn(this) : ops.inverse(this);
     },
     setVar: function(varName, varValue, ops) {  //set variable in .handlebars
         if (!ops.data.root) {
@@ -24,20 +36,30 @@ module.exports = {
 
         ops.data.root[varName] = varValue;
     },
-    extend: function(name, context) {
+    extend: function(name, ops) {
         let block = blocks[name];
 
         if (!block) {
             block = blocks[name] = [];
         }
-
-        block.push(context.fn(this));
+        
+        blocksFlag[name] = true;
+        block.push(ops.fn(this));
     },
     block: function(name) {
         let val = (blocks[name] || []).join('\n');
 
         blocks[name] = [];
         return val;
+    },
+    ifBlock(name, ops) {
+        let flag = (blocksFlag[name] ? false : true);
+        console.log(name + ': ' + flag);
+        
+        blocksFlag[name] = false
+        
+        
+        return (flag) ? ops.fn(this) : ops.inverse(this);
     },
     partialsDirs: function(p) {     // Handlebars return partials and all folders in partials as array
         let partialsDir = readdirSync(p).filter(f => lstatSync(join(p, f)).isDirectory());
