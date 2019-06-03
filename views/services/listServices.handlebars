@@ -2,19 +2,27 @@
     <div class="row">
         <div class="col-12 col-md-6 order-2 order-md-1 mt-3 mt-md-0">
             <div id="filters">
-                <button class="btn active" onclick="filterSelection('all')">Show All</button>
+                <select class="browser-default custom-select category-select">
+                    <option selected>Show All</option>
+                    <option>Graphics & Design</option>
+                    <option>Writing & Translation</option>
+                    <option>Video & Animation</option>
+                    <option>Music & Audio</option>
+                    <option>Programming & Tech</option>
+                </select>
+                {{!-- <button class="btn active" onclick="filterSelection('all')">Show All</button>
                 <button class="btn" onclick="filterSelection('Graphics&Design')">Graphics & Design</button>
                 <button class="btn" onclick="filterSelection('Writing&Translation')">Writing & Translation</button>
                 <button class="btn" onclick="filterSelection('Video&Animation')">Video & Animation</button>
                 <button class="btn" onclick="filterSelection('Music&Audio')">Music & Audio</button>
-                <button class="btn" onclick="filterSelection('Programming&Tech')">Programming & Tech</button>
+                <button class="btn" onclick="filterSelection('Programming&Tech')">Programming & Tech</button> --}}
             </div>
             <!-- Some other form of filters here -->
         </div>
 
         <div class="col-12 col-md-6 order-1 order-md-2">
             <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search" name="search" id="search">
+                <input class="form-control" type="text" placeholder="Search by title..." name="search" id="search">
                 <div class="input-group-append">
                     <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect" type="button" id="searchbut">
                         <i class="fas fa-search"></i>
@@ -32,13 +40,14 @@
                     <img class="card-img-top" src="/img/services/default.jpg">
                 </div>
 
-                <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm" data-tooltip="tooltip" data-placement="top" title="View More Details" href="#">
+                <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm"
+                    data-tooltip="tooltip" data-placement="top" title="View More Details" href="#">
                     <i class="far fa-eye"></i>
                 </a>
 
                 <div class="card-body">
                     <h4 class="card-title name" data-names="Service Title">Service Title</h4>
-                    
+
                     <hr>
 
                     <p class="card-text">
@@ -60,13 +69,14 @@
                     <img class="card-img-top" src="/img/services/default.jpg">
                 </div>
 
-                <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm" data-tooltip="tooltip" data-placement="top" title="View More Details" href="#">
+                <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm"
+                    data-tooltip="tooltip" data-placement="top" title="View More Details" href="#">
                     <i class="far fa-eye"></i>
                 </a>
 
                 <div class="card-body">
                     <h4 class="card-title name" data-names="Service Title">Service Title</h4>
-                    
+
                     <hr>
 
                     <p class="card-text">
@@ -88,13 +98,14 @@
                     <img class="card-img-top" src="/img/services/default.jpg">
                 </div>
 
-                <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm" data-tooltip="tooltip" data-placement="top" title="View More Details" href="#">
+                <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm"
+                    data-tooltip="tooltip" data-placement="top" title="View More Details" href="#">
                     <i class="far fa-eye"></i>
                 </a>
 
                 <div class="card-body">
                     <h4 class="card-title name" data-names="Service Title">Service Title</h4>
-                    
+
                     <hr>
 
                     <p class="card-text">
@@ -116,13 +127,14 @@
                     <img class="card-img-top" src="/img/services/default.jpg">
                 </div>
 
-                <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm" data-tooltip="tooltip" data-placement="top" title="View More Details" href="#">
+                <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm"
+                    data-tooltip="tooltip" data-placement="top" title="View More Details" href="#">
                     <i class="far fa-eye"></i>
                 </a>
 
                 <div class="card-body">
                     <h4 class="card-title name" data-names="Service Title">Service Title</h4>
-                    
+
                     <hr>
 
                     <p class="card-text">
@@ -144,12 +156,12 @@
 <script type="text/javascript" src="/js/servicesscript.js"></script>
 {{/extend}}
 
-<!--
-{{#extend "stylesheets"}}
+
+{{!-- {{#extend "stylesheets"}}
 <link type="text/css" rel="stylesheet" href="/css/services.css">
 {{/extend}}
 <div class="container">
-    {{!-- {{#if services}} --}}
+    {{#if services}}
     <div class="search-container">
         <h3 class="text-info font-weight-bold font-italic">Services</h3>
         <object align="right">
@@ -157,11 +169,11 @@
                 <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="search">
                 <button class="btn aqua-gradient btn-rounded btn-sm my-0" type="submit" id="searchbut">Search</button>
             </form>
-            {{!-- <button type="submit" id="butsearch" onclick="search()"><i class="fas fa-search"></i></button> --}}
+            <button type="submit" id="butsearch" onclick="search()"><i class="fas fa-search"></i></button>
         </object>
     </div>
     <div class="row" id="servcontainer">
-        {{!-- {{#each services}} --}}
+        {{#each services}}
         <div class="column services">
             <div class="card oneserv">
                 <img src="{{posterURL}}" alt="Poster unavailable"
@@ -177,14 +189,13 @@
                 </div>
             </div>
         </div>
-        {{!-- {{/each}} --}}
+        {{/each}}
     </div>
 </div>
 
-{{!-- {{else}}
+{{else}}
 <h4 class="text-primary">No services available</h4>
-{{/if}} --}}
+{{/if}}
 {{#extend "scripts"}}
 <script type="text/javascript" src="/js/servicesscript.js"></script>
-{{/extend}}
--->
+{{/extend}} --}}
