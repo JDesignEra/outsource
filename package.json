@@ -18,6 +18,7 @@
     "express-mysql-session": "^2.1.0",
     "express-session": "^1.16.1",
     "helper-moment": "^0.2.0",
+    "lozad": "^1.9.0",
     "method-override": "^3.0.0",
     "moment": "^2.24.0",
     "multer": "^1.4.1",

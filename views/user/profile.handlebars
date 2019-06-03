@@ -1,54 +1,193 @@
-<link rel="stylesheet" href="/css/user/banner.css">
+<section class="profile">
 
-<!-- Card -->
-<div class="card testimonial-card">
-    <!-- Background color -->
-    <div class="vh-100 card-up indigo lighten-1 rounded-0">
-                <img class="img-fluid" src="/img/Banner 2.jpg" alt="">
-        <div class="mask flex-center waves-effect waves-light rgba-black-strong"></div>
+    <!-- Card -->
+    <div class="card testimonial-card z-depth-2">
+        <!-- Background color -->
+        <div class="vh-50 card-up indigo lighten-1 rounded-0 jarallax">
+            <img class="img-fluid jarallax-img lozad" src="/img/Banner 2.jpg" alt="">
+            <div class="mask flex-center waves-effect waves-light rgba-black-strong"></div>
 
-    </div>
+        </div>
 
-    <!-- Avatar -->
-    <div class="avatar mx-auto w-25 white">
-        <img src="https://picsum.photos/id/659/400/" class="rounded-circle" alt="">
-    </div>
+        <!-- Avatar -->
+        <div class="avatar mx-auto vw-15 white">
+            <img src="https://picsum.photos/id/659/400/" class="rounded-circle lozad" alt="">
+        </div>
 
-    <!-- Content -->
-    <div class="card-body">
-        <!-- Name -->
-        <h4 class="card-title">Anna Doe</h4>
-        <hr>
-        <!-- Quotation -->
-        <p><i class="fas fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci</p>
+        <!-- Content -->
+        <div class="card-body p-0">
+            <!-- Name -->
+            <h4 class="card-title">John Doe</h4>
+            <hr>
+            <!-- Quotation -->
+            <p><i class="fas fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci
+            </p>
+            <div class="row justify-content-around">
+                <div class="col-3">
+                    <div class="sticky">
+                        <!-- Card -->
+                        <div class="card testimonial-card ">
 
-        <div class="classic-tabs nav-justified">
+                            <!-- Background color -->
+                            <div style="height:auto;" class="card-up indigo lighten-1 rounded-0">
+                                <img class="img-fluid lozad" src="/img/Banner 2.jpg" alt="">
 
-            <ul class="nav tabs-deep-purple rounded-0" id="myClassicTabShadow" role="tablist">
-                <li class="nav-item m-0">
-                    <a class="nav-link  waves-light active show" id="portfolio-tab-classic-shadow" data-toggle="tab"
-                        href="#portfolio-classic-shadow" role="tab" aria-controls="portfolio-classic-shadow"
-                        aria-selected="true">Portfolio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-light" id="services-tab-classic-shadow" data-toggle="tab"
-                        href="#services-classic-shadow" role="tab" aria-controls="services-classic-shadow"
-                        aria-selected="false">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-light" id="about-tab-classic-shadow" data-toggle="tab"
-                        href="#about-classic-shadow" role="tab" aria-controls="about-classic-shadow"
-                        aria-selected="false">About</a>
-                </li>
+                            </div>
+                            <!-- Avatar -->
+                            <div class="avatar mx-auto white">
+                                <img src="https://picsum.photos/id/659/400/" class="rounded-circle lozad" alt="">
+                            </div>
 
-            </ul>
+                            <!-- Content -->
+                            <div class="card-body">
+                                <!-- Name -->
+                                <h4 class="card-title">John Doe</h4>
+                                <hr>
 
-            <div class="tab-content" id="myClassicTabContentShadow">
-                <div class="tab-pane fade active show profile-content" id="portfolio-classic-shadow" role="tabpanel"
-                    aria-labelledby="portfolio-tab-classic-shadow">
+                                <p class="text-left"><b>Website:</b> wix.johndoecrafts.com</p>
+                                <p class="text-left"><b>Birthday:</b> 1/11/1991</p>
+                                <p class="text-left"><b>Gender:</b> Male</p>
+                                <p class="text-left"><b>Location:</b> United Kingdom</p>
+                                <p class="text-left"><b>Occupation:</b> Illustrator</p>
+
+                                <hr>
 
 
-                    <div class="col-12">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="classic-tabs nav-justified col-8">
+
+                    <ul class="nav tabs-deep-purple rounded-0" id="myClassicTabShadow" role="tablist">
+                        <li class="nav-item m-0">
+                            <a class="nav-link  waves-light active show" id="portfolio-tab-classic-shadow"
+                                data-toggle="tab" href="#portfolio-classic-shadow" role="tab"
+                                aria-controls="portfolio-classic-shadow" aria-selected="true">Portfolio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link waves-light" id="services-tab-classic-shadow" data-toggle="tab"
+                                href="#services-classic-shadow" role="tab" aria-controls="services-classic-shadow"
+                                aria-selected="false">Services</a>
+                        </li>
+                        {{!-- <li class="nav-item">
+                            <a class="nav-link waves-light" id="about-tab-classic-shadow" data-toggle="tab"
+                                href="#about-classic-shadow" role="tab" aria-controls="about-classic-shadow"
+                                aria-selected="false">About</a>
+                        </li> --}}
+
+                    </ul>
+
+                    <div class="tab-content min-vh-80" id="myClassicTabContentShadow">
+
+                        <div class="tab-pane fade active show profile-content" id="portfolio-classic-shadow"
+                            role="tabpanel" aria-labelledby="portfolio-tab-classic-shadow">
+                            <div class="row justify-content-around">
+
+
+                                <div class="">
+                                    <div class="accordion md-accordion" id="accordionEx1" role="tablist"
+                                        aria-multiselectable="true">
+
+                                        <div class="card">
+
+                                            <!-- Card header -->
+                                            <div class="card-header" role="tab" id="headingPortfolio1">
+
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx1"
+                                                    href="#collapsePortfolio1" aria-expanded="true"
+                                                    aria-controls="collapsePortfolio1">
+
+                                                    <h2 class="mb-0 text-dark">
+                                                        Doggos <i class="fas fa-angle-down rotate-icon"></i>
+                                                    </h2>
+                                                </a>
+
+                                            </div>
+
+                                            <!-- Card body -->
+                                            <div id="collapsePortfolio1" class="collapse show" role="tabpanel"
+                                                aria-labelledby="headingPortfolio1" data-parent="#accordionEx1">
+                                                <div class="card-body">
+                                                    <div class="row justify-content-between">
+
+                                                        <img src="https://picsum.photos/id/237/400/"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+                                                        <img src="https://picsum.photos/500/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+
+                                                        <img src="https://picsum.photos/500/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+                                                        <img src="https://picsum.photos/400/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+
+                                                        <img src="https://picsum.photos/500/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+                                                        <img src="https://picsum.photos/400/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+
+                                                        <img src="https://picsum.photos/400/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+                                                        <img src="https://picsum.photos/500/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+
+                                                        <img src="https://picsum.photos/500/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="card">
+                                            <!-- Card header -->
+                                            <div class="card-header" role="tab" id="headingPortfolio2">
+
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx1"
+                                                    href="#collapsePortfolio2" aria-expanded="true"
+                                                    aria-controls="collapsePortfolio2">
+
+                                                    <h2 class="mb-0 text-dark">
+                                                        Stuff <i class="fas fa-angle-down rotate-icon"></i>
+                                                    </h2>
+                                                </a>
+
+                                            </div>
+
+                                            <!-- Card body -->
+                                            <div id="collapsePortfolio2" class="collapse show" role="tabpanel"
+                                                aria-labelledby="headingPortfolio2" data-parent="#accordionEx1">
+                                                <div class="card-body">
+                                                    <div class="row justify-content-between">
+
+                                                        <img src="https://picsum.photos/id/237/400/"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+                                                        <img src="https://picsum.photos/200/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+                                                        <img src="https://picsum.photos/600/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+
+                                                        <img src="https://picsum.photos/300/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+                                                        <img src="https://picsum.photos/600/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+                                                        <img src="https://picsum.photos/400/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+
+                                                        <img src="https://picsum.photos/200/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+                                                        <img src="https://picsum.photos/800/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+                                                        <img src="https://picsum.photos/100/400"
+                                                            class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        {{!-- <div class="col-12">
                         <h1 class="col-12 text-center"> Doggos </h1>
                         <br>
                         <div class="row justify-content-between">
@@ -64,38 +203,65 @@
                             <img src="https://picsum.photos/800/400" class="img-fluid zoom mb-4" alt="" srcset="">
                             <img src="https://picsum.photos/100/400" class="img-fluid zoom mb-4" alt="" srcset="">
                         </div>
+                    </div> --}}
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <footer id="footer" class="grey lighten-4">
+                                <p class="stopper-text">Stop here</p>
+                            </footer>
+
+
+                        </div>
+
+                        <div class="tab-pane fade profile-content" id="services-classic-shadow" role="tabpanel"
+                            aria-labelledby="services-tab-classic-shadow">
+                            <p>Christ</p>
+
+                        </div>
+
+                        {{!-- <div class="tab-pane fade profile-content" id="about-classic-shadow" role="tabpanel"
+                            aria-labelledby="about-tab-classic-shadow">
+                            <div class="row justify-content-between ">
+
+
+                                <div class="col-8">
+
+                                </div>
+                            </div>
+
+
+
+
+                        </div> --}}
+
                     </div>
-
-
                 </div>
-
-                <div class="tab-pane fade profile-content" id="services-classic-shadow" role="tabpanel"
-                    aria-labelledby="services-tab-classic-shadow">
-                    <p>Christ</p>
-                </div>
-
-                <div class="tab-pane fade profile-content" id="about-classic-shadow" role="tabpanel"
-                    aria-labelledby="about-tab-classic-shadow">
-                    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
-                        deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
-                        provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et
-                        dolorum
-                        fuga.
-                        Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis
-                        est
-                        eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis
-                        voluptas
-                        assumenda est, omnis dolor repellendus. </p>
-                </div>
-
 
             </div>
 
         </div>
-    </div>
+</section>
 
-</div>
 
+{{#extend 'scripts'}}
+<script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+<script>
+    const observer = lozad();
+    observer.observe();
+</script>
+<script>
+    $(function () {
+        $(".sticky").sticky({
+            topSpacing: 90
+            , zIndex: 2
+            , stopper: "#footer"
+        });
+    });
+</script>
+{{/extend}}
 
 {{!-- <div class="jarallax container-fluid view">
     <img class="jarallax-img" src="/img/Banner 2.jpg" alt="">
@@ -103,18 +269,87 @@
 
     <div class="row justify-content-center" id="userbanner">
 
-    <div class="col-2">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <img src="https://picsum.photos/id/659/400/" alt="" class="img-fluid z-depth-1 rounded-circle img-thumbnail">
-        <h1 class="text-center text-white"> John Doe </h1>
-        <h3 class="text-center grey-text"> Illustrator </h3>
+        <div class="col-2">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <img src="https://picsum.photos/id/659/400/" alt=""
+                class="img-fluid z-depth-1 rounded-circle img-thumbnail">
+            <h1 class="text-center text-white"> John Doe </h1>
+            <h3 class="text-center grey-text"> Illustrator </h3>
+        </div>
     </div>
 </div>
-</div> --}}
+<div class="classic-tabs nav-justified">
 
+    <ul class="nav tabs-deep-purple rounded-0" id="myClassicTabShadow" role="tablist">
+        <li class="nav-item m-0">
+            <a class="nav-link  waves-light active show" id="portfolio-tab-classic-shadow" data-toggle="tab"
+                href="#portfolio-classic-shadow" role="tab" aria-controls="portfolio-classic-shadow"
+                aria-selected="true">Portfolio</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link waves-light" id="services-tab-classic-shadow" data-toggle="tab"
+                href="#services-classic-shadow" role="tab" aria-controls="services-classic-shadow"
+                aria-selected="false">Services</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link waves-light" id="about-tab-classic-shadow" data-toggle="tab" href="#about-classic-shadow"
+                role="tab" aria-controls="about-classic-shadow" aria-selected="false">About</a>
+        </li>
+
+    </ul>
+
+    <div class="tab-content" id="myClassicTabContentShadow">
+        <div class="tab-pane fade active show profile-content" id="portfolio-classic-shadow" role="tabpanel"
+            aria-labelledby="portfolio-tab-classic-shadow">
+
+
+            <div class="col-12">
+                <h1 class="col-12 text-center"> Doggos </h1>
+                <br>
+                <div class="row justify-content-between">
+                    <img src="https://picsum.photos/id/237/400/" class="img-fluid zoom mb-4" alt="" srcset="">
+                    <img src="https://picsum.photos/200/400" class="img-fluid zoom mb-4" alt="" srcset="">
+                    <img src="https://picsum.photos/600/400" class="img-fluid zoom mb-4" alt="" srcset="">
+
+                    <img src="https://picsum.photos/300/400" class="img-fluid zoom mb-4" alt="" srcset="">
+                    <img src="https://picsum.photos/600/400" class="img-fluid zoom mb-4" alt="" srcset="">
+                    <img src="https://picsum.photos/400/400" class="img-fluid zoom mb-4" alt="" srcset="">
+
+                    <img src="https://picsum.photos/200/400" class="img-fluid zoom mb-4" alt="" srcset="">
+                    <img src="https://picsum.photos/800/400" class="img-fluid zoom mb-4" alt="" srcset="">
+                    <img src="https://picsum.photos/100/400" class="img-fluid zoom mb-4" alt="" srcset="">
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="tab-pane fade profile-content" id="services-classic-shadow" role="tabpanel"
+            aria-labelledby="services-tab-classic-shadow">
+            <p>Christ</p>
+        </div>
+
+        <div class="tab-pane fade profile-content" id="about-classic-shadow" role="tabpanel"
+            aria-labelledby="about-tab-classic-shadow">
+            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
+                deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
+                provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et
+                dolorum
+                fuga.
+                Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis
+                est
+                eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis
+                voluptas
+                assumenda est, omnis dolor repellendus. </p>
+        </div>
+
+
+    </div>
+
+</div> --}}
 <!-- Classic tabs -->

@@ -81,4 +81,14 @@ section.files #mobileActions.fixed-bottom {
     }
 }
 
-/* Benedict */
+/* Lemuel */
+.profile .avatar{
+    z-index: 1020;
+}
+
+.profile .card .avatar {
+    display: block;
+    margin-top: -8%;
+    overflow: hidden;
+    width: 120px
+}
