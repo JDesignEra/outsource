@@ -1,12 +1,10 @@
-<!--.col-	.col-sm-	.col-md-	.col-lg-	.col-xl- -->
 <div class="container">
 	<div class="card card-body">
 		<h3 class="text-info font-weight-bold">Add Service</h3>
-		<form action="" method="post" id="addService">
+		<form action="" method="post" id="addService" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-lg-9">
 					<div class="form-group">
-						{{!-- Practical 5 Exercise 2: Add a title input text here named 'title'--}}
 						<label class="font-italic" for="name">Service name:</label>
 						<input class="form-control" type="text" name="name" id="name" style="width: 50%">
 					</div>
@@ -22,16 +20,19 @@
 				<div class="col-lg-3">
 					<label class="font-italic">Service poster (Optional)</label>
 					<div class="custom-file">
-						<input type="file" class="custom-file-input" id="customFileLang">
+						{{!-- <input type="file" class="custom-file-input" id="customFileLang">
 						<label class="custom-file-label primary-color" for="customFileLang"
-							style="overflow-x: hidden">Upload an image</label>
+							style="overflow-x: hidden">Upload an image</label> --}}
+						<div class="file-upload">
+							<input type="file" name="serviceposter">
+						</div>
 					</div>
 					{{!-- <input type="file" id="serviceUpload" name="serviceUpload"
 						accept="image/png,image/jpeg,image/jpg,image/gif"> --}}
-					<img id="poster" src="/img/services/default.jpg" alt="" class="border img-thumbnail img-fluid"
+					{{!-- <img id="poster" src="/img/services/default.jpg" alt="" class="border img-thumbnail img-fluid"
 						style="height:95%;width:100%">
 					<input id="posterURL" type="hidden" name="posterURL">
-					<div class="font-weight-bold text-danger small" id="posterErr" style="display:none"></div>
+					<div class="font-weight-bold text-danger small" id="posterErr" style="display:none"></div> --}}
 				</div>
 			</div>
 			<div class="form-group">

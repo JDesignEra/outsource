@@ -20,15 +20,18 @@
 				<div class="col-lg-3">
 					<label class="font-italic">Service poster (Optional)</label>
 					<div class="custom-file">
-						<input type="file" class="custom-file-input" id="customFileLang">
+						{{!-- <input type="file" class="custom-file-input" id="customFileLang">
 						<label class="custom-file-label primary-color" for="customFileLang"
-							style="overflow-x: hidden">Upload an image</label>
+							style="overflow-x: hidden">Upload an image</label> --}}
+						<div class="file-upload">
+							<input type="file">
+						</div>
 					</div>
 					{{!-- <input type="file" id="serviceUpload" name="serviceUpload" accept="image/png,image/jpeg,image/jpg,image/gif"> --}}
-					<img id="poster" src="{{services.posterURL}}" alt="" class="border img-thumbnail img-fluid"
+					{{!-- <img id="poster" src="{{services.posterURL}}" alt="" class="border img-thumbnail img-fluid"
 						style="height:95%;width:100%">
 					<input id="posterURL" type="hidden" name="posterURL">
-					<div class="font-weight-bold text-danger small" id="posterErr" style="display:none"></div>
+					<div class="font-weight-bold text-danger small" id="posterErr" style="display:none"></div> --}}
 				</div>
 			</div>
 			<div class="form-group">
