@@ -12,10 +12,9 @@ const mySqlStore = require('express-mysql-session');
 const db = require('./config/db');
 const auth = require('./config/passport');
 
-const outsourceDB = require('./config/dbConnection'); 
-outsourceDB.setUpDB(false); 
+const outsourceDb = require('./config/dbConnection'); 
+outsourceDb.setUpDB(false); 
 
-const moment = require('./helpers/moment');
 const hbs = require('./helpers/hbs');
 
 const app = express(); 
@@ -56,9 +55,11 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars');
 
 // Body Parser
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '5gb'}));
 app.use(bodyParser.urlencoded({
-	extended: false
+	limit: '5gb',
+	extended: false,
+	parameterLimit: 50000
 }));
 
 // Static Folder
