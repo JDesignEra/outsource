@@ -76,6 +76,10 @@ div#toTopAction {
     color: #ffffff;
 }
 
+.file-upload > .wrapper > .card-text {
+    color: #ffffff;
+}
+
 /* Home */
 section.home .carousel-caption {
     height: 100%;
