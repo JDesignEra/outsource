@@ -1,3 +1,4 @@
+/* Joel */
 // Animation End Fix
 let animationEnd = (function (el) {
     let animations = {
@@ -15,7 +16,7 @@ let animationEnd = (function (el) {
 })(document.createElement("fakeelement"));
 
 $(document).ready(function () {
-    // Joel
+    /* Joel */
     // ToTop Button
     $(window).scroll(function () {
         let focus = $('#toTopAction');
@@ -36,60 +37,85 @@ $(document).ready(function () {
     });
 
     // File(s) Upload
-    $(function () {
-        let focuses = [];
+    let focuses = [];
 
-        if ($('form.files-upload')[0] !== undefined) {
-            focuses = focuses.concat($('form.files-upload').toArray());
-        }
+    if ($('.files-upload')[0] !== undefined) {
+        focuses = focuses.concat($('.files-upload').toArray());
+    }
 
-        if ($('form.file-upload')[0] !== undefined) {
-            focuses = focuses.concat($('form.file-upload').toArray());
-        }
+    if ($('.file-upload')[0] !== undefined) {
+        focuses = focuses.concat($('.file-upload').toArray());
+    }
 
-        for (let i = 0; i < focuses.length; i++) {
-            let input = $(focuses[i]).find(['input[type=file]']);
-            let feedback = $(focuses[i]).find('.feedback');
+    $(focuses).each(function(i) {
+        $(focuses[i]).prepend(
+            '<div class="wrapper card card-body primary-gradient view overlay text-center z-depth-2">' +
+                '<div class="mask rgba-black-slight" style=""></div>' +
+                '<div class="card-text">' +
+                    '<i class="fas fa-cloud-upload-alt fa-5x"></i>' +
+                    '<p class="font-weight-bolder">Drag and drop a file here or click</p>' +
+                '</div>' +
+                '<div class="invalid-tooltip animated shake" style="margin-top: -2.5rem;"></div>' +
+            '</div>'
+        );
 
-            $(document).on({
-                'dragover': function (e) {
-                    e.preventDefault();
-                },
-                'dragleave': function (e) {
-                    e.preventDefault();
-                },
-                'drop': function (e) {
-                    e.preventDefault();
-                    
-                    let uploads = e.originalEvent.dataTransfer.files || (e.dataTransfer && e.dataTransfer.files) || e.target.files;
-                    let error;
-                    feedback.addClass('d-none');
+        // Attach EvenListener
+        let input = $(focuses[i]).children('input[type=file]');
+        let tooltip = $(focuses[i]).find('.invalid-tooltip');
 
-                    if (!$(focuses[i]).hasClass('file-upload') && uploads.length > 1) {
-                        error = 'Only 1 file upload is allowed';
-                    }
-                    else {
-                        for (let x = 0; x < uploads.length; x++) {
-                            if (uploads[i].size > 5368709120) {
-                                error = 'File size cannot exceed 5GB.';
-                            }
+        $(focuses[i]).on({
+            'dragover dragenter': function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.originalEvent.dataTransfer.dropEffect = 'copy';
 
-                            if (error !== undefined) {
-                                $(input).prop('files', uploads);
-                                console.log($(input).attr('files'));
-                            }
+                tooltip.removeClass('d-block');
+            },
+            'dragleave dragexit': function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                tooltip.removeClass('d-block');
+            },
+            'drop': function (e) {
+                e.preventDefault();
+                e.originalEvent.dataTransfer.dropEffect = 'copy';
+
+                let uploads = e.originalEvent.dataTransfer.files || (event.dataTransfer && event.dataTransfer.files) || e.target.files;
+                let error;
+
+                if ($(focuses[i]).hasClass('file-upload') && uploads.length > 1) {
+                    error = 'Only 1 file upload is allowed.';
+                }
+                else {
+                    for (let i = 0; i < uploads.length; i++) {
+                        if (uploads[i].size > 5368709120) {
+                            error = 'File size cannot exceed 5GB.';
                         }
                     }
-                },
-                'onclick': function() {
-                    $(input).click();
-                },
-            }, focuses[i]);
+                }
 
-            $(document).on('change', input, function() {
-                $(focus[i]).submit();
-            });
-        }
+                if (error === undefined) {
+                    $(input).prop('files', uploads);
+                }
+                else {
+                    tooltip.text(error);
+                    tooltip.addClass('d-block')
+                }
+            },
+            'click': function (e) {
+                $(input).trigger('click');
+            },
+        });
+
+        $(input).on('change', function () {
+            $(focuses[i]).submit();
+        });
+
+        // Prevent Bubbling Event
+        $(input).on('click', function (e) {
+            e.stopPropagation();
+        });
     });
 
     // Tooltips
@@ -105,14 +131,13 @@ $(document).ready(function () {
     /* Lemuel */
     $(function () {
         objectFitImages();
-
         jarallax(document.querySelectorAll('.jarallax'));
-
         jarallax(document.querySelectorAll('.jarallax-keep-img'), {
             keepImg: true,
         });
     });
 
+    /* Joshua */
     $('#posterUpload').on('change', function () {
         let image = $("#posterUpload")[0].files[0];
         let formdata = new FormData();
