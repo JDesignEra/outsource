@@ -27,16 +27,14 @@ $('select.category-select').on('change', function(e) {
         if (($(focus).hasClass(category) || category === "ShowAll")) {
             if ($(focus).hasClass('d-none')) {
                 $(focus).removeClass('d-none');
-                console.log('WHY')
-                $(focus).addClass('animated fadeIn').on(animationEnd, function() {
+                $(focus).addClass('animated fadeIn').one(animationEnd, function() {
                     $(this).removeClass('animated fadeIn');
                 });
             }
         }
         else {
-            console.log('What')
             if (!$(focus).hasClass('d-none')){
-                $(focus).addClass('animated fadeOut').on(animationEnd, function(){
+                $(focus).addClass('animated fadeOut').one(animationEnd, function(){
                     $(this).removeClass('animated fadeOut');
                     $(focus).addClass('d-none');
                 })
