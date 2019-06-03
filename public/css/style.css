@@ -1,5 +1,4 @@
 /* Navbar */
-
 nav.navbar .navbar-brand {
     min-width: 93px;
     min-height: 30px;
@@ -19,7 +18,6 @@ nav.navbar.top-nav-collapse .navbar-brand {
 }
 
 /* Navbar Dropdown-Menu */
-
 nav.navbar .dropdown-menu a {
     font-size: 1rem;
     line-height: 2;
@@ -35,23 +33,24 @@ nav.navbar .dropdown-menu .btn-floating i, #loginModel .flex-fill .btn-floating 
 }
 
 /* toTopAction Button */
-
 div#toTopAction {
     right: 5px;
     bottom: 40px;
 }
 
 /* Files-Upload-Wrapper & File-Upload-Wrapper */
-
-/* .files-upload-wrapper {
+.files-upload,
+.file-upload {
     min-height: 500px;
-} */
+}
 
-.files-upload > input[type="file"] {
+.files-upload > input[type="file"],
+.file-upload > input[type="file"] {
     display: none;
 }
 
-.files-upload > .wrapper {
+.files-upload > .wrapper,
+.file-upload > .wrapper {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -78,13 +77,11 @@ div#toTopAction {
 }
 
 /* Home */
-
 section.home .carousel-caption {
     height: 100%;
 }
 
 /* Files */
-
 section.files .action-card .list-group-item:hover {
     color: #ffffff;
     background-color: #ac85f0;
@@ -132,7 +129,6 @@ section.files #mobileActions.fixed-bottom {
 }
 
 /* Joshua */
-  
   .services .row {
       margin: 0 -5px;
     }
@@ -142,4 +138,3 @@ section.files #mobileActions.fixed-bottom {
     display: table;
     clear: both;
   }
-
