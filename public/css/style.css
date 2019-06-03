@@ -47,7 +47,7 @@ div#toTopAction {
     min-height: 500px;
 } */
 
-.files-upload > .wrapper input[type="file"] {
+.files-upload > input[type="file"] {
     display: none;
 }
 

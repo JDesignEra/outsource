@@ -54,10 +54,8 @@ module.exports = {
     },
     ifBlock(name, ops) {
         let flag = (blocksFlag[name] ? false : true);
-        console.log(name + ': ' + flag);
-        
+
         blocksFlag[name] = false
-        
         
         return (flag) ? ops.fn(this) : ops.inverse(this);
     },
