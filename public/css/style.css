@@ -130,3 +130,16 @@ section.files #mobileActions.fixed-bottom {
     overflow: hidden;
     width: 120px
 }
+
+/* Joshua */
+  
+  .services .row {
+      margin: 0 -5px;
+    }
+  
+  .services .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+

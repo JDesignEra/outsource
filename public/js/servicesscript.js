@@ -7,10 +7,20 @@ function search() {
     for (let i = 0; i < cards.length; i++) {
         let compare = name[i].dataset.names;
         if (compare.toUpperCase().includes(filter)) {
-            cards[i].style.display = "";
+            if ($(cards[i]).hasClass('d-none')) {
+                $(cards[i]).removeClass('d-none');
+                $(cards[i]).addClass('animated fadeIn').one(animationEnd, function() {
+                    $(this).removeClass('animated fadeIn');
+                });
+            }
         }
         else {
-            cards[i].style.display = "none";
+            if (!$(cards[i]).hasClass('d-none')){
+                $(cards[i]).addClass('animated fadeOut').one(animationEnd, function(){
+                    $(this).removeClass('animated fadeOut');
+                    $(cards[i]).addClass('d-none');
+                })
+            }
         }
     }
 }
