@@ -114,7 +114,13 @@ $(document).ready(function () {
         
         $(input).on('change', function () {
             if ($(focuses[i]).data('autosubmit') != false) {
-                $(focuses[i]).submit();
+                let findForm = $(focuses[i]);
+                
+                while (!$(findForm).is('form')) {
+                    findForm = $(findForm).parent();
+                }
+
+                $(findForm).submit();
             }
         });
 
