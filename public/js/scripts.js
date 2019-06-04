@@ -69,12 +69,14 @@ $(document).ready(function () {
                 e.stopPropagation();
                 e.originalEvent.dataTransfer.dropEffect = 'copy';
 
+                $(input).val(null);
                 tooltip.removeClass('d-block');
             },
             'dragleave dragexit': function (e) {
                 e.preventDefault();
                 e.stopPropagation();
 
+                $(input).val(null);
                 tooltip.removeClass('d-block');
             },
             'drop': function (e) {
@@ -97,6 +99,7 @@ $(document).ready(function () {
 
                 if (error === undefined) {
                     $(input).prop('files', uploads);
+                    $(input).trigger('change');
                 }
                 else {
                     tooltip.text(error);
@@ -108,14 +111,22 @@ $(document).ready(function () {
             },
         });
 
+        
         $(input).on('change', function () {
-            $(focuses[i]).submit();
+            if ($(focuses[i]).data('autosubmit') != false) {
+                $(focuses[i]).submit();
+            }
         });
 
         // Prevent Bubbling Event
         $(input).on('click', function (e) {
             e.stopPropagation();
+            $(input).val(null)
         });
+    });
+
+    $('form.files-upload').on('submit', function() {
+        console.log('SUBMIT');
     });
 
     // Tooltips
