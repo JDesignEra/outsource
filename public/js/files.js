@@ -1,12 +1,12 @@
-$(document).ready(function() {
-    $(function() {
+$(document).ready(function () {
+    $(function () {
         /* files page collapse */
         let focus = 'section.files a[data-toggle="collapse"]';
-        
+
         $(focus).collapse('show');
-        $(focus).on('click', function() {
+        $(focus).on('click', function () {
             focus = $(this).find('i[class*="rotate-icon"]');
-            
+
             if ($('section.files #treeContent').hasClass('show')) {
                 $(focus).removeClass('fa-angle-up');
                 $(focus).addClass('fa-angle-down');
@@ -17,21 +17,21 @@ $(document).ready(function() {
             }
         });
     });
-    
+
     // DataTable
-    let data = {'order' : 1, 'targets' : 0};
+    let data = { 'order': 1, 'targets': 0 };
     let focus = $('#filesTable');
 
     focus.find('td.dataTables_empty').text('No files & folder to display.');
 
     function dataTable() {
         if (window.innerWidth <= 767.98) {
-            data = {'order' : 1, 'targets' : null};
+            data = { 'order': 1, 'targets': null };
         }
-        else{
-            data = {'order' : 1, 'targets' : 0};
+        else {
+            data = { 'order': 1, 'targets': 0 };
         }
-        
+
         focus.DataTable({
             ordering: true,
             order: [[data['order'], 'desc']],
@@ -46,7 +46,7 @@ $(document).ready(function() {
     }
     dataTable();
 
-    $(window).on('resize',function() {
+    $(window).on('resize', function () {
         focus.DataTable().destroy();
         dataTable();
 
@@ -60,4 +60,12 @@ $(document).ready(function() {
     });
 
     $('.dataTables_length').addClass('bs-select');
+
+    // Show Modal if url contains modal id
+    if (window.location.href.indexOf('#newFileModal') != -1) {
+        $('#newFileModal').modal('show');
+    }
+    else if (window.location.href.indexOf('#newFolderModal') != -1) {
+        $('#newFolderModal').modal('show');
+    }
 });

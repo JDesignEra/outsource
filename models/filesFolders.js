@@ -1,23 +1,20 @@
 const Sequelize = require('sequelize');
 const db = require('../config/dbConfig');
 
-// ToDo: foreign key for uid
-const files = db.define('file', {
-    fid: {
+const users = require('./users');
+
+const filesFolders = db.define('files_folder', {
+    id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false
-    },
-    uid: {
-        type: Sequelize.INTEGER,
         allowNull: false
     },
     name: {
         type: Sequelize.TEXT,
         allowNull: false
     },
-    directory: {
+    type: {
         type: Sequelize.TEXT,
         allowNull: false
     },
@@ -25,11 +22,20 @@ const files = db.define('file', {
         type: Sequelize.TEXT
     },
     sharedWith: {
-        type: Sequelize.TEXT
+        type: Sequelize.INTEGER,
+        references: {
+            model: users,
+            key: 'id'
+        }
     },
-    comments: {
-        type: Sequelize.TEXT
+    uid: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: users,
+            key: 'id'
+        }
     }
 });
 
-module.exports = files;
+module.exports = filesFolders;

@@ -6,7 +6,7 @@ let blocksFlag = {};
 
 module.exports = {
     currYear: moment.format(new Date, 'YYYY'),
-    ifCond (expression, ops) {
+    ifCond: function(expression, ops) {
         var result;
         var context = this;
 
