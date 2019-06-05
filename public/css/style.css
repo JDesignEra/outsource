@@ -354,4 +354,47 @@ section.files #mobileActions.fixed-bottom {
     vertical-align: middle;
     width: 50px;
     height: 50px;
+  }
+  /* Benedict */  
+
+.fullscreen-bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: -100;
+  }
+  
+  #myVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  @media (min-aspect-ratio: 16/9) {
+    #myVideo {
+      height: 300%;
+      top: -100%;
+    }
+  }
+  
+  @media (max-aspect-ratio: 16/9) {
+    #myVideo {
+      width: 300%;
+      left: -100%;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .fullscreen-bg {
+      background: url('../img/videoframe.jpg') center center / cover no-repeat;
+    }
+  
+    #myVideo {
+      display: none;
+    }
 }
