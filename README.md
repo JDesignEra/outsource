@@ -56,5 +56,5 @@ Commit Legends
 * [Joel [ JDesignEra ]](https://github.com/JDesignEra)
 * [Joshua [ TenshiRachel ]](https://github.com/TenshiRachel)
 * [Lemuel [ Ryuse ]](https://github.com/Ryuse)
-* [Dylan [ layzeera ]](https://github.com/layzeera)
+* [Dylan [ layzeer ]](https://github.com/layzeer)
 * [Benedict [ KeroZee ]](https://github.com/KeroZee)
