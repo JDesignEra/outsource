@@ -1,6 +1,7 @@
 const { join } = require('path')
 const { readdirSync, lstatSync } = require('fs')
 const moment = require('./moment');
+
 let blocks = {};
 let blocksFlag = {};
 
@@ -51,7 +52,7 @@ module.exports = {
         blocks[name] = [];
         return val;
     },
-    ifBlock(name, ops) {
+    ifBlock: function(name, ops) {
         let flag = (blocksFlag[name] ? false : true);
 
         blocksFlag[name] = false
