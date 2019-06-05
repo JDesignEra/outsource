@@ -1,4 +1,5 @@
-const Users = require('../models/users.js');
+const Users = require('../models/users');
+const FilesFolders = require('../models/filesFolders');
 
 module.exports = {
     index: function(req, res) {

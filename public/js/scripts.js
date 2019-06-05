@@ -1,23 +1,8 @@
-import { fileInput } from './modules/file-input.js';
 /* Joel */
 // Animation End Fix
-let animationEnd = (function (el) {
-    let animations = {
-        "animation": "animationend",
-        "OAnimation": "oAnimationEnd",
-        "MozAnimation": "mozAnimationEnd",
-        "WebkitAnimation": "webkitAnimationEnd"
-    };
-
-    for (var t in animations) {
-        if (el.style[t] !== undefined) {
-            return animations[t];
-        }
-    }
-})(document.createElement("fakeelement"));
+let animationEnd = animateEnd().init();
 
 $(document).ready(function () {
-    /* Joel */
     // ToTop Button
     $(window).scroll(function () {
         let focus = $('#toTopAction');
@@ -29,7 +14,7 @@ $(document).ready(function () {
                 $(this).removeClass('fadeIn');
             });
         }
-        else if (!focus.hasClass('d-none')) {
+        else if ($('nav.navbar').offset().top < 100 && !focus.hasClass('d-none')) {
             focus.addClass('fadeOut').one(animationEnd, function () {
                 $(this).addClass('d-none');
                 $(this).removeClass('fadeOut');
@@ -39,7 +24,7 @@ $(document).ready(function () {
 
     // Init fileInput
     if ($('.files-upload')[0] !== undefined || $('.file-upload')[0] !== undefined) {
-        fileInput();
+        fileInput().init();
     }
 
     // Tooltips

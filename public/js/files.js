@@ -1,21 +1,19 @@
 $(document).ready(function () {
-    $(function () {
-        /* files page collapse */
-        let focus = 'section.files a[data-toggle="collapse"]';
+    /* files page collapse */
+    let focus = 'section.files a[data-toggle="collapse"]';
 
-        $(focus).collapse('show');
-        $(focus).on('click', function () {
-            focus = $(this).find('i[class*="rotate-icon"]');
+    $(focus).collapse('show');
+    $(focus).on('click', function () {
+        focus = $(this).find('i[class*="rotate-icon"]');
 
-            if ($('section.files #treeContent').hasClass('show')) {
-                $(focus).removeClass('fa-angle-up');
-                $(focus).addClass('fa-angle-down');
-            }
-            else {
-                $(focus).removeClass('fa-angle-down');
-                $(focus).addClass('fa-angle-up');
-            }
-        });
+        if ($('section.files #treeContent').hasClass('show')) {
+            $(focus).removeClass('fa-angle-up');
+            $(focus).addClass('fa-angle-down');
+        }
+        else {
+            $(focus).removeClass('fa-angle-down');
+            $(focus).addClass('fa-angle-up');
+        }
     });
 
     // DataTable
