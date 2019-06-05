@@ -4,21 +4,24 @@ function search() {
     let filter = input.toUpperCase();
     let cards = document.querySelectorAll('.servicecards');
     let name = document.querySelectorAll('.name');
+    
     for (let i = 0; i < cards.length; i++) {
+        let focus = cards[i]
         let compare = name[i].dataset.names;
+
         if (compare.toUpperCase().includes(filter)) {
-            if ($(cards[i]).hasClass('d-none')) {
-                $(cards[i]).removeClass('d-none');
-                $(cards[i]).addClass('animated fadeIn').one(animationEnd, function() {
+            if ($(focus).hasClass('d-none')) {
+                $(focus).removeClass('d-none');
+                $(focus).addClass('animated fadeIn').one(animationEnd, function() {
                     $(this).removeClass('animated fadeIn');
                 });
             }
         }
         else {
-            if (!$(cards[i]).hasClass('d-none')){
-                $(cards[i]).addClass('animated fadeOut').one(animationEnd, function(){
+            if (!$(focus).hasClass('d-none')){
+                $(focus).addClass('animated fadeOut').one(animationEnd, function(){
                     $(this).removeClass('animated fadeOut');
-                    $(cards[i]).addClass('d-none');
+                    $(focus).addClass('d-none');
                 })
             }
         }
@@ -49,13 +52,6 @@ $('select.category-select').on('change', function(e) {
                     $(focus).addClass('d-none');
                 })
             }
-            
-            // if (!$(focus).hasClass('d-none')) {
-            //     $(focus).addClass('animated fadeOut').on(animationEnd, function() {
-                    
-            //         $(this).removeClass('animated fadeOut');
-            //     });
-            // }
         }
     }
 });
