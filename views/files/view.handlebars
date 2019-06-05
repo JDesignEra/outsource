@@ -104,10 +104,10 @@
                                 data-target="#uploadModal">
                                 <i class="far fa-cloud-upload-alt"></i> Upload File(s)
                             </button>
-                            <button class="list-group-item list-group-item-action">
+                            <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newFileModal">
                                 <i class="far fa-file-plus"></i> New File
                             </button>
-                            <button class="list-group-item list-group-item-action">
+                            <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newFolderModal">
                                 <i class="far fa-folder-plus"></i> New Folder
                             </button>
                         </div>
@@ -161,6 +161,70 @@
                 <div class="modal-body">
                     <form class="files-upload" method="post" enctype="multipart/form-data">
                         <input type="file" name="file" multiple />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New File -->
+    <div class="modal fade" id="newFileModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header deep-purple accent-2 white-text">
+                    <h4 class="modal-title w-100">
+                        <i class="far fa-file-plus mr-1"></i> NEW FILE
+                    </h4>
+
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span class="white-text">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form method="post">
+                        <div class="input-group">
+                            <input class="form-control" type="text" placeholder="Filename" name="name">
+                            <span class="input-group-text border-left-0 border-right-0 rounded-0">.</span>
+                            <input class="form-control" type="text" placeholder="Extension" name="ext">
+
+                            <div class="input-group-append">
+                                <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
+                                    <i class="far fa-file-plus mr-1"></i> Create File
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Folder -->
+    <div class="modal fade" id="newFolderModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header deep-purple accent-2 white-text">
+                    <h4 class="modal-title w-100">
+                        <i class="far fa-folder-plus mr-1"></i> NEW FOLDER
+                    </h4>
+
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span class="white-text">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form method="post">
+                        <div class="input-group">
+                            <input class="form-control" type="text" placeholder="Folder Name" name="name">
+
+                            <div class="input-group-append">
+                                <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
+                                    <i class="far fa-file-plus mr-1"></i> Create Folder
+                                </button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

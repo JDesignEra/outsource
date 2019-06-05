@@ -1,3 +1,4 @@
+import { fileInput } from './modules/file-input.js';
 /* Joel */
 // Animation End Fix
 let animationEnd = (function (el) {
@@ -36,104 +37,10 @@ $(document).ready(function () {
         }
     });
 
-    // File(s) Upload
-    let focuses = [];
-
-    if ($('.files-upload')[0] !== undefined) {
-        focuses = focuses.concat($('.files-upload').toArray());
+    // Init fileInput
+    if ($('.files-upload')[0] !== undefined || $('.file-upload')[0] !== undefined) {
+        fileInput();
     }
-
-    if ($('.file-upload')[0] !== undefined) {
-        focuses = focuses.concat($('.file-upload').toArray());
-    }
-
-    $(focuses).each(function(i) {
-        $(focuses[i]).prepend(
-            '<div class="wrapper card card-body primary-gradient view overlay text-center z-depth-2">' +
-                '<div class="mask rgba-black-slight" style=""></div>' +
-                '<div class="card-text">' +
-                    '<i class="fas fa-cloud-upload-alt fa-5x"></i>' +
-                    '<p class="font-weight-bolder">Drag and drop a file here or click</p>' +
-                '</div>' +
-                '<div class="invalid-tooltip animated shake" style="margin-top: -2.5rem;"></div>' +
-            '</div>'
-        );
-
-        // Attach EvenListener
-        let input = $(focuses[i]).children('input[type=file]');
-        let tooltip = $(focuses[i]).find('.invalid-tooltip');
-
-        $(focuses[i]).on({
-            'dragover dragenter': function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.originalEvent.dataTransfer.dropEffect = 'copy';
-
-                $(input).val(null);
-                tooltip.removeClass('d-block');
-            },
-            'dragleave dragexit': function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                $(input).val(null);
-                tooltip.removeClass('d-block');
-            },
-            'drop': function (e) {
-                e.preventDefault();
-                e.originalEvent.dataTransfer.dropEffect = 'copy';
-
-                let uploads = e.originalEvent.dataTransfer.files || (event.dataTransfer && event.dataTransfer.files) || e.target.files;
-                let error;
-
-                if ($(focuses[i]).hasClass('file-upload') && uploads.length > 1) {
-                    error = 'Only 1 file upload is allowed.';
-                }
-                else {
-                    for (let i = 0; i < uploads.length; i++) {
-                        if (uploads[i].size > 5368709120) {
-                            error = 'File size cannot exceed 5GB.';
-                        }
-                    }
-                }
-
-                if (error === undefined) {
-                    $(input).prop('files', uploads);
-                    $(input).trigger('change');
-                }
-                else {
-                    tooltip.text(error);
-                    tooltip.addClass('d-block')
-                }
-            },
-            'click': function (e) {
-                $(input).trigger('click');
-            },
-        });
-
-        
-        $(input).on('change', function () {
-            if ($(focuses[i]).data('autosubmit') != false) {
-                let findForm = $(focuses[i]);
-                
-                while (!$(findForm).is('form')) {
-                    findForm = $(findForm).parent();
-                }
-
-                $(findForm).submit();
-            }
-        });
-
-        // Prevent Bubbling Event
-        $(input).on('click', function (e) {
-            e.stopPropagation();
-            $(input).val(null)
-        });
-    });
-
-    $('form.files-upload').on('submit', function() {
-        console.log('SUBMIT');
-    });
 
     // Tooltips
     $(function () {

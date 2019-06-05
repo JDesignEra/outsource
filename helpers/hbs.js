@@ -26,7 +26,6 @@ module.exports = {
             }).call(context);
         }
 
-        console.log(expression + ': ' + result);
         return result ? ops.fn(this) : ops.inverse(this);
     },
     setVar: function(varName, varValue, ops) {  //set variable in .handlebars
