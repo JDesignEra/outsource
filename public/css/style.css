@@ -300,6 +300,40 @@ section.files #mobileActions.fixed-bottom {
     width: 120px
 }
 
+.mt-minus-10vh{
+    margin-top: -10vh;
+}
+
+.hr-purple{
+    border-top: 1px solid #6e2ae5
+}
+
+.profile .classic-tabs .nav li a {
+    display: block;
+    padding: 20px 24px;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: rgba(92, 92, 92, 0.7);
+    text-align: center;
+    border-radius: 0;
+    font-weight: 500;
+}
+
+.profile .classic-tabs .nav li a:not(.active) {
+    margin-bottom: 3px
+}
+
+.profile .classic-tabs .nav li a.active {
+    border-bottom: 3px solid;
+    color: #000;
+}
+
+.profile .jarallax {
+    min-height: 300px
+}
+
+
+
 /* Joshua */
   .services .row {
       margin: 0 -5px;
