@@ -140,4 +140,14 @@ router.post('/upload', ensureAuthenticated, (req, res) => {
     });
 })
 
+
+
+
+//Lemuel
+
+router.get("/payment", (req, res) => {
+    res.render("./services/servicePayment")
+});
+
+
 module.exports = router;
