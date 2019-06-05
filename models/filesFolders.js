@@ -14,6 +14,10 @@ const filesFolders = db.define('files_folder', {
         type: Sequelize.TEXT,
         allowNull: false
     },
+    directory: {
+        type: Sequelize.TEXT,
+        allowNull: false
+    },
     type: {
         type: Sequelize.TEXT,
         allowNull: false
