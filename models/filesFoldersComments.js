@@ -18,26 +18,26 @@ const filesFoldersComment = db.define('files_folders_comment', {
     fid: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-            model: ffComments,
-            key: 'id'
-        }
+        // references: {
+        //     model: ffComments,
+        //     key: 'id'
+        // }
     },
     uid: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-            model: users,
-            key: 'id'
-        }
+        // references: {
+        //     model: users,
+        //     key: 'id'
+        // }
     },
     fromUid: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-            model: users,
-            key: 'id'
-        }
+        // references: {
+        //     model: users,
+        //     key: 'id'
+        // }
     }
 });
 

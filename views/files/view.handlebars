@@ -101,8 +101,7 @@
                 <div class="card-body card-body-cascade p-0">
                     <div class="defaultActions">
                         <div class="list-group list-group-flush">
-                            <button class="list-group-item list-group-item-action" data-toggle="modal"
-                                data-target="#uploadModal">
+                            <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#uploadModal">
                                 <i class="far fa-cloud-upload-alt"></i> Upload File(s)
                             </button>
                             <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newFileModal">
@@ -162,7 +161,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="files-upload" action="/files/upload" method="post" enctype="multipart/form-data">
+                    <form class="file-upload" action="/files/upload" method="post" enctype="multipart/form-data">
                         <input type="file" name="files" multiple />
                     </form>
                 </div>
@@ -235,7 +234,7 @@
     </div>
 
     <!-- Share Link Modal -->
-    <div class="modal fade" id="newFolderModal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="shareModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header deep-purple accent-2 white-text">
@@ -251,15 +250,24 @@
                 <div class="modal-body">
                     <form method="post">
                         <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Folder Name" name="name">
+                            <input class="form-control" type="text" placeholder="Email or Username" name="name">
 
                             <div class="input-group-append">
                                 <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
-                                    <i class="far fa-file-plus mr-1"></i> Create Folder
+                                    <i class="far fa-file-plus mr-1"></i> Share With
                                 </button>
                             </div>
                         </div>
                     </form>
+                </div>
+
+                <div class="modal-footer">
+                    <span class="mr-auto">
+                        <span class="border border-primary rounded-circle p-2 mr-1"><i class="far fa-unlink"></i></span> No share link created
+                    </span>
+                    <span class="ml-auto">
+                        <a href="#">Create Share Link</a>
+                    </span>
                 </div>
             </div>
         </div>

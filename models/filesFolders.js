@@ -27,18 +27,18 @@ const filesFolders = db.define('files_folder', {
     },
     sharedWith: {
         type: Sequelize.INTEGER,
-        references: {
-            model: users,
-            key: 'id'
-        }
+        // references: {
+        //     model: users,
+        //     key: 'id'
+        // }
     },
     uid: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-            model: users,
-            key: 'id'
-        }
+        // references: {
+        //     model: users,
+        //     key: 'id'
+        // }
     }
 });
 

@@ -1,19 +1,8 @@
+const { Op, Sequelize } = require('sequelize');
+
+const { move } = require('../helpers/fileSystem');
 const Users = require('../models/users');
 const FilesFolders = require('../models/filesFolders');
-
-// ToDo: Moved multer to middleware and make it dynamic (able to set folder and filename), currently testing only
-const multer = require('multer');
-let storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './public/uploads/files');
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    }
-})
-
-let upload = multer({ storage: storage })
-
 
 module.exports = {
     index: function (req, res) {
@@ -23,16 +12,31 @@ module.exports = {
         });
     },
     upload: function (req, res) {
-        upload.array('files')(req, res, (err) => {
-            if (err) {
-                console.log('Error Occured', err);
-                res.send(err);
-                return
-            }
+        let files = req.files;
+        
+        FilesFolders.findAll({
+            limit: 1,
+            order: [['id', 'ASC']],
+            attributes: ['id'],
+            plain: true,
+            raw: true
+        }).then(function (data) {
+            let id = (data.length > 0 ? data.id : 1);
 
-            res.render('files/view', {
-                title: 'File Management',
-                url: req.originalUrl
+            files.forEach(file => {
+                let extension = file['originalname'].substring(file['originalname'].indexOf('.'));
+                let path = './public/uploads/files/';
+                console.log(id);
+                
+                // ToDo: set uid
+                move(file['path'], path + '1/' + id + extension);
+                
+                FilesFolders.create({
+                    name: file['originalname'],
+                    directory: path,
+                    type: file['mimetype'].substring(0, file['mimetype'].indexOf('/')),
+                    uid: 1
+                });
             });
         });
     }
