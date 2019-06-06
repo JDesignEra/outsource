@@ -404,6 +404,10 @@ section.files #mobileActions.fixed-bottom {
     height: 50px;
   }
 
+.viewservice .service-overview .card .card-img-top {
+    max-height: 20rem;
+}
+
 /* Benedict */  
 .register .fullscreen-bg {
     position: fixed;
