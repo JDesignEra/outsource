@@ -3,7 +3,7 @@ const db = require('../config/dbConfig');
 const users = require('./users');
 
 const portfolio = db.define('portfolio', {
-    pid: {
+    id: {
         type: Sequelize.INTEGER,
         allowNull:false,
         primaryKey: true,
@@ -13,7 +13,7 @@ const portfolio = db.define('portfolio', {
         type: Sequelize.INTEGER,
         references: {
             model: users,
-            key: "uid"
+            key: 'id'
         }
     },
     name: {

@@ -1,9 +1,10 @@
 const mysql = require('./dbConfig'); 
 const users = require('../models/users');
-const comments = require('../models/comments');
 const portfolio = require('../models/portfolio');
-const files = require('../models/files');
+const filesFolders = require('../models/filesFolders');
 const services = require('../models/services');
+const profileComments = require('../models/profileComments');
+const filesFoldersComments = require('../models/filesFoldersComments');
  
 const setUpDB = (drop) => { 
     mysql.authenticate() 

@@ -2,10 +2,11 @@ const Sequelize = require('sequelize');
 const db = require('../config/dbConfig');
 const users = require('./users');
 
-const services = db.define('service', {
+const profileComments = db.define('profile_comment', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
         allowNull: false
     },
     uid: {
@@ -15,24 +16,16 @@ const services = db.define('service', {
             key: "id"
         }
     },
-    name: {
-        type: Sequelize.STRING,
-        allowNull: false
+    fromUid: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: users,
+            key: "id"
+        }
     },
-    desc: {
+    comment: {
         type: Sequelize.STRING(2000)
-    },
-    price: {
-        type: Sequelize.DECIMAL,
-        allowNull: false
-    },
-    posterURL: {
-        type: Sequelize.STRING,
-    },
-    category: {
-        type: Sequelize.STRING,
-        allowNull: false
     }
 });
 
-module.exports = services;
+module.exports = profileComments;
