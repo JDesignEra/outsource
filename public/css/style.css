@@ -334,8 +334,15 @@ section.files #mobileActions.fixed-bottom {
 }
 
 
+.profile .portoflio-img{
+    width: 32%;
+    height: 30vh;
 
+}
 
+.border-red{
+    border:1px solid red;
+}
 
 
 /* Joshua */

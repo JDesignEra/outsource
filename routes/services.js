@@ -33,9 +33,9 @@ router.get('/add', (req,res)=>{
     res.render('./services/AddService')
 })
 
-router.get('/:id', (req,res)=>{
-    res.render('./services/viewService')
-})
+// router.get('/:id', (req,res)=>{
+//     res.render('./services/viewService')
+// })
 
 router.post('/add', (req, res) => {
     let name = req.body.name;

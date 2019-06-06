@@ -80,12 +80,14 @@
                                 <hr class="hr-purple">
                                 <h4 class="card-title text-left">Skills</h4>
                                 <div class="row justify-content-start pl-2">
-                                <button type="button"
-                                    class="btn btn-outline-secondary btn-rounded waves-effect skill-button">Illustration</button>
-                                <button type="button"
-                                    class="btn btn-outline-secondary btn-rounded waves-effect skill-button">Logo Design</button>
-                                                                    <button type="button"
-                                    class="btn btn-outline-secondary btn-rounded waves-effect skill-button">Digital Art</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary btn-rounded waves-effect skill-button">Illustration</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary btn-rounded waves-effect skill-button">Logo
+                                        Design</button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary btn-rounded waves-effect skill-button">Digital
+                                        Art</button>
                                 </div>
 
                                 <hr class="hr-purple">
@@ -135,14 +137,10 @@
                         </ul>
                     </ul>
 
-                    <div class="tab-content min-vh-80" id="myClassicTabContentShadow">
-
+                    <div class="tab-content min-vh-80 p-0" id="myClassicTabContentShadow">
+                        {{!-- =============================== Portfolio =============================== --}}
                         <div class="tab-pane fade active show profile-content" id="portfolio-classic-shadow"
                             role="tabpanel" aria-labelledby="portfolio-tab-classic-shadow">
-
-
-
-
                             <div class="accordion md-accordion" id="accordionEx1" role="tablist"
                                 aria-multiselectable="true">
                                 <div class="card">
@@ -165,9 +163,59 @@
                                     <div id="collapsePortfolio1" class="collapse show" role="tabpanel"
                                         aria-labelledby="headingPortfolio1" data-parent="#accordionEx1">
                                         <div class="card-body">
-                                            <div class="row justify-content-around">
+                                            <div class="row justify-content-start">
 
-                                                <img src="https://picsum.photos/id/237/450/350/"
+                                                <div class="view overlay portoflio-img m-1 ">
+                                                    <img src="https://picsum.photos/500/" class="img-fluid lozad"
+                                                        alt="">
+                                                    <div
+                                                        class="mask flex-center waves-effect waves-light rgba-black-light">
+                                                        <div class="row col-12 align-items-end justify-content-end justify-content-between p-0 h-100">
+                                                            <h5 class="col-12 text-white text-left border-red"> My first picture </h5>
+
+                                                            <h6 style="font-size:2vh;" class="col-5 white-text text-left border-red">
+                                                                <b>John Doe</b>
+                                                            </h6>
+
+                                                            <h6 class="white-text col-5 border-red"> 
+                                                                <i class="far fa-heart"></i>
+                                                                100 &nbsp;
+
+                                                                <i class="fas fa-comment"></i>
+                                                                20
+                                                            </h6>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="view overlay zoom portoflio-img m-1 ">
+                                                    <img src="https://picsum.photos/id/237/500/"
+                                                        class="img-fluid lozad" alt="">
+                                                    <div
+                                                        class="mask flex-center waves-effect waves-light rgba-black-light">
+                                                        <p class="white-text">Zoom effect</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="view overlay zoom portoflio-img m-1 ">
+                                                    <img src="https://picsum.photos/id/1/500/"
+                                                        class="img-fluid lozad" alt="">
+                                                    <div
+                                                        class="mask flex-center waves-effect waves-light rgba-black-light">
+                                                        <p class="white-text">Zoom effect</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="view overlay zoom portoflio-img m-1 ">
+                                                    <img src="https://picsum.photos/id/123/500/"
+                                                        class="img-fluid lozad" alt="">
+                                                    <div
+                                                        class="mask flex-center waves-effect waves-light rgba-black-light">
+                                                        <p class="white-text">Zoom effect</p>
+                                                    </div>
+                                                </div>
+                                                {{!-- <img src="https://picsum.photos/id/237/450/350/"
                                                     class="img-fluid zoom mb-4 lozad" alt="" srcset="">
                                                 <img src="https://picsum.photos/450/350"
                                                     class="img-fluid zoom mb-4 lozad" alt="" srcset="">
@@ -188,7 +236,7 @@
                                                     class="img-fluid zoom mb-4 lozad" alt="" srcset="">
 
                                                 <img src="https://picsum.photos/450/350"
-                                                    class="img-fluid zoom mb-4 lozad" alt="" srcset="">
+                                                    class="img-fluid zoom mb-4 lozad" alt="" srcset=""> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -258,6 +306,7 @@
 
                         </div>
 
+                        {{!-- =============================== Services =============================== --}}
                         <div class="tab-pane fade active profile-content" id="services-classic-shadow" role="tabpanel"
                             aria-labelledby="services-tab-classic-shadow">
 
@@ -432,6 +481,14 @@
         });
     });
 </script>
+
+<script>
+    // MDB Lightbox Init
+    $(function () {
+        $("#mdb-lightbox-ui").load("mdb-addons/mdb-lightbox-ui.html");
+    });
+</script>
+
 {{/extend}}
 
 {{!-- <div class="jarallax container-fluid view">
@@ -522,5 +579,16 @@
 
     </div>
 
+</div> --}}
+
+{{!-- <div class="col-md-12">
+    <div id="mdb-lightbox-ui"></div>
+    <div class="mdb-lightbox no-margin">
+        <figure class="col-md-4">
+            <a href="https://picsum.photos/id/237/1600/1067/" data-size="1600x1067">
+                <img alt="picture" src="https://picsum.photos/id/237/450/350/" class="img-fluid">
+            </a>
+        </figure>
+    </div>
 </div> --}}
 <!-- Classic tabs -->
