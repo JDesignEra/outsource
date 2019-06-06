@@ -162,8 +162,8 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="files-upload" method="post" enctype="multipart/form-data">
-                        <input type="file" name="file" multiple />
+                    <form class="files-upload" action="/files/upload" method="post" enctype="multipart/form-data">
+                        <input type="file" name="files" multiple />
                     </form>
                 </div>
             </div>
@@ -233,13 +233,44 @@
             </div>
         </div>
     </div>
+
+    <!-- Share Link Modal -->
+    <div class="modal fade" id="newFolderModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header deep-purple accent-2 white-text">
+                    <h4 class="modal-title w-100">
+                        <i class="far fa-share-alt mr-1"></i> SHARE
+                    </h4>
+
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span class="white-text">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form method="post">
+                        <div class="input-group">
+                            <input class="form-control" type="text" placeholder="Folder Name" name="name">
+
+                            <div class="input-group-append">
+                                <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
+                                    <i class="far fa-file-plus mr-1"></i> Create Folder
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 {{#extend "fixedAction"}}
 <!-- Mobile FAB Action -->
 <div class="dropdown fixed-bottom text-right d-block d-md-none" id="mobileActions">
     <button class="btn btn-floating primary-gradient dropdown-toggle" type="button" data-toggle="dropdown">
-        <i class="fas fa-plus"></i>
+        <i class="fas fa-ellipsis-h"></i>
     </button>
 
     <div class="dropdown-menu dropdown-primary mb-2">
@@ -252,6 +283,12 @@
         <button class="dropdown-item" data-toggle="modal" data-target="#newFolderModal">
             <i class="far fa-folder-plus"></i> New Folder
         </button>
+        <hr class="my-2">
+        <div class="smooth-scroll">
+            <a class="dropdown-item" href="#top">
+                <i class="fas fa-arrow-up"></i> To Top
+            </a>
+        </div>
     </div>
 </div>
 {{/extend}}
