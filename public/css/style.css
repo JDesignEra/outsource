@@ -300,6 +300,30 @@ section.files #mobileActions.fixed-bottom {
     width: 120px
 }
 
+.profile .testimonial-card .card-up {
+    overflow: hidden;
+    height: 120px;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
+
+.profile .jarallax {
+    min-height: 300px
+}
+
+.profile .jarallax>.jarallax-img {
+    position: absolute;
+    object-fit: cover;
+    font-family: 'object-fit: cover;';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1
+}
+
+
+
 .mt-minus-10vh {
     margin-top: -10vh;
 }
@@ -328,9 +352,6 @@ section.files #mobileActions.fixed-bottom {
     color: #000;
 }
 
-.profile .jarallax {
-    min-height: 300px
-}
 
 .profile .service-img {
     width: 300px;
@@ -342,9 +363,15 @@ section.files #mobileActions.fixed-bottom {
 }
 
 
-.profile .portoflio-img{
+.profile .portoflio-img-sm{
     width: 32%;
     height: 30vh;
+
+}
+
+.profile .portoflio-img{
+    width: 49%;
+    height: 40vh;
 
 }
 
