@@ -4,22 +4,14 @@
     <div class="card testimonial-card z-depth-2">
         <!-- Background color -->
         <div class="vh-40 card-up indigo lighten-1 rounded-0 jarallax">
-
             <img style="" class="img-fluid jarallax-img lozad" src="https://picsum.photos/1200/500" alt="">
             <div class="mask flex-center waves-effect waves-light rgba-black-light"></div>
-
-
         </div>
 
 
         <!-- Content -->
-        <div class="card-body p-0">
-            {{!-- <!-- Name -->
-            <h4 class="card-title">John Doe</h4>
-            <hr>
-            <!-- Quotation -->
-            <p><i class="fas fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci
-            </p> --}}
+        <div style="" class="card-body p-0">
+
             <div class="row justify-content-around">
                 <div class="col-3">
                     <div style="margin-top:-100px;" class="">
@@ -152,7 +144,7 @@
                                             aria-controls="collapsePortfolio1">
 
                                             <h2 class="mb-0 text-dark">
-                                                Doggos <i class="fas fa-angle-down rotate-icon"></i>
+                                                Small Images <i class="fas fa-angle-down rotate-icon"></i>
                                             </h2>
                                         </a>
 
@@ -323,7 +315,7 @@
                                             aria-controls="collapsePortfolio2">
 
                                             <h2 class="mb-0 text-dark">
-                                                Stuff <i class="fas fa-angle-down rotate-icon"></i>
+                                                Medium Images <i class="fas fa-angle-down rotate-icon"></i>
                                             </h2>
                                         </a>
 
@@ -470,6 +462,110 @@
 
                                                     </div>
                                                 </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <br>
+                            <div class="accordion md-accordion" id="accordionEx3" role="tablist"
+                                aria-multiselectable="true">
+                                <div class="card">
+
+                                    <!-- Card header -->
+                                    <div class="card-header" role="tab" id="headingPortfolio3">
+
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx3"
+                                            href="#collapsePortfolio3" aria-expanded="true"
+                                            aria-controls="collapsePortfolio3">
+
+                                            <h2 class="mb-0 text-dark">
+                                                Large Images <i class="fas fa-angle-down rotate-icon"></i>
+                                            </h2>
+                                        </a>
+
+                                    </div>
+
+                                    <!-- Card body -->
+                                    <div id="collapsePortfolio3" class="collapse show" role="tabpanel"
+                                        aria-labelledby="headingPortfolio3" data-parent="#accordionEx3">
+                                        <div class="card-body">
+                                            <div class="row justify-content-start">
+
+                                                <div class="view overlay portoflio-img-lg m-1 rounded">
+                                                    <img src="https://picsum.photos/1000/" class="img-fluid lozad"
+                                                        alt="">
+                                                    <div
+                                                        class="mask flex-center waves-effect waves-light rgba-black-light">
+                                                        <div
+                                                            class="row col-12 align-items-end justify-content-end justify-content-around p-0 h-100">
+
+                                                            <div class="row col-12 justify-content-between p-0 ">
+                                                                <h5
+                                                                    class="col-12 text-white text-left font-weight-bold">
+                                                                    My
+                                                                    first
+                                                                    picture
+                                                                </h5>
+                                                                <h6 style="font-size:2vh;"
+                                                                    class="col-5 white-text text-left font-weight-bold">
+                                                                    John Doe
+                                                                </h6>
+
+                                                                <h6 class="white-text text-right col-5">
+                                                                    <i class="far fa-heart"></i>
+                                                                    100 &nbsp;
+
+                                                                    <i class="fas fa-comment"></i>
+                                                                    20
+                                                                </h6>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="view overlay portoflio-img-lg m-1 rounded">
+                                                    <img src="https://picsum.photos/id/237/1000/"
+                                                        class="img-fluid lozad" alt="">
+                                                    <div
+                                                        class="mask flex-center waves-effect waves-light rgba-black-light">
+                                                        <div
+                                                            class="row col-12 align-items-end justify-content-end justify-content-around p-0 h-100">
+
+                                                            <div class="row col-12 justify-content-between p-0">
+                                                                <h5
+                                                                    class="col-12 text-white text-left font-weight-bold">
+                                                                    My
+                                                                    first
+                                                                    picture
+                                                                </h5>
+                                                                <h6 style="font-size:2vh;"
+                                                                    class="col-5 white-text text-left font-weight-bold">
+                                                                    John Doe
+                                                                </h6>
+
+                                                                <h6 class="white-text text-right col-5">
+                                                                    <i class="far fa-heart"></i>
+                                                                    100 &nbsp;
+
+                                                                    <i class="fas fa-comment"></i>
+                                                                    20
+                                                                </h6>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
 
                                             </div>
                                         </div>
@@ -649,6 +745,7 @@
     const observer = lozad();
     observer.observe();
 </script>
+
 <script>
     $(function () {
         $(".sticky").sticky({
@@ -659,12 +756,6 @@
     });
 </script>
 
-<script>
-    // MDB Lightbox Init
-    $(function () {
-        $("#mdb-lightbox-ui").load("mdb-addons/mdb-lightbox-ui.html");
-    });
-</script>
 
 {{/extend}}
 
