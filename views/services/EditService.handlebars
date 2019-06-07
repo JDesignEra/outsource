@@ -6,7 +6,8 @@
 				<div class="col-lg-9">
 					<div class="form-group">
 						<label class="font-italic" for="name">Service name:</label>
-						<input class="form-control" type="text" name="name" id="name" value="{{services.name}}">
+						<input class="form-control" type="text" name="name" id="name" value="{{services.name}}"
+							required>
 					</div>
 					<div class="form-group mb-4">
 						<label class="font-italic" for="desc">Service Description:</label>
@@ -14,7 +15,8 @@
 					</div>
 					<div class="form-group">
 						<label class="font-italic" for="price">Price ($):</label>
-						<input class="form-control" type="number" name="price" id="price" value="{{services.price}}">
+						<input class="form-control" type="number" name="price" id="price" value="{{services.price}}"
+							required>
 					</div>
 				</div>
 				<div class="col-lg-3">
@@ -41,29 +43,36 @@
 						<br>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="checkbox" name="categories" id="graphics"
-								value="Graphics&Design" {{radioCheck services.category 'Graphics & Design'}}>
+								value="Graphics&Design" {{radioCheck services.category 'Graphics&Design'}}
+								onclick="categoryCheck()">
 							<label class="form-check-label" for="graphics">Graphics & Design</label>
 						</div>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="checkbox" name="categories" id="writing"
-								value="Writing&Translation" {{radioCheck services.category 'Writing & Translation'}}>
+								value="Writing&Translation" {{radioCheck services.category 'Writing&Translation'}}
+								onclick="categoryCheck()">
 							<label class="form-check-label" for="writing">Writing & Translation</label>
 						</div>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="checkbox" name="categories" id="video"
-								value="Video&Animation" {{radioCheck services.category 'Video & Animation'}}>
+								value="Video&Animation" {{radioCheck services.category 'Video&Animation'}}
+								onclick="categoryCheck()">
 							<label class="form-check-label" for="video">Video & Animation</label>
 						</div>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="checkbox" name="categories" id="music"
-								value="Music&Audio" {{radioCheck services.category 'Musci & Audio'}}>
+								value="Music&Audio" {{radioCheck services.category 'Music&Audio'}}
+								onclick="categoryCheck()">
 							<label class="form-check-label" for="music">Music & Audio</label>
 						</div>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="checkbox" name="categories" id="tech"
-								value="Programming&Tech" {{radioCheck services.category 'Programming & Tech'}}>
+								value="Programming&Tech" {{radioCheck services.category 'Programming&Tech'}}
+								onclick="categoryCheck()">
 							<label class="form-check-label" for="tech">Programming & Tech</label>
 						</div>
+						<p class="font-weight-bold text-info" id="categoryErr">Please select
+							at least one category</p>
 					</div>
 				</div>
 			</div>
@@ -74,10 +83,7 @@
 		</form>
 	</div>
 </div>
-{{!-- <script>
-	$('#datepicker').datepicker({
-		format: 'dd/mm/yyyy',
-		value: new Date().toLocaleDateString('en-AUS'),
-		uiLibrary: 'bootstrap4',
-	});
-</script> --}}
+
+{{#extend "scripts"}}
+<script type="text/javascript" src="/js/servicesscript.js"></script>
+{{/extend}}
