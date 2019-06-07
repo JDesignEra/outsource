@@ -6,7 +6,7 @@
 				<div class="col-lg-9">
 					<div class="form-group">
 						<label class="font-italic" for="name">Service name:</label>
-						<input class="form-control" type="text" name="name" id="name" style="width: 50%" required>
+						<input class="form-control" type="text" name="name" id="name" style="width: 50%">
 					</div>
 					<div class="form-group mb-4">
 						<label class="font-italic" for="desc">Service Description:</label>
@@ -14,7 +14,7 @@
 					</div>
 					<div class="form-group">
 						<label class="font-italic" for="price">Price ($):</label>
-						<input class="form-control" type="number" name="price" id="price" style="width: 20%" required>
+						<input class="form-control" type="number" name="price" id="price" style="width: 20%">
 					</div>
 				</div>
 				<div class="col-lg-3">
@@ -42,43 +42,43 @@
 						<br>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="checkbox" name="categories" id="graphics"
-								value="Graphics&Design" onclick="categoryCheck()">
+								value="Graphics&Design">
 							<label class="form-check-label" for="graphics">Graphics & Design</label>
 						</div>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="checkbox" name="categories" id="writing"
-								value="Writing&Translation" onclick="categoryCheck()">
+								value="Writing&Translation">
 							<label class="form-check-label" for="writing">Writing & Translation</label>
 						</div>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="checkbox" name="categories" id="video"
-								value="Video&Animation" onclick="categoryCheck()">
+								value="Video&Animation">
 							<label class="form-check-label" for="video">Video & Animation</label>
 						</div>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="checkbox" name="categories" id="music"
-								value="Music&Audio" onclick="categoryCheck()">
+								value="Music&Audio">
 							<label class="form-check-label" for="music">Music & Audio</label>
 						</div>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="checkbox" name="categories" id="tech"
-								value="Programming&Tech" onclick="categoryCheck()">
+								value="Programming&Tech">
 							<label class="form-check-label" for="tech">Programming & Tech</label>
 						</div>
-						<p class="font-weight-bold text-info" id="categoryErr">Please select
-							at least one category</p>
 					</div>
 				</div>
 			</div>
 			<br>
 			<a href="/user/profile" class="btn btn-danger">Cancel</a>
-			<button id="butaddService" type="submit" class="btn btn-info" action="/services/AddService" disabled>Add
-				Service
+			<button id="butaddService" type="submit" class="btn btn-info" action="/services/AddService">Add Service
 			</button>
 		</form>
 	</div>
 </div>
-
-{{#extend "scripts"}}
-<script type="text/javascript" src="/js/servicesscript.js"></script>
-{{/extend}}
+{{!-- <script>
+	$('#datepicker').datepicker({
+		format: 'dd/mm/yyyy',
+		value: new Date().toLocaleDateString('en-AUS'),
+		uiLibrary: 'bootstrap4',
+	});
+</script> --}}
