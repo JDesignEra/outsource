@@ -42,8 +42,8 @@ router.post('/register', (req, res) => {
     else {
         // If all is well, checks if user is already registered
         User.findOne({ where: { email: req.body.email } })
-            .then(username => {
-                if (username) {
+            .then(user => {
+                if (user) {
                     // If user is found, that means email has already been
                     // registered
                     res.render('user/register', {
@@ -61,8 +61,8 @@ router.post('/register', (req, res) => {
                             password = bcrypt.hashSync(password, salt)
                             User.create({ username, email, password })
                             .then(user => {
-                                alertMessage(res, 'success', user.username + ' added. Please login', 'fas fa-sign-in-alt', true);
-                                res.redirect('login');
+                                // alertMessage(res, 'success', user.username + ' added. Please login', 'fas fa-sign-in-alt', true);
+                                res.redirect('./login');
                             })
                             .catch(err => console.log(err));
                         });
