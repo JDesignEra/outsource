@@ -443,6 +443,7 @@ section.files #mobileActions.fixed-bottom {
 /* Benedict */
 .register .tab-content{
     max-width: 766px;
+    margin: 0 auto;
     opacity:0.93;
 }
 
