@@ -441,8 +441,14 @@ section.files #mobileActions.fixed-bottom {
 }
 
 /* Benedict */
-.register{
-    
+.register .tab-content{
+    max-width: 766px;
+    opacity:0.93;
+}
+
+.register .nav{
+    max-width: 766px;
+    margin:0 auto;
 }
 
 .register .fullscreen-bg {
