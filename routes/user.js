@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const User = require('../models/users');
-const alertMessage = require('../helpers/messenger');
 
 const passport = require('passport');
 
@@ -20,7 +19,7 @@ router.get('/register',(req, res) => {
 router.post('/register', (req, res) => {
     let errors = [];
     // Retrieves fields from register page from request body
-    let { name, email, password, password2 } = req.body;
+    let { username, email, password, password2 } = req.body;
 
     // Checks if both passwords entered are the same
     if (password != password2) {
@@ -34,7 +33,7 @@ router.post('/register', (req, res) => {
     if (errors.length > 0) {
         res.render('user/register', {
             errors,
-            name,
+            username,
             email,
             password,
             password2
@@ -43,13 +42,13 @@ router.post('/register', (req, res) => {
     else {
         // If all is well, checks if user is already registered
         User.findOne({ where: { email: req.body.email } })
-            .then(user => {
-                if (user) {
+            .then(username => {
+                if (username) {
                     // If user is found, that means email has already been
                     // registered
                     res.render('user/register', {
                         error: user.email + ' already registered',
-                        name,
+                        username,
                         email,
                         password,
                         password2
@@ -60,9 +59,9 @@ router.post('/register', (req, res) => {
                         bcrypt.hash(password, salt, function(err, hash) {
                             // Store hash in your password DB.
                             password = bcrypt.hashSync(password, salt)
-                            User.create({ name, email, password })
+                            User.create({ username, email, password })
                             .then(user => {
-                                alertMessage(res, 'success', user.name + ' added. Please login', 'fas fa-sign-in-alt', true);
+                                alertMessage(res, 'success', user.username + ' added. Please login', 'fas fa-sign-in-alt', true);
                                 res.redirect('login');
                             })
                             .catch(err => console.log(err));

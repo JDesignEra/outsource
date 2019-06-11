@@ -441,6 +441,10 @@ section.files #mobileActions.fixed-bottom {
 }
 
 /* Benedict */
+.register #confirmPW{
+    display:none;
+}
+
 .register .tab-content{
     max-width: 766px;
     margin: 0 auto;

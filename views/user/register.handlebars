@@ -27,26 +27,42 @@
 					<form class="needs-validation" action="" method="post" novalidate>
 						<div class="form-group">
 							<label for="name">Username</label>
-							<input type="text" class="form-control" name="username" value="" placeholder="Username" required>
+							<input type="text" class="form-control" name="username" value="" placeholder="Username"
+								required>
+							<div class="invalid-feedback">
+								Username is required.
+							</div>
 						</div>
 						<div class="form-group">
 							<label for="email">Email</label>
 							<input type="email" name="email" class="form-control" value="" placeholder="Email" required>
+							<div class="invalid-feedback">
+								Email is required.
+							</div>
 						</div>
 						<div class="form-group">
 							<label for="password">Password</label>
-							<input type="password" name="password" class="form-control" value="" placeholder="Password" required>
+							<input type="password" name="password" class="form-control" value="" placeholder="Password"
+								required>
+							<div class="invalid-feedback">
+								Password is required.
+							</div>
 						</div>
 						<div class="form-group">
 							<label for="password2">Confirm Password</label>
-							<input type="password" name="password2" class="form-control" value="" placeholder="Confirm Password" required>
+							<input type="password" name="password2" class="form-control" value=""
+								placeholder="Confirm Password" required>
+							<div id="confirmPW" class="invalid-feedback">
+								Password do not match.
+							</div>
 						</div>
 						<button class="btn btn-outline-primary btn-rounded btn-block" type="submit">
 							<i class="far fa-sign-in-alt"></i> REGISTER
 						</button>
 						<div class="modal-footer d-block">
 							<p class="text-center m-0">
-								Have an account? <a href="" data-toggle="modal" data-target="#loginModel">Login Here!</a>
+								Have an account? <a href="" data-toggle="modal" data-target="#loginModel">Login
+									Here!</a>
 							</p>
 						</div>
 						<h5 class="modal-title text-left mt-5">SOCIAL LOGIN</h5>
@@ -70,30 +86,33 @@
 		<div class="tab-pane fade" id="spTab" role="tabpanel">
 			<div class="row">
 				<div class="col-md-6 mx-auto">
-					<img class="logo" src="">
-					<form action="" method="post">
+					<form class="needs-validation" action="" method="post" novalidate>
 						<div class="form-group">
 							<label for="name">Username</label>
-							<input type="text" class="form-control" name="username" value="" required>
+							<input type="text" class="form-control" name="username" value="" placeholder="Username"
+								required>
 						</div>
 						<div class="form-group">
 							<label for="email">Email</label>
-							<input type="email" name="email" class="form-control" value="" required>
+							<input type="email" name="email" class="form-control" value="" placeholder="Email" required>
 						</div>
 						<div class="form-group">
 							<label for="password">Password</label>
-							<input type="password" name="password" class="form-control" value="" required>
+							<input type="password" name="password" class="form-control" value="" placeholder="Password"
+								required>
 						</div>
 						<div class="form-group">
 							<label for="password2">Confirm Password</label>
-							<input type="password" name="password2" class="form-control" value="" required>
+							<input type="password" name="password2" class="form-control" value=""
+								placeholder="Confirm Password" required>
 						</div>
 						<button class="btn btn-outline-primary btn-rounded btn-block" type="submit">
 							<i class="far fa-sign-in-alt"></i> REGISTER
 						</button>
 						<div class="modal-footer d-block">
 							<p class="text-center m-0">
-								Have an account? <a href="#" data-toggle="modal" data-target="#loginModel">Login Here!</a>
+								Have an account? <a href="" data-toggle="modal" data-target="#loginModel">Login
+									Here!</a>
 							</p>
 						</div>
 						<h5 class="modal-title text-left mt-5">SOCIAL LOGIN</h5>
@@ -114,23 +133,23 @@
 			</div>
 		</div>
 	</div>
-<script>
-	(function() {
-'use strict';
-window.addEventListener('load', function() {
-// Fetch all the forms we want to apply custom Bootstrap validation styles to
-var forms = document.getElementsByClassName('needs-validation');
-// Loop over them and prevent submission
-var validation = Array.prototype.filter.call(forms, function(form) {
-form.addEventListener('submit', function(event) {
-if (form.checkValidity() === false) {
-event.preventDefault();
-event.stopPropagation();
-}
-form.classList.add('was-validated');
-}, false);
-});
-}, false);
-})();
-</script>
+	<script>
+		(function () {
+			'use strict';
+			window.addEventListener('load', function () {
+				// Fetch all the forms we want to apply custom Bootstrap validation styles to
+				var forms = document.getElementsByClassName('needs-validation');
+				// Loop over them and prevent submission
+				var validation = Array.prototype.filter.call(forms, function (form) {
+					form.addEventListener('submit', function (event) {
+						if (form.checkValidity() === false) {
+							event.preventDefault();
+							event.stopPropagation();
+						}
+						form.classList.add('was-validated');
+					}, false);
+				});
+			}, false);
+		})();
+	</script>
 </section>

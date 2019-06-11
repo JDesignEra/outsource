@@ -23,7 +23,7 @@ const users = db.define('user', {
     },
     accType: {
         type: Sequelize.STRING,
-        allowNull: false
+        //allowNull: false
     },
     name: {
         type: Sequelize.STRING
