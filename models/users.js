@@ -53,5 +53,4 @@ const users = db.define('user', {
         type: Sequelize.STRING(5000)
     }
 });
-
 module.exports = users;
