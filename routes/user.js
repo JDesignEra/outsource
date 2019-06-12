@@ -20,7 +20,6 @@ router.post('/register', (req, res) => {
     let errors = [];
     // Retrieves fields from register page from request body
     let { username, email, password, password2 } = req.body;
-
     // Checks if both passwords entered are the same
     if (password != password2) {
         errors.push({ text: 'Passwords do not match' });
@@ -30,6 +29,7 @@ router.post('/register', (req, res) => {
     if (password.length < 4) {
         errors.push({ text: 'Password must be at least 4 characters' });
     }
+
     if (errors.length > 0) {
         res.render('user/register', {
             errors,
@@ -72,7 +72,6 @@ router.post('/register', (req, res) => {
             });
     }
 });
-
 router.get('/login',(req,res) => {
     res.render('user/login')
 });
