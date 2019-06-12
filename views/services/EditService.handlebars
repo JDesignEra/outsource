@@ -6,7 +6,7 @@
 				<div class="col-lg-9">
 					<div class="form-group">
 						<label class="font-italic" for="name">Service name:</label>
-						<input class="form-control" type="text" name="name" id="name" value="{{services.name}}"
+						<input class="form-control" type="text" name="name" id="name" style="width: 50%" value="{{services.name}}"
 							required>
 					</div>
 					<div class="form-group mb-4">
@@ -15,7 +15,7 @@
 					</div>
 					<div class="form-group">
 						<label class="font-italic" for="price">Price ($):</label>
-						<input class="form-control" type="number" name="price" id="price" value="{{services.price}}"
+						<input class="form-control" type="number" name="price" id="price" style="width: 20%" value="{{services.price}}"
 							required>
 					</div>
 				</div>
@@ -26,7 +26,7 @@
 						<label class="custom-file-label primary-color" for="customFileLang"
 							style="overflow-x: hidden">Upload an image</label> --}}
 						<div class="file-upload" data-autosubmit="false">
-							<input type="file">
+							<input type="file" name="serviceposter" accept="image/png,image/jpeg,image/jpg,image/gif">
 						</div>
 					</div>
 					{{!-- <input type="file" id="serviceUpload" name="serviceUpload" accept="image/png,image/jpeg,image/jpg,image/gif"> --}}
