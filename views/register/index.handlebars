@@ -24,7 +24,7 @@
 		<div class="tab-pane fade show active" id="cTab" role="tabpanel">
 			<div class="row">
 				<div class="col-md-6 mx-auto">
-					<form class="needs-validation" action="" method="post" novalidate>
+					<form id="client" class="needs-validation" action="" method="post" novalidate>
 						<div class="form-group">
 							<label for="name">Username</label>
 							<input type="text" class="form-control" name="username" value="" placeholder="Username"
@@ -56,6 +56,7 @@
 								Password do not match.
 							</div>
 						</div>
+						<input class="d-none" type="hidden" name="accType" value="client" />
 						<button class="btn btn-outline-primary btn-rounded btn-block" type="submit">
 							<i class="far fa-sign-in-alt"></i> REGISTER
 						</button>
@@ -86,7 +87,7 @@
 		<div class="tab-pane fade" id="spTab" role="tabpanel">
 			<div class="row">
 				<div class="col-md-6 mx-auto">
-					<form class="needs-validation" action="" method="post" novalidate>
+					<form id="service" class="needs-validation" action="" method="post" novalidate>
 						<div class="form-group">
 							<label for="name">Username</label>
 							<input type="text" class="form-control" name="username" value="" placeholder="Username"
@@ -106,6 +107,7 @@
 							<input type="password" name="password2" class="form-control" value=""
 								placeholder="Confirm Password" required>
 						</div>
+						<input class="d-none" type="hidden" name="accType" value="service" />
 						<button class="btn btn-outline-primary btn-rounded btn-block" type="submit">
 							<i class="far fa-sign-in-alt"></i> REGISTER
 						</button>
@@ -133,32 +135,8 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		user.accType = "";
-		if (document.querySelector('cTab')) {
-			user.accType = "Client";
-			console.log('Client')
-		}
-		else if (document.querySelector('spTab')) {
-			user.accType = "Service Provider";
-			console.log('Service Provider');
-		}
-		(function () {
-			'use strict';
-			window.addEventListener('load', function () {
-				// Fetch all the forms we want to apply custom Bootstrap validation styles to
-				var forms = document.getElementsByClassName('needs-validation');
-				// Loop over them and prevent submission
-				var validation = Array.prototype.filter.call(forms, function (form) {
-					form.addEventListener('submit', function (event) {
-						if (form.checkValidity() === false) {
-							event.preventDefault();
-							event.stopPropagation();
-						}
-						form.classList.add('was-validated');
-					}, false);
-				});
-			}, false);
-		})();
-	</script>
 </section>
+
+{{#extend 'scripts'}}
+<script src="/js/register.js"></script>
+{{/extend}}
