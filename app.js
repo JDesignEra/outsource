@@ -69,9 +69,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
 
 // Routes
-app.use('/', require('./routes/main')); 
-app.use('/services', require('./routes/services')); 
-app.use('/user', require('./routes/user'));
+app.use('/', require('./routes/root')); 
+app.use('/register', require('./routes/register'));
+app.use('/login', require('./routes/login'));
+app.use('/profile', require('./routes/profile'));
+app.use('/services', require('./routes/services'));
 app.use('/files', require('./routes/files'));
 
 // Redirect the user to Facebook for authentication.  When complete,
