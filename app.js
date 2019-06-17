@@ -90,7 +90,10 @@ app.use('/login', require('./routes/login'));
 app.use('/profile', require('./routes/profile'));
 app.use('/services', require('./routes/services'));
 app.use('/files', require('./routes/files'));
+app.use('/logout', require('./routes/logout'));
 
 app.listen(port = 5000, () => {
 	console.log(`Server started on ${port}`);
 });
+
+

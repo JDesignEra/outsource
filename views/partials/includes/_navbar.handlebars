@@ -16,18 +16,18 @@
 			<li class="nav-item{{#ifCond 'url == "/services"'}} active{{/ifCond}}">
 				<a class="nav-link" href="/services/">Marketplace</a>
 			</li>
+			<li class="nav-item">
+				<a href="/logout" class="nav-link">Log Out</a>
+			</li>
 		</ul>
-
 		<ul class="navbar-nav ml-auto">
 			<a class="btn btn-sm dusty-grass-gradient black-text" href="/register">
 				<i class="far fa-user-plus"></i> Register
 			</a>
-
 			<!-- Mobile Login -->
 			<a class="btn btn-sm primary-gradient flex-fill d-lg-none" data-toggle="modal" data-target="#loginModel">
 				<i class="far fa-sign-in-alt"></i> Login
 			</a>
-
 			<!-- Desktop Login -->
 			<div class="dropdown d-none d-lg-block">
 				<a class="btn btn-sm primary-gradient dropdown-toggle" href="#" role="button" data-toggle="dropdown">
