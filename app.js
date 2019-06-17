@@ -26,17 +26,17 @@ app.use(cookieParser());
 // Session
 app.use(session({ 
 	key: 'outsource_session', 
-	secret: 'tojiv', 
+	secret: 'toOs2019', 
 	store: new mySqlStore({ 
-		host: db.host, 
-		port: 3306, 
-		user: db.username, 
-		password: db.password, 
-		database: db.database, 
+		host: db.host,
+		port: 3306,
+		user: db.username,
+		password: db.password,
+		database: db.database,
 		clearExpired: true, 
 		checkExpirationInterval: 900000, 
 		expiration: 900000, 
-	}), 
+	}),
 	resave: false, 
 	saveUninitialized: false, 
 }));

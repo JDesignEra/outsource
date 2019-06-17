@@ -2,7 +2,7 @@ const Services = require('../models/services');
 
 module.exports = {
     index: function (req, res) {
-        res.render('services/listServices')
+        res.render('services/list')
         // Services.findAll({
         //     where: {
         //         userId: req.user.id
