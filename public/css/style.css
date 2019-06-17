@@ -1,5 +1,4 @@
 /* Navbar */
-
 nav.navbar .navbar-brand {
     min-width: 93px;
     min-height: 30px;
@@ -19,39 +18,41 @@ nav.navbar.top-nav-collapse .navbar-brand {
 }
 
 /* Navbar Dropdown-Menu */
-
 nav.navbar .dropdown-menu a {
     font-size: 1rem;
     line-height: 2;
     vertical-align: middle;
 }
 
-nav.navbar .dropdown-menu .btn-floating, #loginModel .flex-fill .btn-floating {
+nav.navbar .dropdown-menu .btn-floating,
+#loginModel .flex-fill .btn-floating {
     border: 0;
 }
 
-nav.navbar .dropdown-menu .btn-floating i, #loginModel .flex-fill .btn-floating i {
+nav.navbar .dropdown-menu .btn-floating i,
+#loginModel .flex-fill .btn-floating i {
     padding: 0px !important;
 }
 
 /* toTopAction Button */
-
 div#toTopAction {
     right: 5px;
     bottom: 40px;
 }
 
 /* Files-Upload-Wrapper & File-Upload-Wrapper */
-
-.files-upload, .file-upload {
+.files-upload,
+.file-upload {
     min-height: 500px;
 }
 
-.files-upload>input[type="file"], .file-upload>input[type="file"] {
+.files-upload > input[type="file"],
+.file-upload > input[type="file"] {
     display: none;
 }
 
-.files-upload>.wrapper, .file-upload>.wrapper {
+.files-upload > .wrapper,
+.file-upload > .wrapper {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -77,7 +78,8 @@ div#toTopAction {
     color: #ffffff;
 }
 
-.files-upload>.wrapper>.card-text, .file-upload>.wrapper>.card-text {
+.files-upload > .wrapper > .card-text,
+.file-upload > .wrapper > .card-text {
     color: #ffffff;
     position: relative;
     top: 50px;
@@ -86,7 +88,8 @@ div#toTopAction {
     transform: translateY(-50%);
 }
 
-.files-upload>.wrapper>.preview, .file-upload>.wrapper>.preview {
+.files-upload > .wrapper > .preview,
+.file-upload > .wrapper > .preview {
     display: none;
     position: absolute;
     z-index: 1;
@@ -102,7 +105,8 @@ div#toTopAction {
     text-align: center;
 }
 
-.files-upload>.wrapper>button.remove, .file-upload>.wrapper>button.remove {
+.files-upload > .wrapper > button.remove,
+.file-upload > .wrapper > button.remove {
     display: none;
     position: absolute;
     opacity: 0;
@@ -114,15 +118,17 @@ div#toTopAction {
     transition: all .15s linear;
 }
 
-.files-upload>.wrapper.has-preview>button.remove, .file-upload>.wrapper.has-preview>button.remove {
+.files-upload > .wrapper.has-preview >button.remove,
+.file-upload > .wrapper.has-preview > button.remove {
     display: block;
 }
 
-.files-upload>.wrapper:hover>button.remove, .file-upload>.wrapper:hover>button.remove {
+.files-upload > .wrapper:hover > button.remove,
+.file-upload > .wrapper:hover > button.remove {
     opacity: 1;
 }
 
-.files-upload>.wrapper>.preview>.renderer>img {
+.files-upload > .wrapper > .preview > .renderer > img {
     width: 100%;
     height: 100%;
     background-color: #fff;
@@ -133,7 +139,7 @@ div#toTopAction {
     object-fit: cover;
 }
 
-.files-upload>.wrapper>.preview>.renderer>i {
+.files-upload > .wrapper > .preview > .renderer > i {
     font-size: 80px;
     top: 50%;
     left: 50%;
@@ -144,7 +150,7 @@ div#toTopAction {
     color: #777;
 }
 
-.files-upload>.wrapper>.preview>.renderer>i>span.extension {
+.files-upload > .wrapper > .preview > .renderer > i > span.extension {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -164,7 +170,8 @@ div#toTopAction {
     text-overflow: ellipsis;
 }
 
-.files-upload>.wrapper>.preview>.infos, .file-upload>.wrapper>.preview>.infos {
+.files-upload > .wrapper > .preview > .infos,
+.file-upload > .wrapper > .preview > .infos {
     position: absolute;
     left: 0;
     top: 0;
@@ -178,11 +185,13 @@ div#toTopAction {
     transition: opacity .15s linear;
 }
 
-.files-upload>.wrapper:hover>.preview>.infos, .file-upload>.wrapper:hover>.preview>.infos {
+.files-upload > .wrapper:hover > .preview > .infos,
+.file-upload > .wrapper:hover > .preview > .infos {
     opacity: 1;
 }
 
-.files-upload>.wrapper>.preview>.infos>.infos-inner, .file-upload>.wrapper>.preview>.infos>.infos-inner {
+.files-upload > .wrapper > .preview > .infos > .infos-inner,
+.file-upload > .wrapper > .preview > .infos > .infos-inner {
     position: absolute;
     top: 50%;
     -webkit-transform: translate(0, -40%);
@@ -197,11 +206,13 @@ div#toTopAction {
     transition: all .2s ease;
 }
 
-.files-upload>.wrapper:hover>.preview>.infos>.infos-inner, .file-upload>.wrapper:hover>.preview>.infos>.infos-inner {
+.files-upload > .wrapper:hover > .preview > .infos > .infos-inner,
+.file-upload > .wrapper:hover > .preview > .infos > .infos-inner {
     margin-top: -5px;
 }
 
-.files-upload>.wrapper>.preview>.infos>.infos-inner>p, .file-upload>.wrapper>.preview>.infos>.infos-inner>p {
+.files-upload > .wrapper > .preview > .infos > .infos-inner > p,
+.file-upload > .wrapper > .preview > .infos > .infos-inner > p {
     padding: 0;
     margin: 0;
     position: relative;
@@ -216,7 +227,8 @@ div#toTopAction {
     font-weight: 700;
 }
 
-.files-upload>.wrapper>.preview>.infos>.infos-inner>p.message, .file-upload>.wrapper>.preview>.infos>.infos-inner>p.message {
+.files-upload > .wrapper > .preview > .infos > .infos-inner > p.message,
+.file-upload > .wrapper > .preview > .infos > .infos-inner > p.message {
     margin-top: 15px;
     padding-top: 15px;
     font-size: 12px;
@@ -224,7 +236,8 @@ div#toTopAction {
     opacity: .5;
 }
 
-.files-upload>.wrapper>.preview>.infos>.infos-inner>p.message::before, .file-upload>.wrapper>.preview>.infos>.infos-inner>p.message::before {
+.files-upload > .wrapper > .preview > .infos > .infos-inner > p.message::before,
+.file-upload > .wrapper > .preview > .infos > .infos-inner > p.message::before {
     content: "";
     position: absolute;
     top: 0;
@@ -238,13 +251,11 @@ div#toTopAction {
 }
 
 /* Home */
-
 section.home .carousel-caption {
     height: 100%;
 }
 
 /* Files */
-
 section.files .action-card .list-group-item:hover {
     color: #ffffff;
     background-color: #ac85f0;
@@ -273,14 +284,13 @@ section.files #mobileActions.fixed-bottom {
         line-height: 1.5;
         border-radius: .3rem;
     }
-    .files input[name=search]+.input-group-append>.btn {
+    .files input[name=search]+.input-group-append > .btn {
         margin: 0;
         height: 100%;
     }
 }
 
 /* Lemuel */
-
 .profile .avatar {
     z-index: 1020;
 }
@@ -303,7 +313,7 @@ section.files #mobileActions.fixed-bottom {
     min-height: 300px
 }
 
-.profile .jarallax>.jarallax-img {
+.profile .jarallax > .jarallax-img {
     position: absolute;
     object-fit: cover;
     font-family: 'object-fit: cover;';
@@ -374,52 +384,7 @@ section.files #mobileActions.fixed-bottom {
     background-color: rgba(0, 0, 0, .7);
 }
 
-.opacity-0 {
-    opacity: 0;
-}
-
-.opacity-1 {
-    opacity: 0.1;
-}
-
-.opacity-2 {
-    opacity: 0.2;
-}
-
-.opacity-3 {
-    opacity: 0.3;
-}
-
-.opacity-4 {
-    opacity: 0.4;
-}
-
-.opacity-5 {
-    opacity: 0.5;
-}
-
-.opacity-6 {
-    opacity: 0.6;
-}
-
-.opacity-7 {
-    opacity: 0.7;
-}
-
-.opacity-8 {
-    opacity: 0.8;
-}
-
-.opacity-9 {
-    opacity: 0.9;
-}
-
-.opacity-10 {
-    opacity: 1;
-}
-
 /* Joshua */
-
 .services .row {
     margin: 0 -5px;
 }
