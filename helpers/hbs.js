@@ -59,6 +59,9 @@ module.exports = {
         
         return (flag) ? ops.fn(this) : ops.inverse(this);
     },
+    json: function(context) {
+        return JSON.stringify(context);
+    },
     partialsDirs: function(p) {     // Handlebars return partials and all folders in partials as array
         let partialsDir = readdirSync(p).filter(f => lstatSync(join(p, f)).isDirectory());
         partialsDir.push(join(p));

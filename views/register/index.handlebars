@@ -21,123 +21,179 @@
 		</li>
 	</ul>
 
-	<div class="tab-content card">
+	<div class="tab-content card px-0 pb-0">
 		<div class="tab-pane fade show active" id="cTab" role="tabpanel">
-			<div class="row">
-				<div class="col-md-6 mx-auto">
-					<form id="client" class="needs-validation" action="" method="post" novalidate>
-						<div class="form-group">
-							<label for="name">Username</label>
-							<input type="text" class="form-control" name="username" value="" placeholder="Username"
-								required>
-							<div class="invalid-feedback">
-								Username is required.
-							</div>
+			<div class="card-body px-5">
+				<h5 class="card-title text-center mb-4">Client Account</h5>
+
+				<form class="needs-validation" method="post" novalidate>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text primary-gradient white-text">
+								<i class="far fa-user"></i>
+							</span>
 						</div>
-						<div class="form-group">
-							<label for="email">Email</label>
-							<input type="email" name="email" class="form-control" value="" placeholder="Email" required>
-							<div class="invalid-feedback">
-								Email is required.
-							</div>
+
+						<input type="text" class="form-control" name="username" placeholder="Username" value="{{username}}" required>
+						<div class="invalid-tooltip">
+							{{errors.username}}
 						</div>
-						<div class="form-group">
-							<label for="password">Password</label>
-							<input type="password" name="password" class="form-control" value="" placeholder="Password"
-								required>
-							<div class="invalid-feedback">
-								Password is required.
-							</div>
+					</div>
+
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text primary-gradient white-text">
+								<i class="far fa-envelope"></i>
+							</span>
 						</div>
-						<div class="form-group">
-							<label for="password2">Confirm Password</label>
-							<input type="password" name="password2" class="form-control" value=""
-								placeholder="Confirm Password" required>
-							<div id="confirmPW" class="invalid-feedback">
-								Password do not match.
-							</div>
+
+						<input type="email" name="email" class="form-control" placeholder="Email" value="{{email}}" required>
+						<div class="invalid-tooltip">
+							{{errors.email}}
 						</div>
-						<input class="d-none" type="hidden" name="accType" value="client" />
-						<button class="btn btn-outline-primary btn-rounded btn-block" type="submit">
-							<i class="far fa-sign-in-alt"></i> REGISTER
-						</button>
-						<div class="modal-footer d-block">
-							<p class="text-center m-0">
-								Have an account? <a href="" data-toggle="modal" data-target="#loginModel">Login
-									Here!</a>
-							</p>
+					</div>
+
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text primary-gradient white-text">
+								<i class="far fa-envelope"></i>
+							</span>
 						</div>
-						<h5 class="modal-title text-left mt-5">SOCIAL LOGIN</h5>
-						<hr class="my-2">
-						<div class="flex-fill text-center">
-							<button class="btn-floating btn-lg btn-fb" type="button">
-								<i class="fab fa-facebook-f"></i> Facebook
-							</button>
-							<button class="btn-floating btn-lg btn-tw" type="button">
-								<i class="fab fa-twitter"></i> Twitter
-							</button>
-							<button class="btn-floating btn-lg btn-git" type="button">
-								<i class="fab fa-github"></i> Github
-							</button>
+
+						<input type="password" name="password" class="form-control" placeholder="Password" value="{{password}}" required>
+						<div class="invalid-tooltip">
+							{{errors.password}}
 						</div>
-					</form>
+					</div>
+
+					<div class="input-group mb-4">
+						<div class="input-group-prepend">
+							<span class="input-group-text primary-gradient white-text">
+								<i class="far fa-envelope"></i>
+							</span>
+						</div>
+
+						<input type="password" name="cfmPassword" class="form-control" placeholder="Confirm Password" value="{{cfmPassword}}" required>
+						<div class="invalid-tooltip">
+							{{errors.cfmPassword}}
+						</div>
+					</div>
+
+					<input class="d-none" type="hidden" name="accType" value="client" />
+
+					<button class="btn btn-outline-primary btn-rounded btn-block" type="submit">
+						<i class="far fa-sign-in-alt"></i> REGISTER
+					</button>
+				</form>
+
+				<h5 class="card-title mt-5">SOCIAL LOGIN</h5>
+				<hr class="my-2">
+
+				<div class="flex-fill text-center">
+					<button class="btn-floating btn-lg btn-fb" type="button">
+						<i class="fab fa-facebook-f"></i> Facebook
+					</button>
+					<button class="btn-floating btn-lg btn-tw" type="button">
+						<i class="fab fa-twitter"></i> Twitter
+					</button>
+					<button class="btn-floating btn-lg btn-git" type="button">
+						<i class="fab fa-github"></i> Github
+					</button>
 				</div>
+			</div>
+			
+			<div class="card-footer">
+				<p class="text-center small m-0">
+					Have an account? <a href="" data-toggle="modal" data-target="#loginModel">Login Here</a>
+				</p>
 			</div>
 		</div>
 
 		<div class="tab-pane fade" id="spTab" role="tabpanel">
-			<div class="row">
-				<div class="col-md-6 mx-auto">
-					<form id="service" class="needs-validation" action="" method="post" novalidate>
-						<div class="form-group">
-							<label for="name">Username</label>
-							<input type="text" class="form-control" name="username" value="" placeholder="Username"
-								required>
+			<div class="card-body px-5">
+				<h5 class="card-title text-center mb-4">Client Account</h5>
+
+				<form class="needs-validation" method="post" novalidate>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text primary-gradient white-text">
+								<i class="far fa-user"></i>
+							</span>
 						</div>
-						<div class="form-group">
-							<label for="email">Email</label>
-							<input type="email" name="email" class="form-control" value="" placeholder="Email" required>
+
+						<input type="text" class="form-control" name="username" placeholder="Username" value="{{username}}" required>
+						<div class="invalid-tooltip">
+							{{errors.username}}
 						</div>
-						<div class="form-group">
-							<label for="password">Password</label>
-							<input type="password" name="password" class="form-control" value="" placeholder="Password"
-								required>
+					</div>
+
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text primary-gradient white-text">
+								<i class="far fa-envelope"></i>
+							</span>
 						</div>
-						<div class="form-group">
-							<label for="password2">Confirm Password</label>
-							<input type="password" name="password2" class="form-control" value=""
-								placeholder="Confirm Password" required>
+
+						<input type="email" name="email" class="form-control" placeholder="Email" value="{{email}}" required>
+						<div class="invalid-tooltip">
+							{{errors.email}}
 						</div>
-						<input class="d-none" type="hidden" name="accType" value="service" />
-						<button class="btn btn-outline-primary btn-rounded btn-block" type="submit">
-							<i class="far fa-sign-in-alt"></i> REGISTER
-						</button>
-						<div class="modal-footer d-block">
-							<p class="text-center m-0">
-								Have an account? <a href="" data-toggle="modal" data-target="#loginModel">Login
-									Here!</a>
-							</p>
+					</div>
+
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text primary-gradient white-text">
+								<i class="far fa-envelope"></i>
+							</span>
 						</div>
-						<h5 class="modal-title text-left mt-5">SOCIAL LOGIN</h5>
-						<hr class="my-2">
-						<div class="flex-fill text-center">
-							<button class="btn-floating btn-lg btn-fb" type="button">
-								<i class="fab fa-facebook-f pr-1"></i> Facebook
-							</button>
-							<button class="btn-floating btn-lg btn-tw" type="button">
-								<i class="fab fa-twitter pr-1"></i> Twitter
-							</button>
-							<button class="btn-floating btn-lg btn-git" type="button">
-								<i class="fab fa-github pr-1"></i> Github
-							</button>
+
+						<input type="password" name="password" class="form-control" placeholder="Password" value="{{password}}" required>
+						<div class="invalid-tooltip">
+							{{errors.password}}
 						</div>
-					</form>
+					</div>
+
+					<div class="input-group mb-4">
+						<div class="input-group-prepend">
+							<span class="input-group-text primary-gradient white-text">
+								<i class="far fa-envelope"></i>
+							</span>
+						</div>
+
+						<input type="password" name="cfmPassword" class="form-control" placeholder="Confirm Password" value="{{cfmPassword}}" required>
+						<div class="invalid-tooltip">
+							{{errors.cfmPassword}}
+						</div>
+					</div>
+
+					<input class="d-none" type="hidden" name="accType" value="service" />
+
+					<button class="btn btn-outline-primary btn-rounded btn-block" type="submit">
+						<i class="far fa-sign-in-alt"></i> REGISTER
+					</button>
+				</form>
+
+				<h5 class="card-title mt-5">SOCIAL LOGIN</h5>
+				<hr class="my-2">
+
+				<div class="flex-fill text-center">
+					<button class="btn-floating btn-lg btn-fb" type="button">
+						<i class="fab fa-facebook-f"></i> Facebook
+					</button>
+					<button class="btn-floating btn-lg btn-tw" type="button">
+						<i class="fab fa-twitter"></i> Twitter
+					</button>
+					<button class="btn-floating btn-lg btn-git" type="button">
+						<i class="fab fa-github"></i> Github
+					</button>
 				</div>
+			</div>
+			
+			<div class="card-footer">
+				<p class="text-center small m-0">
+					Have an account? <a href="" data-toggle="modal" data-target="#loginModel">Login Here</a>
+				</p>
 			</div>
 		</div>
 	</div>
 </section>
-
-{{#extend 'scripts'}}
-<script src="/js/register.js"></script>
-{{/extend}}

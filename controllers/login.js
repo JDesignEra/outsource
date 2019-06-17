@@ -2,9 +2,10 @@ const passport = require('passport');
 
 module.exports = {
     index: function(req, res) {
-        res.render('login/index');
-
-        if (req.method === 'POST') {
+        if (req.method === 'GET') {
+            res.render('login/index');
+        }
+        else if (req.method === 'POST') {
             passport.authenticate('local', {
                 successRedirect: '/profile',
                 failureRedirect: '/login'

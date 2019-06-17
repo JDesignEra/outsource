@@ -14,7 +14,7 @@
 </head>
 
 <body class="deep-purple-skin">
-	{{>_navbar}}
+	{{> _navbar}}
 	
 	{{{ block 'hero' }}}
 
@@ -22,7 +22,7 @@
 	{{{ body }}}
 	</main>
 	
-	{{>_footer}}
+	{{> _footer}}
 	
 	{{{ block 'fixedAction' }}}
 	{{#ifBlock 'fixedAction'}}
@@ -33,12 +33,19 @@
 	</div>
 	{{/ifBlock}}
 
+	{{#if (json toast)}}
+		<script>
+			let toastMsgs = JSON.parse('{{{json toast}}}');
+		</script>
+	{{/if}}
 	<script src="/js/vendor/jquery.min.js"></script>
 	<script src="/js/vendor/popper.min.js"></script>
 	<script src="/js/vendor/bootstrap.min.js"></script>
 	<script src="/js/vendor/mdb/mdb.min.js"></script>
 	<script src="/js/modules/animateEnd.js"></script>
 	<script src="/js/modules/fileInput.js"></script>
+	<script src="/js/modules/toast.js"></script>
+	<script src="/js/modules/validation.js"></script>
 	<script src="/js/scripts.js"></script>
 	{{{block 'scripts'}}}
 </html>

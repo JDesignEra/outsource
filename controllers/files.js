@@ -1,7 +1,6 @@
 const { Op, Sequelize } = require('sequelize');
-
+const fs = require('fs');
 const { move } = require('../helpers/fileSystem');
-const Users = require('../models/users');
 const FilesFolders = require('../models/filesFolders');
 
 module.exports = {
@@ -12,32 +11,36 @@ module.exports = {
         });
     },
     upload: function (req, res) {
-        let files = req.files;
+        if (req.method === 'POST') {
+            let files = req.files;
         
-        FilesFolders.findAll({
-            limit: 1,
-            order: [['id', 'ASC']],
-            attributes: ['id'],
-            plain: true,
-            raw: true
-        }).then(function (data) {
-            let id = (data.length > 0 ? data.id : 1);
+            FilesFolders.findAll({
+                limit: 1,
+                order: [['id', 'ASC']],
+                attributes: ['id'],
+                plain: true,
+                raw: true
+            }).then(function (data) {
+                files.forEach(file => {
+                    console.log(file);
+                    let path = './public/uploads/files/1/'    // ToDo: set uid
 
-            files.forEach(file => {
-                let extension = file['originalname'].substring(file['originalname'].indexOf('.'));
-                let path = './public/uploads/files/';
-                console.log(id);
-                
-                // ToDo: set uid
-                move(file['path'], path + '1/' + id + extension);
-                
-                FilesFolders.create({
-                    name: file['originalname'],
-                    directory: path,
-                    type: file['mimetype'].substring(0, file['mimetype'].indexOf('/')),
-                    uid: 1
+                    if (!fs.existsSync(path)) {
+                        fs.mkdirSync(path);
+                    }
+                    
+                    fs.renameSync(file['path'], path + file['originalname'], (err) => {
+                        if (!err) {
+                            FilesFolders.create({
+                                name: file['originalname'],
+                                directory: path,
+                                type: file['mimetype'].substring(0, file['mimetype'].indexof('/')),
+                                uid: 1
+                            });
+                        }
+                    });
                 });
             });
-        });
+        }
     }
 }

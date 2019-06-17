@@ -1,6 +1,6 @@
 {
   "name": "outsource",
-  "version": "4.3.7",
+  "version": "4.6.0",
   "description": "This is for OOADP Project",
   "main": "app.js",
   "scripts": {
@@ -12,6 +12,7 @@
   "dependencies": {
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",

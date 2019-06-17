@@ -82,3 +82,16 @@ nav > ol.breadcrumb {
 .btn-floating {
     border: none;
 }
+
+// form validation
+.invalid-tooltip,
+.valid-tooltip {
+    top: unset;
+    bottom: 1px;
+    right: 1px;
+}
+
+// toast
+.md-toast-top-right {
+    top: 6rem;
+}
