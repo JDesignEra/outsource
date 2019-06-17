@@ -1,7 +1,7 @@
 const passport = require('passport');
 
 module.exports = {
-    index: function(req, res) {
+    index: function(req, res, next) {
         if (req.method === 'GET') {
             res.render('login/index');
         }
