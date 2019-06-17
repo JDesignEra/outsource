@@ -4,5 +4,4 @@ const profileController = require('../controllers/profile');
 
 // ToDo: /uid url
 router.get('/', profileController.index);
-
 module.exports = router;
