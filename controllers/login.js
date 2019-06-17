@@ -2,7 +2,7 @@ const passport = require('passport');
 
 module.exports = {
     index: function(req, res) {
-        res.render('user/login');
+        res.render('login/index');
 
         if (req.method === 'POST') {
             passport.authenticate('local', {

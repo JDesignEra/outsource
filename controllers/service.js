@@ -21,10 +21,10 @@ module.exports = {
         //     .catch(err => console.log(err));
     },
     view: function (req, res) {
-        res.render('./services/viewService')
+        res.render('services/index')
     },
     add: function (req, res) {
-        res.render('services/AddService')
+        res.render('services/add')
     },
     addpost: function (req, res) {
         let name = req.body.name;
@@ -53,7 +53,7 @@ module.exports = {
             }
         }).then((services) => {
             if (req.user.id === services.userId) {
-                res.render('./services/EditService', {
+                res.render('services/edit', {
                     services
                 });
             }
@@ -79,7 +79,7 @@ module.exports = {
                 }
             }).then(() => {
                 alertMessage(res, 'Success', 'Changes saved successfully!', 'fas fa-exclamation-circle', true);
-                res.redirect('/services/listServices');
+                res.render('services/list');
             }).catch(err => console.log(err));
     },
     delete: function (req, res) {
@@ -100,12 +100,12 @@ module.exports = {
                     }
                 }).then((services) => {
                     alertMessage(res, 'Success', 'Service deleted successfully!', 'fas fa-exclamation-circle', true);
-                    res.redirect('/services/listServices');
+                    res.render('services/list');
                 })
             }
         })
     },
     payment: function (req, res) {
-        res.render("./services/servicePayment")
+        res.render('services/payment');
     }
 }

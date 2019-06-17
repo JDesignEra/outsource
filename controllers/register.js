@@ -3,7 +3,7 @@ const User = require('../models/users');
 
 module.exports = {
     index: function(req, res) {
-        res.render('user/register');
+        res.render('register/index');
 
         if (req.method === 'POST') {
             let errors = [];
@@ -20,7 +20,7 @@ module.exports = {
             }
 
             if (errors.length > 0) {
-                res.render('user/register', {
+                res.render('register/index', {
                     errors,
                     username,
                     email,
@@ -35,7 +35,7 @@ module.exports = {
                         if (user) {
                             // If user is found, that means email has already been
                             // registered
-                            res.render('user/register', {
+                            res.render('register/index', {
                                 error: user.email + ' already registered',
                                 username,
                                 email,
