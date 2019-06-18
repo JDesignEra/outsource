@@ -14,8 +14,10 @@ module.exports = {
         }
         else if (req.method === 'POST') {
             passport.authenticate('local', {
-                successRedirect: '/profile',
-                failureRedirect: '/login'
+                successRedirect: '/',
+                successFlash: 'You have sign in successfully.',
+                failureRedirect: '/',
+                failureFlash: 'Invalid sign in credentials.'
             })(req, res, next);
         }
     },
