@@ -1,9 +1,17 @@
-const alertMessage = require('../helpers/messenger');
-const ensureAuthenticated = (req, res, next) => {
+module.exports = {
+  isAuth: function(req, res, next) {
     if (req.isAuthenticated()) {
-        return next();
+      return next();
     }
-    alertMessage(res, 'danger', 'Access Denied', 'fas fa-exclamation-circle', true);
-    res.redirect('/');
+    
+    req.flash('error', 'Please sign in to view the page.');
+    res.redirect('/login');
+  },
+  forwardAuth: function(req, res, next) {
+    if (!req.isAuthenticated()) {
+      return next();
+    }
+
+    res.redirect('/profile');
+  }
 };
-module.exports = ensureAuthenticated;

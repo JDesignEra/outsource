@@ -1,5 +1,5 @@
 {{#extend "hero"}}
-<section class="home">
+<section class="home-hero">
     <div id="carousel" class="carousel slide carousel-fade z-depth-3" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
             <div class="carousel-item active">
@@ -11,8 +11,10 @@
 
                 <div class="carousel-caption d-flex align-items-center">
                     <div class="animated fadeInDown mask rgba-black-light rounded z-depth-1 p-4 w-100">
-                        <h1 class="h1-responsive">Welcome to OutSource</h1>
-                        <p>A platform for freelancers to offer services to clients worldwide.</p>
+                        <h1 class="h1-responsive mb-0 mb-md-2">Welcome to OutSource</h1>
+                        <p class="d-none d-md-block">
+                            A platform for freelancers to offer services to clients worldwide.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -28,12 +30,12 @@
                 <div class="carousel-caption d-flex align-items-center">
                     <div class="animated fadeInDown mask rgba-black-light rounded z-depth-1 p-4  w-100">
                         <h1 class="h1-responsive">Looking for Services?</h1>
-                        <p>
+                        <p class="d-none d-md-block">
                             Are you looking to hire someone for their services, look no further.<br />
                             OutSource provides you a platform where freelancers offer a wide range of services.
                         </p>
 
-                        <a class="btn primary-gradient" href="user/services">
+                        <a class="btn btn-md primary-gradient" href="/services">
                             <i class="far fa-eye"></i> View Marketplace
                         </a>
                     </div>
@@ -51,11 +53,11 @@
                 <div class="carousel-caption d-flex align-items-center">
                     <div class="animated fadeInDown mask rgba-black-light rounded z-depth-1 p-4  w-100">
                         <h1 class="h1-responsive">Register on OutSource</h1>
-                        <p>
+                        <p class="d-none d-md-block">
                             Register an account with us today as a service provider or as a client.<br />
                         </p>
 
-                        <a class="btn primary-gradient" href="user/register">
+                        <a class="btn btn-md primary-gradient" href="/register">
                             <i class="far fa-user-plus"></i> Register
                         </a>
                     </div>

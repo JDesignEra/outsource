@@ -4,7 +4,7 @@ nav.navbar .navbar-brand {
     min-height: 30px;
     background-image: url("/img/logo/normal.png");
     background-repeat: no-repeat;
-    background-size: 100% cover;
+    background-size: 100% auto;
     background-position: center;
 }
 
@@ -13,25 +13,18 @@ nav.navbar.top-nav-collapse .navbar-brand {
     min-height: 30px;
     background-image: url("/img/logo/darker.png");
     background-repeat: no-repeat;
-    background-size: 100% cover;
+    background-size: 100% auto;
     background-position: center;
 }
 
 /* Navbar Dropdown-Menu */
-nav.navbar .dropdown-menu a {
-    font-size: 1rem;
-    line-height: 2;
-    vertical-align: middle;
+nav.navbar .dropdown-menu {
+    top: 85%;
 }
 
-nav.navbar .dropdown-menu .btn-floating,
-#loginModel .flex-fill .btn-floating {
-    border: 0;
-}
-
-nav.navbar .dropdown-menu .btn-floating i,
-#loginModel .flex-fill .btn-floating i {
-    padding: 0px !important;
+nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
+    color: #ffffff !important;
+    background-color: #dc3545 !important;
 }
 
 /* toTopAction Button */
@@ -251,7 +244,8 @@ div#toTopAction {
 }
 
 /* Home */
-section.home .carousel-caption {
+section.home-hero .carousel-caption {
+    bottom: 0;
     height: 100%;
 }
 

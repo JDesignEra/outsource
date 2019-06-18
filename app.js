@@ -9,12 +9,12 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const flash = require('connect-flash');
 
-const mySqlStore = require('express-mysql-session'); 
+const mySqlStore = require('express-mysql-session');
 const db = require('./config/db');
 const auth = require('./config/passport');
 
-const outsourceDb = require('./config/dbConnection'); 
-outsourceDb.setUpDB(false); 
+const outsourceDb = require('./config/dbConnection');
+outsourceDb.setUpDB(false);
 
 const hbs = require('./helpers/hbs');
 
@@ -77,6 +77,12 @@ app.use(bodyParser.urlencoded({
 // Connect Flash
 app.use(flash());
 
+// Global Variable
+app.use(function(req, res, next) {
+	res.locals.user = req.user || null;
+	next();
+});
+
 // Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -85,12 +91,10 @@ app.use(methodOverride('_method'));
 
 // Routes
 app.use('/', require('./routes/root')); 
-app.use('/register', require('./routes/register'));
-app.use('/login', require('./routes/login'));
+app.use('/', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
 app.use('/services', require('./routes/services'));
 app.use('/files', require('./routes/files'));
-app.use('/logout', require('./routes/logout'));
 
 app.listen(port = 5000, () => {
 	console.log(`Server started on ${port}`);

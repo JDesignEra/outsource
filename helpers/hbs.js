@@ -1,5 +1,5 @@
 const { join } = require('path')
-const { readdirSync, lstatSync } = require('fs')
+const { readdirSync, lstatSync, existsSync } = require('fs')
 const moment = require('./moment');
 
 let blocks = {};
@@ -8,8 +8,8 @@ let blocksFlag = {};
 module.exports = {
     currYear: moment.format(new Date, 'YYYY'),
     ifCond: function(expression, ops) {
-        var result;
-        var context = this;
+        let result;
+        let context = this;
 
         with(context) {
             result = (function() {
@@ -21,7 +21,7 @@ module.exports = {
                         return false;
                     }
                     else {
-                        console.warn('•Expression: {{ifCond \'' + expression + '\'}}\n•JS-Error: ', e, '\n•Context: ', context);
+                        console.warn('Expression: {{ifCond \'' + expression + '\'}}\nJS-Error: ', e, '\nContext: ', context);
                     }
                 }
             }).call(context);
@@ -58,6 +58,20 @@ module.exports = {
         blocksFlag[name] = false
         
         return (flag) ? ops.fn(this) : ops.inverse(this);
+    },
+    ifFile: function(path, ops) {
+        return existsSync(path) ? ops.fn(this) : ops.inverse(this);
+    },
+    concat: function() {
+        let out = '';
+
+        for (let arg in arguments) {
+            if(typeof arguments[arg] != 'object') {
+                out += arguments[arg];
+            }
+        }
+
+        return out;
     },
     json: function(context) {
         return JSON.stringify(context);

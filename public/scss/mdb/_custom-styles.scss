@@ -18,6 +18,14 @@ nav.navbar.home:not(.top-nav-collapse) {
     background: rgba(103, 58, 183, 0.55) !important;
 }
 
+@media (max-width: 767px) and (min-width: 400px),
+(max-width: 850px) and (min-width: 800px) {
+    .navbar.fixed-top .navbar-collapse,
+    .navbar.sticky-top .navbar-collapse {
+        max-height: 360px;
+    }
+}
+
 // links
 a {
     color: #6200ea;
@@ -33,6 +41,32 @@ a.deep-purple-text {
 
 a.deep-purple-text:hover {
     color: lighten(#6200ea, 15%) !important;
+}
+
+// dropdown
+.navbar .dropdown-menu-right {
+    right: 0.5rem;
+}
+
+.navbar .dropdown-menu-right .dropdown-item {
+    display: block;
+}
+
+.dropdown .dropdown-menu .dropdown-item:hover,
+.dropdown .dropdown-menu .dropdown-item:active,
+.dropup .dropdown-menu .dropdown-item:hover,
+.dropup .dropdown-menu .dropdown-item:active,
+.dropleft .dropdown-menu .dropdown-item:hover,
+.dropleft .dropdown-menu .dropdown-item:active,
+.dropright .dropdown-menu .dropdown-item:hover,
+.dropright .dropdown-menu .dropdown-item:active {
+    background-color: #6e2ae5;
+}
+
+.deep-purple-skin .navbar .navbar-nav .nav-item .dropdown-menu a:hover,
+.deep-purple-skin .navbar .navbar-nav .nav-item .dropdown-menu a:active {
+    color: #ffffff;
+    background-color: #6e2ae5;
 }
 
 // table
@@ -63,16 +97,6 @@ nav > ol.breadcrumb {
     color: #333333;
 }
 
-// dropdown
-.dropdown-item:focus, .dropdown-item:hover {
-    background-color: #ede7f6;
-}
-
-.dropdown-item.active, .dropdown-item:active {
-    color: #ffffff !important;
-    background-color: #6e2ae5;
-}
-
 // treeview
 .treeview li > i.rotate ~ span {
     cursor: pointer !important;
@@ -94,4 +118,9 @@ nav > ol.breadcrumb {
 // toast
 .md-toast-top-right {
     top: 6rem;
+}
+
+// chip
+.chip img {
+    margin-left: -10px;
 }

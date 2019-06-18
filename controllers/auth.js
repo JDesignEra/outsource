@@ -1,8 +1,25 @@
+const passport = require('passport');
 const bcrypt = require('bcrypt');
 const User = require('../models/users');
 
 module.exports = {
-    index: function(req, res) {
+    logout: function(req, res) {
+        req.logout();
+        req.flash('success', 'You have sign out successfully.');
+        res.redirect('/');
+    },
+    login: function(req, res, next) {
+        if (req.method === 'GET') {
+            res.render('login/index');
+        }
+        else if (req.method === 'POST') {
+            passport.authenticate('local', {
+                successRedirect: '/profile',
+                failureRedirect: '/login'
+            })(req, res, next);
+        }
+    },
+    register: function(req, res) {
         if (req.method === 'GET') {
             res.render('register/index');
         }
