@@ -1,6 +1,5 @@
 const { Op, Sequelize } = require('sequelize');
 const fs = require('fs');
-const { move } = require('../helpers/fileSystem');
 const FilesFolders = require('../models/filesFolders');
 
 module.exports = {
