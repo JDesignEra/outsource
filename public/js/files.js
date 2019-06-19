@@ -19,7 +19,7 @@ $(document).ready(function () {
     });
 
     // DataTable
-    (function() {
+    $(function() {
         function dataTable() {
             let data = { 'order': 1, 'targets': 0 };
             let focus = $('#filesTable');
@@ -38,6 +38,7 @@ $(document).ready(function () {
                 paging: false,
                 info: false,
                 searching: false,
+                language: { emptyTable: 'No files or folders to display' },
                 columnDefs: [{
                     orderable: false,
                     targets: data['targets']
@@ -48,7 +49,7 @@ $(document).ready(function () {
         dataTable();
     
         $(window).on('resize', function () {
-            focus.DataTable().destroy();
+            $('#filesTable').DataTable().destroy();
             dataTable();
     
             $(function () {
@@ -64,8 +65,13 @@ $(document).ready(function () {
     });
 
     // Show Modal if url contains modal id
-    (function() {
-        if (window.location.href.indexOf('#newFileModal') != -1) {
+    $(function() {
+        let focus = window.location.href.split('/')[window.location.href.split('/').length - 1];
+        
+        if (focus == 'upload') {
+            $('#uploadModal').modal('show');
+        }
+        else if (window.location.href.indexOf('#newFileModal') != -1) {
             $('#newFileModal').modal('show');
         }
         else if (window.location.href.indexOf('#newFolderModal') != -1) {

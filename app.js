@@ -66,22 +66,38 @@ app.engine('handlebars', exphbs({
 })); 
 app.set('view engine', 'handlebars');
 
-// Body Parser
-app.use(bodyParser.json({limit: '5gb'}));
-app.use(bodyParser.urlencoded({
-	limit: '5gb',
-	extended: false,
-	parameterLimit: 50000
-}));
-
 // Connect Flash
 app.use(flash());
 
-// Global Variable
+// Render Engine Global Variable
 app.use(function(req, res, next) {
 	res.locals.user = req.user || null;
+	res.locals.url = req.originalUrl;
+	
+	toast = {
+		'info': req.flash('info'),
+		'warning': req.flash('warning'),
+		'success': req.flash('success'),
+		'error': req.flash('error'),
+	}
+
+	Object.keys(toast).forEach(key => {
+		if (toast[key].length < 1) {
+			delete toast[key];
+		}
+	});
+
+	res.locals.toast = toast;
+	
 	next();
 });
+
+// Body Parser
+app.use(bodyParser.urlencoded({
+	limit: '5gb',
+	extended: true,
+	parameterLimit: 50000
+}));
 
 // Static Folder
 app.use(express.static(path.join(__dirname, 'public')));

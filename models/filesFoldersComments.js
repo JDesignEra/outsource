@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../config/dbConfig');
 
 const users = require('./users');
-const ffComments = require('./filesFolders');
+const filesFolders = require('./filesFolders');
 
 const filesFoldersComment = db.define('files_folders_comment', {
     id: {
@@ -19,7 +19,7 @@ const filesFoldersComment = db.define('files_folders_comment', {
         type: Sequelize.INTEGER,
         allowNull: false,
         // references: {
-        //     model: ffComments,
+        //     model: filesFolders,
         //     key: 'id'
         // }
     },

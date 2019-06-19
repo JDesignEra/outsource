@@ -9,7 +9,7 @@ const portfolio = db.define('portfolio', {
         primaryKey: true,
         autoIncrement: true
     },
-    fromUid: {
+    uid: {
         type: Sequelize.INTEGER,
         // references: {
         //     model: users,
