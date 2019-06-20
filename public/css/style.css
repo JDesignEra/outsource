@@ -378,6 +378,19 @@ section.files #mobileActions.fixed-bottom {
     background-color: rgba(0, 0, 0, .7);
 }
 
+.profile .close{
+    opacity: 1;
+}
+
+.profile .modal-dialog{
+    max-width: 90vw;
+}
+
+
+body.modal-open {
+    overflow: hidden !important;
+}
+
 /* Joshua */
 .services .row {
     margin: 0 -5px;

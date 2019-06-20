@@ -56,6 +56,12 @@ $(document).ready(function () {
         });
     });
 
+    // MDB Lightbox Init
+    $(function () {
+        $("#mdb-lightbox-ui").load("mdb-addons/mdb-lightbox-ui.html");
+    });
+
+    
     /* Joshua */
     $('#posterUpload').on('change', function () {
         let image = $("#posterUpload")[0].files[0];
