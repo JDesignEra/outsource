@@ -29,7 +29,7 @@ module.exports = {
 
         return result ? ops.fn(this) : ops.inverse(this);
     },
-    setVar: function(varName, varValue, ops) {  //set variable in .handlebars
+    setVar: function(varName, varValue, ops) {
         if (!ops.data.root) {
             ops.data.root = {};
         }
@@ -82,8 +82,8 @@ module.exports = {
 
         return out;
     },
-    json: function(context) {
-        return JSON.stringify(context);
+    json: function(object) {
+        return JSON.stringify(object);
     },
     partialsDirs: function(p) {     // Handlebars return partials and all folders in partials as array
         let partialsDir = readdirSync(p).filter(f => lstatSync(join(p, f)).isDirectory());

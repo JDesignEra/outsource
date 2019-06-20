@@ -129,6 +129,12 @@ nav > ol.breadcrumb {
     top: 6rem;
 }
 
+@media (max-width: 767.98px) {
+    .md-toast-top-right {
+        top: 4rem;
+    }
+}
+
 // chip
 .chip img {
     margin-left: -10px;
