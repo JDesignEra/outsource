@@ -74,14 +74,15 @@
                                     <th>Name</th>
                                     <th class="d-none d-md-table-cell">Size</th>
                                     <th class="d-none d-md-table-cell">Type</th>
-                                    <th class="d-none d-md-table-cell">Members</th>
+                                    <th class="d-none d-md-table-cell">Shared</th>
                                     <th class="d-none d-md-table-cell">Modified</th>
                                     <th class="d-table-cell d-md-none">Actions</th>
                                 </thead>
                                 <tbody>
                                     <form method="post">
-                                        <!-- ToDo: Insert data rows -->
-                                        {{>_viewFilesRow}}
+                                        <!-- items -->
+                                            <!-- ToDo: Insert data rows -->
+                                            {{> _filesRow }}
                                     </form>
                                 </tbody>
                             </table>
@@ -161,7 +162,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="file-upload" action="/files/upload" method="post" enctype="multipart/form-data">
+                    <form class="files-upload" action="/files/upload" method="post" enctype="multipart/form-data">
                         <input type="file" name="files" multiple />
                     </form>
                 </div>

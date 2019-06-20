@@ -18,6 +18,10 @@ const filesFolders = db.define('files_folder', {
         type: Sequelize.TEXT,
         allowNull: false
     },
+    fullPath: {
+        type: Sequelize.TEXT,
+        allowNull: false
+    },
     type: {
         type: Sequelize.TEXT,
         allowNull: false
@@ -25,12 +29,11 @@ const filesFolders = db.define('files_folder', {
     shareCode: {
         type: Sequelize.TEXT
     },
-    sharedWith: {
-        type: Sequelize.INTEGER,
-        // references: {
-        //     model: users,
-        //     key: 'id'
-        // }
+    sharedUid: {
+        type: Sequelize.STRING
+    },
+    sharedUsername: {
+        type: Sequelize.STRING
     },
     uid: {
         type: Sequelize.INTEGER,

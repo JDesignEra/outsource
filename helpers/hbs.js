@@ -66,9 +66,18 @@ module.exports = {
         let out = '';
 
         for (let arg in arguments) {
-            if(typeof arguments[arg] != 'object') {
+            if(typeof arguments[arg] !== 'object') {
                 out += arguments[arg];
             }
+        }
+
+        return out;
+    },
+    joinComma: function(array) {
+        let out = '';
+
+        for (let i = 0; i < array.length; i++) {
+            out += i < array.length - 1 ? array[i] + ', ' : array[i];
         }
 
         return out;

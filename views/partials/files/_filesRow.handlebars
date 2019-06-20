@@ -1,0 +1,99 @@
+{{#if items}}
+    {{#each items}}
+        <tr style="cursor: default;">
+            <td class="d-none d-md-table-cell">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="{{ this.id }}">
+                    <label class="form-check-label" for="c1"></label>
+                </div>
+            </td>
+            <td contenteditable="true" style="cursor: text;">{{ this.name }}</td>
+            <td class="d-none d-md-table-cell">{{ this.size }}</td>
+            <td class="d-none d-md-table-cell" style="text-transform: capitalize;">{{ this.type }}</td>
+            <td class="d-none d-md-table-cell"><!-- <i class="far fa-link mr-1"></i> -->
+                {{#ifCond (concat this.sharedUsername.length ' > 0')}}
+                    <span class="material-tooltip-sm" data-tooltip="tooltip" title="{{ joinComma this.sharedUsername }}">
+                        {{ this.sharedUsername.length }} Members
+                    </span>
+                {{else}}
+                    --
+                {{/ifCond}}
+            </td>
+            <td class="d-none d-md-table-cell">{{ this.modified }}</td>
+            <td class="d-table-cell d-md-none dropleft">
+                <a class="btn-floating btn-sm btn-cyan material-tooltip-sm" data-toggle="modal" data-target="#shareModal">
+                    <i class="fas fa-share-alt"></i>
+                </a>
+
+                <a class="btn-floating btn-sm btn-primary ml-0 ml-md-2" data-toggle="dropdown" title="More Action">
+                    <i class="fas fa-ellipsis-h"></i>
+                </a>
+
+                <div class="dropdown-menu">
+                    <a class="dropdown-item">
+                        <i class="far fa-download"></i> Download
+                    </a>
+                    <button class="dropdown-item">
+                        <i class="far fa-comments"></i> Comment
+                    </button>
+                    <button class="dropdown-item">
+                        <i class="far fa-i-cursor" style="margin: 0 4px;"></i> Rename
+                    </button>
+                    <button class="dropdown-item">
+                        <i class="fas fa-exchange-alt"></i> Move
+                    </button>
+                    <button class="dropdown-item">
+                        <i class="far fa-copy"></i> Copy
+                    </button>
+                    <button class="dropdown-item">
+                        <i class="far fa-trash-alt"></i> Delete
+                    </button>
+                </div>
+            </td>
+        </tr>
+    {{/each}}
+{{/if}}
+
+{{!-- <tr>
+    <td class="d-none d-md-table-cell">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="c2">
+            <label class="form-check-label" for="c2"></label>
+        </div>
+    </td>
+    <td contenteditable="true">Project 1</td>
+    <td class="d-none d-md-table-cell">--</td>
+    <td class="d-none d-md-table-cell">Folder</td>
+    <td class="d-none d-md-table-cell">Only You</td>
+    <td class="d-none d-md-table-cell">18/05/2019 05:00pm</td>
+    <td class="d-table-cell d-md-none dropleft">
+        <a class="btn-floating btn-sm btn-cyan material-tooltip-sm" data-toggle="modal" data-target="#shareModal">
+            <i class="fas fa-share-alt"></i>
+        </a>
+
+        <a class="btn-floating btn-sm btn-primary ml-0 ml-md-2" data-toggle="dropdown" title="More Action">
+            <i class="fas fa-ellipsis-h"></i>
+        </a>
+
+        <div class="dropdown-menu dropdown-primary">
+            <button class="dropdown-item">
+                <i class="far fa-download"></i> Download
+            </button>
+            <button class="dropdown-item">
+                <i class="far fa-i-cursor" style="margin: 0 4px;"></i> Rename
+            </button>
+            <button class="dropdown-item">
+                <i class="fas fa-exchange-alt"></i> Move
+            </button>
+            <button class="dropdown-item">
+                <i class="far fa-copy"></i> Copy
+            </button>
+            <button class="dropdown-item">
+                <i class="far fa-trash-alt"></i> Delete
+            </button>
+            <button class="dropdown-item d-none d-md-block">
+                <i class="far fa-calculator-alt"></i> Calculate Size
+            </button>
+        </div>
+    </td>
+</tr> --}}
