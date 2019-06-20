@@ -73,6 +73,22 @@ app.use(flash());
 app.use(function(req, res, next) {
 	res.locals.user = req.user || null;
 	res.locals.url = req.originalUrl;
+	res.locals.errors = req.flash('errors');
+	res.locals.forms = req.flash('forms');
+
+	if (Object.getOwnPropertyNames(res.locals.errors).length < 1) {
+		delete res.locals.errors;
+	}
+	else {
+		res.locals.errors = res.locals.errors[0];
+	}
+
+	if (Object.getOwnPropertyNames(res.locals.forms).length < 1) {
+		delete res.locals.forms;
+	}
+	else {
+		res.locals.forms = res.locals.forms[0];
+	}
 	
 	toast = {
 		'info': req.flash('info'),
@@ -80,7 +96,7 @@ app.use(function(req, res, next) {
 		'success': req.flash('success'),
 		'error': req.flash('error'),
 	}
-
+	
 	Object.keys(toast).forEach(key => {
 		if (toast[key].length < 1) {
 			delete toast[key];
@@ -113,7 +129,5 @@ app.use('/services', require('./routes/services'));
 app.use('/files', require('./routes/files'));
 
 app.listen(port = 5000, () => {
-	console.log(`Server started on ${port}`);
+	console.log(`\n\x1b[32mServer started on port ${port}.\x1b[0m`);
 });
-
-

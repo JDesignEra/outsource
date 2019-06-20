@@ -31,10 +31,10 @@ let validation = (function() {
         $(focuses).each(function (i) {
             if ($.trim($(focuses[i]).text()) !== '') {
                 if ($(focuses[i]).hasClass('invalid-tooltip') || $(focuses[i]).hasClass('invalid-feedback')) {
-                    $(focuses[i]).prev().addClass('is-invalid');
+                    $(focuses[i]).parent().children('input').addClass('is-invalid');
                 }
                 else if ($(focuses[i]).hasClass('valid-tooltip') || $(focuses[i]).hasClass('invalid-feedback')) {
-                    $(focuses[i]).prev().addClass('is-valid');
+                    $(focuses[i]).parent().children('input').addClass('is-valid');
                 }
             }
         });

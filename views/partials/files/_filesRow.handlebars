@@ -3,20 +3,26 @@
         <tr style="cursor: default;">
             <td class="d-none d-md-table-cell">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="{{ this.id }}">
-                    <label class="form-check-label" for="c1"></label>
+                    <input {{#if this.id}}id="{{ this.id }}"{{/if}} class="form-check-input" type="checkbox" name="fid">
+                    <label class="form-check-label" for="{{ this.id }}"></label>
                 </div>
             </td>
             <td contenteditable="true" style="cursor: text;">{{ this.name }}</td>
-            <td class="d-none d-md-table-cell">{{ this.size }}</td>
+            <td class="d-none d-md-table-cell">
+                {{#ifCond 'this.size !== "0 Bytes"'}}
+                    {{ this.size }}
+                {{else}}
+                    --
+                {{/ifCond}}
+            </td>
             <td class="d-none d-md-table-cell" style="text-transform: capitalize;">{{ this.type }}</td>
             <td class="d-none d-md-table-cell"><!-- <i class="far fa-link mr-1"></i> -->
                 {{#ifCond (concat this.sharedUsername.length ' > 0')}}
                     <span class="material-tooltip-sm" data-tooltip="tooltip" title="{{ joinComma this.sharedUsername }}">
-                        {{ this.sharedUsername.length }} Members
+                        {{ this.sharedUsername.length }} members
                     </span>
                 {{else}}
-                    --
+                    Only you
                 {{/ifCond}}
             </td>
             <td class="d-none d-md-table-cell">{{ this.modified }}</td>

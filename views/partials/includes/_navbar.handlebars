@@ -7,14 +7,11 @@
 
 	<div class="collapse navbar-collapse" id="nav">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item{{#ifCond 'url == "/"'}} active{{/ifCond}}">
+			<li class="nav-item{{#ifCond 'url === "/"'}} active{{/ifCond}}">
 				<a class="nav-link" href="/">Home</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/">About</a>
-			</li>
-			<li class="nav-item{{#ifCond 'url == "/services"'}} active{{/ifCond}}">
-				<a class="nav-link" href="/services/">Marketplace</a>
+			<li class="nav-item{{#ifCond 'url === "/services" || url === "/services/"'}} active{{/ifCond}}">
+				<a class="nav-link" href="/services">Marketplace</a>
 			</li>
 		</ul>
 		<ul class="navbar-nav ml-auto">
@@ -101,7 +98,7 @@
 					<div class="dropdown-divider mb-4"></div>
 
 					<form action="/login" method="post">
-						<div class="input-group mb-3">
+						<div class="input-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text primary-gradient white-text align-middle">
 									<i class="far fa-envelope"></i>
@@ -110,7 +107,7 @@
 							<input class="form-control" type="email" placeholder="Email" name="email" />
 						</div>
 
-						<div class="input-group">
+						<div class="input-group mb-0">
 							<div class="input-group-prepend">
 								<span class="input-group-text primary-gradient white-text align-middle">
 									<i class="far fa-lock-alt"></i>
@@ -170,7 +167,7 @@
 				</div>
 
 				<div class="modal-body text-right">
-					<div class="input-group mb-3">
+					<div class="input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text primary-gradient white-text align-middle">
 								<i class="far fa-envelope"></i>
@@ -179,7 +176,7 @@
 						<input class="form-control" type="email" placeholder="Email" name="email" />
 					</div>
 
-					<div class="input-group">
+					<div class="input-group mb-0">
 						<div class="input-group-prepend">
 							<span class="input-group-text primary-gradient white-text align-middle">
 								<i class="far fa-lock-alt"></i>

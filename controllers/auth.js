@@ -47,8 +47,8 @@ module.exports = {
             if (password != cfmPassword) {
                 errors['cfmPassword'] = 'Passwords and Confirm Password do not match.';
             }
-
-            if (Object.getOwnPropertyNames(errors).length !== 0) {
+            
+            if (Object.getOwnPropertyNames(errors).length > 0) {
                 res.render('register/index', {
                     username,
                     email,
