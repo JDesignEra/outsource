@@ -24,11 +24,17 @@ module.exports = {
         res.render('services/index')
     },
     add: function (req, res) {
-        res.render('services/add')
+        if(req.user.accType === 'service'){
+            res.render('services/add')
+        }
+        else{
+            req.flash('warning', 'You need a service provider account to add a service');
+            res.redirect('/services');
+        }
     },
     addpost: function (req, res) {
         let name = req.body.name;
-        let desc = req.body.desc.slice(0, 1999);
+        let desc = req.body.desc === undefined ? '' : req.body.desc.slice(0, 1999);
         let userId = req.user.id;
         let price = req.body.price;
         let category = req.body.categories.toString();
@@ -58,9 +64,8 @@ module.exports = {
                 });
             }
             else {
-                alertMessage(res, 'danger', 'You do not have permission to modify this service', 'fas fa-exclamation-circle', true);
-                req.logOut();
-                res.redirect('/');
+                req.flash('warning', 'You do not have permission to modify this service');
+                res.redirect('/services');
             }
         }
 
@@ -78,7 +83,7 @@ module.exports = {
                     id: req.params.id
                 }
             }).then(() => {
-                alertMessage(res, 'Success', 'Changes saved successfully!', 'fas fa-exclamation-circle', true);
+                req.flash('success', 'Changes saved successfully');
                 res.render('services/list');
             }).catch(err => console.log(err));
     },
@@ -90,8 +95,8 @@ module.exports = {
             },
         }).then((services) => {
             if (services == null) {
-                alertMessage(res, 'danger', 'You do not have permission to modify this service', 'fas fa-exclamation-circle', true);
-                res.redirect('/logout');
+                req.flash('warning', 'You do not have any services to delete');
+                res.redirect('/services');
             }
             else {
                 Services.destroy({
@@ -99,7 +104,7 @@ module.exports = {
                         id: req.params.id
                     }
                 }).then((services) => {
-                    alertMessage(res, 'Success', 'Service deleted successfully!', 'fas fa-exclamation-circle', true);
+                    req.flash('success', 'Your service was successfully deleted');
                     res.render('services/list');
                 })
             }
