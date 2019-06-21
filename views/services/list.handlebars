@@ -29,7 +29,7 @@
     {{#if services}}
     <div class="row">
         {{#each services}}
-        <div class="col-12 col-md-4 col-lg-3 mt-4 servicecards {{category}}">
+        <div class="col-12 col-md-4 col-lg-3 mt-4 servicecards {{replacecommas category}}">
             <div class="card">
                 <div class="view overlay">
                     <img class="card-img-top" src="/uploads/services/{{uid}}/{{id}}.png">
@@ -52,7 +52,7 @@
 
                 <div class="card-footer deep-purple accent-2 white-text text-center mt-4">
                     <h5 class="m-0">
-                        S${{price}}
+                        ${{price}}
                     </h5>
                 </div>
             </div>

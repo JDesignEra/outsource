@@ -3,11 +3,7 @@ const fs = require('fs');
 
 module.exports = {
     index: function (req, res) {
-        // res.render('services/list')
         Services.findAll({
-            where: {
-                uid: req.user.id
-            },
             order: [
                 ['name', 'ASC']
             ],
@@ -16,13 +12,20 @@ module.exports = {
             .then((services) => {
                 res.render('services/list', {
                     services: services,
-                    user: req.user
                 });
             })
             .catch(err => console.log(err));
     },
     view: function (req, res) {
-        res.render('services/index')
+        Services.findOne({
+            where: {
+                id: req.params.id
+            }
+        }).then((services) => {
+            res.render('services/index', {
+                services
+            });
+        }).catch(err => console.log(err));
     },
     add: function (req, res) {
         if (req.user.accType === 'service') {
@@ -82,10 +85,9 @@ module.exports = {
     save: function (req, res) {
         Services.update({
             name: req.body.name,
-            desc: req.body.desc.slice(0, 1999),
+            desc: req.body.desc === undefined ? '' : req.body.desc.slice(0, 1999),
             price: req.body.price,
             category: req.body.categories.toString(),
-            posterURL: req.body.posterURL
         }, {
                 where: {
                     id: req.params.id
