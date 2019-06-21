@@ -82,14 +82,19 @@
 .min-vh-85 { min-height: 90vh !important; }
 .min-vh-95 { min-height: 95vh !important; }
 
-.opacity-0 { opacity: 0; }
-.opacity-1 { opacity: 0.1; }
-.opacity-2 { opacity: 0.2; }
-.opacity-3 { opacity: 0.3; }
-.opacity-4 { opacity: 0.4; }
-.opacity-5 { opacity: 0.5; }
-.opacity-6 { opacity: 0.6; }
-.opacity-7 { opacity: 0.7; }
-.opacity-8 { opacity: 0.8; }
-.opacity-9 { opacity: 0.9; }
-.opacity-10 { opacity: 1; }
+.opacity-0 { opacity: 0 !important; }
+.opacity-1 { opacity: .1 !important; }
+.opacity-2 { opacity: .2 !important; }
+.opacity-3 { opacity: .3 !important; }
+.opacity-4 { opacity: .4 !important; }
+.opacity-5 { opacity: .5 !important; }
+.opacity-6 { opacity: .6 !important; }
+.opacity-7 { opacity: .7 !important; }
+.opacity-8 { opacity: .8 !important; }
+.opacity-9 { opacity: .9 !important; }
+.opacity-10 { opacity: 1 !important; }
+
+.overflow-x-hidden { overflow-x: hidden !important; }
+.overflow-y-hidden { overflow-y: hidden !important; }
+
+.cursor-default { cursor: default !important; }

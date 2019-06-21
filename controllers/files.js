@@ -1,4 +1,5 @@
 const fs = require('fs');
+const mime = require('mime');
 const { Op, Sequelize } = require('sequelize');
 
 const bytesToSize = require('../helpers/bytesToSize');
@@ -12,7 +13,7 @@ module.exports = {
         if (uid !== undefined) {
             let param = req.params[0].replace(/\?newfile/gi, '').replace(/\?newfolder/gi, '').replace(/\?upload/gi, '');
             let root = './public/uploads/files/' + uid
-            let path = param !== '' ? '/' + param + '/' : '/';
+            let path = param !== '' ? ('/' + param + '/').replace(/\/\//gi, '/') : '/';
 
             if (!fs.existsSync(root)) {
                 fs.mkdirSync(root);
@@ -37,6 +38,7 @@ module.exports = {
 
                 Object.keys(items).forEach(key => {
                     let temp = data.find(x => x.name === key);
+                    
                     if (temp !== undefined) {
                         temp['sharedUid'] = temp['sharedUid'] !== null ? temp['sharedUid'].split(',') : [];
                         temp['sharedUsername'] = temp['sharedUsername'] !== null ? temp['sharedUsername'].split(',') : [];
@@ -45,9 +47,20 @@ module.exports = {
                     }
                 });
 
+                let currentDir = path === '/' ? 'Home' : path.slice(0, -1).split('/').pop();
+                let breadcrumbs = path === '/' ? ['Home'] : ['Home'].concat(path.slice(1, -1).split('/'));
+                let crumbLinks = ['/files'].concat(path.slice(1, -1).split('/'));
+
+                for(let i = 1; i < crumbLinks.length && i - 1 > -1; i++) {
+                    crumbLinks[i] = crumbLinks[i - 1] + '/' + crumbLinks[i];
+                }
+
                 res.render('files/index', {
                     title: 'File Management',
-                    items: Object.keys(items).length !== 0 ? items : null
+                    items: Object.keys(items).length !== 0 ? items : null,
+                    currentDir: currentDir,
+                    breadcrumbs: breadcrumbs,
+                    crumbLinks: crumbLinks
                 });
             });
         }
@@ -64,6 +77,8 @@ module.exports = {
 
                 files.forEach(file => {
                     let fileName = file['originalname'];
+                    let type = mime.getType(fileName) || file['mimetype'];
+                    type = type.slice(0, type.indexOf('/'));
 
                     filesFolders.findOne({
                         where: {
@@ -77,7 +92,7 @@ module.exports = {
                                 name: fileName,
                                 directory: path,
                                 fullPath: path + fileName,
-                                type: file['mimetype'].substring(0, file['mimetype'].indexOf('/')),
+                                type: type,
                                 uid: uid
                             });
                         }
@@ -88,9 +103,9 @@ module.exports = {
 
                         fs.renameSync(file['path'], root + path + fileName);
                     });
-                }).then(() => {
-                    res.redirect(path === '/' ? '/files' :  '/files' + path);
                 });
+
+                res.redirect(path === '/' ? '/files' :  '/files' + path);
             }
         }
     },

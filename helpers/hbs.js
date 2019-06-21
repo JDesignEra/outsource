@@ -1,3 +1,4 @@
+// hbs (Handlebars Helpers) by Joel
 const { join } = require('path')
 const { readdirSync, lstatSync, existsSync } = require('fs')
 const moment = require('./moment');
@@ -6,11 +7,40 @@ let blocks = {};
 let blocksFlag = {};
 
 module.exports = {
-    currYear: moment.format(new Date, 'YYYY'),
+    block: function(name) {
+        let val = (blocks[name] || []).join('\n');
+
+        blocks[name] = [];
+        return val;
+    },
+    concat: function() {
+        let out = '';
+
+        for (let arg in arguments) {
+            if(typeof arguments[arg] !== 'object') {
+                out += arguments[arg];
+            }
+        }
+        
+        return out;
+    },
+    currYear: function() {
+        return moment.format(new Date, 'YYYY')
+    },
+    extend: function(name, ops) {
+        let block = blocks[name];
+
+        if (!block) {
+            block = blocks[name] = [];
+        }
+        
+        blocksFlag[name] = true;
+        block.push(ops.fn(this));
+    },
     ifCond: function(expression, ops) {
         let result;
         let context = this;
-
+        
         with(context) {
             result = (function() {
                 try {
@@ -29,29 +59,6 @@ module.exports = {
 
         return result ? ops.fn(this) : ops.inverse(this);
     },
-    setVar: function(varName, varValue, ops) {
-        if (!ops.data.root) {
-            ops.data.root = {};
-        }
-
-        ops.data.root[varName] = varValue;
-    },
-    extend: function(name, ops) {
-        let block = blocks[name];
-
-        if (!block) {
-            block = blocks[name] = [];
-        }
-        
-        blocksFlag[name] = true;
-        block.push(ops.fn(this));
-    },
-    block: function(name) {
-        let val = (blocks[name] || []).join('\n');
-
-        blocks[name] = [];
-        return val;
-    },
     ifBlock: function(name, ops) {
         let flag = (blocksFlag[name] ? false : true);
 
@@ -62,28 +69,33 @@ module.exports = {
     ifFile: function(path, ops) {
         return existsSync(path) ? ops.fn(this) : ops.inverse(this);
     },
-    concat: function() {
+    json: function(object) {
+        return JSON.stringify(object);
+    },
+    joinSeperator: function(seperator, ...args) {
         let out = '';
-
-        for (let arg in arguments) {
-            if(typeof arguments[arg] !== 'object') {
-                out += arguments[arg];
+        
+        for (let arg in args) {
+            if (Object.getPrototypeOf(args[arg]) !== Object.prototype) {
+                if(typeof args[arg] !== 'object') {
+                    out += args[arg] + seperator;
+                }
+                else {
+                    for (let key in args[arg]) {
+                        out += args[arg][key] + seperator;
+                    }
+                }
             }
         }
 
-        return out;
+        return out.slice(0, -seperator.length);
     },
-    joinComma: function(array) {
-        let out = '';
-
-        for (let i = 0; i < array.length; i++) {
-            out += i < array.length - 1 ? array[i] + ', ' : array[i];
+    setVar: function(varName, varValue, ops) {
+        if (!ops.data.root) {
+            ops.data.root = {};
         }
 
-        return out;
-    },
-    json: function(object) {
-        return JSON.stringify(object);
+        ops.data.root[varName] = varValue;
     },
     partialsDirs: function(p) {     // Handlebars return partials and all folders in partials as array
         let partialsDir = readdirSync(p).filter(f => lstatSync(join(p, f)).isDirectory());
@@ -95,6 +107,7 @@ module.exports = {
 
         return partialsDir;
     },
+    /* Joshua */
     radioCheck: function(value, radioValue){
         if (value === radioValue){
             return 'checked';

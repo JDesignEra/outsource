@@ -72,14 +72,28 @@ a.deep-purple-text:hover {
 // table
 table.table thead th {
     font-weight: 500;
-    color: #6e2ae5;
 }
 
-table.table td, table.table th {
+table.table tbody td {
+    font-weight: 400;
+}
+
+table.table td,
+table.table th {
     padding-top: 0.65rem;
     padding-bottom: 0.65rem;
     padding: 0.65rem;
     vertical-align: middle;
+}
+
+table thead.deep-purple.accent-3 .form-check-input[type=checkbox]:not(:checked)+label::before,
+table thead.deep-purple.accent-3 label.btn input[type="checkbox"]:not(:checked)+label:before {
+    border-color: #ffffff;
+}
+
+.deep-purple-skin table thead.deep-purple.accent-3 input[type=checkbox]:checked+label:before {
+    border-right-color: #ffffff;
+    border-bottom-color: #ffffff;
 }
 
 // breadcrumb

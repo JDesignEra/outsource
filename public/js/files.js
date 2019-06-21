@@ -82,7 +82,7 @@ $(function() {
         let focus = $('#cb-actions');
         let count = $('input[type="checkbox"][name="fid"]').filter(':checked').length;
 
-        $('#cb-count').text(count + ' Item(s) Selected')
+        $('#cb-count').text(count + ' Item(s) Selected');
 
         if (count > 0) {
             if ($(focus).hasClass('d-none')) {
@@ -90,7 +90,44 @@ $(function() {
 
                 $(focus).addClass('fadeIn').one(animationEnd, function() {
                     $(this).removeClass('fadeIn');
-                })
+                });
+            }
+
+            if (count > 1) {
+                let find = $(focus).find('.download.list-group-item');
+                
+                if (!$(find).hasClass('d-none')) {
+                    $(find).addClass('fadeOut').one(animationEnd, function() {
+                        $(this).addClass('d-none');
+                        $(this).removeClass('fadeOut');
+                    });
+                }
+
+                find = $(focus).find('.comments.list-group-item');
+
+                if (!$(find).hasClass('d-none')) {
+                    $(find).addClass('fadeOut').one(animationEnd, function() {
+                        $(this).addClass('d-none');
+                        $(this).removeClass('fadeOut');
+                    });
+                }
+
+                find = $(focus).find('.rename.list-group-item');
+
+                if (!$(find).hasClass('d-none')) {
+                    $(find).addClass('fadeOut').one(animationEnd, function() {
+                        $(this).addClass('d-none');
+                        $(this).removeClass('fadeOut');
+                    });
+                }
+            }
+            else {
+                let find = $(focus).find('.list-group-item');
+
+                $(find).removeClass('d-none');
+                $(find).addClass('fadeIn').one(animationEnd, function() {
+                    $(this).removeClass('fadeIn');
+                });
             }
         }
         else {
@@ -98,7 +135,7 @@ $(function() {
                 $(focus).addClass('fadeOut').one(animationEnd, function() {
                     $(this).addClass('d-none');
                     $(this).removeClass('fadeOut');
-                })
+                });
             }
         }
     });
@@ -106,7 +143,7 @@ $(function() {
 
 // Show Modal if url contains modal id
 $(function() {
-    let focus = window.location.href.split('/')[window.location.href.split('/').length - 1];
+    let focus = window.location.href.split('/').pop();
     
     if (focus === '%3Fupload') {
         history.replaceState(null, '', window.location.href.replace('/%3Fupload', ''));

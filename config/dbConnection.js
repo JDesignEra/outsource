@@ -1,3 +1,4 @@
+// dbConnection by Joel
 const mysql = require('./dbConfig'); 
 const users = require('../models/users');
 const portfolio = require('../models/portfolio');

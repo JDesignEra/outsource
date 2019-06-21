@@ -21,6 +21,7 @@
     "helper-moment": "^0.2.0",
     "lozad": "^1.9.0",
     "method-override": "^3.0.0",
+    "mime": "^2.4.4",
     "moment": "^2.24.0",
     "multer": "^1.4.1",
     "mysql2": "^1.6.5",

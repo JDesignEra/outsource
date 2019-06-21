@@ -110,7 +110,7 @@ let fileInput = (function() {
                     reader.readAsDataURL(file);
                 }
                 else {
-                    let extension = file.name.split('.')[file.name.split('.').length - 1];
+                    let extension = file.name.split('.').pop();
                     $(renderer).html('<i class="fas fa-file"><span class="extension">' + extension + '</span></i>');
                 }
 
