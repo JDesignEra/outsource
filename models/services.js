@@ -27,9 +27,6 @@ const services = db.define('service', {
         type: Sequelize.DECIMAL,
         allowNull: false
     },
-    posterURL: {
-        type: Sequelize.STRING,
-    },
     category: {
         type: Sequelize.STRING,
         allowNull: false

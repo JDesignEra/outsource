@@ -1,33 +1,34 @@
 const Services = require('../models/services');
+const fs = require('fs');
 
 module.exports = {
     index: function (req, res) {
-        res.render('services/list')
-        // Services.findAll({
-        //     where: {
-        //         userId: req.user.id
-        //     },
-        //     order: [
-        //         ['title', 'ASC']
-        //     ],
-        //     raw: true
-        // })
-        //     .then((services) => {
-        //         res.render('services/listServices', {
-        //             services: services,
-        //             user: req.user
-        //         });
-        //     })
-        //     .catch(err => console.log(err));
+        // res.render('services/list')
+        Services.findAll({
+            where: {
+                uid: req.user.id
+            },
+            order: [
+                ['name', 'ASC']
+            ],
+            raw: true
+        })
+            .then((services) => {
+                res.render('services/list', {
+                    services: services,
+                    user: req.user
+                });
+            })
+            .catch(err => console.log(err));
     },
     view: function (req, res) {
         res.render('services/index')
     },
     add: function (req, res) {
-        if(req.user.accType === 'service'){
+        if (req.user.accType === 'service') {
             res.render('services/add')
         }
-        else{
+        else {
             req.flash('warning', 'You need a service provider account to add a service');
             res.redirect('/services');
         }
@@ -44,10 +45,17 @@ module.exports = {
             name,
             desc,
             price,
-            userId,
+            uid: userId,
             category,
             posterURL
         }).then((services) => {
+            // Check if directory exists if not create directory
+            if (!fs.existsSync('./public/uploads/services/' + req.user.id)) {
+                fs.mkdirSync('./public/uploads/services/' + req.user.id);
+            }
+            // Move file
+            let serviceId = services.id;
+            fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
             res.redirect('/services');
         })
             .catch(err => console.log(err))
@@ -58,7 +66,7 @@ module.exports = {
                 id: req.params.id
             }
         }).then((services) => {
-            if (req.user.id === services.userId) {
+            if (req.user.id === services.uid) {
                 res.render('services/edit', {
                     services
                 });
