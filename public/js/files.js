@@ -15,64 +15,62 @@ $(function() {
 });
 
 // DataTable
+// DataTable
 $(function() {
-    function initDataTable() {
-        let options = { 'order': 1, 'targets': 0 };
+    function tableInit() {
+        let data = { 'order': 1, 'targets': 0 };
         let focus = $('#files-table');
-        
-        focus.find('td.dataTables_empty').text('No files & folder to display.');
 
         if (window.innerWidth <= 767.98) {
-            options = { 'order': 1, 'targets': null };
+            data = { 'order': 1, 'targets': null };
         }
         else {
-            options = { 'order': 1, 'targets': 0 };
+            data = { 'order': 1, 'targets': 0 };
         }
 
         focus.DataTable({
             ordering: true,
-            order: [[options['order'], 'asc']],
+            order: [[data['order'], 'asc']],
             paging: false,
             info: false,
             searching: false,
             language: { emptyTable: 'No files or folders to display' },
             columnDefs: [{
                 orderable: false,
-                targets: options['targets']
+                targets: data['targets']
             }],
         });
     }
 
-    initDataTable();
+    tableInit();
 
-    let focuses = $('tbody tr', '#files-table');
+    let rows = $('tbody tr', '#files-table');
     let i = 1;
 
-    $(focuses[0]).removeClass('d-none');
-    $(focuses[0]).addClass('flipInX').one(animationEnd, function() {
+    $(rows[0]).removeClass('d-none');
+    $(rows[0]).addClass('flipInX').one(animationEnd, function() {
         $(this).removeClass('flipInX');
         $(this).removeClass('d-none');
     });
 
     setInterval(function() {
-        $(focuses[i]).removeClass('d-none');
-        $(focuses[i]).addClass('flipInX').one(animationEnd, function() {
+        $(rows[i]).removeClass('d-none');
+        $(rows[i]).addClass('flipInX').one(animationEnd, function() {
             $(this).removeClass('flipInX');
         });
 
         i++;
 
-        if (i > focuses.length - 1) {
+        if (i > rows.length - 1) {
             clearInterval(this);
         }
     }, 250);
 
-    $(window).on('resize', function() {
-        focus.DataTable().destroy();
+    $(window).on('resize', function () {
+        $('#files-table').DataTable().destroy();
+        tableInit();
 
-        initDataTable();
-
-        $(function() {
+        $(function () {
             $(".sticky").sticky({
                 topSpacing: 90,
                 zIndex: 2,

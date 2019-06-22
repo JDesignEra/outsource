@@ -3,7 +3,6 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 
-const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -20,9 +19,6 @@ const hbs = require('./helpers/hbs');
 
 const app = express(); 
 
-// CookieParser
-app.use(cookieParser());
-
 // Session
 app.use(session({ 
 	key: 'outsource_session', 
@@ -34,8 +30,8 @@ app.use(session({
 		password: db.password,
 		database: db.database,
 		clearExpired: true, 
-		checkExpirationInterval: 900000, 
-		expiration: 900000, 
+		checkExpirationInterval: 1 * 24 * 60 * 60 * 10000,	// 24 Hours
+		expiration: 1 * 24 * 60 * 60 * 10000
 	}),
 	resave: false, 
 	saveUninitialized: false, 
