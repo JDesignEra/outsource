@@ -96,7 +96,7 @@ $(function() {
             focuses.prop('checked', false);
         }
 
-        focuses.get(0).trigger('change');
+        $(focuses[0]).trigger('change');
     });
 
     focuses.on('change', function() {
@@ -191,7 +191,7 @@ $(function() {
                 $(this).removeClass('fadeOut');
 
                 for (let i = 0; i < td.length && !show; i++) {
-                    if (td.get(i).text().toLowerCase().indexOf(val) > -1) {
+                    if ($(td[i]).text().toLowerCase().indexOf(val) > -1) {
                         show = true;
                     }
                 }

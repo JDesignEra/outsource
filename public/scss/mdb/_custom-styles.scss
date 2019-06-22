@@ -7,7 +7,6 @@ nav.navbar {
     background: -webkit-linear-gradient(50deg, #b39ddb, #7873f5)!important;
     background: -o-linear-gradient(50deg, #b39ddb, #7873f5)!important;
     background: linear-gradient(40deg, #b39ddb, #7873f5)!important;
-    font-weight: 400 !important;
 }
 
 nav.navbar:not(.top-nav-collapse) {
@@ -24,6 +23,11 @@ nav.navbar.home:not(.top-nav-collapse) {
     .navbar.sticky-top .navbar-collapse {
         max-height: 360px;
     }
+}
+
+// headers text
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
 }
 
 // links
