@@ -13,25 +13,25 @@
 	<link type="text/css" href="/css/style.css" rel="stylesheet">
 </head>
 
-<body class="deep-purple-skin">
+<body>
 	{{> _navbar}}
 	
 	{{{ block 'hero' }}}
 
-	<main class="container-fluid mb-5 pb-5{{#ifCond 'mainType != "null" && mainType == "vCenter"'}} d-flex flex-column justify-content-center{{/ifCond}}{{#ifBlock 'hero'}} mt-5 pt-3 pt-md-5{{/ifBlock}}">
+	<main class="container-fluid mb-5 pb-5{{#ifCond 'mainType != "null" && mainType == "vCenter"'}} d-flex flex-column justify-content-center{{/ifCond}}{{#ifExtend 'hero'}} pt-3{{else}} mt-5 pt-3 pt-md-5{{/ifExtend}}">
 	{{{ body }}}
 	</main>
 	
 	{{> _footer}}
 	
 	{{{ block 'fixedAction' }}}
-	{{#ifBlock 'fixedAction'}}
+	{{#ifNotExtend 'fixedAction'}}
 	<div id="toTopAction" class="fixed-action-btn smooth-scroll animated faster d-none">
 		<a href="#top" class="btn-floating btn-large primary-gradient">
 			<i class="fas fa-arrow-up"></i>
 		</a>
 	</div>
-	{{/ifBlock}}
+	{{/ifNotExtend}}
 
 	{{#if (json toast)}}
 		<script>

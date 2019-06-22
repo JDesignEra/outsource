@@ -1,3 +1,64 @@
+@import "main";
+
+// VARIABLES
+$primary:       #651fff !default;
+$secondary:     #7c4dff !default;
+$success:       #009688 !default;
+$info:          #00bcd4 !default;
+$warning:       #ffbb33 !default;
+$danger:        #ff3547 !default;
+$light:         $gray-100 !default;
+$dark:          $gray-800 !default;
+
+$theme-colors: map-remove(
+  $theme-colors,
+  "primary",
+  "secondary",
+  "success",
+  "info",
+  "warning",
+  "danger"
+);
+
+$theme-colors: (
+  "primary":    #651fff,
+  "secondary":  #7c4dff,
+  "success":    #009688,
+  "info":       #00bcd4,
+  "warning":    #ffbb33,
+  "danger":     #ff3547
+);
+
+$sizes: (
+  5 : 5%,
+  10: 10%,
+  20: 20%,
+  30: 30%,
+  35: 35%,
+  40: 40%,
+  45: 45%,
+  55: 55%,
+  60: 60%,
+  65: 65%,
+  70: 70%,
+  80: 80%,
+  85: 85%,
+  90: 90%,
+  95: 95%
+) !default;
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1920px
+) !default;
+
+$table-accent-bg: lighten(#b388ff, 15%);
+$table-hover-bg: lighten(#651fff, 30%);
+
+
+// STYLES
 .vw-0 { width: 0vw !important; }
 .vw-5 { width: 5vw !important; }
 .vw-10 { width: 10vw !important; }

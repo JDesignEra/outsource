@@ -10,15 +10,15 @@
 			<li class="nav-item{{#ifCond 'url === "/"'}} active{{/ifCond}}">
 				<a class="nav-link" href="/">Home</a>
 			</li>
-			<li class="nav-item{{#ifCond 'url === "/services" || url === "/services/"'}} active{{/ifCond}}">
+			<li class="nav-item{{#ifStringContain url '/services'}} active{{/ifStringContain}}">
 				<a class="nav-link" href="/services">Marketplace</a>
 			</li>
 		</ul>
 		<ul class="navbar-nav ml-auto">
 		{{#if user}}
 			<!-- Desktop -->
-			<li class="nav-item d-none d-md-block">
-				<a class="nav-link chip primary-gradient dropdown-toggle m-0 z-depth-1" data-toggle="dropdown">
+			<li class="nav-item dropdown d-none d-md-block">
+				<a class="nav-link chip primary-reverse-light-gradient dropdown-toggle m-0 z-depth-1" data-toggle="dropdown">
 					{{#ifFile (concat './public/uploads/profile/' user.id '.png') }}
 						<img class="deep-purple lighten-5 z-depth-1" src="/uploads/profile/{{user.id}}.png">
 					{{else}}
@@ -26,7 +26,7 @@
 					{{/ifFile}} {{user.username}}
 				</a>
 
-				<div class="dropdown-menu dropdown-menu-right z-depth-1">
+				<div class="dropdown-menu dropdown-primary dropdown-menu-right mt-1 z-depth-1">
 					<a class="dropdown-item" href="/profile">
 						<i class="far fa-id-card mr-1"></i> My Profile
 					</a>
@@ -48,22 +48,22 @@
 
 			<!-- Mobile -->
 			<hr class="deep-purple accent-1 w-100 my-2 d-block d-md-none">
-			<li class="nav-item d-block d-md-none">
+			<li class="nav-item d-block d-md-none{{#ifStringContain url '/profile'}} active{{/ifStringContain}}">
 				<a class="nav-link" href="/profile">
 					<i class="far fa-id-card mr-1"></i> My Profile
 				</a>
 			</li>
-			<li class="nav-item d-block d-md-none">
+			<li class="nav-item d-block d-md-none{{#ifStringContain url '/files'}} active{{/ifStringContain}}">
 				<a class="nav-link" href="/files">
 					<i class="far fa-folders mr-1"></i> File Management
 				</a>
 			</li>
-			<li class="nav-item d-block d-md-none">
+			<li class="nav-item d-block d-md-none{{#ifStringContain url '/services/edit'}} active{{/ifStringContain}}">
 				<a class="nav-link" href="/services">
 					<i class="far fa-user-tie mr-1"></i> Service Management
 				</a>
 			</li>
-			<li class="nav-item d-block d-md-none">
+			<li class="nav-item d-block d-md-none{{#ifStringContain url '/job'}} active{{/ifStringContain}}">
 				<a class="nav-link" href="/job">
 					<i class="far fa-briefcase mr-1"></i> Job Management
 				</a>
@@ -100,7 +100,7 @@
 					<form action="/login" method="post">
 						<div class="input-group">
 							<div class="input-group-prepend">
-								<span class="input-group-text primary-gradient white-text align-middle">
+								<span class="input-group-text primary-light-gradient white-text align-middle">
 									<i class="far fa-envelope"></i>
 								</span>
 							</div>
@@ -109,14 +109,14 @@
 
 						<div class="input-group mb-0">
 							<div class="input-group-prepend">
-								<span class="input-group-text primary-gradient white-text align-middle">
+								<span class="input-group-text primary-light-gradient white-text align-middle">
 									<i class="far fa-lock-alt"></i>
 								</span>
 							</div>
 							<input class="form-control" type="password" placeholder="Password" name="password" />
 						</div>
 						
-						<a class="deep-purple-text pt-0" href="#">
+						<a class="pt-0" href="#">
 							<small>Forgot Password?</small>
 						</a>
 
@@ -140,10 +140,10 @@
 						</button>
 					</div>
 
-					<div class="dropdown-divider mt-5"></div>
+					<div class="dropdown-divider"></div>
 
 					<p class="text-left small mb-0">
-						Not a member yet? <a class="deep-purple-text p-0 d-inline" href="/register">Join now</a>
+						Not a member yet? <a class="p-0 d-inline" href="/register">Join now</a>
 					</p>
 				</div>
 			</li>
@@ -169,7 +169,7 @@
 				<div class="modal-body text-right">
 					<div class="input-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text primary-gradient white-text align-middle">
+							<span class="input-group-text primary-light-gradient white-text align-middle">
 								<i class="far fa-envelope"></i>
 							</span>
 						</div>
@@ -178,7 +178,7 @@
 
 					<div class="input-group mb-0">
 						<div class="input-group-prepend">
-							<span class="input-group-text primary-gradient white-text align-middle">
+							<span class="input-group-text primary-light-gradient white-text align-middle">
 								<i class="far fa-lock-alt"></i>
 							</span>
 						</div>

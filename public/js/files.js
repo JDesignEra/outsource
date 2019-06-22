@@ -1,9 +1,9 @@
 /* files page collapse */
 $(function() {
-    $('a[data-toggle="collapse"]', '.treeview').on('click', function() {
+    $('a[data-toggle="collapse"][data-target="#folders-tree"]', '#folders-card').on('click', function() {
         let focus = $(this).find('i[class*="rotate-icon"]');
 
-        if ($('#folders', '.treeview').hasClass('show')) {
+        if ($('#folders-tree').hasClass('show')) {
             focus.removeClass('fa-angle-up');
             focus.addClass('fa-angle-down');
         }
@@ -14,7 +14,6 @@ $(function() {
     });
 });
 
-// DataTable
 // DataTable
 $(function() {
     function tableInit() {
@@ -78,8 +77,6 @@ $(function() {
             });
         });
     });
-
-    $('.dataTables_length').addClass('bs-select');
 });
 
 // Checkbox
@@ -164,18 +161,6 @@ $(function() {
 $(function() {
     let focuses = $('input[name="search"]');
 
-    // $('input[name="search"]').mdbAutocomplete({
-    //     data: [
-    //         'name: ',
-    //         'modified: ',
-    //         'size: ',
-    //         'shared: ',
-    //         'type: ',
-    //     ],
-    //     inputFocus: '1px solid #ac85f0',
-    //     inputFocusShadow: '0 1px 0 0 #ac85f0',
-    // });
-
     focuses.on('keyup', function() {
         let tr = $('tbody tr', '#files-table');
         let val = $(this).val();
@@ -218,6 +203,38 @@ $(function() {
             }
         });
     });
+
+    // $('.dropdown-menu', '#action-card .md-form').on('click', function(e) {
+    //     if ($(this).hasClass('show')) {
+    //         e.stopPropagation();
+    //     }
+    // });
+
+    // $('#test', '#action-card').on('click', function(e) {
+    //     $('#action-search', '#action-card .md-form').dropdown('toggle');
+    // });
+
+    // $('#action-search', '#action-card .md-form').on('click', function(e) {
+    //     $(this).dropdown('toggle');
+    //     e.stopPropagation();
+    // });
+
+    // $('.md-form', '#action-card').on('hide.bs.dropdown', function(e) {
+    //     e.stopPropagation();
+    //     // if (!$('#action-search', '#action-card .md-form').hasClass(':focus') && $('.dropdown-menu', '#action-card .md-form').hasClass('show')) {
+    //         console.log('FIRE');
+            
+    //     $('#action-search', '#action-card .md-form').dropdown('toggle');
+    //     // }
+    // });
+
+    // $('#action-search', '#action-card .md-form').on('click', function(e) {
+    //     let focus = $('.dropdown-menu', '#action-card .md-form');
+
+    //     if (!$(this).hasClass(':focus') && focus.hasClass('show')) {
+    //         $(this).addClass('show');
+    //     }
+    // });
 });
 
 // Show Modal if url contains modal id

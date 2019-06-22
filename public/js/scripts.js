@@ -4,7 +4,7 @@ let animationEnd = animateEnd().init();
 
 // Nav
 $(function() {
-    let nav = $('.navbar .navbar-collapse', 'nav');
+    let nav = $('.navbar-collapse', 'nav');
 
     nav.on('show.bs.collapse', function() {
         let focus = $(this).prev().children('button.navbar-toggler i');
@@ -34,7 +34,7 @@ $(function() {
 // ToTop Button
 $(function() {
     $(window).scroll(function() {
-        let nav = $('nav.navbar', 'nav');
+        let nav = $('nav.navbar');
         let focus = $('#toTopAction');
     
         if (nav.offset().top > 100 && focus.hasClass('d-none')) {

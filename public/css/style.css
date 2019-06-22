@@ -1,3 +1,4 @@
+/* Joel */
 /* Navbar */
 nav.navbar .navbar-brand {
     min-width: 93px;
@@ -17,18 +18,13 @@ nav.navbar.top-nav-collapse .navbar-brand {
     background-position: center;
 }
 
-/* Navbar Dropdown-Menu */
-nav.navbar .dropdown-menu {
-    top: 85%;
-}
-
 nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     color: #ffffff !important;
     background-color: #dc3545 !important;
 }
 
 /* toTopAction Button */
-div#toTopAction {
+#toTopAction {
     right: 5px;
     bottom: 40px;
 }
@@ -264,10 +260,14 @@ section.files .action-card .list-group-item i {
     min-width: 20px;
 }
 
-section.files .action-card .mdb-autocomplete-wrap {
-    top: 100%;
-    margin-right: 1rem;
-    margin-left: 1rem;
+section.files .dataTables_wrapper .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+section.files .dataTables_wrapper .col-sm-12 {
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /* Mobile FAB */

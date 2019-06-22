@@ -59,15 +59,23 @@ module.exports = {
 
         return result ? ops.fn(this) : ops.inverse(this);
     },
-    ifBlock: function(name, ops) {
-        let flag = (blocksFlag[name] ? false : true);
+    ifExtend: function(name, ops) {
+        let flag = (blocksFlag[name] !== undefined ? blocksFlag[name] : false);
+        blocksFlag[name] = false;
 
-        blocksFlag[name] = false
-        
+        return (flag) ? ops.fn(this) : ops.inverse(this);
+    },
+    ifNotExtend: function(name, ops) {
+        let flag = (blocksFlag[name] !== undefined ? !blocksFlag[name] : true);
+        blocksFlag[name] = false;
+
         return (flag) ? ops.fn(this) : ops.inverse(this);
     },
     ifFile: function(path, ops) {
         return existsSync(path) ? ops.fn(this) : ops.inverse(this);
+    },
+    ifStringContain: function(string, contains, ops) {
+        return string.indexOf(contains) > -1 ? ops.fn(this) : ops.inverse(this);
     },
     json: function(object) {
         return JSON.stringify(object);
