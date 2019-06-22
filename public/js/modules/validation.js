@@ -28,7 +28,7 @@ let validation = (function() {
             responsive(focuses);
         });
         
-        $(focuses).each(function (i) {
+        $.each(focuses, function(i) {
             if ($.trim($(focuses[i]).text()) !== '') {
                 if ($(focuses[i]).hasClass('invalid-tooltip') || $(focuses[i]).hasClass('invalid-feedback')) {
                     $(focuses[i]).parent().children('input').addClass('is-invalid');
@@ -42,7 +42,7 @@ let validation = (function() {
 
     let responsive = function(focuses) {
         if ($(window).width() <= 767.98) {
-            $(focuses).each(function (i) {
+            $.each(focuses, function(i) {
                 if ($(focuses[i]).hasClass('invalid-tooltip')) {
                     $(focuses[i]).addClass('invalid-feedback');
                     $(focuses[i]).removeClass('invalid-tooltip');
@@ -54,7 +54,7 @@ let validation = (function() {
             });
         }
         else {
-            $(focuses).each(function (i) {
+            $.each(focuses, function(i) {
                 if ($(focuses[i]).hasClass('invalid-feedback')) {
                     $(focuses[i]).addClass('invalid-tooltip');
                     $(focuses[i]).removeClass('invalid-feedback');

@@ -1,6 +1,5 @@
 const fs = require('fs');
 const mime = require('mime');
-const { Op, Sequelize } = require('sequelize');
 
 const bytesToSize = require('../helpers/bytesToSize');
 const moment = require('../helpers/moment');

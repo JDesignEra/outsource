@@ -1,12 +1,13 @@
 {
   "name": "outsource",
-  "version": "4.6.0",
+  "version": "5.2.0",
   "description": "This is for OOADP Project",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "SET NODE_ENV=development & node app.js",
+    "production": "SET NODE_ENV=production & node app.js",
+    "nodemon": "SET NODE_ENV=development & nodemon app.js",
+    "nodemon-production": "SET NODE_ENV=production & nodemon app.js"
   },
   "license": "ISC",
   "dependencies": {

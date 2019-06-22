@@ -128,9 +128,60 @@ nav > ol.breadcrumb {
     padding: .1rem .5rem;
 }
 
+// input
 .input-group {
     margin-bottom: 1.875rem;
 }
+
+.input-group .md-form.md-outline {
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    margin-bottom: 0;
+}
+
+.input-group .md-form.md-outline input {
+    border-radius: .25rem;
+    margin-bottom: 0;
+    height: calc(1.5em + .75rem + 2px);
+}
+
+.input-group.input-group-sm .md-form.md-outline input {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    height: calc(1.5em + .5rem + 2px);
+}
+
+.input-group .md-form.md-outline input + label:not(.active) {
+    font-weight: 400;
+}
+
+.input-group.input-group-sm .md-form.md-outline input + label {
+    font-size: .875rem;
+}
+
+.input-group.input-group-sm .md-form.md-outline input:not(:focus) + label {
+    transform: translateY(6px);
+}
+
+.input-group > .md-form.md-outline:not(:last-child) input {
+    border-radius: .25rem 0 0 .25rem;
+    border-right: none;
+}
+
+.input-group > .md-form.md-outline:not(:first-child) input{
+    border-radius: 0 .25rem .25rem 0;
+    border-left: none;
+}
+
+// .deep-purple-skin input[type="email"]:focus:not([readonly]),
+// .deep-purple-skin input[type="text"]:focus:not([readonly]),
+// .deep-purple-skin input[type="password"]:focus:not([readonly]),
+// .deep-purple-skin input[type="number"]:focus:not([readonly]),
+// .deep-purple-skin textarea.md-textarea:focus:not([readonly]) {
+//     box-shadow: 0 0px 0px 0.2rem rgba(172, 133, 240, .25);
+// }
 
 @media (max-width: 767.98px) {
     .input-group {
@@ -156,10 +207,15 @@ nav > ol.breadcrumb {
 
 // select
 select.custom-select,
-section.mdb-select {
+select.mdb-select {
     -o-appearance: none;
     -ms-appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+}
+
+// background
+.transparent {
+    background-color: transparent !important;
 }

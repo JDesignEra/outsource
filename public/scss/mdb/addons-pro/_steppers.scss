@@ -1,3 +1,8 @@
+/* Materializecss Stepper - By Kinark 2016
+// https://github.com/Kinark/Materialize-stepper
+// CSS v2.1.3
+*/
+
 /*Validate.js FIX*/
 
 label.invalid {
@@ -63,7 +68,7 @@ ul.stepper {
 
     &.done:before {
       content: '\f00c';
-      font-family: 'Font Awesome 5 free';
+      font-family: 'Font Awesome 5 Pro';
       font-size: 1rem;
       font-weight: 900;
       background-color: #00c851;
@@ -71,7 +76,7 @@ ul.stepper {
 
     &.wrong:before {
       content: '\f071';
-      font-family: 'Font Awesome 5 free';
+      font-family: 'Font Awesome 5 Pro';
       font-size: 1.1rem;
       font-weight: 900;
       background-color: #ff3547;
@@ -237,7 +242,7 @@ ul.stepper {
       }
 
       &.done .step-title:before {
-        font-family: 'Font Awesome 5 Free';
+        font-family: 'Font Awesome 5 Pro';
         font-weight: 900;
         content: '\f00c';
         font-size: 1rem;
@@ -245,7 +250,7 @@ ul.stepper {
       }
 
       &.wrong .step-title:before {
-        font-family: 'Font Awesome 5 Free';
+        font-family: 'Font Awesome 5 Pro';
         font-weight: 900;
         content: '\f071';
         font-size: 1.1rem;

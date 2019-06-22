@@ -1,37 +1,4 @@
 <section class="files">
-    <div class="row mb-0 mb-md-4">
-        <div class="col-12 col-md-3">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search" name="search">
-                <div class="input-group-append">
-                    <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect" type="button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-9 mt-3 mt-md-0">
-            <nav>
-                <ol class="breadcrumb mb-0">
-                    {{#if breadcrumbs}}
-                        {{#each breadcrumbs as |val key|}}
-                            <li class="breadcrumb-item text-capitalize">
-                                {{#ifCond (concat @index '<' ../breadcrumbs.length '- 1')}}
-                                    <a href="{{lookup ../crumbLinks @index}}">{{ this }}</a>
-                                {{else}}
-                                    {{ this }}
-                                {{/ifCond}}
-                            </li>
-                        {{/each}}
-                    {{/if}}
-                    {{!-- <li class="breadcrumb-item"><a href="">Home</a></li>
-                    <li class="breadcrumb-item active">Project 1</li> --}}
-                </ol>
-            </nav>
-        </div>
-    </div>
-
     <div class="row">
         <div class="col-12 col-md-3 my-4 my-md-0">
             <div class="treeview card card-cascade narrower">
@@ -41,7 +8,7 @@
                 </div>
 
                 <a data-toggle="collapse" href="#folders">
-                    <h6 class="pt-3 pl-3">
+                    <h6 class="pt-2 pl-3 mb-0">
                         <i class="far fa-folders"></i> Folders
                         <i class="float-right pr-3 fas fa-angle-up rotate-icon"></i>
                     </h6>
@@ -66,15 +33,26 @@
 
         <div class="col-12 col-md-9 col-lg-7">
             <div class="card card-cascade narrower">
-                <div
-                    class="view view-cascade primary-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center">
-                    <span class="white-text text-capitalize mx-3">{{ currentDir }}</span>
+                <div class="view view-cascade primary-gradient narrower py-2 mx-4 mb-3">
+                    <ol class="breadcrumb justify-content-center align-items-center white-text transparent py-0 m-0">
+                        {{#if breadcrumbs}}
+                            {{#each breadcrumbs as |val key|}}
+                                <li class="breadcrumb-item text-capitalize">
+                                    {{#ifCond (concat @index '<' ../breadcrumbs.length '- 1')}}
+                                        <a href="{{lookup ../crumbLinks @index}}">{{ this }}</a>
+                                    {{else}}
+                                        {{ this }}
+                                    {{/ifCond}}
+                                </li>
+                            {{/each}}
+                        {{/if}}
+                    </ol>
                 </div>
 
-                <div class="card-body px-0">
-                    <div class="table-responsive min-vh-40 overflow-x-hidden">
-                        <div class="table-editable table-hover mb-0">
-                            <table id="filesTable" class="table table-striped text-center">
+                <div class="card-body p-0">
+                    <div class="table-responsive overflow-x-hidden mt-2">
+                        <div class="table-editable table-hover">
+                            <table id="files-table" class="table table-striped text-center">
                                 <thead class="deep-purple accent-3 white-text">
                                     <th class="d-none d-md-table-cell">
                                         <div class="form-check">
@@ -91,19 +69,21 @@
                                 </thead>
                                 <tbody>
                                     <form method="post">
-                                        <!-- items -->
-                                            <!-- ToDo: Insert data rows -->
-                                            {{> _filesRow }}
+                                        {{> _filesRow }}
                                     </form>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+
+                    {{#if items}}
+                        <p class="text-center grey-text small font-weight-bold">End of table</p>
+                    {{/if}}
                 </div>
             </div>
         </div>
 
-        <div class="d-none d-md-block col-md-2 animated fadeIn">
+        <div class="d-none d-lg-block col-2 animated fadeIn">
             <div class="card card-cascade narrower action-card sticky">
                 <div
                     class="view view-cascade primary-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center">
@@ -111,6 +91,19 @@
                 </div>
 
                 <div class="card-body card-body-cascade p-0">
+                    <div class="input-group px-3 mt-2 mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text primary-gradient white-text">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                        
+                        <div class="md-form md-outline m-0">
+                            <input id="action-search" class="form-control" type="text" name="search">
+                            <label for="action-search">Search</label>
+                        </div>
+                    </div>
+
                     <div class="list-group list-group-flush">
                         <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#uploadModal">
                             <i class="far fa-cloud-upload-alt"></i> Upload File(s)
@@ -290,12 +283,27 @@
 
 {{#extend "fixedAction"}}
 <!-- Mobile FAB Action -->
-<div class="dropdown fixed-bottom text-right d-block d-md-none" id="mobileActions">
+<div id="mobileActions" class="dropdown fixed-bottom text-right d-block d-lg-none">
     <button class="btn btn-floating primary-gradient dropdown-toggle" type="button" data-toggle="dropdown">
         <i class="fas fa-ellipsis-h"></i>
     </button>
 
-    <div class="dropdown-menu dropdown-primary mb-2">
+    <div class="dropdown-menu mb-2">
+        <div class="input-group input-group-sm px-2 mt-2 mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text primary-gradient white-text">
+                    <i class="fas fa-search"></i>
+                </span>
+            </div>
+            
+            <div class="md-form md-outline m-0">
+                <input id="mobile-search" class="form-control" type="text" name="search">
+                <label for="mobile-search">Search</label>
+            </div>
+        </div>
+
+        <hr class="mt-3 mb-2">
+
         <button class="dropdown-item" data-toggle="modal" data-target="#uploadModal">
             <i class="far fa-cloud-upload-alt"></i> Upload File(s)
         </button>
@@ -305,7 +313,9 @@
         <button class="dropdown-item" data-toggle="modal" data-target="#newFolderModal">
             <i class="far fa-folder-plus"></i> New Folder
         </button>
+
         <hr class="my-2">
+
         <div class="smooth-scroll">
             <a class="dropdown-item" href="#top">
                 <i class="fas fa-arrow-up"></i> To Top
@@ -316,7 +326,7 @@
 {{/extend}}
 
 {{#extend 'scripts'}}
-<script src="/js/vendor/mdb/datatables.min.js"></script>
-<script src="/js/vendor/mdb/datatables-select.min.js"></script>
+<script src="/js/vendor/mdb/modules/datatables.min.js"></script>
+<script src="/js/vendor/mdb/modules/datatables-select.min.js"></script>
 <script src="/js/files.js"></script>
 {{/extend}}
