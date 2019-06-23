@@ -39,7 +39,7 @@
     <div class="modal-body justify-content-center black p-0">
         <div class="col-12 overflow-auto black p-4">
             <img src="https://picsum.photos/1920/1080" class="img-fluid lozad mb-3" alt="">
-            <img src="https://picsum.photos/1600/900" class="img-fluid lozad mb-3" alt="">
+            {{!-- <img src="https://picsum.photos/1600/900" class="img-fluid lozad mb-3" alt=""> --}}
         </div>
 
 
@@ -49,29 +49,20 @@
     <div class="modal-footer white">
 
         <div class="row col-12 justify-content-around">
-            <div class="col-8 border-red">
+            <div class="col-8 border-red p-4">
                 <h4 class="text-center"> Comments </h4>
                 <hr>
 
-                <div class="row ">
-                    <div class="col-1 p-0 ">
-                        <img src="https://picsum.photos/id/659/100/" class="white w-100 img-fluid rounded-circle lozad "
+                <div class="row my-3">
+                    <div class="col-1 p-0">
+                        <img src="https://picsum.photos/100/" class="white w-100 img-fluid rounded-circle lozad "
                             alt="">
                     </div>
                     <div class="col-10 ">
                         <h5 class="text-left h5-responsive"> John Smith &nbsp;
-                            <small class="text-muted"> 26
+                            <small class="text-muted"> 21
                                 May 2019 </small>
                         </h5>
-                        {{!-- <div class="row justify-content-mid align-items-center border-red">
-                            <div class="col-3 align-self-center pr-0 border-red">
-                                
-                            </div>
-                            <div class="col-3 align-self-center border-red">
-                                <p class="text-left text-muted my-auto"></p>
-                            </div>
-
-                        </div> --}}
 
                         <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                             tempor incididunt ut
@@ -81,10 +72,46 @@
                             cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                     </div>
                 </div>
+
+                <div class="row my-3">
+                    <div class="col-1 p-0">
+                        <img src="https://picsum.photos/110/" class="white w-100 img-fluid rounded-circle lozad "
+                            alt="">
+                    </div>
+                    <div class="col-10 ">
+                        <h5 class="text-left h5-responsive"> Albert Einstein &nbsp;
+                            <small class="text-muted"> 22
+                                May 2019 </small>
+                        </h5>
+
+                        <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut
+                        </p>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-3 border-red">
+            <div class="col-3 border-red p-4">
                 <h4 class="text-center"> Details </h4>
-                <p class="text-muted"> Posted on 20 June</p>
+                <hr>
+                <div class="row justify-content-start">
+                    <div class="col-5">
+                        <p class="text-right"> Posted on:</p>
+                        <p class="text-right"> Views: </p>
+                        <p class="text-right"> Likes: </p>
+                        <p class="text-right"> Comments: </p>
+                    </div>
+
+                    <div class="col-5">
+                        <p class="text-left"> 20 April 2019</p>
+                        <p class="text-left"> 21231</p>
+                        <p class="text-left"> 1232</p>
+                        <p class="text-left"> 2</p>
+
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
