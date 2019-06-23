@@ -2,7 +2,8 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const rename = require('gulp-rename');
-const imageMin = require('gulp-imagemin');
+const im = require('gulp-imagemin');
+
 const nm = require('gulp-nodemon');
 const bs = require('browser-sync').create();
 const bsReload = bs.reload;
@@ -13,16 +14,16 @@ function sass2css(done) {
         .pipe(rename({extname: ".min.css"}))
         .pipe(gulp.dest('./public/css/vendor'));
 
-    output(x, 'sass2html');
+    output(x, '\x1b[32mSASS to CSS\x1b[0m');
     done();
 }
 
-function imgMin(done) {
+function imgCompress(done) {
     let x = gulp.src(['./public/img/**/*.png', './public/img/**/*.jpg', './public/img/**/*.jpeg', './public/img/**/*.gif', './public/img/**/*.svg'])
-        .pipe(imageMin())
+        .pipe(im())
         .pipe(gulp.dest('./public/img/'));
 
-    output(x, 'imageMin');
+    output(x, '\x1b[32mImage Compress');
     done();
 }
 
@@ -67,7 +68,9 @@ function startBrowserSync(done) {
         port: 5050,
         browser: 'chrome',
         notify: true
-    }, done);
+    });
+
+    done();
 }
 
 // For cmd/terminal output
@@ -86,18 +89,21 @@ function output(gulpSrc, funcName) {
 }
 
 exports.scss2css = sass2css;
-exports.imgmin = imgMin;
+exports.imgmin = imgCompress;
 exports.nodemon = startNodemon;
 exports.browsersync = startBrowserSync;
 
 exports.compile = () => {
     gulp.watch('./public/scss/**/*', this.scss2css);
-    gulp.watch(['./public/img/**/*'], this.imgmin);
+    gulp.watch(['./public/img/**/*', './public/img/**/*'], this.imgmin);
 };
 
 exports.default = gulp.series(this.nodemon, this.browsersync, () => {
+    process.stdout.write('\n');
     gulp.watch('./public/scss/**/*', sass2css);
-    gulp.watch('./public/img/**/*', imgMin);
+    gulp.watch('./public/img/**/*', imgCompress);
+
+    process.stdout.write('\n');
     gulp.watch([
         './public/css/**/*',
         './public/fonts/**/*',

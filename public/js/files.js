@@ -165,6 +165,17 @@ $(function() {
         let tr = $('tbody tr', '#files-table');
         let val = $(this).val();
 
+        // Tie both value and label animation together
+        focuses.val(val);
+        
+        if ($(this).val() !== '') {
+            $(focuses).next().addClass('active');
+        }
+        else {
+            $(focuses).next().removeClass('active');
+        }
+
+        // Search function
         tr.each(function() {
             if (val){
                 let td = $(this).children('td:not(.dropleft,:has(input))');
@@ -204,37 +215,75 @@ $(function() {
         });
     });
 
-    // $('.dropdown-menu', '#action-card .md-form').on('click', function(e) {
-    //     if ($(this).hasClass('show')) {
-    //         e.stopPropagation();
-    //     }
-    // });
+    // Filters
+    // ToDo: Fix Search Filters Not Propagating issue.
+    $('.filter-all, .filter-name, .filter-size, .filter-type, .filter-shared, .filter-modified').on('click', function() {
+        let _this = $(this);
+        let sameId = $('[id=".' + $(this).attr('id') + '"]');
 
-    // $('#test', '#action-card').on('click', function(e) {
-    //     $('#action-search', '#action-card .md-form').dropdown('toggle');
-    // });
+        switch (_this.attr('id')) {
+            case 'filter-all':
+                if (_this.is(':checked')) {
+                    sameId.prop('checked', true);
+                    $('.filter-name').prop('checked', true);
+                    $('.filter-size').prop('checked', true);
+                    $('.filter-type').prop('checked', true);
+                    $('.filter-shared').prop('checked', true);
+                    $('.filter-modified').prop('checked', true);
+                }
+                else {
+                    sameId.prop('checked', false);
+                    $('.filter-name').prop('checked', false);
+                    $('.filter-size').prop('checked', false);
+                    $('.filter-type').prop('checked', false);
+                    $('.filter-shared').prop('checked', false);
+                    $('.filter-modified').prop('checked', false);
+                }
+                break;
+        
+            default:
+                break;
+        }
+    });
 
-    // $('#action-search', '#action-card .md-form').on('click', function(e) {
-    //     $(this).dropdown('toggle');
-    //     e.stopPropagation();
-    // });
+    // Desktop filter
+    $('.search-filters', '#action-search').on('click', function(e) {
+        e.stopPropagation();
+    });
 
-    // $('.md-form', '#action-card').on('hide.bs.dropdown', function(e) {
-    //     e.stopPropagation();
-    //     // if (!$('#action-search', '#action-card .md-form').hasClass(':focus') && $('.dropdown-menu', '#action-card .md-form').hasClass('show')) {
-    //         console.log('FIRE');
-            
-    //     $('#action-search', '#action-card .md-form').dropdown('toggle');
-    //     // }
-    // });
+    // Mobile filter
+    let dropdown = $('#mobile-action > .dropdown-menu');
+    let filters = $('.search-filters', "#mobile-search");
+    let filtersHeight = 0;
 
-    // $('#action-search', '#action-card .md-form').on('click', function(e) {
-    //     let focus = $('.dropdown-menu', '#action-card .md-form');
+    $('.input-group', '#mobile-search').on('click', function(e) {
+        filters.collapse('toggle');
+    });
 
-    //     if (!$(this).hasClass(':focus') && focus.hasClass('show')) {
-    //         $(this).addClass('show');
-    //     }
-    // });
+    filters.on('show.bs.collapse', function(e) {
+        console.log(e.target.attr('class'));
+        
+        let translate3d = dropdown.css('transform').split(',');
+        let tx = parseInt(translate3d[4]);
+        let ty = parseInt(translate3d[5]);
+        filtersHeight = filters.height();
+        translate3d = 'translate3d(' + tx +'px, ' + (ty - filtersHeight) + 'px, 0px)';
+
+        dropdown.css('transform', translate3d);
+    });
+
+    filters.on('hide.bs.collapse', function() {
+        let translate3d = dropdown.css('transform').split(',');
+        let tx = parseInt(translate3d[4]);
+        let ty = parseInt(translate3d[5]);
+        translate3d = 'translate3d(' + tx +'px, ' + (ty + filtersHeight) + 'px, 0px)';
+
+        dropdown.css('transform', translate3d);
+    });
+
+    $('#mobile-search', '#mobile-action').on('click', function(e) {
+        e.stopPropagation();
+    });
 });
 
 // Show Modal if url contains modal id
