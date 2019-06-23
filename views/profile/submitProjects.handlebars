@@ -1,0 +1,48 @@
+<section class="submit-projects">
+    <div class="row white p-4 border-red rounded">
+
+        <button id="" class="btn btn-light fas m-1 fa-bold" onclick="execFunc('bold');"></button>
+        <button id="" class="btn btn-light fas m-1 fa-italic" onclick="execFunc('italic');"></button>
+        <button id="" class="btn btn-light fas m-1 fa-underline" onclick="execFunc('underline');"></button>
+
+        <button class="btn btn-light fas fa-align-left" onclick="execFunc('justifyLeft');"></button>
+
+        <button class="btn btn-light fas fa-align-center" onclick="execFunc('justifyCenter');"></button>
+
+        <button class="btn btn-light fas fa-align-right" onclick="execFunc('justifyRight');"></button>
+
+        <button class="btn btn-light fas fa-list-ul" onclick="execFunc('insertUnorderedList');"></button>
+        <button class="btn btn-light fas fa-list-ol" onclick="execFunc('insertOrderedList');"></button>
+
+        <div class="col-2 align-self-center border-red">
+
+            <select class="custom-select-sm browser-default">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+
+        </div>
+
+
+
+    </div>
+
+    <div class="row grey lighten-5 p-4" onload="enableEditMode();">
+
+        <iframe name="test1" id="test1" class="vh-90 w-100 col-8 z-depth-2" onkeydown="showedit()">
+
+        </iframe>
+
+        <div class="col-3">
+
+        </div>
+    </div>
+
+    {{#extend 'scripts'}}
+
+    <script src="/js/submitProject.js"></script>
+
+    {{/extend}}
+</section>

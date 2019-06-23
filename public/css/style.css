@@ -361,10 +361,6 @@ section.files .dataTables_wrapper .col-sm-12 {
     height: 80vh;
 }
 
-.border-red {
-    border: 1px solid red;
-}
-
 #socialmedias {
     background-color: rgba(0, 0, 0, .7);
 }
@@ -377,10 +373,21 @@ section.files .dataTables_wrapper .col-sm-12 {
     max-width: 90vw;
 }
 
+/* ============================================ Borders ======================================== */
+.border-red {
+    border: 1px solid red;
+}
+
+.border-purple{
+    border: 1px solid #6e2ae5;
+}
+
+
 
 body.modal-open {
     overflow: hidden !important;
 }
+
 
 /* Joshua */
 .services .row {
