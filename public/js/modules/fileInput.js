@@ -14,8 +14,10 @@ let fileInput = (function() {
             focuses = focuses.concat($('.file-upload').toArray());
         }
 
-        $.each(focuses, function(i) {
-            $(focuses[i]).prepend('<div class="wrapper card card-body primary-gradient view overlay text-center z-depth-2">' +
+        $.each(focuses, function() {
+            let _this = $(this);
+
+            _this.prepend('<div class="wrapper card card-body primary-gradient view overlay text-center z-depth-2">' +
                 '<div class="mask rgba-black-slight" style=""></div>' +
                 '<div class="card-text">' +
                 '<i class="fas fa-cloud-upload-alt fa-5x"></i>' +
@@ -37,26 +39,22 @@ let fileInput = (function() {
                 '</div>');
 
             // Attach EvenListener
-            let input = $(focuses[i]).children('input[type=file]');
-            let wrapper = $(focuses[i]).children('.wrapper');
+            let input = _this.children('input[type=file]');
+            let wrapper = _this.children('.wrapper');
             let invalid = $(wrapper).children('.invalid-tooltip');
             let preview = $(wrapper).children('.preview');
             let renderer = $(preview).children('.renderer');
 
-            $(focuses[i]).on({
+            $(_this).on({
                 'dragover dragenter': function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-
                     e.originalEvent.dataTransfer.dropEffect = 'copy';
 
-                    reset(focuses[i]);
+                    reset(_this);
+                    return false;
                 },
                 'dragleave dragexit': function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    reset(focuses[i]);
+                    reset(_this);
+                    return false;
                 },
                 'drop': function(e) {
                     e.preventDefault();
@@ -65,7 +63,7 @@ let fileInput = (function() {
                     let error;
                     let files = e.originalEvent.dataTransfer.files || (event.dataTransfer && event.dataTransfer.files) || e.target.files;
                     
-                    if ($(focuses[i]).hasClass('file-upload') && files.length > 1) {
+                    if ($(_this).hasClass('file-upload') && files.length > 1) {
                         error = 'Only 1 file upload is allow.';
                     }
                     else if (input.attr('accept')) {
@@ -100,7 +98,7 @@ let fileInput = (function() {
 
             // On file input change
             input.on('change', function() {
-                let file = input.files[0];
+                let file = this.files[0];
                 
                 // Render image or file extension icon, and overlay text.
                 if (file && file.type.match(/image\//)) {
@@ -120,18 +118,18 @@ let fileInput = (function() {
 
                 let filesName = [];
 
-                for (let x = 0; x < input.files.length; x++) {
-                    filesName.push(input.files[x].name);
+                for (let x = 0; x < this.files.length; x++) {
+                    filesName.push(this.files[x].name);
                 }
 
-                $(focuses[i]).children('.wrapper').addClass('has-preview');
+                $(_this).children('.wrapper').addClass('has-preview');
                 preview.find('.filename').html(filesName.join('<br />'));
                 preview.addClass('d-block');
 
                 // Find parent form of current element and submit.
-                let findForm = $(focuses[i]);
+                let findForm = $(_this);
 
-                if ($(focuses[i]).data('autosubmit') != false) {
+                if ($(_this).data('autosubmit') != false) {
                     while (!findForm.is('form')) {
                         findForm = findForm.parent();
                     }
@@ -140,18 +138,18 @@ let fileInput = (function() {
                 }
             });
             
-            $(focuses[i]).hover(function() {
+            $(_this).hover(function() {
                 if (renderer.has('img')) {
                     preview.removeClass('d-none');
                 }
             });
 
             // Attach EventListener to button remove.
-            let btnRemove = $(focuses[i]).find('button.remove');
+            let btnRemove = $(_this).find('button.remove');
 
             btnRemove.on('click', function(e) {
                 e.stopPropagation();
-                reset(focuses[i]);
+                reset(_this);
             });
             
             // Prevent Bubbling Event

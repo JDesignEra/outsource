@@ -1,7 +1,11 @@
+// gulpfile by Joel
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const rename = require('gulp-rename');
 const imageMin = require('gulp-imagemin');
+const nm = require('gulp-nodemon');
+const bs = require('browser-sync').create();
+const bsReload = bs.reload;
 
 function sass2css(done) {
     let x = gulp.src(['./public/scss/bootstrap/bootstrap.scss', './public/scss/mdb/mdb.scss'])
@@ -22,6 +26,50 @@ function imgMin(done) {
     done();
 }
 
+function startNodemon(done) {
+    let flag = false;
+
+    const x = nm({
+        script: 'app.js',
+        stdout: false,
+        ext: 'handlebars js css',
+        ignore: [
+            'gulpfile.js',
+            'node_modules/',
+            '.gitignore',
+            'README.md',
+            'public/uploads'
+        ]
+    });
+
+    const onReady = () => {
+        flag = false;
+        done();
+    };
+
+    x.on('start', () => {
+        flag = true;
+        setTimeout(onReady, 1000);
+    });
+
+    x.on('stdout', (stdout) => {
+        process.stdout.write(stdout);
+
+        if (flag) {
+            onReady();
+        }
+    });
+}
+
+function startBrowserSync(done) {
+    bs.init({
+        proxy: 'localhost:5000',
+        port: 5050,
+        browser: 'chrome',
+        notify: true
+    }, done);
+}
+
 // For cmd/terminal output
 function output(gulpSrc, funcName) {
     gulpSrc.on('data', function(chunk) {
@@ -39,7 +87,31 @@ function output(gulpSrc, funcName) {
 
 exports.scss2css = sass2css;
 exports.imgmin = imgMin;
-exports.default = function() {
+exports.nodemon = startNodemon;
+exports.browsersync = startBrowserSync;
+
+exports.compile = () => {
+    gulp.watch('./public/scss/**/*', this.scss2css);
+    gulp.watch(['./public/img/**/*'], this.imgmin);
+};
+
+exports.default = gulp.series(this.nodemon, this.browsersync, () => {
     gulp.watch('./public/scss/**/*', sass2css);
     gulp.watch('./public/img/**/*', imgMin);
-};
+    gulp.watch([
+        './public/css/**/*',
+        './public/fonts/**/*',
+        './public/img/**/*',
+        './public/js/**/*',
+        './public/vid/**/*',
+        './config/**/*',
+        './controllers/**/*',
+        './helpers/**/*',
+        './middlewares/**/*',
+        './models/**/*',
+        './routes/**/*',
+        './views/**/*',
+        './app.js',
+        './package.json'
+    ], bsReload);
+});
