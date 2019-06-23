@@ -1,3 +1,11 @@
+/*!
+ * animate.css -http://daneden.me/animate
+ * Version - 3.7.0
+ * Licensed under the MIT license - http://opensource.org/licenses/MIT
+ *
+ * Copyright (c) 2018 Daniel Eden
+ */
+
 @keyframes bounce {
   from,
   20%,
@@ -45,6 +53,8 @@
 .flash {
   animation-name: flash;
 }
+
+/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
 
 @keyframes pulse {
   from {
@@ -213,6 +223,8 @@
 .tada {
   animation-name: tada;
 }
+
+/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
 
 @keyframes wobble {
   from {
@@ -1138,6 +1150,8 @@
   animation-name: jackInTheBox;
 }
 
+/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
+
 @keyframes rollIn {
   from {
     opacity: 0;
@@ -1153,6 +1167,8 @@
 .rollIn {
   animation-name: rollIn;
 }
+
+/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
 
 @keyframes rollOut {
   from {

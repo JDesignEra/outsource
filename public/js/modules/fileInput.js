@@ -14,7 +14,7 @@ let fileInput = (function() {
             focuses = focuses.concat($('.file-upload').toArray());
         }
 
-        $(focuses).each(function (i) {
+        $.each(focuses, function(i) {
             $(focuses[i]).prepend('<div class="wrapper card card-body primary-gradient view overlay text-center z-depth-2">' +
                 '<div class="mask rgba-black-slight" style=""></div>' +
                 '<div class="card-text">' +
@@ -37,13 +37,14 @@ let fileInput = (function() {
                 '</div>');
 
             // Attach EvenListener
-            let input = $(focuses[i]).children('input[type=file]')[0];
-            let wrapper = $(focuses[i]).children('.wrapper')[0];
+            let input = $(focuses[i]).children('input[type=file]');
+            let wrapper = $(focuses[i]).children('.wrapper');
             let invalid = $(wrapper).children('.invalid-tooltip');
             let preview = $(wrapper).children('.preview');
             let renderer = $(preview).children('.renderer');
+
             $(focuses[i]).on({
-                'dragover dragenter': function (e) {
+                'dragover dragenter': function(e) {
                     e.preventDefault();
                     e.stopPropagation();
 
@@ -51,12 +52,13 @@ let fileInput = (function() {
 
                     reset(focuses[i]);
                 },
-                'dragleave dragexit': function (e) {
+                'dragleave dragexit': function(e) {
                     e.preventDefault();
                     e.stopPropagation();
+
                     reset(focuses[i]);
                 },
-                'drop': function (e) {
+                'drop': function(e) {
                     e.preventDefault();
                     e.originalEvent.dataTransfer.dropEffect = 'copy';
 
@@ -66,8 +68,8 @@ let fileInput = (function() {
                     if ($(focuses[i]).hasClass('file-upload') && files.length > 1) {
                         error = 'Only 1 file upload is allow.';
                     }
-                    else if ($(input).attr('accept')) {
-                        let validation = new RegExp($(input).attr('accept').replace(/\s/g, '').replace(',', '|'));
+                    else if (input.attr('accept')) {
+                        let validation = new RegExp(input.attr('accept').replace(/\s/g, '').replace(',', '|'));
 
                         for (let x = 0; x < files.length; x++) {
                             if (!validation.test(files[x].type)) {
@@ -83,35 +85,37 @@ let fileInput = (function() {
                         }
                     }
                     if (error === undefined) {
-                        $(input).prop('files', files);
-                        $(input).trigger('change');
+                        input.prop('files', files);
+                        input.trigger('change');
                     }
                     else {
                         invalid.text(error);
                         invalid.addClass('d-block');
                     }
                 },
-                'click': function (e) {
-                    $(input).trigger('click');
+                'click': function(e) {
+                    input.trigger('click');
                 },
             });
 
             // On file input change
-            $(input).on('change', function () {
+            input.on('change', function() {
                 let file = input.files[0];
                 
                 // Render image or file extension icon, and overlay text.
                 if (file && file.type.match(/image\//)) {
                     let reader = new FileReader();
 
-                    reader.onload = function (e) {
-                        $(renderer).html('<img src="' + e.target.result + '" />');
+                    reader.onload = function(e) {
+                        renderer.html('<img src="' + e.target.result + '" />');
                     };
+
                     reader.readAsDataURL(file);
                 }
                 else {
-                    let extension = file.name.split('.')[file.name.split('.').length - 1];
-                    $(renderer).html('<i class="fas fa-file"><span class="extension">' + extension + '</span></i>');
+                    let extension = file.name.split('.').pop();
+
+                    renderer.html('<i class="fas fa-file"><span class="extension">' + extension + '</span></i>');
                 }
 
                 let filesName = [];
@@ -121,57 +125,50 @@ let fileInput = (function() {
                 }
 
                 $(focuses[i]).children('.wrapper').addClass('has-preview');
-                $(preview).find('.filename').html(filesName.join('<br />'));
-                $(preview).addClass('d-block');
+                preview.find('.filename').html(filesName.join('<br />'));
+                preview.addClass('d-block');
 
                 // Find parent form of current element and submit.
                 let findForm = $(focuses[i]);
 
                 if ($(focuses[i]).data('autosubmit') != false) {
-                    while (!$(findForm).is('form')) {
-                        findForm = $(findForm).parent();
+                    while (!findForm.is('form')) {
+                        findForm = findForm.parent();
                     }
 
-                    $(findForm).submit();
+                    findForm.submit();
                 }
             });
             
-            $(focuses[i]).hover(function () {
-                if ($(renderer).has('img')) {
-                    $(preview).removeClass('d-none');
+            $(focuses[i]).hover(function() {
+                if (renderer.has('img')) {
+                    preview.removeClass('d-none');
                 }
             });
 
             // Attach EventListener to button remove.
             let btnRemove = $(focuses[i]).find('button.remove');
 
-            $(btnRemove).on('click', function (e) {
+            btnRemove.on('click', function(e) {
                 e.stopPropagation();
                 reset(focuses[i]);
             });
             
             // Prevent Bubbling Event
-            $(input).on('click', function (e) {
+            input.on('click', function(e) {
                 e.stopPropagation();
-                $(input).val(null);
+                input.val(null);
             });
         });
     }
 
-    let reset = function (focus) {
-        let input = $(focus).find('input[type=file]');
-        let invalid = $(focus).find('.invalid-tooltip');
-        let wrapper = $(focus).find('.wrapper');
-        let preview = $(focus).find('.preview');
-        let renderer = $(focus).find('.renderer');
-        let filename = $(focus).find('filename');
-    
-        $(input).val(null);
-        $(invalid).removeClass('d-block');
-        $(wrapper).removeClass('has-preview');
-        $(preview).removeClass('d-block');
-        $(renderer).empty();
-        $(filename).empty();
+    let reset = function(focus) {
+        $(focus).find('input[type=file]').val(null);
+        $(focus).find('.invalid-tooltip').removeClass('d-block');
+        $(focus).find('.wrapper').removeClass('has-preview');
+        $(focus).find('.preview').removeClass('d-block');
+        $(focus).find('.renderer').empty();
+        $(focus).find('filename').empty();
     }
 
     return publicFuncs;

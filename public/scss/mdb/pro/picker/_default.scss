@@ -38,6 +38,10 @@
     @include transition-main($picker-holder-transition-bg, $picker-holder-transition-top);
     backface-visibility: hidden;
   }
+  /*!
+   * Default mobile-first, responsive styling for pickadate.js
+   * Demo: http://amsul.github.io/pickadate.js
+   */
   /**
    * Note: the root picker element should *NOT* be styled more than what's here.
    */

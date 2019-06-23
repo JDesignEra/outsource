@@ -6,6 +6,7 @@ const services = db.define('service', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
         allowNull: false
     },
     uid: {
@@ -25,9 +26,6 @@ const services = db.define('service', {
     price: {
         type: Sequelize.DECIMAL,
         allowNull: false
-    },
-    posterURL: {
-        type: Sequelize.STRING,
     },
     category: {
         type: Sequelize.STRING,

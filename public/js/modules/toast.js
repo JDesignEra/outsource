@@ -23,7 +23,7 @@ let toast = (function() {
 
             if (toastMsgs['warning'] !== undefined) {
                 if (toastMsgs['warning'] instanceof Array) {
-                    $(toastMsgs['warning']).each(function() {
+                    $.each(toastMsgs['warning'], function() {
                         toastr['warning'](this);
                     });
                 }
@@ -34,7 +34,7 @@ let toast = (function() {
 
             if (toastMsgs['success'] !== undefined) {
                 if (toastMsgs['success'] instanceof Array) {
-                    $(toastMsgs['success']).each(function() {
+                    $.each(toastMsgs['success'], function() {
                         toastr['success'](this);
                     });
                 }
@@ -45,7 +45,7 @@ let toast = (function() {
 
             if (toastMsgs['error'] !== undefined) {
                 if (toastMsgs['error'] instanceof Array) {
-                    $(toastMsgs['error']).each(function() {
+                    $.each(toastMsgs['error'], function() {
                         toastr['error'](this);
                     });
                 }

@@ -8,6 +8,7 @@
 // CORE
 @import "core/mixins";
 @import "custom-variables";
+// @import "custom-colors";
 @import "core/colors";
 @import "core/variables";
 @import "core/global";
@@ -40,8 +41,8 @@
 // Free addons
 @import "addons/datatables";
 @import "addons/datatables-select";
-// @import "addons/directives";
-// @import "addons/hierarchical-display";
+@import "addons/directives";
+@import "addons/hierarchical-display";
 // @import "addons/flags";
 
 // PRO
@@ -80,7 +81,7 @@
 @import "pro/modules/megamenu/module";
 @import "pro/tooltips";
 
-@import "custom-skin";
+// @import "custom-skin";
 @import "pro/skins";
 @import "pro/depreciated";
 
@@ -99,7 +100,7 @@
 @import "pro/sections/contacts";
 
 // Pro addons
-// @import "addons-pro/steppers";
+@import "addons-pro/steppers";
 // @import "addons-pro/timeline";
 @import "addons-pro/cards-extended";
 // @import "addons-pro/chat";

@@ -6,8 +6,8 @@ const portfolio = db.define('portfolio', {
     id: {
         type: Sequelize.INTEGER,
         allowNull:false,
-        primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        primaryKey: true
     },
     uid: {
         type: Sequelize.INTEGER,

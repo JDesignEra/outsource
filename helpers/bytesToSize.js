@@ -1,3 +1,4 @@
+// bytesToSize by Joel
 module.exports = {
     convert: function(bytes, decimals = 0) {
         if (bytes === 0) return '0 Bytes';

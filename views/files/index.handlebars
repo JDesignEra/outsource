@@ -1,36 +1,13 @@
 <section class="files">
-    <div class="row mb-0 mb-md-4">
-        <div class="col-12 col-md-3">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search" name="search">
-                <div class="input-group-append">
-                    <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect" type="button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-9 mt-3 mt-md-0">
-            <nav>
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="">Home</a></li>
-                    <li class="breadcrumb-item active">Project 1</li>
-                </ol>
-            </nav>
-        </div>
-    </div>
-
     <div class="row">
-        <div class="col-12 col-md-3 my-4 my-md-0">
-            <div class="treeview card card-cascade narrower">
-                <div
-                    class="view view-cascade primary-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center">
+        <div class="col-12 col-md-2 my-4 my-md-0">
+            <div id="folders-card" class="card card-cascade narrower treeview">
+                <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center">
                     <span class="white-text mx-3">My Folders</span>
                 </div>
 
-                <a data-toggle="collapse" href="#folders">
-                    <h6 class="pt-3 pl-3">
+                <a class="link" data-toggle="collapse" data-target="#folders-tree">
+                    <h6 class="pt-2 pl-3 mb-0">
                         <i class="far fa-folders"></i> Folders
                         <i class="float-right pr-3 fas fa-angle-up rotate-icon"></i>
                     </h6>
@@ -38,7 +15,7 @@
 
                 <hr class="mb-0">
 
-                <ul class="mt-4 mb-1 pl-3 pb-2 collapse show" id="folders">
+                <ul id="folders-tree" class="mt-4 mb-1 pl-3 pb-2 collapse show">
                     <li>
                         <i class="fas fa-angle-right rotate"></i>
                         <span><i class="far fa-folder"></i> Project 1</span>
@@ -54,21 +31,32 @@
         </div>
 
         <div class="col-12 col-md-9 col-lg-7">
-            <div class="card card-cascade narrower">
-                <div
-                    class="view view-cascade primary-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center">
-                    <span class="white-text mx-3">Project 1</span>
+            <div id="files-card" class="card card-cascade narrower">
+                <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3">
+                    <ol class="breadcrumb justify-content-center align-items-center white-text transparent py-0 m-0">
+                        {{#if breadcrumbs}}
+                            {{#each breadcrumbs as |val key|}}
+                                <li class="breadcrumb-item text-capitalize">
+                                    {{#ifCond (concat @index '<' ../breadcrumbs.length '- 1')}}
+                                        <a href="{{lookup ../crumbLinks @index}}">{{ this }}</a>
+                                    {{else}}
+                                        {{ this }}
+                                    {{/ifCond}}
+                                </li>
+                            {{/each}}
+                        {{/if}}
+                    </ol>
                 </div>
 
-                <div class="card-body">
-                    <div class="table-responsive min-vh-40" style="overflow-x: hidden;">
-                        <div class="table-editable table-hover mb-0">
-                            <table id="filesTable" class="table table-striped text-center">
-                                <thead class="deep-purple lighten-5 white-text">
+                <div class="card-body p-0">
+                    <div class="table-responsive mt-2 scrollbar scrollbar-primary-gradient square thin mb-3">
+                        <div class="table-editable table-hover">
+                            <table id="files-table" class="table table-striped text-center mb-0">
+                                <thead class="deep-purple accent-3 white-text">
                                     <th class="d-none d-md-table-cell">
                                         <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="cAll">
-                                            <label class="form-check-label" for="cAll"></label>
+                                            <input id="checkAll" class="form-check-input" type="checkbox">
+                                            <label class="form-check-label" for="checkAll"></label>
                                         </div>
                                     </th>
                                     <th>Name</th>
@@ -80,55 +68,101 @@
                                 </thead>
                                 <tbody>
                                     <form method="post">
-                                        <!-- items -->
-                                            <!-- ToDo: Insert data rows -->
-                                            {{> _filesRow }}
+                                        {{> _filesRow }}
                                     </form>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+
+                    {{#if items}}
+                        <p class="text-center grey-text small font-weight-bold">End of table</p>
+                    {{/if}}
                 </div>
             </div>
         </div>
 
-        <div class="d-none d-md-block col-md-2 animated fadeIn">
-            <div class="card card-cascade narrower action-card sticky">
-                <div
-                    class="view view-cascade primary-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center">
+        <div class="d-none d-lg-block col-3 animated fadeIn">
+            <div id="action-card" class="card card-cascade narrower sticky">
+                <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center">
                     <span class="white-text mx-3">Actions</span>
                 </div>
 
                 <div class="card-body card-body-cascade p-0">
-                    <div class="defaultActions">
-                        <div class="list-group list-group-flush">
-                            <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#uploadModal">
-                                <i class="far fa-cloud-upload-alt"></i> Upload File(s)
-                            </button>
-                            <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newFileModal">
-                                <i class="far fa-file-plus"></i> New File
-                            </button>
-                            <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newFolderModal">
-                                <i class="far fa-folder-plus"></i> New Folder
-                            </button>
+                    <div class="input-group px-3 mt-2 mb-0">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text primary-light-gradient white-text">
+                                <i class="fas fa-search"></i>
+                            </span>
                         </div>
+                        
+                        <div class="md-form md-outline m-0">
+                            <input class="form-control border border-right" data-toggle="collapse" data-target="#action-search-filters" type="text" name="search">
+                            <label for="action-search">Search</label>
+                        </div>
+                    </div>
+
+                    <div id="action-search-filters" class="collapse mt-2">
+                        <h6 class="dropdown-header pl-3 pr-0 pb-3">Search Filters</h6>
+
+                        <div class="custom-control custom-checkbox">
+                            <input id="filter-all" type="checkbox" class="custom-control-input" checked>
+                            <label class="custom-control-label" for="filter-all">All</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <input id="filter-name" type="checkbox" class="custom-control-input" checked>
+                            <label class="custom-control-label" for="filter-name">Name</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <input id="filter-size" type="checkbox" class="custom-control-input" checked>
+                            <label class="custom-control-label" for="filter-size">Size</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <input id="filter-type" type="checkbox" class="custom-control-input" checked>
+                            <label class="custom-control-label" for="filter-type">Type</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <input id="filter-shared" type="checkbox" class="custom-control-input" checked>
+                            <label class="custom-control-label" for="filter-shared">Shared</label>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input id="filter-modified" type="checkbox" class="custom-control-input" checked>
+                            <label class="custom-control-label" for="filter-modified">Modified</label>
+                        </div>
+                    </div>
+
+                    <div class="list-group list-group-flush mt-3">
+                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#uploadModal">
+                            <i class="far fa-cloud-upload-alt"></i> Upload File(s)
+                        </button>
+                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newFileModal">
+                            <i class="far fa-file-plus"></i> New File
+                        </button>
+                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newFolderModal">
+                            <i class="far fa-folder-plus"></i> New Folder
+                        </button>
                     </div>
 
                     <hr class="my-0">
 
-                    <div class="cbActions animated fadeIn d-none">
+                    <div id="cb-actions" class="animated faster d-none">
                         <p class="mt-3 mb-1">
-                            <small id="selectCount" class="px-3 font-weight-bolder grey-text">0 File Selected</small>
+                            <small id="cb-count" class="px-3 font-weight-bolder grey-text">0 Item(s) Selected</small>
                         </p>
 
                         <div class="list-group list-group-flush">
-                            <button class="list-group-item list-group-item-action">
+                            <button class="download list-group-item list-group-item-action animated faster">
                                 <i class="far fa-cloud-download-alt"></i> Download
                             </button>
-                            <button class="list-group-item list-group-item-action">
-                                <i class="far fa-comments"></i> Comment
+                            <button class="comments list-group-item list-group-item-action animated faster">
+                                <i class="far fa-comments"></i> Comments
                             </button>
-                            <button class="list-group-item list-group-item-action">
+                            <button class="rename list-group-item list-group-item-action animated faster">
                                 <i class="far fa-i-cursor"></i> Rename
                             </button>
                             <button class="list-group-item list-group-item-action">
@@ -162,7 +196,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="files-upload" action="/files/upload" method="post" enctype="multipart/form-data">
+                    <form class="files-upload" action="{{ url }}/%3Fupload" method="post" enctype="multipart/form-data">
                         <input type="file" name="files" multiple />
                     </form>
                 </div>
@@ -218,14 +252,18 @@
                 </div>
 
                 <div class="modal-body">
-                    <form method="post">
+                    <form class="needs-validation" action="{{ url }}/%3Fnewfolder" method="post" novalidate>
                         <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Folder Name" name="name">
+                            <input class="form-control" type="text" placeholder="Folder Name" {{#if forms.name}}value="{{ forms.name }}"{{/if}} name="name">
 
                             <div class="input-group-append">
                                 <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
                                     <i class="far fa-file-plus mr-1"></i> Create Folder
                                 </button>
+                            </div>
+
+                            <div class="invalid-feedback">
+                                {{errors.name}}
                             </div>
                         </div>
                     </form>
@@ -277,12 +315,27 @@
 
 {{#extend "fixedAction"}}
 <!-- Mobile FAB Action -->
-<div class="dropdown fixed-bottom text-right d-block d-md-none" id="mobileActions">
+<div id="mobileActions" class="dropdown fixed-bottom text-right d-block d-lg-none">
     <button class="btn btn-floating primary-gradient dropdown-toggle" type="button" data-toggle="dropdown">
         <i class="fas fa-ellipsis-h"></i>
     </button>
 
-    <div class="dropdown-menu dropdown-primary mb-2">
+    <div class="dropdown-menu mb-2">
+        <div class="input-group input-group-sm px-2 mt-2 mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text primary-light-gradient white-text">
+                    <i class="fas fa-search"></i>
+                </span>
+            </div>
+            
+            <div class="md-form md-outline m-0">
+                <input id="mobile-search" class="form-control" type="text" name="search">
+                <label for="mobile-search">Search</label>
+            </div>
+        </div>
+
+        <hr class="mt-3 mb-2">
+
         <button class="dropdown-item" data-toggle="modal" data-target="#uploadModal">
             <i class="far fa-cloud-upload-alt"></i> Upload File(s)
         </button>
@@ -292,7 +345,9 @@
         <button class="dropdown-item" data-toggle="modal" data-target="#newFolderModal">
             <i class="far fa-folder-plus"></i> New Folder
         </button>
+
         <hr class="my-2">
+
         <div class="smooth-scroll">
             <a class="dropdown-item" href="#top">
                 <i class="fas fa-arrow-up"></i> To Top
@@ -303,7 +358,7 @@
 {{/extend}}
 
 {{#extend 'scripts'}}
-<script src="/js/vendor/mdb/datatables.min.js"></script>
-<script src="/js/vendor/mdb/datatables-select.min.js"></script>
+<script src="/js/vendor/mdb/modules/datatables.min.js"></script>
+<script src="/js/vendor/mdb/modules/datatables-select.min.js"></script>
 <script src="/js/files.js"></script>
 {{/extend}}

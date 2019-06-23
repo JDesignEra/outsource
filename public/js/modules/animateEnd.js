@@ -3,8 +3,9 @@ let animateEnd = (function() {
     'use strict';
     let publicFuncs = {};
 
-    publicFuncs.init = function () {
+    publicFuncs.init = function() {
         let el = document.createElement('fakeElement');
+        
         let animations = {
             "animation": "animationend",
             "OAnimation": "oAnimationEnd",

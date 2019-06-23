@@ -1,18 +1,117 @@
+// VARABILES
+// fonts
 $roboto-font-path: "/fonts/roboto/";
 
-$success-color: #009688 !default;
+// dividers
+// $hr-light: $white-base !default;
+// $hr-dark: #666 !default;
 
-$primary-color: #ac85f0 !default;
-$secondary-color: #6e2ae5 !default;
+// froms
+$input-border-color: #6200ea !default;
 
-$gradients: () !default;
-$gradients: map-merge((
+// navbars
+$navbar-font-weight: 400 !default;
+
+// COLORS
+$primary-color: #651fff !default;           // deep-purple accent-3
+$primary-color-dark: #6200ea !default;      // deep-purple accent-4
+$secondary-color: #b388ff !default;         // deep-purple accent-1
+$secondary-color-dark: #7c4dff !default;    // deep-purple accent-2
+$success-color: #009688 !default;           // teal base
+$success-color-dark: #00796b !default;      // teal darken-2
+$info-color: #00bcd4 !default;              // cyan base
+$info-color-dark: #0097a7 !default;        // cyan base-2
+
+$white-base: #fff !default;
+
+$material-colors: (
+  "primary-color": $primary-color,
+  "primary-color-dark": $primary-color-dark,
+  "secondary-color": $secondary-color,
+  "secondary-color-dark": $secondary-color-dark,
+  "success-color": $success-color,
+  "default-color": $primary-color,
+  "default-color-dark": $primary-color-dark,
+  "success-color-dark": $success-color-dark,
+  "info-color": $info-color,
+  "info-color-dark": $info-color-dark
+);
+
+$social-colors: (
+  "fb": #1877f2,
+  "tw": #1DA1F2,
+  "yt": #FF0000,
+  "li": #2867b2,
+  "pin": #E60023,
+  "ins": #f00075,
+  "git": #151013,
+  "vk": #4680C2,
+  "dribbble": #ea4c89,
+  "so": #f48023,
+  "slack": #4A154B,
+  "reddit": #FF4500,
+  "twitch": #6441a4,
+  "discord": #7289da
+);
+
+$mdb-colors: (
+  "primary": $primary-color,
+  "success": $success-color,
+  "info": $info-color,
+);
+
+$basic: (
+  "primary": $primary-color,
+  "success": $success-color,
+  "info": $info-color,
+  "default": $primary-color,
+);
+
+$basic-mdb-colors: (
+  "primary": $primary-color,
+  "success": $success-color,
+  "info": $info-color,
+  "default": $primary-color,
+  "secondary": $secondary-color
+);
+
+$pagination-colors: (
+  "primary": $primary-color
+);
+
+$ctbc: (
+  "tabs-primary": $primary-color,
+  "tabs-white": $white-base
+);
+
+$switch-colors: (
+  "bg": $primary-color,
+  "checked-lever-bg": desaturate(lighten($primary-color, 25%), 25%)
+);
+
+$dropdown-colors: (
+  "primary": $primary-color,
+  "secondary": $secondary-color,
+  "success": $success-color,
+  "info": $info-color,
+  "ins": map-get($social-colors, "ins")
+);
+
+$gradients: (
   "primary": (
-    "start": #b39ddb,
-    "end": #7873f5
+    "start": $secondary-color,
+    "end": $primary-color
   ),
-  "primary-light-1": (
-    "start": #d1c4e9,
-    "end": #7873f5
+  "primary-reverse": (
+    "start": $primary-color,
+    "end": $secondary-color
+  ),
+  "primary-light": (
+    "start": desaturate(lighten($secondary-color, 5%), 5%),
+    "end": desaturate(lighten($primary-color, 10%), 10%)
+  ),
+  "primary-reverse-light": (
+    "start": desaturate(lighten($primary-color, 10%), 10%),
+    "end": desaturate(lighten($secondary-color, 5%), 5%)
   )
-), $gradients);
+);
