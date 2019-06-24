@@ -117,7 +117,7 @@ module.exports = {
     },
     /* Joshua */
     radioCheck: function(value, radioValue){
-        if (value === radioValue){
+        if (value.includes(radioValue)){
             return 'checked';
         }
         else{

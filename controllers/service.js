@@ -42,29 +42,32 @@ module.exports = {
         let userId = req.user.id;
         let price = req.body.price;
         let category = req.body.categories.toString();
-        let posterURL = req.body.posterURL;
-
         Services.create({
             name,
             desc,
             price,
             uid: userId,
-            category,
-            posterURL
+            category
         }).then((services) => {
-            // Check if directory exists if not create directory
-            if (!fs.existsSync('./public/uploads/services/' + req.user.id)) {
-                fs.mkdirSync('./public/uploads/services/' + req.user.id);
+            if (req.file === undefined){
+                console.log('No upload')
             }
-            // Move file
-            let serviceId = services.id;
-            fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
+            else{
+                // Check if directory exists if not create directory
+                if (!fs.existsSync('./public/uploads/services/' + req.user.id)) {
+                    fs.mkdirSync('./public/uploads/services/' + req.user.id);
+                }
+                // Move file
+                let serviceId = services.id;
+                fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
+            }
             res.redirect('/services');
         })
             .catch(err => console.log(err))
     },
     edit: function (req, res) {
         Services.findOne({
+
             where: {
                 id: req.params.id
             }
@@ -93,15 +96,27 @@ module.exports = {
                     id: req.params.id
                 }
             }).then(() => {
-                req.flash('success', 'Changes saved successfully');
-                res.render('services/list');
+                if (req.file === undefined){
+                    console.log('No upload')
+                }
+                else{
+                    // Check if directory exists if not create directory
+                    if (!fs.existsSync('./public/uploads/services/' + req.user.id)) {
+                        fs.mkdirSync('./public/uploads/services/' + req.user.id);
+                    }
+                    // Move file
+                    let serviceId = services.id;
+                    fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
+                }
+                req.flash('success', 'Changes saved successfully!');
+                res.redirect('/services');
             }).catch(err => console.log(err));
     },
     delete: function (req, res) {
         Services.findOne({
             where: {
                 id: req.params.id,
-                userId: req.user.id
+                uid: req.user.id
             },
         }).then((services) => {
             if (services == null) {
@@ -114,7 +129,7 @@ module.exports = {
                         id: req.params.id
                     }
                 }).then((services) => {
-                    req.flash('success', 'Your service was successfully deleted');
+                    req.flash('success', 'Service successfully deleted!');
                     res.render('services/list');
                 })
             }

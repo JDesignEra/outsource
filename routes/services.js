@@ -7,13 +7,13 @@ const servicesController = require('../controllers/service.js');
 
 router.get('/', servicesController.index)
 
-router.get('/:uid/:id', servicesController.view)
+router.get('/view/:uid/:id', servicesController.view)
 
 router.get('/add', servicesController.add)
 
 router.post('/add', upload.single('serviceposter'), servicesController.addpost)
 
-router.get('/edit/:id', servicesController.edit)
+router.get('/edit/:id', upload.single('serviceposter'), servicesController.edit)
 
 router.put('/save/:id', servicesController.save)
 
