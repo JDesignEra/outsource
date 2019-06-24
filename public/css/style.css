@@ -246,18 +246,16 @@ section.home-hero .carousel-caption {
 }
 
 /* Files */
-section.files .action-card .list-group-item:hover {
-    color: #ffffff;
-    background-color: #ac85f0;
-}
-
-section.files .action-card .list-group-item:active {
-    color: #ffffff;
-    background-color: #6e2ae5;
-}
-
 section.files .action-card .list-group-item i {
     min-width: 20px;
+}
+
+section.files .breadcrumb-item+.breadcrumb-item::before {
+    color: #ffffff;
+}
+
+section.files #action-card .input-group-prepend .dropdown-toggle::after {
+    content: unset;
 }
 
 section.files .dataTables_wrapper .row {
@@ -271,7 +269,7 @@ section.files .dataTables_wrapper .col-sm-12 {
 }
 
 /* Mobile FAB */
-#mobileActions.fixed-bottom .dropdown-item i {
+#mobile-action.fixed-bottom .dropdown-item i {
     min-width: 18px;
 }
 

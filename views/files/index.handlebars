@@ -38,7 +38,7 @@
                             {{#each breadcrumbs as |val key|}}
                                 <li class="breadcrumb-item text-capitalize">
                                     {{#ifCond (concat @index '<' ../breadcrumbs.length '- 1')}}
-                                        <a href="{{lookup ../crumbLinks @index}}">{{ this }}</a>
+                                        <a class="white-text text-underline" href="{{lookup ../crumbLinks @index}}">{{ this }}</a>
                                     {{else}}
                                         {{ this }}
                                     {{/ifCond}}
@@ -89,50 +89,50 @@
                 </div>
 
                 <div class="card-body card-body-cascade p-0">
-                    <div class="input-group px-3 mt-2 mb-0">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text primary-light-gradient white-text">
-                                <i class="fas fa-search"></i>
-                            </span>
-                        </div>
-                        
+                    <div id="action-search" class="input-group px-3 mt-2 mb-0">
                         <div class="md-form md-outline m-0">
-                            <input class="form-control border border-right" data-toggle="collapse" data-target="#action-search-filters" type="text" name="search">
-                            <label for="action-search">Search</label>
-                        </div>
-                    </div>
-
-                    <div id="action-search-filters" class="collapse mt-2">
-                        <h6 class="dropdown-header pl-3 pr-0 pb-3">Search Filters</h6>
-
-                        <div class="custom-control custom-checkbox">
-                            <input id="filter-all" type="checkbox" class="custom-control-input" checked>
-                            <label class="custom-control-label" for="filter-all">All</label>
+                            <input class="form-control border border-right" type="text" name="search">
+                            <label>Search</label>
                         </div>
 
-                        <div class="custom-control custom-checkbox">
-                            <input id="filter-name" type="checkbox" class="custom-control-input" checked>
-                            <label class="custom-control-label" for="filter-name">Name</label>
-                        </div>
+                        <div class="input-group-prepend">
+                            <button class="btn btn-primary btn-md dropdown-toggle m-0" data-toggle="dropdown">
+                                <i class="far fa-filter"></i>
+                            </button>
 
-                        <div class="custom-control custom-checkbox">
-                            <input id="filter-size" type="checkbox" class="custom-control-input" checked>
-                            <label class="custom-control-label" for="filter-size">Size</label>
-                        </div>
+                            <div id="action-filters" class="search-filters dropdown-menu dropdown-menu-right px-3">
+                                <h6 class="dropdown-header px-0 pb-3">Search Filters</h6>
 
-                        <div class="custom-control custom-checkbox">
-                            <input id="filter-type" type="checkbox" class="custom-control-input" checked>
-                            <label class="custom-control-label" for="filter-type">Type</label>
-                        </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input filter-all" checked>
+                                    <label class="custom-control-label" for="filter-all">All</label>
+                                </div>
 
-                        <div class="custom-control custom-checkbox">
-                            <input id="filter-shared" type="checkbox" class="custom-control-input" checked>
-                            <label class="custom-control-label" for="filter-shared">Shared</label>
-                        </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input filter-name">
+                                    <label class="custom-control-label" for="filter-name">Name</label>
+                                </div>
 
-                        <div class="form-check mb-3">
-                            <input id="filter-modified" type="checkbox" class="custom-control-input" checked>
-                            <label class="custom-control-label" for="filter-modified">Modified</label>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input filter-size" checked>
+                                    <label class="custom-control-label" for="filter-size">Size</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input filter-type" checked>
+                                    <label class="custom-control-label" for="filter-type">Type</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input filter-shared" checked>
+                                    <label class="custom-control-label" for="filter-shared">Shared</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox mb-3">
+                                    <input type="checkbox" class="custom-control-input filter-modified" checked>
+                                    <label class="custom-control-label" for="filter-modified">Modified</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -225,7 +225,7 @@
                             <span class="input-group-text border-left-0 border-right-0 rounded-0">.</span>
                             <input class="form-control" type="text" placeholder="Extension" name="ext">
 
-                            <div class="input-group-append">
+                            <div class="input-group-prepend">
                                 <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
                                     <i class="far fa-file-plus mr-1"></i> Create File
                                 </button>
@@ -256,7 +256,7 @@
                         <div class="input-group">
                             <input class="form-control" type="text" placeholder="Folder Name" {{#if forms.name}}value="{{ forms.name }}"{{/if}} name="name">
 
-                            <div class="input-group-append">
+                            <div class="input-group-prepend">
                                 <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
                                     <i class="far fa-file-plus mr-1"></i> Create Folder
                                 </button>
@@ -315,22 +315,58 @@
 
 {{#extend "fixedAction"}}
 <!-- Mobile FAB Action -->
-<div id="mobileActions" class="dropdown fixed-bottom text-right d-block d-lg-none">
+<div id="mobile-action" class="dropdown fixed-bottom text-right d-block d-lg-none">
     <button class="btn btn-floating primary-gradient dropdown-toggle" type="button" data-toggle="dropdown">
         <i class="fas fa-ellipsis-h"></i>
     </button>
 
-    <div class="dropdown-menu mb-2">
-        <div class="input-group input-group-sm px-2 mt-2 mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text primary-light-gradient white-text">
-                    <i class="fas fa-search"></i>
-                </span>
+    <div id="mobile-action-menu" class="dropdown-menu mb-2">
+        <div id="mobile-search" class="px-2">
+            <div class="input-group input-group-sm mt-2 mb-3" data-toggle="collapse" data-target="#mobile-filters">
+                <div class="input-group-append">
+                    <span class="input-group-text primary-light-gradient white-text border border-0">
+                        <i class="far fa-search"></i>
+                    </span>
+                </div>
+
+                <div class="md-form form-sm md-outline m-0">
+                    <input class="form-control" type="text" name="search">
+                    <label>Search</label>
+                </div>
             </div>
-            
-            <div class="md-form md-outline m-0">
-                <input id="mobile-search" class="form-control" type="text" name="search">
-                <label for="mobile-search">Search</label>
+
+            <div id="mobile-filters" class="search-filters collapse">
+                <h6 class="dropdown-header px-0 pb-2">Search Filters</h6>
+
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input filter-all" checked>
+                    <label class="custom-control-label" for="filter-all">All</label>
+                </div>
+
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input filter-name">
+                    <label class="custom-control-label" for="filter-name">Name</label>
+                </div>
+
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input filter-size" checked>
+                    <label class="custom-control-label" for="filter-size">Size</label>
+                </div>
+
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input filter-type" checked>
+                    <label class="custom-control-label" for="filter-type">Type</label>
+                </div>
+
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input filter-shared" checked>
+                    <label class="custom-control-label" for="filter-shared">Shared</label>
+                </div>
+
+                <div class="custom-control custom-checkbox mb-3">
+                    <input type="checkbox" class="custom-control-input filter-modified" checked>
+                    <label class="custom-control-label" for="filter-modified">Modified</label>
+                </div>
             </div>
         </div>
 

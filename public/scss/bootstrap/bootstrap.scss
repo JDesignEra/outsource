@@ -1,20 +1,31 @@
+// bootstrap by Joel
 // VARIABLES
 $primary:       #651fff !default;
 $secondary:     #7c4dff !default;
 $success:       #009688 !default;
 $info:          #00bcd4 !default;
 $warning:       #ffbb33 !default;
-$danger:        #ff3547 !default;
+// $danger:        #dc3545 !default;
 
 $theme-colors: (
-  "primary":    #651fff,
-  "secondary":  #7c4dff,
-  "success":    #009688,
-  "info":       #00bcd4,
-  "warning":    #ffbb33,
-  "danger":     #ff3547
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  // "danger":     #ff3547
 );
 
+// spacing
+$spacer: 1rem !default;
+$spacers: (
+  6: ($spacer * 3.5),
+  7: ($spacer * 4),
+  8: ($spacer * 4.5),
+  9: ($spacer * 5)
+);
+
+// .h-* and .w-* class.
 $sizes: (
   5 : 5%,
   10: 10%,
@@ -33,6 +44,7 @@ $sizes: (
   95: 95%
 );
 
+// grid containers, .container max width
 $container-max-widths: (
   sm: 540px,
   md: 720px,
@@ -40,10 +52,21 @@ $container-max-widths: (
   xl: 1920px
 );
 
-$table-accent-bg: lighten(#b388ff, 15%);
-$table-hover-bg: lighten(#651fff, 30%);
+// tables
+$table-accent-bg: lighten(#b388ff, 20%);
+$table-hover-bg: lighten(#651fff, 37.5%);
+$dropdown-border-color: rgba(101, 31, 255, 0.15);
+
+// dropdowns
+// $dropdown-box-shadow: 0 5px 11px 0 rgba(92, 141, 255, 0.18), 0 4px 15px 0 rgba(23, 35, 64, 0.15) !default;
 
 // STYLES
+// DROPDOWN
+.dropdown-menu {
+  box-shadow: 0 5px 11px 0 rgba(92, 141, 255, 0.18), 0 4px 15px 0 rgba(23, 35, 64, 0.15);
+}
+
+// CUSTOM
 .vw-0 { width: 0vw !important; }
 .vw-5 { width: 5vw !important; }
 .vw-10 { width: 10vw !important; }

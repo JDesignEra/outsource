@@ -1,11 +1,11 @@
-<nav class="navbar navbar-expand-md navbar-dark z-depth-2 {{#ifCond 'url == "/"'}}home {{/ifCond}}fixed-top scrolling-navbar">
+<nav class="navbar navbar-expand-md navbar-dark z-depth-3{{#ifCond 'url == "/"'}} home{{/ifCond}} fixed-top scrolling-navbar">
 	<a class="navbar-brand" href="/"></a>
 
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
 		<i class="fas fa-bars"></i>
 	</button>
 
-	<div class="collapse navbar-collapse" id="nav">
+	<div id="nav" class="collapse navbar-collapse">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item{{#ifCond 'url === "/"'}} active{{/ifCond}}">
 				<a class="nav-link" href="/">Home</a>
@@ -18,15 +18,15 @@
 		{{#if user}}
 			<!-- Desktop -->
 			<li class="nav-item dropdown d-none d-md-block">
-				<a class="nav-link chip primary-reverse-light-gradient dropdown-toggle m-0 z-depth-1" data-toggle="dropdown">
+				<a class="nav-link chip primary-reverse-light-gradient dropdown-toggle m-0 z-depth-1-half" data-toggle="dropdown">
 					{{#ifFile (concat './public/uploads/profile/' user.id '.png') }}
-						<img class="deep-purple lighten-5 z-depth-1" src="/uploads/profile/{{user.id}}.png">
+						<img class="deep-purple lighten-5 z-depth-1-half" src="/uploads/profile/{{user.id}}.png">
 					{{else}}
 						<i class="fas fa-user animated faster"></i>
 					{{/ifFile}} {{user.username}}
 				</a>
 
-				<div class="dropdown-menu dropdown-primary dropdown-menu-right mt-1 z-depth-1">
+				<div class="dropdown-menu dropdown-primary dropdown-menu-right mt-1">
 					<a class="dropdown-item" href="/profile">
 						<i class="far fa-id-card mr-1"></i> My Profile
 					</a>
@@ -39,7 +39,7 @@
 					<a class="dropdown-item" href="/job">
 						<i class="far fa-briefcase mr-1"></i> Job Management
 					</a>
-					<hr>
+					<hr class="mt-0 mb-3">
 					<a class="dropdown-item text-danger" href="/logout">
 						<i class="far fa-power-off mr-1"></i> Sign Out
 					</a>
@@ -47,8 +47,8 @@
 			</li>
 
 			<!-- Mobile -->
-			<hr class="deep-purple accent-1 w-100 my-2 d-block d-md-none">
 			<li class="nav-item d-block d-md-none{{#ifStringContain url '/profile'}} active{{/ifStringContain}}">
+				<hr class="hr-light my-3">
 				<a class="nav-link" href="/profile">
 					<i class="far fa-id-card mr-1"></i> My Profile
 				</a>
@@ -77,23 +77,24 @@
 			</li>
 		{{else}}
 			<li class="nav-item">
-				<a class="btn btn-sm dusty-grass-gradient d-flex flex-fill justify-content-center align-items-center black-text" href="/register">
+				<hr class="hr-light d-md-none mt-3 mb-4">
+				<button class="btn btn-md btn-block dusty-grass-gradient black-text" href="/register">
 					<i class="far fa-user-plus mr-1"></i> Join
-				</a>
+				</button>
 			</li>
 			<!-- Mobile Login -->
-			<li class="nav-item d-lg-none">
-				<a class="btn btn-sm primary-gradient  d-flex flex-fill justify-content-center align-items-center " data-toggle="modal" data-target="#loginModel">
+			<li class="nav-item d-md-none my-2">
+				<button class="btn btn-md btn-block primary-gradient" data-toggle="modal" data-target="#loginModel">
 					<i class="far fa-sign-in-alt mr-1"></i> Sign In
-				</a>
+				</button>
 			</li>
 			<!-- Desktop Login -->
-			<li class="nav-item dropdown d-none d-lg-block">
-				<a class="btn btn-sm primary-gradient w-100 dropdown-toggle d-flex flex-fill justify-content-center align-items-center " href="#" role="button" data-toggle="dropdown">
+			<li class="nav-item dropdown">
+				<button class="btn btn-md primary-gradient d-none d-md-block m-0 ml-3" href="#" role="button" data-toggle="dropdown">
 					<i class="far fa-sign-in-alt mr-1"></i> Sign In
-				</a>
+				</button>
 
-				<div class="dropdown-menu dropdown-menu-right text-right z-depth-1 px-4 pt-4 pb-2">
+				<div class="dropdown-menu dropdown-menu-right text-right px-4 pt-4 pb-2">
 					<h6 class="text-left">SIGN IN</h6>
 					<div class="dropdown-divider mb-4"></div>
 
@@ -120,7 +121,7 @@
 							<small>Forgot Password?</small>
 						</a>
 
-						<button class="btn btn-outline-primary btn-rounded btn-block" type="submit">
+						<button class="btn btn-md btn-outline-primary btn-rounded btn-block" type="submit">
 							<i class="far fa-sign-in-alt"></i> Sign In
 						</button>
 					</form>
@@ -129,13 +130,13 @@
 					<div class="dropdown-divider"></div>
 
 					<div class="flex-fill text-center">
-						<button class="btn-floating btn-lg btn-fb" type="button">
+						<button class="btn-floating btn-md btn-fb" type="button">
 							<i class="fab fa-facebook-f"></i> Facebook
 						</button>
-						<button class="btn-floating btn-lg btn-tw" type="button">
+						<button class="btn-floating btn-md btn-tw" type="button">
 							<i class="fab fa-twitter"></i> Twitter
 						</button>
-						<button class="btn-floating btn-lg btn-git" type="button">
+						<button class="btn-floating btn-md btn-git" type="button">
 							<i class="fab fa-github"></i> Github
 						</button>
 					</div>
@@ -189,7 +190,7 @@
 						<small>Forgot Password?</small>
 					</a>
 
-					<button class="btn btn-outline-primary btn-rounded btn-block mt-4" type="submit">
+					<button class="btn btn-md btn-outline-primary btn-rounded btn-block mt-4" type="submit">
 						<i class="far fa-sign-in-alt"></i> Sign In
 					</button>
 
@@ -198,13 +199,13 @@
 					<hr class="my-2">
 
 					<div class="flex-fill text-center">
-						<button class="btn-floating btn-lg btn-fb" type="button">
+						<button class="btn-floating btn-md btn-fb" type="button">
 							<i class="fab fa-facebook-f"></i> Facebook
 						</button>
-						<button class="btn-floating btn-lg btn-tw" type="button">
+						<button class="btn-floating btn-md btn-tw" type="button">
 							<i class="fab fa-twitter"></i> Twitter
 						</button>
-						<button class="btn-floating btn-lg btn-git" type="button">
+						<button class="btn-floating btn-md btn-git" type="button">
 							<i class="fab fa-github"></i> Github
 						</button>
 					</div>
