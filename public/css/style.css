@@ -254,7 +254,7 @@ section.files .breadcrumb-item+.breadcrumb-item::before {
     color: #ffffff;
 }
 
-section.files #action-card .input-group-append .dropdown-toggle::after {
+section.files #action-card .input-group-prepend .dropdown-toggle::after {
     content: unset;
 }
 

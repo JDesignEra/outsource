@@ -1,5 +1,4 @@
 // _custom-styles by Joel
-
 main {
     min-height: calc(100vh - (3rem * 2 + 74.203px));
 }
@@ -61,49 +60,58 @@ a {
     }
 }
 
+// BUTTONS
+.btn {
+    box-shadow: $z-depth-1-half;
+    &:hover,
+    &:active,
+    &:focus {
+        box-shadow: $z-depth-2;
+    }
+
+    &:not([disabled]):not(.disabled):active,
+    &:not([disabled]):not(.disabled).active {
+        box-shadow: $z-depth-2;
+    }
+
+    &.disabled,
+    &:disabled {
+        &:active,
+        &:focus,
+        &:hover {
+            box-shadow: $z-depth-1-half;
+        }
+    }
+}
+
+.btn-floating {
+    border: none;
+}
+
 // CARDS-BASIC
 .card .list-group-item:hover {
     color: #ffffff;
     background-color: map-get($basic, "primary");
 }
 
-// TABLES
-table {
-    th {
-        font-weight: 500;
-        vertical-align: middle;
-    }
-    td {
-        font-weight: 400;
-        vertical-align: middle;
-    }
-    &.table {
-        td {
-            padding-top: .8rem;
-            padding-bottom: .8rem;
+// DROPDOWNS
+.dropdown,
+.dropup,
+.dropleft,
+.dropright {
+    .dropdown-menu {
+        @each $name, $colors in $dropdown-colors {
+            &.dropdown-#{$name} {
+                .dropdown-item {
+                    &:hover,
+                    &:active,
+                    &.active {
+                        box-shadow: $z-depth-2;
+                    }
+                }
+            }
         }
     }
-}
-
-table.table td .form-check-input[type="checkbox"]+label,
-table.table th .form-check-input[type="checkbox"]+label {
-    height: 1rem;
-}
-
-// BUTTONS
-.btn-floating {
-    border: none;
-}
-
-// CUSTOM
-// test
-.text-underline {
-    text-decoration: underline;
-}
-
-// background
-.transparent {
-    background-color: transparent !important;
 }
 
 // FORMS
@@ -167,7 +175,54 @@ table.table th .form-check-input[type="checkbox"]+label {
     }
 }
 
-// OVERWRITE
+// FOOTERS
+footer {
+    &.page-footer {
+        box-shadow: 0 -5px 11px 0 rgba(92, 141, 255, 0.18), 0 -4px 15px 0 rgba(23, 35, 64, 0.15);
+        background-color: desaturate(darken(map-get($material-colors, "primary-color"), 25%), 90%);
+    }
+}
+
+// TABLES
+table {
+    th {
+        font-weight: 500;
+        vertical-align: middle;
+    }
+    td {
+        font-weight: 400;
+        vertical-align: middle;
+    }
+    &.table {
+        td {
+            padding-top: .8rem;
+            padding-bottom: .8rem;
+        }
+    }
+}
+
+table.table td .form-check-input[type="checkbox"]+label,
+table.table th .form-check-input[type="checkbox"]+label {
+    height: 1rem;
+}
+
+// CUSTOM ADD-ON
+// text
+.text-underline {
+    text-decoration: underline;
+}
+
+// background
+.transparent {
+    background-color: transparent !important;
+}
+
+// hr
+.hr-primary {
+    border-top: 1px solid map-get($basic, "primary");
+}
+
+// CUSTOM OVERWRITE
 // form validation
 .invalid-tooltip,
 .valid-tooltip {
@@ -261,11 +316,6 @@ table.table th .form-check-input[type="checkbox"]+label {
     .md-toast-top-right {
         top: 4rem;
     }
-}
-
-// chip
-.chip img {
-    margin-left: -10px;
 }
 
 // select
