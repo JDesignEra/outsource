@@ -1,6 +1,7 @@
 // _custom-styles by Joel
 main {
-    min-height: calc(100vh - (3rem * 2 + 74.203px));
+    // 100 vh - margin-top - margin-bottom
+    min-height: calc(100vh - (74.203px + 3rem + 1.5rem));
 }
 
 // navbar
