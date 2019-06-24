@@ -1,45 +1,107 @@
 <section class="submit-projects">
-    <div class="row white p-4 border-red rounded">
+    <form method="POST">
+        <div class="row justify-content-around">
+            <div class="form-group col-12">
+                <label for="title"> Title </label>
+                <input type="text" class="form-control" name="title" id="title" aria-describedby="helpId"
+                    placeholder="Project Title">
+            </div>
+            <div class="col-12">
+                <!-- Material inline 1 -->
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="Graphics">
+                    <label class="form-check-label" for="Graphics">Graphics & Design </label>
+                </div>
 
-        <button id="" class="btn btn-light fas m-1 fa-bold" onclick="execFunc('bold');"></button>
-        <button id="" class="btn btn-light fas m-1 fa-italic" onclick="execFunc('italic');"></button>
-        <button id="" class="btn btn-light fas m-1 fa-underline" onclick="execFunc('underline');"></button>
+                <!-- Material inline 2 -->
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="Writing">
+                    <label class="form-check-label" for="Writing">Writing & Translation</label>
+                </div>
 
-        <button class="btn btn-light fas fa-align-left" onclick="execFunc('justifyLeft');"></button>
+                <!-- Material inline 3 -->
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="Video">
+                    <label class="form-check-label" for="Video">Video & Animation</label>
+                </div>
 
-        <button class="btn btn-light fas fa-align-center" onclick="execFunc('justifyCenter');"></button>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="Music">
+                    <label class="form-check-label" for="Music">Music & Audio </label>
+                </div>
 
-        <button class="btn btn-light fas fa-align-right" onclick="execFunc('justifyRight');"></button>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="Programming">
+                    <label class="form-check-label" for="Programming">Programming & Tech</label>
+                </div>
+            </div>
 
-        <button class="btn btn-light fas fa-list-ul" onclick="execFunc('insertUnorderedList');"></button>
-        <button class="btn btn-light fas fa-list-ol" onclick="execFunc('insertOrderedList');"></button>
+            {{!-- 
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Example select</label>
+                <select class="browser-default custom-select custom-select-sm">
+                    <option selected>Graphics/option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div> --}}
+        </div>
 
-        <div class="col-2 align-self-center border-red">
+        <div class="row white p-4 border-red rounded">
 
-            <select class="custom-select-sm browser-default">
+            <button id="" class="btn btn-light fas m-1 fa-bold" onclick="execFunc('bold');"></button>
+            <button id="" class="btn btn-light fas m-1 fa-italic" onclick="execFunc('italic');"></button>
+            <button id="" class="btn btn-light fas m-1 fa-underline" onclick="execFunc('underline');"></button>
+
+            <button class="btn btn-light fas fa-align-left" onclick="execFunc('justifyLeft');"></button>
+
+            <button class="btn btn-light fas fa-align-center" onclick="execFunc('justifyCenter');"></button>
+
+            <button class="btn btn-light fas fa-align-right" onclick="execFunc('justifyRight');"></button>
+
+            <button class="btn btn-light fas fa-list-ul" onclick="execFunc('insertUnorderedList');"></button>
+            <button class="btn btn-light fas fa-list-ol" onclick="execFunc('insertOrderedList');"></button>
+
+            {{!-- <button class="btn btn-light fas fa-image" onclick="">
+            <form class="files-upload" data-autosubmit="false" method="post" enctype="multipart/form-data">
+                <input type="file" name="imagestuff" id="imagestuff" />
+            </form>
+        </button> --}}
+
+            <button class="btn btn-light fas fa-image" onclick="uploadImage(); "></button>
+
+
+            {{!-- <select class="custom-select-sm browser-default">
                 <option selected>Open this select menu</option>
                 <option value="1">One</option>
                 <option value="2">Two</option>
                 <option value="3">Three</option>
-            </select>
+            </select> --}}
 
         </div>
 
+        <div class="row grey lighten-5 p-4 overflow-auto border-red" onload="enableEditMode();">
+
+            <iframe name="projectContent" id="projectContent" class="form-control vh-80 w-100 z-depth-2"
+                onkeydown="getHTML()" onkeyup="updateTextArea();">
+            </iframe>
 
 
-    </div>
 
-    <div class="row grey lighten-5 p-4" onload="enableEditMode();">
-
-        <iframe name="test1" id="test1" class="vh-90 w-100 col-8 z-depth-2" onkeydown="showedit()">
-
-        </iframe>
-
-        <div class="col-3">
-
+            <textarea name="content" id="content" cols="30" rows="10" style="display: none"></textarea>
+            </textarea>
         </div>
-    </div>
 
+        <div class="row">
+            <div class="col-12">
+                <button class="btn btn-block btn-success" onclick="getHTML(); event.preventDefault();"> Eh </button>
+                <button type="submit" class="btn btn-block btn-success" onclick="updateTextArea()"> Submit </button>
+
+            </div>
+        </div>
+
+    </form>
     {{#extend 'scripts'}}
 
     <script src="/js/submitProject.js"></script>
