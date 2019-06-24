@@ -4,17 +4,17 @@ let fileInput = (function() {
     let publicFuncs = {};
     
     publicFuncs.init = function() {
-        let focuses = [];
-
+        let focuses;
+        
         if ($('.files-upload')[0] !== undefined) {
-            focuses = focuses.concat($('.files-upload').toArray());
+            focuses = $('.files-upload');
         }
 
         if ($('.file-upload')[0] !== undefined) {
-            focuses = focuses.concat($('.file-upload').toArray());
+            focuses = focuses === undefined ? $('.file-upload') : focuses.add($('.file-upload'));
         }
 
-        $.each(focuses, function() {
+        focuses.each(function() {
             let _this = $(this);
 
             _this.prepend('<div class="wrapper card card-body primary-gradient view overlay text-center z-depth-2">' +
@@ -41,11 +41,19 @@ let fileInput = (function() {
             // Attach EvenListener
             let input = _this.children('input[type=file]');
             let wrapper = _this.children('.wrapper');
-            let invalid = $(wrapper).children('.invalid-tooltip');
-            let preview = $(wrapper).children('.preview');
-            let renderer = $(preview).children('.renderer');
+            let invalid = wrapper.children('.invalid-tooltip');
+            let preview = wrapper.children('.preview');
+            let renderer = preview.children('.renderer');
+            
+            // Checks for proper multiple attribute based on class.
+            if (input.attr('multiple') && _this.hasClass('file-upload')) {
+                input.removeAttr('multiple');
+            }
+            else if (!input.attr('multiple') && _this.hasClass('files-upload')) {
+                input.prop('multiple', true);
+            }
 
-            $(_this).on({
+            _this.on({
                 'dragover dragenter': function(e) {
                     e.originalEvent.dataTransfer.dropEffect = 'copy';
 
@@ -63,7 +71,7 @@ let fileInput = (function() {
                     let error;
                     let files = e.originalEvent.dataTransfer.files || (event.dataTransfer && event.dataTransfer.files) || e.target.files;
                     
-                    if ($(_this).hasClass('file-upload') && files.length > 1) {
+                    if (_this.hasClass('file-upload') && files.length > 1) {
                         error = 'Only 1 file upload is allow.';
                     }
                     else if (input.attr('accept')) {
@@ -122,14 +130,14 @@ let fileInput = (function() {
                     filesName.push(this.files[x].name);
                 }
 
-                $(_this).children('.wrapper').addClass('has-preview');
+                _this.children('.wrapper').addClass('has-preview');
                 preview.find('.filename').html(filesName.join('<br />'));
                 preview.addClass('d-block');
 
                 // Find parent form of current element and submit.
-                let findForm = $(_this);
+                let findForm = _this;
 
-                if ($(_this).data('autosubmit') != false) {
+                if (_this.data('autosubmit') != false) {
                     while (!findForm.is('form')) {
                         findForm = findForm.parent();
                     }
@@ -138,14 +146,14 @@ let fileInput = (function() {
                 }
             });
             
-            $(_this).hover(function() {
+            _this.hover(function() {
                 if (renderer.has('img')) {
                     preview.removeClass('d-none');
                 }
             });
 
             // Attach EventListener to button remove.
-            let btnRemove = $(_this).find('button.remove');
+            let btnRemove = _this.find('button.remove');
 
             btnRemove.on('click', function(e) {
                 e.stopPropagation();
