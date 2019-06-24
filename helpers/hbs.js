@@ -109,7 +109,7 @@ module.exports = {
         let partialsDir = readdirSync(p).filter(f => lstatSync(join(p, f)).isDirectory());
         partialsDir.push(join(p));
 
-        for (let i = 0; i < partialsDir.length - 1; i++) {
+        for (let i = 0, n = partialsDir.length; i < n - 1; i++) {
             partialsDir[i] = join(p, partialsDir[i]);
         }
 

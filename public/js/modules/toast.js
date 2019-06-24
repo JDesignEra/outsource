@@ -1,58 +1,28 @@
 // toast by Joel
+/**
+ * * Takes in toastMsgs variable from base.handlebars.
+ * * toastMsgs variable gets dictionary object,
+ * * it can be found it app.js ( Render Engine Global Variable ).
+*/
 let toast = (function() {
     'use strict';
     let publicFuncs = {};
     
     publicFuncs.init = function() {
-        if (toastMsgs !== undefined) {
+        if (typeof toastMsgs !== 'undefined') {
             toastr.options = {
                 'closeButton': true,
                 'progressBar': true
             }
 
-            if (toastMsgs['info'] !== undefined) {
-                if (toastMsgs['info'] instanceof Array) {
-                    $(toastMsgs['info']).each(function() {
-                        toastr['info'](this);
-                    });
+            Object.keys(toastMsgs).forEach(function(key) {
+                if (['info', 'warning', 'success', 'error'].includes(key)) {
+                    let _this = toastMsgs[key];
+                    for (let i = 0, n = _this.length; i < n; i++) {
+                        toastr[key](_this[i]);
+                    }
                 }
-                else {
-                    toastr['info'](this);
-                }
-            }
-
-            if (toastMsgs['warning'] !== undefined) {
-                if (toastMsgs['warning'] instanceof Array) {
-                    $.each(toastMsgs['warning'], function() {
-                        toastr['warning'](this);
-                    });
-                }
-                else {
-                    toastr['warning'](toastr['warning']);
-                }
-            }
-
-            if (toastMsgs['success'] !== undefined) {
-                if (toastMsgs['success'] instanceof Array) {
-                    $.each(toastMsgs['success'], function() {
-                        toastr['success'](this);
-                    });
-                }
-                else{
-                    toastr['success'](toastMsgs['success']);
-                }
-            }
-
-            if (toastMsgs['error'] !== undefined) {
-                if (toastMsgs['error'] instanceof Array) {
-                    $.each(toastMsgs['error'], function() {
-                        toastr['error'](this);
-                    });
-                }
-                else {
-                    toastr['error'](toastMsgs['error']);
-                }
-            }
+            });
         }
     }
 

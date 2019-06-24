@@ -1,6 +1,6 @@
 {
   "name": "outsource",
-  "version": "5.5.1",
+  "version": "5.6.0",
   "description": "This is for OOADP Project",
   "main": "app.js",
   "scripts": {
@@ -31,7 +31,7 @@
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
     "passport-local": "^1.0.0",
-    "sequelize": "^5.8.5",
+    "sequelize": "^6.0.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
@@ -41,7 +41,6 @@
     "gulp-nodemon": "^2.4.2",
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.0.2",
-    "node-sass": "^4.12.0",
-    "wrench": "^1.5.9"
+    "node-sass": "^4.12.0"
   }
 }

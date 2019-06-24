@@ -99,7 +99,7 @@ app.use(function(req, res, next) {
 		}
 	});
 
-	res.locals.toast = toast;
+	res.locals.toast = Object.keys(toast).length > 0 ? toast : null;
 	
 	next();
 });

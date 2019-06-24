@@ -1,4 +1,5 @@
-/* files page collapse */
+// files by Joel
+// files page collapse
 $(function() {
     $('a[data-toggle="collapse"][data-target="#folders-tree"]', '#folders-card').on('click', function() {
         let focus = $(this).find('i[class*="rotate-icon"]');
@@ -43,8 +44,11 @@ $(function() {
 
     tableInit();
 
+    let tableResponsive = $('.table-responsive', '#files-card');
     let rows = $('tbody tr', '#files-table');
     let i = 1;
+
+    tableResponsive.addClass('overflow-x-hidden');
 
     $(rows[0]).removeClass('d-none');
     $(rows[0]).addClass('flipInX').one(animationEnd, function() {
@@ -61,6 +65,11 @@ $(function() {
         i++;
 
         if (i > rows.length - 1) {
+            setTimeout(function() {
+                tableResponsive.removeClass('overflow-x-hidden');
+                clearTimeout(this);
+            }, 500);
+            
             clearInterval(this);
         }
     }, 250);
@@ -77,13 +86,11 @@ $(function() {
             });
         });
     });
-});
 
-// Checkbox
-$(function() {
+    // Checkbox
     let focuses = $('input[type="checkbox"][name="fid"]', '#files-table');
 
-    $('input[type="checkbox"]#checkAll', '#files-table').on('change', function() {
+    $('input#check-all', '#files-table').on('change', function() {
         if ($(this).prop('checked') === true) {
             focuses.prop('checked', true);
         }
@@ -159,55 +166,168 @@ $(function() {
 
 // Search
 $(function() {
-    let focuses = $('input[name="search"]');
+    let searchInput = $('input[name="search"]');
+    let trs = $('tbody tr', '#files-table');
 
-    focuses.on('keyup', function() {
-        let tr = $('tbody tr', '#files-table');
-        let val = $(this).val();
+    let filterCheckboxes = $('.filter-all, .filter-name, .filter-size, .filter-type, .filter-shared, .filter-modified');
+    let filters = ['name', 'size', 'type', 'shared', 'modified'];
 
-        // Tie both value and label animation together
-        focuses.val(val);
-        
-        if ($(this).val() !== '') {
-            $(focuses).next().addClass('active');
+    // Filters
+    $('.search-filters').on('click', function(e) {
+        return false;
+    });
+
+    filterCheckboxes.parent().on('click', function() {
+        let checkbox = $(this).children('input[type="checkbox"]');
+
+        if (checkbox.is(':checked')) {
+            if (checkbox.hasClass('filter-all')) {
+                $('.filter-all').prop('checked', false);
+                $('.filter-name').prop('checked', false);
+                $('.filter-size').prop('checked', false);
+                $('.filter-type').prop('checked', false);
+                $('.filter-shared').prop('checked', false);
+                $('.filter-modified').prop('checked', false);
+
+                filters = [];
+            }
+            else if (checkbox.hasClass('filter-name')) {
+                $('.filter-name').prop('checked', false);
+
+                filters.splice($.inArray('name', filters), 1);
+            }
+            else if (checkbox.hasClass('filter-size')) {
+                $('.filter-size').prop('checked', false);
+
+                filters.splice($.inArray('size', filters), 1);
+            }
+            else if (checkbox.hasClass('filter-type')) {
+                $('.filter-type').prop('checked', false);
+
+                filters.splice($.inArray('type', filters), 1);
+            }
+            else if (checkbox.hasClass('filter-shared')) {
+                $('.filter-shared').prop('checked', false);
+
+                filters.splice($.inArray('shared', filters), 1);
+            }
+            else if (checkbox.hasClass('filter-modified')) {
+                $('.filter-modified').prop('checked', false);
+
+                filters.splice($.inArray('modified', filters), 1);
+            }
         }
         else {
-            $(focuses).next().removeClass('active');
+            if (checkbox.hasClass('filter-all')) {
+                checkbox.prop('checked', true);
+                $('.filter-all').prop('checked', true);
+                $('.filter-name').prop('checked', true);
+                $('.filter-size').prop('checked', true);
+                $('.filter-type').prop('checked', true);
+                $('.filter-shared').prop('checked', true);
+                $('.filter-modified').prop('checked', true);
+
+                filters = ['name', 'size', 'type', 'shared', 'modified'];
+            }
+            else if (checkbox.hasClass('filter-name')) {
+                $('.filter-name').prop('checked', true);
+
+                if (!filters.includes('name')) {
+                    filters.push('name');
+                }
+            }
+            else if (checkbox.hasClass('filter-size')) {
+                $('.filter-size').prop('checked', true);
+
+                if (!filters.includes('size')) {
+                    filters.push('size');
+                }
+            }
+            else if (checkbox.hasClass('filter-type')) {
+                $('.filter-type').prop('checked', true);
+
+                if (!filters.includes('type')) {
+                    filters.push('type');
+                }
+            }
+            else if (checkbox.hasClass('filter-shared')) {
+                $('.filter-shared').prop('checked', true);
+
+                if (!filters.includes('shared')) {
+                    filters.push('shared');
+                }
+            }
+            else if (checkbox.hasClass('filter-modified')) {
+                $('.filter-modified').prop('checked', true);
+
+                if (!filters.includes('modified')) {
+                    filters.push('modified');
+                }
+            }
         }
 
-        // Search function
-        tr.each(function() {
-            if (val){
-                let td = $(this).children('td:not(.dropleft,:has(input))');
+        autocomplete(searchInput, trs, filters);
+        $('input[name="search"]').trigger('keyup');
+        return false;
+    });
+
+    // Mobile filter
+    $('button[data-toggle]', '#mobile-search').on('click', function() {
+        $(this).next().toggle();
+        return false;
+    });
+
+    // Autocomplete
+    autocomplete(searchInput, trs, filters);
+
+    // Search Function
+    searchInput.on('keyup', function() {
+        let _this = $(this);
+        let val = _this.val().toLowerCase();
+
+        // Tie both value and llabel state together
+        searchInput.val(val);
+        
+        if (_this.val() !== '') {
+            searchInput.parent().find('label').addClass('active');
+        }
+        else {
+            searchInput.parent().find('label').removeClass('active');
+        }
+
+        trs.each(function() {
+            let _this = $(this);
+
+            if (val) {
+                let tds = _this.children('td:not([headers="select"], [headers="actions"])');
                 let show = false;
 
-                $(this).removeClass('fadeIn');
-                $(this).removeClass('fadeOut');
+                for (let i = 0, n = tds.length; i < n && !show; i++) {
+                    td = $(tds[i]);
 
-                for (let i = 0; i < td.length && !show; i++) {
-                    if ($(td[i]).text().toLowerCase().indexOf(val) > -1) {
+                    if (td.text().toLowerCase().indexOf(val) > -1 && filters.includes(td.attr('headers'))) {
                         show = true;
                     }
                 }
                 
-                if (show && $(this).attr('style')) {
-                    $(this).removeAttr('style');
+                if (show && _this.attr('style')) {
+                    _this.removeAttr('style');
 
-                    $(this).addClass('flipInX').one(animationEnd, function() {
-                        $(this).removeClass('flipInX');
+                    _this.addClass('flipInX').one(animationEnd, function() {
+                        _this.removeClass('flipInX');
                     });
                 }
-                else if (!show && typeof $(this).attr('style') === 'undefined') {
-                    $(this).addClass('flipOutX').one(animationEnd, function() {
-                        $(this).removeClass('flipOutX');
-                        $(this).prop('style', 'display: none !important;');
+                else if (!show && typeof _this.attr('style') === 'undefined') {
+                    _this.addClass('flipOutX').one(animationEnd, function() {
+                        _this.removeClass('flipOutX');
+                        _this.prop('style', 'display: none !important;');
                     });
                 }
             }
             else {
-                if ($(this).attr('style')) {
-                    $(this).removeAttr('style');
-                    $(this).addClass('flipInX').one(animationEnd, function() {
+                if (_this.attr('style')) {
+                    _this.removeAttr('style');
+                    _this.addClass('flipInX').one(animationEnd, function() {
                         $(this).removeClass('flipInX');
                     });
                 }
@@ -215,91 +335,59 @@ $(function() {
         });
     });
 
-    // Filters
-    // ToDo: Fix Search Filters Not Propagating issue.
-    $('.filter-all, .filter-name, .filter-size, .filter-type, .filter-shared, .filter-modified').on('click', function() {
-        let _this = $(this);
-        let sameId = $('[id=".' + $(this).attr('id') + '"]');
+    // Autocomplete
+    function autocomplete(searchInput, trs, filters) {
+        let autocomplete = [];
 
-        switch (_this.attr('id')) {
-            case 'filter-all':
-                if (_this.is(':checked')) {
-                    sameId.prop('checked', true);
-                    $('.filter-name').prop('checked', true);
-                    $('.filter-size').prop('checked', true);
-                    $('.filter-type').prop('checked', true);
-                    $('.filter-shared').prop('checked', true);
-                    $('.filter-modified').prop('checked', true);
+        trs.each(function() {
+            let tds = $(this).children('td:not([headers="select"], [headers="actions"])');
+
+            for (let i = 0, n = tds.length; i < n; i++) {
+                header = $(tds[i]).attr('headers');
+
+                if (filters.includes(header)) {
+                    if (!autocomplete.hasOwnProperty(header)) {
+                        autocomplete[header] = [$(tds[i]).text()];
+                    }
+                    else {
+                        autocomplete[header].push($(tds[i]).text());
+                    }
                 }
-                else {
-                    sameId.prop('checked', false);
-                    $('.filter-name').prop('checked', false);
-                    $('.filter-size').prop('checked', false);
-                    $('.filter-type').prop('checked', false);
-                    $('.filter-shared').prop('checked', false);
-                    $('.filter-modified').prop('checked', false);
-                }
-                break;
-        
-            default:
-                break;
+            }
+        });
+
+        let data = Object.keys(autocomplete).reduce(function(arr, k) {
+            return Array.from(new Set(arr.concat(autocomplete[k])));
+        }, []);
+
+        let wrapper = $('.mdb-autocomplete-wrap');
+        wrapper.remove();
+
+        searchInput.mdbAutocomplete({ data: data });
+
+        if (wrapper.length > 0) {
+            wrapper.on('click', function(e) {
+                return false;
+            });
         }
-    });
-
-    // Desktop filter
-    $('.search-filters', '#action-search').on('click', function(e) {
-        e.stopPropagation();
-    });
-
-    // Mobile filter
-    let dropdown = $('#mobile-action > .dropdown-menu');
-    let filters = $('.search-filters', "#mobile-search");
-    let filtersHeight = 0;
-
-    $('.input-group', '#mobile-search').on('click', function(e) {
-        filters.collapse('toggle');
-    });
-
-    filters.on('show.bs.collapse', function(e) {
-        console.log(e.target.attr('class'));
-        
-        let translate3d = dropdown.css('transform').split(',');
-        let tx = parseInt(translate3d[4]);
-        let ty = parseInt(translate3d[5]);
-        filtersHeight = filters.height();
-        translate3d = 'translate3d(' + tx +'px, ' + (ty - filtersHeight) + 'px, 0px)';
-
-        dropdown.css('transform', translate3d);
-    });
-
-    filters.on('hide.bs.collapse', function() {
-        let translate3d = dropdown.css('transform').split(',');
-        let tx = parseInt(translate3d[4]);
-        let ty = parseInt(translate3d[5]);
-        translate3d = 'translate3d(' + tx +'px, ' + (ty + filtersHeight) + 'px, 0px)';
-
-        dropdown.css('transform', translate3d);
-    });
-
-    $('#mobile-search', '#mobile-action').on('click', function(e) {
-        e.stopPropagation();
-    });
+    }
 });
 
 // Show Modal if url contains modal id
 $(function() {
-    let focus = window.location.href.split('/').pop();
+    let url = window.location.href;
+    param = url.slice(url.lastIndexOf('/') + 1);
     
-    if (focus === '%3Fupload') {
-        history.replaceState(null, '', window.location.href.replace('/%3Fupload', ''));
+    if (param === '%3Fupload') {
+        history.replaceState(null, '', url.replace('/%3Fupload', ''));
         $('#uploadModal').modal('show');
     }
-    else if (focus === '%3Fnewfile') {
-        history.replaceState(null, '', window.location.href.replace('/%3Fnewfile', ''));
+    else if (param === '%3Fnewfile') {
+        history.replaceState(null, '', url.replace('/%3Fnewfile', ''));
         $('#newFileModal').modal('show');
     }
-    else if (focus === '%3Fnewfolder') {
-        history.replaceState(null, '', window.location.href.replace('/%3Fnewfolder', ''));
+    else if (param === '%3Fnewfolder') {
+        history.replaceState(null, '', url.replace('/%3Fnewfolder', ''));
         $('#newFolderModal').modal('show');
     }
 });

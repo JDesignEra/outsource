@@ -4,23 +4,7 @@ let validation = (function() {
     let publicFuncs = {};
     
     publicFuncs.init = function() {
-        let focuses = [];
-
-        if ($('form .invalid-tooltip')[0] !== undefined) {
-            focuses = focuses.concat($('form .invalid-tooltip').toArray());
-        }
-
-        if ($('form .valid-tooltip')[0] !== undefined) {
-            focuses = focuses.concat($('form .invalid-tooltip').toArray());
-        }
-
-        if ($('form .invalid-feedback')[0] !== undefined) {
-            focuses = focuses.concat($('form .invalid-feedback').toArray());
-        }
-
-        if ($('form .valid-feedback')[0] !== undefined) {
-            focuses = focuses.concat($('form .invalid-feedback').toArray());
-        }
+        let focuses = $('form .invalid-tooltip, form .invalid-tooltip, form .invalid-feedback, form .invalid-feedback');
 
         responsive(focuses);
 
@@ -28,7 +12,7 @@ let validation = (function() {
             responsive(focuses);
         });
         
-        $.each(focuses, function(i) {
+        focuses.each(function(i) {
             if ($.trim($(focuses[i]).text()) !== '') {
                 if ($(focuses[i]).hasClass('invalid-tooltip') || $(focuses[i]).hasClass('invalid-feedback')) {
                     $(focuses[i]).parent().children('input').addClass('is-invalid');
@@ -42,7 +26,7 @@ let validation = (function() {
 
     let responsive = function(focuses) {
         if ($(window).width() <= 767.98) {
-            $.each(focuses, function(i) {
+            focuses.each(function(i) {
                 if ($(focuses[i]).hasClass('invalid-tooltip')) {
                     $(focuses[i]).addClass('invalid-feedback');
                     $(focuses[i]).removeClass('invalid-tooltip');
@@ -54,7 +38,7 @@ let validation = (function() {
             });
         }
         else {
-            $.each(focuses, function(i) {
+            focuses.each(function(i) {
                 if ($(focuses[i]).hasClass('invalid-feedback')) {
                     $(focuses[i]).addClass('invalid-tooltip');
                     $(focuses[i]).removeClass('invalid-feedback');

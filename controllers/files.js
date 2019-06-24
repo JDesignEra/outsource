@@ -50,7 +50,7 @@ module.exports = {
                 let breadcrumbs = path === '/' ? ['Home'] : ['Home'].concat(path.slice(1, -1).split('/'));
                 let crumbLinks = ['/files'].concat(path.slice(1, -1).split('/'));
 
-                for(let i = 1; i < crumbLinks.length && i - 1 > -1; i++) {
+                for (let i = 1, n = crumbLinks.length; i < n && i - 1 > -1; i++) {
                     crumbLinks[i] = crumbLinks[i - 1] + '/' + crumbLinks[i];
                 }
 

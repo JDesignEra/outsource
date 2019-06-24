@@ -161,18 +161,6 @@ a {
                 }
             }
         }
-
-        &.form-sm {
-            label {
-            font-size: .8rem;
-            transform: translateY(7px);
-    
-                &.active {
-                    font-size: .85rem;
-                    transform: translateY(-11px) scale(.8);
-                }
-            }
-        }
     }
 }
 
@@ -190,21 +178,56 @@ table {
         font-weight: 500;
         vertical-align: middle;
     }
+
     td {
         font-weight: 400;
         vertical-align: middle;
     }
+
     &.table {
         td {
             padding-top: .8rem;
             padding-bottom: .8rem;
+
+            .form-check-input[type="checkbox"] + label {
+                height: 1rem;
+            }
+        }
+
+        th {
+            .form-check-input[type="checkbox"] + label {
+                height: 1rem;
+            }
+
+            .form-check-input[type="checkbox"],
+            .form-check-input[type="checkbox"]:not(.filled-in) {
+                + label::before,
+                + label::after {
+                    border: 2px solid #ffffff;
+                }
+            }
+
+            .form-check-input[type="checkbox"]:checked {
+                + label::before {
+                    border-top: 2px solid transparent;
+                    border-left: 2px solid transparent;
+                    border-right: 2px solid #ffffff;
+                    border-bottom: 2px solid #ffffff;
+                }
+            }
+
+            label.btn {
+                .form-check-input[type="checkbox"]:checked {
+                    + label::before {
+                        border-top: 2px solid transparent;
+                        border-left: 2px solid transparent;
+                        border-right: 2px solid #ffffff;
+                        border-bottom: 2px solid #ffffff;
+                    }
+                }
+            }
         }
     }
-}
-
-table.table td .form-check-input[type="checkbox"]+label,
-table.table th .form-check-input[type="checkbox"]+label {
-    height: 1rem;
 }
 
 // CUSTOM ADD-ON
@@ -231,27 +254,20 @@ table.table th .form-check-input[type="checkbox"]+label {
     padding: .1rem .5rem;
 }
 
-// input
+// input-group
 .input-group {
-    margin-bottom: 1.875rem;
+    > .md-form.md-outline {
+        margin: 0;
 
+        > .form-control {
+            margin: 0;
+        }
+    }
+}
+.input-group {
     .md-form.md-outline {
-        position: relative;
         flex: 1 1 auto;
         width: 1%;
-        margin-bottom: 0;
-    }
-
-    .md-form.md-outline input {
-        margin-bottom: 0;
-        height: calc(1.5em + .75rem + 2px);
-    }
-
-    &.input-group-sm .md-form.md-outline input {
-        padding: .25rem .5rem;
-        font-size: .875rem;
-        line-height: 1.5;
-        height: calc(1.5em + .5rem + 2px);
     }
 }
 
@@ -346,9 +362,9 @@ select.mdb-select {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-    background-image: -webkit-gradient(linear, left top, right top, from(#b39ddb), to(#7873f5));
-    background-image: -webkit-linear-gradient(left, #b39ddb 0%, #7873f5 100%);
-    background-image: linear-gradient(to right, #b39ddb 0%, #7873f5 100%);
+    background-image: -webkit-gradient(linear, left top, right top, from(#b388ff), to(#651fff));
+    background-image: -webkit-linear-gradient(left, #b388ff 0%, #651fff 100%);
+    background-image: linear-gradient(to right, #b388ff 0%, #651fff 100%);
 }
 
 .scrollbar.square::-webkit-scrollbar-track {

@@ -29,7 +29,7 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     bottom: 40px;
 }
 
-/* Files-Upload-Wrapper & File-Upload-Wrapper */
+/* FileInput.js style */
 .files-upload,
 .file-upload {
     min-height: 500px;
@@ -107,7 +107,7 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     transition: all .15s linear;
 }
 
-.files-upload > .wrapper.has-preview >button.remove,
+.files-upload > .wrapper.has-preview > button.remove,
 .file-upload > .wrapper.has-preview > button.remove {
     display: block;
 }
@@ -246,15 +246,15 @@ section.home-hero .carousel-caption {
 }
 
 /* Files */
-section.files .action-card .list-group-item i {
-    min-width: 20px;
-}
-
-section.files .breadcrumb-item+.breadcrumb-item::before {
+section.files .breadcrumb-item + .breadcrumb-item::before {
     color: #ffffff;
 }
 
-section.files #action-card .input-group-prepend .dropdown-toggle::after {
+section.files #action-card .list-group-item i {
+    min-width: 20px;
+}
+
+section.files #action-search .dropdown-toggle::after {
     content: unset;
 }
 
@@ -268,7 +268,15 @@ section.files .dataTables_wrapper .col-sm-12 {
     padding-right: 0;
 }
 
+#mobile-search button[data-toggle="dropdown"]::after {
+    content: unset;
+}
+
 /* Mobile FAB */
+#mobile-action {
+    bottom: 40px;
+}
+
 #mobile-action.fixed-bottom .dropdown-item i {
     min-width: 18px;
 }

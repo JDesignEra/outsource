@@ -1,22 +1,22 @@
 {{#if items}}
     {{#each items}}
         <tr class="cursor-default animated faster d-none">
-            <td class="d-none d-md-table-cell">
+            <td headers="select" class="d-none d-md-table-cell">
                 <div class="form-check">
                     <input id="{{ this.id }}" class="form-check-input" type="checkbox" name="fid" {{#if this.id}}value="{{ this.id }}"{{/if}}>
                     <label class="form-check-label" for="{{ this.id }}"></label>
                 </div>
             </td>
-            <td class="cursor-default" contenteditable="true">{{ this.name }}</td>
-            <td class="d-none d-md-table-cell">
+            <td headers="name" class="cursor-default">{{ this.name }}</td>
+            <td headers="size" class="d-none d-md-table-cell">
                 {{#ifCond 'this.size !== "0 Bytes"'}}
                     {{ this.size }}
                 {{else}}
                     --
                 {{/ifCond}}
             </td>
-            <td class="d-none d-md-table-cell text-capitalize">{{ this.type }}</td>
-            <td class="d-none d-md-table-cell"><!-- <i class="far fa-link mr-1"></i> -->
+            <td headers="type" class="d-none d-md-table-cell text-capitalize">{{ this.type }}</td>
+            <td headers="shared" class="d-none d-md-table-cell"><!-- <i class="far fa-link mr-1"></i> -->
                 {{#ifCond (concat this.sharedUsername.length ' > 0')}}
                     <span class="material-tooltip-sm" data-tooltip="tooltip" title="{{ joinSeperator ', ' this.sharedUsername }}">
                         {{ this.sharedUsername.length }} member(s)
@@ -25,8 +25,8 @@
                     Only you
                 {{/ifCond}}
             </td>
-            <td class="d-none d-md-table-cell">{{ this.modified }}</td>
-            <td class="d-table-cell d-md-none dropleft">
+            <td headers="modified" class="d-none d-md-table-cell">{{ this.modified }}</td>
+            <td headers="actions" class="d-table-cell d-md-none dropleft">
                 <a class="btn-floating btn-sm btn-cyan material-tooltip-sm" data-toggle="modal" data-target="#shareModal">
                     <i class="fas fa-share-alt"></i>
                 </a>

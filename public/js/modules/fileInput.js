@@ -4,15 +4,7 @@ let fileInput = (function() {
     let publicFuncs = {};
     
     publicFuncs.init = function() {
-        let focuses;
-        
-        if ($('.files-upload')[0] !== undefined) {
-            focuses = $('.files-upload');
-        }
-
-        if ($('.file-upload')[0] !== undefined) {
-            focuses = focuses === undefined ? $('.file-upload') : focuses.add($('.file-upload'));
-        }
+        let focuses = $('.files-upload, .file-upload');
 
         focuses.each(function() {
             let _this = $(this);
@@ -77,14 +69,14 @@ let fileInput = (function() {
                     else if (input.attr('accept')) {
                         let validation = new RegExp(input.attr('accept').replace(/\s/g, '').replace(',', '|'));
 
-                        for (let x = 0; x < files.length; x++) {
+                        for (let x = 0, n = files.length; x < n; x++) {
                             if (!validation.test(files[x].type)) {
                                 error = 'File type is not allow, for ' + files[x].name + '.';
                             }
                         }
                     }
                     else {
-                        for (let x = 0; x < files.length; x++) {
+                        for (let x = 0, n = files.length; x < n; x++) {
                             if (files[x].size > 5368709120) {
                                 error = 'File size cannot exceed 5GB, for ' + files[x] + '.';
                             }
@@ -119,14 +111,14 @@ let fileInput = (function() {
                     reader.readAsDataURL(file);
                 }
                 else {
-                    let extension = file.name.split('.').pop();
+                    let extension = file.name.slice(file.name.lastIndexOf('.') + 1);
 
                     renderer.html('<i class="fas fa-file"><span class="extension">' + extension + '</span></i>');
                 }
 
                 let filesName = [];
 
-                for (let x = 0; x < this.files.length; x++) {
+                for (let x = 0, n = this.files.length; x < n; x++) {
                     filesName.push(this.files[x].name);
                 }
 
