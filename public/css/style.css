@@ -374,7 +374,7 @@ section.files .dataTables_wrapper .col-sm-12 {
 
 /* ============================================ Submit Projects ======================================== */
 
-.submit-projects .classic-tabs .nav li a {
+section.submit-projects .classic-tabs .nav li a {
     display: block;
     padding: 20px 24px;
     font-size: 13px;
@@ -385,25 +385,25 @@ section.files .dataTables_wrapper .col-sm-12 {
     font-weight: 500;
 }
 
-.submit-projects .classic-tabs .nav li a:not(.active) {
+section.submit-projects .classic-tabs .nav li a:not(.active) {
     margin-bottom: 3px
 }
 
-.submit-projects .classic-tabs .nav li a.active {
+section.submit-projects .classic-tabs .nav li a.active {
     border-bottom: 3px solid;
     color: #000;
 }
 
-.submit-projects .files-upload, .submit-projects .file-upload {
+section.submit-projects .files-upload, section.submit-projects .file-upload {
     min-height: 100px;
 }
 
-.files-upload > .wrapper, .file-upload > .wrapper{
+section.submit-projects .files-upload > .wrapper, section.submit-projects.file-upload > .wrapper{
     min-height: 200px;
     min-width: 400px;
 }
 
-.submit-projects .files-upload>.wrapper>.card-text,.submit-projects .file-upload>.wrapper>.card-text {
+section.submit-projects .files-upload>.wrapper>.card-text,section.submit-projects .file-upload>.wrapper>.card-text {
     color: #ffffff;
     position: relative;
     top: 60px;

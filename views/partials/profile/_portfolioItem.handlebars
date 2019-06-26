@@ -99,6 +99,7 @@
                             <div class="modal-body justify-content-center black p-0">
                                 {{!-- ======================= Content ======================= --}}
                                 <div id="contentTest" class="col-12 overflow-auto white p-4">
+                                    
                                     <div id="realcontent" style="display:none">{{content}}</div>
                                 </div>
 
@@ -311,15 +312,16 @@
                             </div>
                         </div>
 
-                        {{#extend 'scripts'}}
 
-                        <script src="/js/displayPortfolio.js"></script>
-
-                        {{/extend}}
 
                     </div>
                     {{/each}}
                 </div>
+                {{#extend 'scripts'}}
+
+                <script src="/js/displayPortfolio.js"></script>
+
+                {{/extend}}
                 {{else}}
                 <h1>No Projects</h1>
                 {{/if}}

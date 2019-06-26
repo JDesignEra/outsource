@@ -7,42 +7,42 @@ let blocks = {};
 let blocksFlag = {};
 
 module.exports = {
-    block: function(name) {
+    block: function (name) {
         let val = (blocks[name] || []).join('\n');
 
         blocks[name] = [];
         return val;
     },
-    concat: function() {
+    concat: function () {
         let out = '';
 
         for (let arg in arguments) {
-            if(typeof arguments[arg] !== 'object') {
+            if (typeof arguments[arg] !== 'object') {
                 out += arguments[arg];
             }
         }
-        
+
         return out;
     },
-    currYear: function() {
+    currYear: function () {
         return moment.format(new Date, 'YYYY')
     },
-    extend: function(name, ops) {
+    extend: function (name, ops) {
         let block = blocks[name];
 
         if (!block) {
             block = blocks[name] = [];
         }
-        
+
         blocksFlag[name] = true;
         block.push(ops.fn(this));
     },
-    ifCond: function(expression, ops) {
+    ifCond: function (expression, ops) {
         let result;
         let context = this;
-        
-        with(context) {
-            result = (function() {
+
+        with (context) {
+            result = (function () {
                 try {
                     return eval(expression);
                 }
@@ -59,33 +59,33 @@ module.exports = {
 
         return result ? ops.fn(this) : ops.inverse(this);
     },
-    ifExtend: function(name, ops) {
+    ifExtend: function (name, ops) {
         let flag = (blocksFlag[name] !== undefined ? blocksFlag[name] : false);
         blocksFlag[name] = false;
 
         return (flag) ? ops.fn(this) : ops.inverse(this);
     },
-    ifNotExtend: function(name, ops) {
+    ifNotExtend: function (name, ops) {
         let flag = (blocksFlag[name] !== undefined ? !blocksFlag[name] : true);
         blocksFlag[name] = false;
 
         return (flag) ? ops.fn(this) : ops.inverse(this);
     },
-    ifFile: function(path, ops) {
+    ifFile: function (path, ops) {
         return existsSync(path) ? ops.fn(this) : ops.inverse(this);
     },
-    ifStringContain: function(string, contains, ops) {
+    ifStringContain: function (string, contains, ops) {
         return string.indexOf(contains) > -1 ? ops.fn(this) : ops.inverse(this);
     },
-    json: function(object) {
+    json: function (object) {
         return JSON.stringify(object);
     },
-    joinSeperator: function(seperator, ...args) {
+    joinSeperator: function (seperator, ...args) {
         let out = '';
-        
+
         for (let arg in args) {
             if (Object.getPrototypeOf(args[arg]) !== Object.prototype) {
-                if(typeof args[arg] !== 'object') {
+                if (typeof args[arg] !== 'object') {
                     out += args[arg] + seperator;
                 }
                 else {
@@ -98,14 +98,14 @@ module.exports = {
 
         return out.slice(0, -seperator.length);
     },
-    setVar: function(varName, varValue, ops) {
+    setVar: function (varName, varValue, ops) {
         if (!ops.data.root) {
             ops.data.root = {};
         }
 
         ops.data.root[varName] = varValue;
     },
-    partialsDirs: function(p) {     // Handlebars return partials and all folders in partials as array
+    partialsDirs: function (p) {     // Handlebars return partials and all folders in partials as array
         let partialsDir = readdirSync(p).filter(f => lstatSync(join(p, f)).isDirectory());
         partialsDir.push(join(p));
 
@@ -116,20 +116,20 @@ module.exports = {
         return partialsDir;
     },
     /* Joshua */
-    radioCheck: function(value, radioValue){
-        if (value.includes(radioValue)){
+    radioCheck: function (value, radioValue) {
+        if (value.includes(radioValue)) {
             return 'checked';
         }
-        else{
+        else {
             return '';
         }
     },
-    replacecommas: function(components){
-        if (components == ''){
+    replacecommas: function (components) {
+        if (components == '') {
             components = 'None';
             return components;
         }
-        else{
+        else {
             components = components.replace(',', ' ');
             return components;
         }
