@@ -13,7 +13,7 @@ router.get('/add', servicesController.add)
 
 router.post('/add', upload.single('serviceposter'), servicesController.addpost)
 
-router.get('/edit/:id', upload.single('serviceposter'), servicesController.edit)
+router.get('/edit/:id', upload.single('editposter'), servicesController.edit)
 
 router.put('/save/:id', servicesController.save)
 
