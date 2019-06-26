@@ -89,7 +89,7 @@ module.exports = {
     },
     forgot: function (req, res) {
         if (req.method === 'GET') {
-            res.render('register/index');
+            res.render('forgot');
         }
         else if (req.method === 'POST') {
             var express = require("express");

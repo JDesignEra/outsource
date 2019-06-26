@@ -21,6 +21,12 @@ const users = db.define('user', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    resetPasswordToken: {
+        type: Sequelize.STRING,
+    },
+    resetPasswordExpires:{
+        type: Sequelize.DATE,
+    },
     accType: {
         type: Sequelize.STRING,
         allowNull: false
