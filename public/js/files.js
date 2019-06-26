@@ -17,9 +17,9 @@ $(function() {
 
 // DataTable
 $(function() {
-    function tableInit() {
+    function tableInit(tableId) {
         let data = { 'order': 1, 'targets': 0 };
-        let focus = $('#files-table');
+        let focus = $(tableId);
 
         if (window.innerWidth <= 767.98) {
             data = { 'order': 1, 'targets': null };
@@ -42,7 +42,7 @@ $(function() {
         });
     }
 
-    tableInit();
+    tableInit("#files-table");
 
     let tableResponsive = $('.table-responsive', '#files-card');
     let rows = $('tbody tr', '#files-table');
@@ -76,7 +76,7 @@ $(function() {
 
     $(window).on('resize', function () {
         $('#files-table').DataTable().destroy();
-        tableInit();
+        tableInit('#files-table');
 
         $(function () {
             $(".sticky").sticky({
@@ -376,18 +376,18 @@ $(function() {
 // Show Modal if url contains modal id
 $(function() {
     let url = window.location.href;
-    param = url.slice(url.lastIndexOf('/') + 1);
+    param = url.slice(url.lastIndexOf('/'));
     
-    if (param === '%3Fupload') {
-        history.replaceState(null, '', url.replace('/%3Fupload', ''));
+    if (param === '/~upload') {
+        history.replaceState(null, null, url.replace(/\/~upload/gi, ''));
         $('#uploadModal').modal('show');
     }
-    else if (param === '%3Fnewfile') {
-        history.replaceState(null, '', url.replace('/%3Fnewfile', ''));
+    else if (param === '/~newfile') {
         $('#newFileModal').modal('show');
+        history.replaceState(null, null, url.replace(/\/~newfile/gi, ''));
     }
-    else if (param === '%3Fnewfolder') {
-        history.replaceState(null, '', url.replace('/%3Fnewfolder', ''));
+    else if (param === '/~newfolder') {
+        history.replaceState(null, null, url.replace(/\/~newfolder/gi, ''));
         $('#newFolderModal').modal('show');
     }
 });

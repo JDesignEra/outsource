@@ -1,7 +1,5 @@
 /* Joel */
-
 /* Navbar */
-
 nav.navbar .navbar-brand {
     min-width: 93px;
     min-height: 30px;
@@ -26,23 +24,24 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
 }
 
 /* toTopAction Button */
-
 #toTopAction {
     right: 5px;
     bottom: 40px;
 }
 
 /* FileInput.js style */
-
-.files-upload, .file-upload {
+.files-upload,
+.file-upload {
     min-height: 500px;
 }
 
-.files-upload>input[type="file"], .file-upload>input[type="file"] {
+.files-upload > input[type="file"],
+.file-upload > input[type="file"] {
     display: none;
 }
 
-.files-upload>.wrapper, .file-upload>.wrapper {
+.files-upload > .wrapper,
+.file-upload > .wrapper {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -68,7 +67,8 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     color: #ffffff;
 }
 
-.files-upload>.wrapper>.card-text, .file-upload>.wrapper>.card-text {
+.files-upload > .wrapper > .card-text,
+.file-upload > .wrapper > .card-text {
     color: #ffffff;
     position: relative;
     top: 50px;
@@ -77,7 +77,8 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     transform: translateY(-50%);
 }
 
-.files-upload>.wrapper>.preview, .file-upload>.wrapper>.preview {
+.files-upload > .wrapper > .preview,
+.file-upload > .wrapper > .preview {
     display: none;
     position: absolute;
     z-index: 1;
@@ -93,7 +94,8 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     text-align: center;
 }
 
-.files-upload>.wrapper>button.remove, .file-upload>.wrapper>button.remove {
+.files-upload > .wrapper > button.remove,
+.file-upload > .wrapper > button.remove {
     display: none;
     position: absolute;
     opacity: 0;
@@ -105,15 +107,17 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     transition: all .15s linear;
 }
 
-.files-upload>.wrapper.has-preview>button.remove, .file-upload>.wrapper.has-preview>button.remove {
+.files-upload > .wrapper.has-preview > button.remove,
+.file-upload > .wrapper.has-preview > button.remove {
     display: block;
 }
 
-.files-upload>.wrapper:hover>button.remove, .file-upload>.wrapper:hover>button.remove {
+.files-upload > .wrapper:hover > button.remove,
+.file-upload > .wrapper:hover > button.remove {
     opacity: 1;
 }
 
-.files-upload>.wrapper>.preview>.renderer>img {
+.files-upload > .wrapper > .preview > .renderer > img {
     width: 100%;
     height: 100%;
     background-color: #fff;
@@ -124,7 +128,7 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     object-fit: cover;
 }
 
-.files-upload>.wrapper>.preview>.renderer>i {
+.files-upload > .wrapper > .preview > .renderer > i {
     font-size: 80px;
     top: 50%;
     left: 50%;
@@ -135,7 +139,7 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     color: #777;
 }
 
-.files-upload>.wrapper>.preview>.renderer>i>span.extension {
+.files-upload > .wrapper > .preview > .renderer > i > span.extension {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -155,7 +159,8 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     text-overflow: ellipsis;
 }
 
-.files-upload>.wrapper>.preview>.infos, .file-upload>.wrapper>.preview>.infos {
+.files-upload > .wrapper > .preview > .infos,
+.file-upload > .wrapper > .preview > .infos {
     position: absolute;
     left: 0;
     top: 0;
@@ -169,11 +174,13 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     transition: opacity .15s linear;
 }
 
-.files-upload>.wrapper:hover>.preview>.infos, .file-upload>.wrapper:hover>.preview>.infos {
+.files-upload > .wrapper:hover > .preview > .infos,
+.file-upload > .wrapper:hover > .preview > .infos {
     opacity: 1;
 }
 
-.files-upload>.wrapper>.preview>.infos>.infos-inner, .file-upload>.wrapper>.preview>.infos>.infos-inner {
+.files-upload > .wrapper > .preview > .infos > .infos-inner,
+.file-upload > .wrapper > .preview > .infos > .infos-inner {
     position: absolute;
     top: 50%;
     -webkit-transform: translate(0, -40%);
@@ -188,11 +195,13 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     transition: all .2s ease;
 }
 
-.files-upload>.wrapper:hover>.preview>.infos>.infos-inner, .file-upload>.wrapper:hover>.preview>.infos>.infos-inner {
+.files-upload > .wrapper:hover > .preview > .infos > .infos-inner,
+.file-upload > .wrapper:hover > .preview > .infos > .infos-inner {
     margin-top: -5px;
 }
 
-.files-upload>.wrapper>.preview>.infos>.infos-inner>p, .file-upload>.wrapper>.preview>.infos>.infos-inner>p {
+.files-upload > .wrapper > .preview > .infos > .infos-inner > p,
+.file-upload > .wrapper > .preview > .infos > .infos-inner > p {
     padding: 0;
     margin: 0;
     position: relative;
@@ -207,7 +216,8 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     font-weight: 700;
 }
 
-.files-upload>.wrapper>.preview>.infos>.infos-inner>p.message, .file-upload>.wrapper>.preview>.infos>.infos-inner>p.message {
+.files-upload > .wrapper > .preview > .infos > .infos-inner > p.message,
+.file-upload > .wrapper > .preview > .infos > .infos-inner > p.message {
     margin-top: 15px;
     padding-top: 15px;
     font-size: 12px;
@@ -215,7 +225,8 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     opacity: .5;
 }
 
-.files-upload>.wrapper>.preview>.infos>.infos-inner>p.message::before, .file-upload>.wrapper>.preview>.infos>.infos-inner>p.message::before {
+.files-upload > .wrapper > .preview > .infos > .infos-inner > p.message::before,
+.file-upload > .wrapper > .preview > .infos > .infos-inner > p.message::before {
     content: "";
     position: absolute;
     top: 0;
@@ -229,15 +240,13 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
 }
 
 /* Home */
-
 section.home-hero .carousel-caption {
     bottom: 0;
     height: 100%;
 }
 
 /* Files */
-
-section.files .breadcrumb-item+.breadcrumb-item::before {
+section.files .breadcrumb-item + .breadcrumb-item::before {
     color: #ffffff;
 }
 
@@ -264,7 +273,6 @@ section.files .dataTables_wrapper .col-sm-12 {
 }
 
 /* Mobile FAB */
-
 #mobile-action {
     bottom: 40px;
 }
@@ -297,7 +305,7 @@ section.files .dataTables_wrapper .col-sm-12 {
     min-height: 300px
 }
 
-.profile .jarallax>.jarallax-img {
+.profile .jarallax > .jarallax-img {
     position: absolute;
     object-fit: cover;
     font-family: 'object-fit: cover;';
@@ -401,7 +409,7 @@ section.submit-projects .files-upload, section.submit-projects .file-upload {
 section.submit-projects .files-upload > .wrapper, section.submit-projects.file-upload > .wrapper{
     min-height: 200px;
     min-width: 400px;
-}
+} */
 
 section.submit-projects .files-upload>.wrapper>.card-text,section.submit-projects .file-upload>.wrapper>.card-text {
     color: #ffffff;

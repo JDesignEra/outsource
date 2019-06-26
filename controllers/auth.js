@@ -10,7 +10,7 @@ module.exports = {
     },
     login: function (req, res, next) {
         if (req.method === 'GET') {
-            res.render('login/index');
+            res.render('auth/login');
         }
         else if (req.method === 'POST') {
             passport.authenticate('local', {
@@ -100,7 +100,7 @@ module.exports = {
 
             // forgot password
             router.get('/forgot', function (req, res) {
-                res.render('forgot');
+                res.render('auth/forgot');
             });
 
             router.post('/forgot', function (req, res, next) {

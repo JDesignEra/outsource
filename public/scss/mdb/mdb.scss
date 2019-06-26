@@ -7,8 +7,8 @@
 
 // CORE
 @import "core/mixins";
+// custom variables
 @import "custom-variables";
-// @import "custom-colors";
 @import "core/colors";
 @import "core/variables";
 @import "core/global";
@@ -40,9 +40,9 @@
 @import "free/treeview";
 // Free addons
 @import "addons/datatables";
-@import "addons/datatables-select";
+// @import "addons/datatables-select";
 @import "addons/directives";
-@import "addons/hierarchical-display";
+// @import "addons/hierarchical-display";
 // @import "addons/flags";
 
 // PRO
@@ -80,10 +80,7 @@
 @import "pro/scrollbar";
 @import "pro/modules/megamenu/module";
 @import "pro/tooltips";
-
-// @import "custom-skin";
-@import "pro/skins";
-@import "pro/depreciated";
+// @import "pro/skins";
 
 // Picker
 @import "pro/picker/default";
@@ -100,9 +97,10 @@
 @import "pro/sections/contacts";
 
 // Pro addons
-@import "addons-pro/steppers";
+// @import "addons-pro/steppers";
 // @import "addons-pro/timeline";
 @import "addons-pro/cards-extended";
 // @import "addons-pro/chat";
 
+// custom styles
 @import "custom-styles";

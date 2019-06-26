@@ -1,7 +1,7 @@
 <section class="files">
     <div class="row">
         <div class="col-12 col-md-2 my-4 my-md-0">
-            <div id="folders-card" class="card card-cascade narrower treeview">
+            <div id="folders-card" class="card card-cascade narrower">
                 <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center">
                     <span class="white-text mx-3">My Folders</span>
                 </div>
@@ -15,18 +15,29 @@
 
                 <hr class="mb-0">
 
-                <ul id="folders-tree" class="mt-4 mb-1 pl-3 pb-2 collapse show">
-                    <li>
-                        <i class="fas fa-angle-right rotate"></i>
-                        <span><i class="far fa-folder"></i> Project 1</span>
-                        <ul class="nested">
-                            <li><i class="far fa-folder"></i> img</li>
-                        </ul>
-                    </li>
-                    <li>
-                        <span><i class="far fa-folder"></i> Project 2</span>
-                    </li>
-                </ul>
+                <div id="folders-tree" class="treeview-animated mt-3 collapse show">
+                    <ul class="treeview-animated-list">
+                        <li class="treeview-animated-items">
+                            <a class="closed">
+                                <i class="fas fa-angle-right mr-1"></i>
+                                <i class="far fa-folder mr-1"></i>Project 1
+                            </a>
+                            
+                            <ul class="nested">
+                                <li>
+                                    <div class="treeview-animated-element">
+                                        <i class="far fa-folder mr-1"></i>img
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <div class="treeview-animated-element">
+                                <i class="far fa-folder mr-1"></i>Project 2
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -35,13 +46,13 @@
                 <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3">
                     <ol class="breadcrumb justify-content-center align-items-center white-text transparent py-0 m-0">
                         {{#if breadcrumbs}}
-                            {{#each breadcrumbs as |val key|}}
+                            {{#each breadcrumbs}}
                                 <li class="breadcrumb-item text-capitalize">
-                                    {{#ifCond (concat @index '<' ../breadcrumbs.length '- 1')}}
-                                        <a class="white-text text-underline" href="{{lookup ../crumbLinks @index}}">{{ this }}</a>
+                                    {{#if this.link}}
+                                        <a href="{{ this.link }}">{{ this.name }}</a>
                                     {{else}}
-                                        {{ this }}
-                                    {{/ifCond}}
+                                        <span class="white-text">{{ this.name }}</span>
+                                    {{/if}}
                                 </li>
                             {{/each}}
                         {{/if}}
@@ -67,9 +78,7 @@
                                     <th id="actions" class="d-table-cell d-md-none">Actions</th>
                                 </thead>
                                 <tbody>
-                                    <form method="post">
-                                        {{> _filesRow }}
-                                    </form>
+                                    {{> _filesRow }}
                                 </tbody>
                             </table>
                         </div>
@@ -196,7 +205,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="files-upload" action="{{ url }}/%3Fupload" method="post" enctype="multipart/form-data">
+                    <form class="files-upload" action="{{ postRoot }}/~upload" method="post" enctype="multipart/form-data">
                         <input type="file" name="files" multiple />
                     </form>
                 </div>
@@ -252,7 +261,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="needs-validation" action="{{ url }}/%3Fnewfolder" method="post" novalidate>
+                    <form class="needs-validation" action="{{ postRoot }}/~newfolder" method="post" novalidate>
                         <div class="input-group">
                             <input class="form-control" type="text" placeholder="Folder Name" {{#if forms.name}}value="{{ forms.name }}"{{/if}} name="name">
 
@@ -368,52 +377,6 @@
                     </div>
                 </div>
             </div>
-            {{!-- <div class="input-group mt-2 mb-3" data-toggle="collapse" data-target="#mobile-filters">
-                <div class="input-group-append">
-                    <span class="input-group-text primary-light-gradient white-text border border-0">
-                        <i class="far fa-search"></i>
-                    </span>
-                </div>
-
-                <div class="md-form md-outline">
-                    <input class="form-control" type="text" name="search">
-                    <label>Search</label>
-                </div>
-            </div>
-
-            <div id="mobile-filters" class="search-filters collapse">
-                <h6 class="dropdown-header px-0 pb-2">Search Filters</h6>
-
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input filter-all" checked>
-                    <label class="custom-control-label" for="filter-all">All</label>
-                </div>
-
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input filter-name">
-                    <label class="custom-control-label" for="filter-name">Name</label>
-                </div>
-
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input filter-size" checked>
-                    <label class="custom-control-label" for="filter-size">Size</label>
-                </div>
-
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input filter-type" checked>
-                    <label class="custom-control-label" for="filter-type">Type</label>
-                </div>
-
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input filter-shared" checked>
-                    <label class="custom-control-label" for="filter-shared">Shared</label>
-                </div>
-
-                <div class="custom-control custom-checkbox mb-3">
-                    <input type="checkbox" class="custom-control-input filter-modified" checked>
-                    <label class="custom-control-label" for="filter-modified">Modified</label>
-                </div>
-            </div> --}}
         </div>
 
         <hr class="mt-3 mb-2">
@@ -441,6 +404,5 @@
 
 {{#extend 'scripts'}}
 <script src="/js/vendor/mdb/modules/datatables.min.js"></script>
-<script src="/js/vendor/mdb/modules/datatables-select.min.js"></script>
 <script src="/js/files.js"></script>
 {{/extend}}

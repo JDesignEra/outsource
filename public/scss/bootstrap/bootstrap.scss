@@ -60,11 +60,28 @@ $dropdown-border-color: rgba(101, 31, 255, 0.15);
 // dropdowns
 // $dropdown-box-shadow: 0 5px 11px 0 rgba(92, 141, 255, 0.18), 0 4px 15px 0 rgba(23, 35, 64, 0.15) !default;
 
+// breadcrumbs
+$breadcrumb-divider: "\f105" !default;
+
+
 // STYLES
 // DROPDOWN
 .dropdown-menu {
   box-shadow: 0 5px 11px 0 rgba(92, 141, 255, 0.18), 0 4px 15px 0 rgba(23, 35, 64, 0.15);
 }
+
+// BREADCRUMBS
+.breadcrumb-item {
+  + .breadcrumb-item {
+    &::before {
+      font-family: "Font Awesome 5 Pro";
+      font-weight: 900;
+      padding-right: .25rem;
+      padding-left: .25rem;
+    }
+  }
+}
+
 
 // CUSTOM
 .vw-0 { width: 0vw !important; }

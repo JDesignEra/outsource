@@ -1,13 +1,13 @@
 {{#if items}}
     {{#each items}}
-        <tr class="cursor-default animated faster d-none">
+        <tr class="animated faster d-none">
             <td headers="select" class="d-none d-md-table-cell">
                 <div class="form-check">
                     <input id="{{ this.id }}" class="form-check-input" type="checkbox" name="fid" {{#if this.id}}value="{{ this.id }}"{{/if}}>
                     <label class="form-check-label" for="{{ this.id }}"></label>
                 </div>
             </td>
-            <td headers="name" class="cursor-default">{{ this.name }}</td>
+            <td>{{ this.name }}</td>
             <td headers="size" class="d-none d-md-table-cell">
                 {{#ifCond 'this.size !== "0 Bytes"'}}
                     {{ this.size }}
