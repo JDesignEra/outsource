@@ -9,14 +9,14 @@ const portfolio = db.define('portfolio', {
         autoIncrement: true,
         primaryKey: true
     },
-    // uid: {
-    //     type: Sequelize.INTEGER,
-    //     // references: {
-    //     //     model: users,
-    //     //     key: 'id'
-    //     // }
-    // },
-    name: {
+    uid: {
+        type: Sequelize.INTEGER,
+        // references: {
+        //     model: users,
+        //     key: 'id'
+        // }
+    },
+    title: {
         type: Sequelize.STRING,
         allowNull:false,
     },
@@ -24,18 +24,21 @@ const portfolio = db.define('portfolio', {
         type: Sequelize.STRING,
         allowNull:false, 
     },
-    rawDetails: {
+    content: {
         type: Sequelize.STRING,
         allowNull:false, 
     },
+
     datePosted:{
         type: Sequelize.DATE,
         allowNull:false,
     },
+
     views:{
         type: Sequelize.INTEGER,
         allowNull:false,
     },
+
     likes:{
         type: Sequelize.INTEGER,
         allowNull:false,

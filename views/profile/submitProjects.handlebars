@@ -1,105 +1,184 @@
 <section class="submit-projects">
-    <form method="POST">
-        <div class="row justify-content-around">
-            <div class="form-group col-12">
-                <label for="title"> Title </label>
-                <input type="text" class="form-control" name="title" id="title" aria-describedby="helpId"
-                    placeholder="Project Title">
+
+    <form method="POST" enctype="multipart/form-data">
+        <div class="classic-tabs">
+            <ul class="nav tabs-white rounded-0" id="myClassicTabShadow" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link waves-light active show" id="services-tab-classic-shadow" data-toggle="tab"
+                        href="#CoverTab" role="tab" aria-controls="CoverTab" aria-selected="false">Cover</a>
+                </li>
+
+                <li class="nav-item m-0">
+                    <a class="nav-link waves-light" id="portfolio-tab-classic-shadow" data-toggle="tab"
+                        href="#ContentTab" role="tab" aria-controls="ContentTab" aria-selected="true">Content</a>
+                </li>
+            </ul>
+
+            <div class="tab-content min-vh-80 p-0" id="myClassicTabContentShadow">
+
+                <div class="tab-pane fade active show vh-70" id="CoverTab" role="tabpanel"
+                    aria-labelledby="portfolio-tab-classic-shadow">
+
+                    <div class="row justify-content-center mx-auto h-100">
+
+
+                        <div class="col-10 form-group p-0 align-self-center">
+
+                            <div class="file-upload" data-autosubmit="false">
+                                <input type="file" name="coverPicture" />
+                            </div>
+                            <br>
+                            <label for="title"> Title </label>
+                            <input type="text" class="form-control" name="title" id="title" aria-describedby="helpId"
+                                placeholder="Project Title">
+
+                            <!-- Material inline 1 -->
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input" value="Graphics" name="projectCategory"
+                                    id="Graphics">
+                                <label class="form-check-label" for="Graphics">Graphics & Design </label>
+                            </div>
+
+                            <!-- Material inline 2 -->
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input" value="Writing" name="projectCategory"
+                                    id="Writing">
+                                <label class="form-check-label" for="Writing">Writing & Translation</label>
+                            </div>
+
+                            <!-- Material inline 3 -->
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input" value="Video" name="projectCategory"
+                                    id="Video">
+                                <label class="form-check-label" for="Video">Video & Animation</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input" value="Music" name="projectCategory"
+                                    id="Music">
+                                <label class="form-check-label" for="Music">Music & Audio </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input" value="Programming"
+                                    name="projectCategory" id="Programming">
+                                <label class="form-check-label" for="Programming">Programming & Tech</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <div class="tab-pane fade" id="ContentTab" role="tabpanel"
+                    aria-labelledby="portfolio-tab-classic-shadow">
+                    <div class="row white p-4 border-red rounded">
+                        <div id="richTextEditorBtns" class="col-12">
+                            <div class="row">
+                                <button class="btn btn-secondary fas m-1 fa-bold" onclick="execFunc('bold');"></button>
+                                <button class="btn btn-secondary fas m-1 fa-italic"
+                                    onclick="execFunc('italic');"></button>
+                                <button class="btn btn-secondary fas m-1 fa-underline"
+                                    onclick="execFunc('underline');"></button>
+                                <button class="btn btn-secondary fas m-1 fa-strikethrough"
+                                    onclick="execFunc('strikeThrough');"></button>
+                                <button class="btn btn-secondary fas m-1 fa-minus"
+                                    onclick="execFunc('insertHorizontalRule');"></button>
+
+
+                                <button class="btn btn-secondary fas fa-align-left"
+                                    onclick="execFunc('justifyLeft');"></button>
+                                <button class="btn btn-secondary fas fa-align-center"
+                                    onclick="execFunc('justifyCenter');"></button>
+                                <button class="btn btn-secondary fas fa-align-right"
+                                    onclick="execFunc('justifyRight');"></button>
+
+
+                                <button class="btn btn-secondary fas m-1 fa-indent"
+                                    onclick="execFunc('indent');"></button>
+                                <button class="btn btn-secondary fas m-1 fa-outdent"
+                                    onclick="execFunc('outdent');"></button>
+
+
+                                <button class="btn btn-secondary fas fa-list-ul"
+                                    onclick="execFunc('insertUnorderedList');"></button>
+                                <button class="btn btn-secondary fas fa-list-ol"
+                                    onclick="execFunc('insertOrderedList');"></button>
+
+                                <button class="btn btn-secondary fas m-1 fa-link" onclick="createLink();"></button>
+                                <button class="btn btn-secondary fas fa-image" onclick="uploadImage(); "></button>
+                            </div>
+
+
+
+                            <div class="row">
+                                <select class="browser-default custom-select custom-select-sm col-1"
+                                    onclick="execFunc('fontSize', false, this.value)">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                </select>
+
+                                <select class="browser-default custom-select custom-select-sm col-1"
+                                    onclick="execFunc('fontName', false, this.value)">
+                                    {{#each fonts}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+
+                                </select>
+
+                                <select class="browser-default custom-select custom-select-sm col-1"
+                                    onclick="execFunc('formatBlock', false, this.value)">
+                                    <option value="H1">Heading 1</option>
+                                    <option value="H2">Heading 2</option>
+                                    <option value="H3">Heading 3</option>
+                                    <option value="H4">Heading 4</option>
+                                    <option value="H5">Heading 5</option>
+                                    <option value="H6">Heading 6</option>
+                                    <option value="p">Normal</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <button id="sourceCodeBtn" class="btn btn-secondary fas fa-code"
+                            onclick="toggleSource();"></button>
+                    </div>
+
+                    <div class="row grey lighten-5 p-4 overflow-auto border-red justify-content-center"
+                        onload="enableEditMode();">
+
+                        <iframe name="projectContent" id="projectContent" class="form-control vh-80 w-90 z-depth-2"
+                            onkeydown="getHTML()" onkeyup="updateTextArea();">
+                        </iframe>
+
+
+
+                        <textarea name="content" id="content" cols="30" rows="10" style="display: none"></textarea>
+                        </textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            {{!-- <button class="btn btn-block btn-success" onclick="getHTML(); event.preventDefault();"> Eh
+                            </button> --}}
+                            <button type="submit" class="btn btn-block btn-success" onclick="updateTextArea()"> Submit
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-12">
-                <!-- Material inline 1 -->
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" value="Graphics" name="projectCategory" id="Graphics">
-                    <label class="form-check-label" for="Graphics">Graphics & Design </label>
-                </div>
-
-                <!-- Material inline 2 -->
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" value="Writing" name="projectCategory" id="Writing">
-                    <label class="form-check-label" for="Writing">Writing & Translation</label>
-                </div>
-
-                <!-- Material inline 3 -->
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" value="Video" name="projectCategory" id="Video">
-                    <label class="form-check-label" for="Video">Video & Animation</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" value="Music" name="projectCategory" id="Music">
-                    <label class="form-check-label" for="Music">Music & Audio </label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" value="Programming" name="projectCategory" id="Programming">
-                    <label class="form-check-label" for="Programming">Programming & Tech</label>
-                </div>
-            </div>
-
-            {{!-- 
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Example select</label>
-                <select class="browser-default custom-select custom-select-sm">
-                    <option selected>Graphics/option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div> --}}
-        </div>
-
-        <div class="row white p-4 border-red rounded">
-
-            <button id="" class="btn btn-light fas m-1 fa-bold" onclick="execFunc('bold');"></button>
-            <button id="" class="btn btn-light fas m-1 fa-italic" onclick="execFunc('italic');"></button>
-            <button id="" class="btn btn-light fas m-1 fa-underline" onclick="execFunc('underline');"></button>
-
-            <button class="btn btn-light fas fa-align-left" onclick="execFunc('justifyLeft');"></button>
-
-            <button class="btn btn-light fas fa-align-center" onclick="execFunc('justifyCenter');"></button>
-
-            <button class="btn btn-light fas fa-align-right" onclick="execFunc('justifyRight');"></button>
-
-            <button class="btn btn-light fas fa-list-ul" onclick="execFunc('insertUnorderedList');"></button>
-            <button class="btn btn-light fas fa-list-ol" onclick="execFunc('insertOrderedList');"></button>
-
-            {{!-- <button class="btn btn-light fas fa-image" onclick="">
-            <form class="files-upload" data-autosubmit="false" method="post" enctype="multipart/form-data">
-                <input type="file" name="imagestuff" id="imagestuff" />
-            </form>
-        </button> --}}
-
-            <button class="btn btn-light fas fa-image" onclick="uploadImage(); "></button>
-
-
-            {{!-- <select class="custom-select-sm browser-default">
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select> --}}
 
         </div>
 
-        <div class="row grey lighten-5 p-4 overflow-auto border-red" onload="enableEditMode();">
-
-            <iframe name="projectContent" id="projectContent" class="form-control vh-80 w-100 z-depth-2"
-                onkeydown="getHTML()" onkeyup="updateTextArea();">
-            </iframe>
 
 
 
-            <textarea name="content" id="content" cols="30" rows="10" style="display: none"></textarea>
-            </textarea>
-        </div>
-
-        <div class="row">
-            <div class="col-12">
-                <button class="btn btn-block btn-success" onclick="getHTML(); event.preventDefault();"> Eh </button>
-                <button type="submit" class="btn btn-block btn-success" onclick="updateTextArea()"> Submit </button>
-
-            </div>
-        </div>
 
     </form>
     {{#extend 'scripts'}}

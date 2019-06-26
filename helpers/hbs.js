@@ -133,5 +133,9 @@ module.exports = {
             components = components.replace(',', ' ');
             return components;
         }
-    }
+    },
+    //Lemuel
+    formatDate: function (date, targetFormat) {
+        return moment.format(date, targetFormat);
+    },
 }

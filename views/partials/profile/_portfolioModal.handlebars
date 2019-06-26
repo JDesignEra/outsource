@@ -17,7 +17,7 @@
 
                     <div class="col-8 align-self-center pl-3 h-100">
                         <div class="row m-auto h-100 p-0">
-                            <h5 class="col-12 p-0 align-self-start text-left font-weight-bold"> My First Picture</h5>
+                            <h5 class="col-12 p-0 align-self-start text-left font-weight-bold"> {{projects.title}}</h5>
                             <h6 class="col-12 p-0 align-self-end text-left"> John Doe</h6>
                         </div>
 
@@ -39,26 +39,22 @@
     <div class="modal-body justify-content-center black p-0">
         {{!-- ======================= Content ======================= --}}
         <div id="contentTest" class="col-12 overflow-auto white p-4">
-            {{!-- <img src="https://picsum.photos/1920/1080" class="img-fluid lozad mb-3" alt="">
-            <img src="https://picsum.photos/1600/600" class="img-fluid lozad mb-3" alt=""> --}}
-            <h1>{{projects.id}}</h1>
-            <h1>{{projects.name}}</h1>
-            <div id="realcontent" style="display:none">{{projects.rawDetails}}</div>
+            <div id="realcontent" style="display:none">{{content}}</div>
 
         </div>
 
 
         {{!-- ======================= Services ======================= --}}
-        <div class="container white w-100 row justify-content-center mx-0 py-5">
+        <div class="container black w-100 row justify-content-center mx-0 py-5">
             <div class="row justify-content-center">
-                <img src="https://picsum.photos/id/659/100/" class="white img-fluid rounded-circle lozad " alt="">
-                <h3 class="col-12 text-center black-text font-weight-bold my-3">
+                <img src="https://picsum.photos/id/659/100/" class="white img-fluid rounded-circle lozad" alt="">
+                <h3 class="col-12 text-center white-text font-weight-bold my-3">
                     Services by John Doe
                 </h3>
             </div>
 
             <div class="row col-12 justify-content-around">
-                <div class="card-body border-purple rounded mx-2">
+                <div class="card-body border-purple white rounded mx-2">
                     <div class="row justify-content-around">
 
                         <div class="card">
@@ -92,7 +88,7 @@
                     </div>
                 </div>
 
-                <div class="card-body border-purple rounded mx-2">
+                <div class="card-body border-purple white rounded mx-2">
                     <div class="row justify-content-around">
 
                         <div class="card">
@@ -126,7 +122,7 @@
                     </div>
                 </div>
 
-                <div class="card-body border-purple rounded mx-2">
+                <div class="card-body border-purple white rounded mx-2">
                     <div class="row justify-content-around ">
 
                         <div class="card">
@@ -223,9 +219,9 @@
                     </div>
 
                     <div class="col-5">
-                        <p class="text-left"> 20 April 2019</p>
-                        <p class="text-left"> 21231</p>
-                        <p class="text-left"> 1232</p>
+                        <p class="text-left"> {{formatDate datePosted "DD MMMM YYYY"}}</p>
+                        <p class="text-left"> {{views}}</p>
+                        <p class="text-left"> {{likes}}</p>
                         <p class="text-left"> 2</p>
 
                     </div>
@@ -240,8 +236,8 @@
     </div>
 </div>
 
-    {{#extend 'scripts'}}
+{{#extend 'scripts'}}
 
-    <script src="/js/displayPortfolio.js"></script>
+<script src="/js/displayPortfolio.js"></script>
 
-    {{/extend}}
+{{/extend}}
