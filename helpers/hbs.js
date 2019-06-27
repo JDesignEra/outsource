@@ -138,4 +138,14 @@ module.exports = {
     formatDate: function (date, targetFormat) {
         return moment.format(date, targetFormat);
     },
+    replaceQuotes: function (components) {
+        if (components == '') {
+            components = 'None';
+            return components;
+        }
+        else {
+            components = components.replace(/"/g, ' ');
+            return components;
+        }
+    },
 }

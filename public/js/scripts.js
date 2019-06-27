@@ -105,6 +105,11 @@ $(function() {
     });
 });
 
+// Data Picker Initialization
+$('.datepicker').pickadate({
+    format: 'dd/mm/yyyy',
+});
+
 /* Joshua */
 $(function() {
     $('#posterUpload').on('change', function() {

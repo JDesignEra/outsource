@@ -51,29 +51,76 @@
 
                             <!-- Background color -->
                             <div style="height:auto;" class="card-up indigo lighten-1 rounded-0">
-
-
                             </div>
+                            <a href="/profile/edit" class="m-2 ml-auto text-secondary"><i class="fas fa-edit fa-lg"></i></a>
                             <!-- Avatar -->
                             <div class="avatar mx-auto white mt-4">
                                 <img src="https://picsum.photos/id/659/400/" class="rounded-circle lozad" alt="">
                             </div>
-
                             <!-- Content -->
                             <div class="card-body">
                                 <!-- Name -->
-                                <h3 class="card-title">John Doe</h3>
-                                <h5 class="card-title text-muted">Illustrator</h5>
+                                <h3 class="card-title">{{user.username}}</h3>
+
+                                <h5 class="card-title text-muted">
+                                    {{#if user.jobTitle}}
+                                    {{user.jobTitle}}
+                                    {{else}}
+                                    Service Provider
+                                    {{/if}}
+                                </h5>
+
                                 <br>
-                                <p class="text-left"> <b>Followers:</b> 100,000 </p>
-                                <p class="text-left"> <b>Following:</b> 100</p>
+                                <p class="text-left"> <b>Followers:</b> {{user.followers}} </p>
+                                <p class="text-left"> <b>Following:</b> {{user.following}}</p>
                                 <hr class="hr-purple">
 
-                                <p class="text-left"><b>Website:</b> wix.johndoecrafts.com</p>
-                                <p class="text-left"><b>Birthday:</b> 1/11/1991</p>
-                                <p class="text-left"><b>Gender:</b> Male</p>
-                                <p class="text-left"><b>Location:</b> United Kingdom</p>
-                                <p class="text-left"><b>Occupation:</b> Illustrator</p>
+
+                                <p class="text-left"><b>Website:</b>
+                                    {{#if user.website}}
+                                    {{user.website}}
+                                    {{else}}
+                                    <span class="text-muted">None</span>
+                                    {{/if}}
+                                </p>
+
+
+                                <p class="text-left"><b>Birthday:</b>
+                                    {{#if user.dob}}
+                                    {{user.dob}}
+                                    {{else}}
+                                    <span class="text-muted">Not Set</span>
+                                    {{/if}}
+                                </p>
+
+
+                                <p class="text-left"><b>Gender:</b>
+                                    {{#if user.gender}}
+                                    {{user.gender}}
+                                    {{else}}
+                                    <span class="text-muted">Not Set</span>
+                                    {{/if}}
+                                </p>
+
+
+                                <p class="text-left"><b>Location:</b>
+                                    {{#if user.location}}
+                                    {{user.location}}
+                                    {{else}}
+                                    <span class="text-muted">Not Set</span>
+                                    {{/if}}
+                                </p>
+
+
+                                <p class="text-left"><b>Occupation:</b>
+                                    {{#if user.occupation}}
+                                    {{user.occupation}}
+                                    {{else}}
+                                    <span class="text-muted">Not Set</span>
+                                    {{/if}}
+                                </p>
+
+                                <p class="text-left"><b>Email:</b> {{user.email}}</p>
 
                                 <hr class="hr-purple">
 
@@ -93,12 +140,13 @@
                                 <h4 class="card-title text-left">Bio</h4>
 
 
-                                <p class="text-left">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                                    fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                                    qui officia deserunt mollit anim id est laborum."</p>
+                                <p class="text-left text-muted">
+                                    {{#if user.bio}}
+                                    {{user.bio}}
+                                    {{else}}
+                                    Not set
+                                    {{/if}}
+                                </p>
                                 <hr class="hr-purple">
                                 <h4 class="card-title text-left">Skills</h4>
                                 <div class="row justify-content-start pl-2">
@@ -170,7 +218,7 @@
                         <div class="tab-pane fade active profile-content" id="services-classic-shadow" role="tabpanel"
                             aria-labelledby="services-tab-classic-shadow">
                             {{> profile/_servicesItem}}
-                            
+
                         </div>
 
                     </div>

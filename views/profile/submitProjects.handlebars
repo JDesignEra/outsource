@@ -73,9 +73,9 @@
 
                 <div class="tab-pane fade" id="ContentTab" role="tabpanel"
                     aria-labelledby="portfolio-tab-classic-shadow">
-                    <div class="row white p-4 border-red rounded">
+                    <div class="mx-auto row white p-4 border-red rounded">
                         <div id="richTextEditorBtns" class="col-12">
-                            <div class="row">
+                            <div class="mx-auto row">
                                 <button class="btn btn-secondary fas m-1 fa-bold" onclick="execFunc('bold');"></button>
                                 <button class="btn btn-secondary fas m-1 fa-italic"
                                     onclick="execFunc('italic');"></button>
@@ -112,7 +112,7 @@
 
 
 
-                            <div class="row">
+                            <div class="mx-auto row">
                                 <select class="browser-default custom-select custom-select-sm col-1"
                                     onclick="execFunc('fontSize', false, this.value)">
                                     <option value="1">1</option>
@@ -127,7 +127,7 @@
                                 <select class="browser-default custom-select custom-select-sm col-1"
                                     onclick="execFunc('fontName', false, this.value)">
                                     {{#each fonts}}
-                                    <option value="{{this}}">{{this}}</option>
+                                    <option value="{{replaceQuotes this}}">{{replaceQuotes this}}</option>
                                     {{/each}}
 
                                 </select>
@@ -149,15 +149,10 @@
                             onclick="toggleSource();"></button>
                     </div>
 
-                    <div class="row grey lighten-5 p-4 overflow-auto border-red justify-content-center"
-                        onload="enableEditMode();">
-
-                        <iframe name="projectContent" id="projectContent" class="form-control vh-80 w-90 z-depth-2"
+                    <div class=" mx-auto row grey lighten-5 p-4 overflow-auto border-red justify-content-center">
+                        <iframe name="projectContent" id="projectContent" class="form-control min-vh-80 w-90 z-depth-2"
                             onkeydown="getHTML()" onkeyup="updateTextArea();">
                         </iframe>
-
-
-
                         <textarea name="content" id="content" cols="30" rows="10" style="display: none"></textarea>
                         </textarea>
                     </div>

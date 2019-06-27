@@ -1,17 +1,43 @@
 Project = require('../models/portfolio')
+User = require('../models/users')
 fs = require('fs')
+countries = require('countries-list')
+fontList = require('font-list')
 
 module.exports = {
     index: function (req, res) {
-        Project.findAll({
+        User.findOne({
             where: {
-                uid: req.user.id
-            },
-        }).then((projects) => {
-            console.log(projects)
-            res.render('profile/index', {
-                projects: projects
-            });
+                id: req.user.id
+            }
+        }).then((user) => {
+            Project.findAll({
+                where: {
+                    uid: req.user.id
+                },
+            }).then((projects) => {
+                console.log(projects)
+                res.render('profile/index', {
+                    projects: projects,
+                    user: user
+                });
+            })
+        })
+
+
+    },
+    editProfile: function (req, res) {
+        countryList = countries.countries
+        User.findOne({
+            where: {
+                id: req.user.id
+            }
+        }).then((user) => {
+            res.render("profile/editProfile", {
+                user: user,
+                countryList: countryList
+            })
+
         })
 
     },
@@ -19,12 +45,17 @@ module.exports = {
 
 
     submit: function (req, res) {
-        fonts = ["Arial", "Calibri", "Courier", "Courier New", "Georgia",
-            "Helvetica", "Times New Roman", "Verdana", "Palatino", "Garamond", "Bookman", "Comic Sans MS", "Trebuchet MS", "Impact", "Arial Black"]
-        fonts.sort()
-        res.render('profile/submitProjects', {
-            fonts: fonts
-        })
+        // fonts = ["Arial", "Calibri", "Courier", "Courier New", "Georgia",
+        //     "Helvetica", "Times New Roman", "Verdana", "Palatino", "Garamond", "Bookman", "Comic Sans MS", "Trebuchet MS", "Impact", "Arial Black"]
+        // fonts.sort()
+        fontList.getFonts()
+            .then(fonts => {
+                res.render('profile/submitProjects', {
+                    fonts: fonts
+                })
+            }).catch(err => {
+                console.log(err)
+            })
     },
 
 
@@ -36,7 +67,7 @@ module.exports = {
         datePosted = new Date()
         views = 0
         likes = 0
-        
+
 
 
         Project.create({
@@ -67,5 +98,9 @@ module.exports = {
             })
             .catch(err => console.log(err))
 
+    },
+
+    deleteProject: function (req, res){
+        Port
     }
 }

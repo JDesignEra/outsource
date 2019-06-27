@@ -74,7 +74,15 @@ module.exports = {
                                 bcrypt.hash(password, salt, function (err, hash) {
                                     password = bcrypt.hashSync(password, salt)
 
-                                    User.create({ username, email, password, accType })
+                                    User.create({ 
+                                        username: username, 
+                                        email, 
+                                        password, 
+                                        accType,
+                                        followers: 0,
+                                        following: 0,
+                                        
+                                     })
                                         .then(user => {
                                             req.flash('success', user.username + ' register successfully. You may login now.');
                                             res.redirect('./');

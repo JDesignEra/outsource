@@ -17,15 +17,20 @@
 
                     <div class="col-8 align-self-center pl-3 h-100">
                         <div class="row m-auto h-100 p-0">
-                            <h5 class="col-12 p-0 align-self-start text-left font-weight-bold"> {{projects.title}}</h5>
+                            <h5 class="col-12 p-0 align-self-start text-left font-weight-bold">
+                                {{title}}</h5>
                             <h6 class="col-12 p-0 align-self-end text-left"> John Doe</h6>
                         </div>
 
                     </div>
                 </div>
-
-                <div class="col-2 align-self-center row justify-content-end p-0">
-                    <button type="button" class="btn btn-secondary">Follow</button>
+                {{!-- <div class="col-2 align-self-center row justify-content-end p-0">
+                    
+                </div> --}}
+                <div class="col-4 align-self-center row justify-content-end p-0">
+                    <button type="button" class="btn btn-danger">Delete</button>
+                    <a href="/profile/delete/{{id}}"></a>
+                    {{!-- <button type="button" class="btn btn-secondary col-5">Follow</button> --}}
                 </div>
             </div>
 
@@ -39,8 +44,8 @@
     <div class="modal-body justify-content-center black p-0">
         {{!-- ======================= Content ======================= --}}
         <div id="contentTest" class="col-12 overflow-auto white p-4">
-            <div id="realcontent" style="display:none">{{content}}</div>
 
+            <div id="realcontent" style="display:none">{{content}}</div>
         </div>
 
 
@@ -177,12 +182,17 @@
                                 May 2019 </small>
                         </h5>
 
-                        <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit, sed do eiusmod
                             tempor incididunt ut
-                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                            exercitation ullamco
+                            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                            dolor in reprehenderit in
+                            voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                            Excepteur sint occaecat
+                            cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                            anim id est laborum.</p>
                     </div>
                 </div>
 
@@ -197,7 +207,8 @@
                                 May 2019 </small>
                         </h5>
 
-                        <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit, sed do eiusmod
                             tempor incididunt ut
                         </p>
                     </div>
@@ -235,9 +246,3 @@
 
     </div>
 </div>
-
-{{#extend 'scripts'}}
-
-<script src="/js/displayPortfolio.js"></script>
-
-{{/extend}}

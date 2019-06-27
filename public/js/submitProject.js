@@ -73,7 +73,6 @@ function updateTextArea() {
 //Enable iframe to be edited
 $(window).ready(function () {
     test1.body.contentEditable = true
-    
 })
 
 

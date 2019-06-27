@@ -25,7 +25,7 @@ const portfolio = db.define('portfolio', {
         allowNull:false, 
     },
     content: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT('long'),
         allowNull:false, 
     },
 

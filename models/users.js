@@ -31,16 +31,21 @@ const users = db.define('user', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    name: {
+
+    //Profile Name
+    jobTitle: {
         type: Sequelize.STRING
+    },  
+    //Follow Info
+    followers: {
+        type: Sequelize.INTEGER,
     },
-    paypal: {
-        type: Sequelize.STRING,
+    following: {
+        type: Sequelize.INTEGER,
     },
+
+    //Info
     website: {
-        type: Sequelize.STRING
-    },
-    social_media: {
         type: Sequelize.STRING
     },
     dob:{
@@ -49,14 +54,26 @@ const users = db.define('user', {
     gender: {
         type: Sequelize.STRING
     },
-    jobTitle: {
+    location: {
         type: Sequelize.STRING
-    },  
+    },
+    occupation: {
+        type: Sequelize.STRING
+    },
+
+    bio: {
+        type: Sequelize.STRING(5000)
+    },
     skills:{
         type: Sequelize.STRING
     },
-    bio: {
-        type: Sequelize.STRING(5000)
-    }
+
+    //Social Medias and Paypal
+    paypal: {
+        type: Sequelize.STRING,
+    },
+    social_media: {
+        type: Sequelize.STRING
+    },
 });
 module.exports = users;
