@@ -15,7 +15,7 @@ router.post('/add', upload.single('serviceposter'), servicesController.addpost)
 
 router.get('/edit/:id', servicesController.edit)
 
-router.put('/save/:id', upload.single('serviceposter'), servicesController.save)
+router.post('/save/:id', upload.single('serviceposter'), servicesController.save)
 
 router.get('/delete/:id', servicesController.delete)
 
