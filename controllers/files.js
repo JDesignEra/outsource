@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const mime = require('mime');
 
 const bytesToSize = require('../helpers/bytesToSize');
@@ -7,164 +8,164 @@ const filesFolders = require('../models/filesFolders');
 
 module.exports = {
     index: function (req, res) {
-        let uid = req.user.id !== undefined ? req.user.id : undefined;
+        let uid = req.user.id;
+        let root = './public/uploads/files/' + uid + '/';
+        let dir = req.params['dir'] !== undefined ? req.params['dir'].replace(/~newfile|~newfolder|~upload/gi, '') : '/';
         
-        if (uid !== undefined) {
-            let param = req.params[0].replace(/\?newfile/gi, '').replace(/\?newfolder/gi, '').replace(/\?upload/gi, '');
-            let root = './public/uploads/files/' + uid
-            let path = param !== '' ? ('/' + param + '/').replace(/\/\//gi, '/') : '/';
+        if (!fs.existsSync(root)) {
+            fs.mkdirSync(root);
+        }
 
-            if (!fs.existsSync(root)) {
-                fs.mkdirSync(root);
-            }
+        if (!fs.existsSync(path.join(root, dir))) {
+            return res.redirect('/files');
+        }
 
-            if (!fs.existsSync(root + path)) {
-                return res.redirect('/files');
-            }
+        filesFolders.findAll({ where: {uid: uid}, raw: true }).then(data => {
+            let items = [];
 
-            filesFolders.findAll({ where: {uid: uid}, raw: true }).then(data => {
-                let items = {};
+            fs.readdirSync(path.join(root, dir)).forEach(el => {
+                let stat = fs.lstatSync(path.join(root, dir, el));
 
-                fs.readdirSync(root + path).forEach(el => {
-                    let stat = fs.lstatSync(root + path + el);
-
-                    items[el] = {
-                        name: el,
-                        size: bytesToSize.convert(stat.size, 0),
-                        modified: moment.format(stat.mtime, 'DD/MM/YYYY hh:mm a')
-                    };
+                items.push({
+                    name: el,
+                    size: bytesToSize.convert(stat.size, 0),
+                    modified: moment.format(stat.mtime, 'DD/MM/YYYY hh:mm a')
                 });
 
-                Object.keys(items).forEach(key => {
-                    let temp = data.find(x => x.name === key);
-                    
-                    if (temp !== undefined) {
-                        temp['sharedUid'] = temp['sharedUid'] !== null ? temp['sharedUid'].split(',') : [];
-                        temp['sharedUsername'] = temp['sharedUsername'] !== null ? temp['sharedUsername'].split(',') : [];
+                data.find(obj => {
+                    let last = items[items.length - 1];
 
-                        items[key] = Object.assign({}, temp, items[key]);
+                    if (obj['name'] === last['name']) {
+                        last['id'] = obj['id'];
+                        last['type'] = obj['type'];
+                        last['shareCode'] = obj['shareCode']
+                        last['sharedUid'] = obj['sharedUid'] !== null ? obj['sharedUid'].split(',') : [];
+                        last['sharedUsername'] = obj['sharedUsername'] !== null ? obj['sharedUsername'].split(',') : [];
+                        last['link'] = encodeURI(last['type'] === 'folder' ? obj['fullPath'] : obj['directory']);
+
+                        items[items.length - 1] = last;
+
+                        if (last['type'] === 'folder') {
+
+                        }
                     }
                 });
-
-                let currentDir = path === '/' ? 'Home' : path.slice(0, -1).split('/').pop();
-                let breadcrumbs = path === '/' ? ['Home'] : ['Home'].concat(path.slice(1, -1).split('/'));
-                let crumbLinks = ['/files'].concat(path.slice(1, -1).split('/'));
-
-                for (let i = 1, n = crumbLinks.length; i < n && i - 1 > -1; i++) {
-                    crumbLinks[i] = crumbLinks[i - 1] + '/' + crumbLinks[i];
-                }
-
-                res.render('files/index', {
-                    title: 'File Management',
-                    items: Object.keys(items).length !== 0 ? items : null,
-                    currentDir: currentDir,
-                    breadcrumbs: breadcrumbs,
-                    crumbLinks: crumbLinks
-                });
             });
-        }
+
+            // let crumbNames = 
+            let breadcrumbs = dir === '/' ? ['root'] : ['root'].concat(dir[dir.length - 1] === '/' ? dir.slice(0, -1).split('/') : dir.split('/'));
+
+            if (breadcrumbs.length > 1) {
+                for (let i = 0, n = breadcrumbs.length; i < n; i++) {
+                    let link = '/files';
+    
+                    for (let x = 1; x < n && x <= i && i < n - 1; x++) {
+                        console.log(breadcrumbs[i]);
+                        link += '/' + breadcrumbs[i];
+                    }
+
+                    breadcrumbs[i] = i < n - 1 ? {'name': breadcrumbs[i], 'link': link} : {'name': breadcrumbs[i]};
+                }
+            }
+            else {
+                breadcrumbs = [{'name': 'root'}];
+            }
+
+            res.render('files/index', {
+                title: 'File Management',
+                items: Object.keys(items).length !== 0 ? items : null,currentDir: dir === '/' ? 'Home' : dir[dir.length - 1] === '/' ? dir.slice(0, -1).split('/').pop() : dir.split('/'),
+                breadcrumbs: breadcrumbs,
+                postRoot: req.originalUrl.replace(/\/~newfile|\/~newfolder|\/~upload/gi, ''),
+                folders: fs.readdirSync(root)
+                        .map(n => path.join(root, n).replace(new RegExp('\\' + path.sep, 'g'), '/'))
+                        .filter(p => fs.lstatSync(path.join(p)).isDirectory)
+            });
+        });
     },
     upload: function (req, res) {
-        if (req.method === 'POST') {
-            let uid = req.user.id !== undefined ? req.user.id : undefined;
+        let uid = req.user.id;
+        let files = req.files;
+        let root = './public/uploads/files/' + uid;
+        let dir = req.params['dir'] !== undefined ? req.params['dir'].replace(/~newfile/gi, '') : '/';
 
-            if (uid !== undefined) {
-                let files = req.files;
-                let root = './public/uploads/files/' + uid;
-                let path = req.originalUrl.replace(/^\/files/gi, '').replace(/\/%3Fupload/gi, '');
-                path = path === '' ? '/' : path;
+        files.forEach(file => {
+            let fileName = file['originalname'];
+            let type = mime.getType(fileName) || file['mimetype'];
+            type = type.slice(0, type.indexOf('/'));
 
-                files.forEach(file => {
-                    let fileName = file['originalname'];
-                    let type = mime.getType(fileName) || file['mimetype'];
-                    type = type.slice(0, type.indexOf('/'));
-
-                    filesFolders.findOne({
-                        where: {
-                            name: fileName,
-                            directory: path,
-                            fullPath: path + fileName
-                        }
-                    }).then(data => {
-                        if (!data) {
-                            filesFolders.create({
-                                name: fileName,
-                                directory: path,
-                                fullPath: path + fileName,
-                                type: type,
-                                uid: uid
-                            });
-                        }
-
-                        if (!fs.existsSync(root + path)) {
-                            fs.mkdirSync(root + path);
-                        }
-
-                        fs.renameSync(file['path'], root + path + fileName);
+            filesFolders.findOne({
+                where: {
+                    name: fileName,
+                    directory: dir,
+                    fullPath: dir + fileName
+                }
+            }).then(data => {
+                if (!data) {
+                    filesFolders.create({
+                        name: fileName,
+                        directory: dir[dir.length - 1] !== '/' ? dir + '/' : dir,
+                        fullPath: path.join(dir, fileName).replace(/\\/g, '/'),
+                        type: type,
+                        uid: uid
                     });
-                });
+                }
 
-                res.redirect(path === '/' ? '/files' :  '/files' + path);
-            }
-        }
+                if (!fs.existsSync(path.join(root, dir))) {
+                    fs.mkdirSync(path.join(root, dir));
+                }
+
+                fs.renameSync(path.join(file['path']), path.join(root, dir, fileName));
+            });
+        });
+
+        res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
     },
     newfile: function(req, res) {
         
     },
     newfolder: function(req, res) {
-        if (req.method === 'POST') {
-            let uid = req.user.id !== undefined ? req.user.id : undefined;
+        let uid = req.user.id;
+        let folderName = req.body.name;
+        let root = './public/uploads/files/' + uid + '/';
+        let dir = req.params['dir'] !== undefined ? req.params['dir'].replace(/~newfile/gi, '') : '/';
+        
+        let regex = /[!@#$%^&*+\=\[\]{}()~;':"\\|,.<>\/?]/;
 
-            if (uid !== undefined) {
-                let folderName = req.body.name;
-                let root = './public/uploads/files/' + uid;
-                let path = req.originalUrl.replace(/^\/files/gi, '').replace(/\/%3Fnewfolder/gi, '');
-                path = path === '' ? '/' : path;
-
-                let errors = {};
-                let regex = /[!@#$%^&*+\-=\[\]{};':"\\|,.<>\/?]/;
-
-                if (regex.test(folderName)) {
-                    errors['name'] = 'Folder name can only contain alphanumeric, underscore and parentheses.'
+        if (regex.test(folderName)) {
+            req.flash('errors', {'name': 'Folder name can only contain alphanumeric, underscore and dash.'});
+            req.flash('forms', { name: folderName });
+            
+            res.redirect(dir === '/' ? '/files/~newfolder' :  '/files/' + dir + '/~newfolder');
+        }
+        else {
+            filesFolders.findOne({
+                where: {
+                    name: folderName,
+                    directory: dir[dir.length - 1] !== '/' ? dir + '/' : dir,
+                    fullPath: path.join(dir, folderName),
+                    type: 'folder',
+                    uid: uid
                 }
+            }).then(data => {
+                if (!data) {
+                    filesFolders.create({
+                        name: folderName,
+                        directory: dir,
+                        fullPath: path.join(dir, folderName).replace(/\\/g, '/'),
+                        type: 'folder',
+                        uid: uid
+                    });
 
-                if (Object.getOwnPropertyNames(errors).length > 0) {
-                    req.flash('errors', errors);
-                    req.flash('forms', { name: folderName });
-
-                    res.redirect(path === '/' ? '/files/%3Fnewfolder' :  '/files' + path + '/%3Fnewfolder');
+                    if (!fs.existsSync(path.join(root, dir, folderName))) {
+                        fs.mkdirSync(path.join(root, dir, folderName));
+                    }
                 }
                 else {
-                    filesFolders.findOne({
-                        where: {
-                            name: folderName,
-                            directory: path,
-                            fullPath: path + folderName,
-                            type: 'folder',
-                            uid: uid
-                        }
-                    }).then(data => {
-                        if (!data) {
-                            filesFolders.create({
-                                name: folderName,
-                                directory: path,
-                                fullPath: path + folderName,
-                                type: 'folder',
-                                uid: uid
-                            });
-
-                            if (!fs.existsSync(root + path + folderName)) {
-                                fs.mkdirSync(root + path + folderName);
-                            }
-                        }
-                        else {
-                            req.flash('error', 'Folder already exist in current directory.');
-                        }
-                    }).then(() => {
-                        res.redirect(path === '/' ? '/files' :  '/files' + path);
-                    });
+                    req.flash('error', 'Folder already exist in current directory.');
                 }
-            }
+            }).then(() => {
+                res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+            });
         }
     }
 }

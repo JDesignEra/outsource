@@ -7,7 +7,7 @@
 
 // // forgot password
 // router.get('/forgot', function(req, res) {
-//   res.render('forgot');
+//   res.render('auth/forgot');
 // });
 
 // router.post('/forgot', function(req, res, next) {

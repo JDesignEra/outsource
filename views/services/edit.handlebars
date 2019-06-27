@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="card card-body">
 		<h3 class="text-info font-weight-bold">Edit Service</h3>
-		<form action="/services/save/{{services.id}}?_method=PUT" method="post" id="editService">
+		<form method="post" id="editService" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-lg-9">
 					<div class="form-group">
@@ -70,7 +70,7 @@
 			</div>
 			<br>
 			<a href="/user/profile" class="btn btn-danger">Cancel</a>
-			<button id="butaddService" type="submit" class="btn btn-success" action="/services/AddService">Save Changes
+			<button id="butaddService" type="submit" class="btn btn-success" action="/services/save">Save Changes
 			</button>
 		</form>
 	</div>

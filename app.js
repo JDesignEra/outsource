@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
-const methodOverride = require('method-override');
 
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -114,16 +113,12 @@ app.use(bodyParser.urlencoded({
 // Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Method override
-app.use(methodOverride('_method'));
-
 // Routes
 app.use('/', require('./routes/root')); 
 app.use('/', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
 app.use('/services', require('./routes/services'));
 app.use('/files', require('./routes/files'));
-app.use('/', require('./routes/auth'));
 
 app.listen(port = 5000, () => {
 	console.log(`\n\x1b[32mServer started on port ${port}.\x1b[0m`);

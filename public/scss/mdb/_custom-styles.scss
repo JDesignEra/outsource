@@ -95,6 +95,28 @@ a {
     background-color: map-get($basic, "primary");
 }
 
+// DATATABLES
+.sorting:before,
+.sorting_asc:before, .sorting_desc:before,
+.sorting_asc_disabled:before, .sorting_desc_disabled:before,
+.sorting:after,
+.sorting_asc:after, .sorting_desc:after,
+.sorting_asc_disabled:after, .sorting_desc_disabled:after {
+    font-family: 'Font Awesome 5 Pro' !important;
+}
+
+// DEFAULT-DATE
+.picker__box {
+    .picker__date-display {
+        .picker__nav--prev,
+        .picker__nav--next {
+            &::before {
+                font-family: "Font Awesome 5 Pro" !important;
+            }
+        }
+    }
+}
+
 // DROPDOWNS
 .dropdown,
 .dropup,
@@ -224,6 +246,50 @@ table {
                         border-right: 2px solid #ffffff;
                         border-bottom: 2px solid #ffffff;
                     }
+                }
+            }
+        }
+    }
+}
+
+// TREEVIEWS
+.treeview-animated {
+    .treeview-animated-list {
+        .treeview-animated-items {
+            .nested {
+                &::before {
+                    background-color: map-get($material-colors, "secondary-color");
+                }
+            }
+            
+            .closed {
+                &:hover {
+                    color: inherit;
+                    background-color: lighten(map-get($material-colors, "primary-color"), 35%);
+                }
+            }
+
+            .open {
+                color: #f8f9fa;
+                background-color: map-get($material-colors, "primary-color");
+
+                &:hover {
+                    color: #f8f9fa;
+                    background-color: map-get($material-colors, "primary-color-dark");
+                }
+            }
+        }
+
+        .treeview-animated-element {
+            &:hover {
+                background-color: lighten(map-get($material-colors, "primary-color"), 35%);
+            }
+        
+            &.opened {
+                background-color: map-get($material-colors, "primary-color-dark");
+        
+                &:hover {
+                    background-color: map-get($material-colors, "primary-color-dark");
                 }
             }
         }
