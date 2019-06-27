@@ -10,7 +10,7 @@ module.exports = {
     },
     login: function (req, res, next) {
         if (req.method === 'GET') {
-            res.render('login/index');
+            res.render('auth/login');
         }
         else if (req.method === 'POST') {
             passport.authenticate('local', {
