@@ -101,6 +101,25 @@ module.exports = {
     },
 
     deleteProject: function (req, res){
-        Port
-    }
+        Project.findOne({
+            id: req.params.id,
+            uid: req.user.id
+        }).then((project) => {
+            if(project == null){
+                res.redirect('/')
+            }
+            else{
+                Project.destroy({
+                    where:
+                    {
+                        id: req.params.id
+                    }
+                })
+                .then((project) => {
+                    res.redirect('/profile')
+                })
+            }
+        })
+    },
+
 }
