@@ -49,10 +49,7 @@ module.exports = {
             uid: userId,
             category
         }).then((services) => {
-            if (req.file === undefined){
-                console.log('No upload')
-            }
-            else{
+            if (req.file !== undefined) {
                 // Check if directory exists if not create directory
                 if (!fs.existsSync('./public/uploads/services/' + req.user.id)) {
                     fs.mkdirSync('./public/uploads/services/' + req.user.id);
@@ -96,16 +93,14 @@ module.exports = {
                     id: req.params.id
                 }
             }).then(() => {
-                if (req.file === undefined){
-                    console.log('No upload')
-                }
-                else{
+                if (req.file !== undefined) {
+                    console.log(req.params.id);
                     // Check if directory exists if not create directory
                     if (!fs.existsSync('./public/uploads/services/' + req.user.id)) {
                         fs.mkdirSync('./public/uploads/services/' + req.user.id);
                     }
                     // Move file
-                    let serviceId = services.id;
+                    let serviceId = req.params.id;
                     fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
                 }
                 req.flash('success', 'Changes saved successfully!');
