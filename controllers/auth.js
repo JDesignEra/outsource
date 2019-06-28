@@ -1,6 +1,11 @@
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const User = require('../models/users');
+const express = require("express");
+const router = express.Router();
+const async = require("async");
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
 
 module.exports = {
     logout: function (req, res) {
@@ -62,7 +67,9 @@ module.exports = {
                     .then(user => {
                         if (user) {
                             res.render('register/index', {
-                                error: user.email + ' already registered.',
+                                errors : {
+                                    'email': user.email + ' is already registered.'
+                                },
                                 username,
                                 email,
                                 password,
@@ -100,17 +107,6 @@ module.exports = {
             res.render('auth/forgot');
         }
         else if (req.method === 'POST') {
-            var express = require("express");
-            var router = express.Router();
-            var async = require("async");
-            var nodemailer = require("nodemailer");
-            var crypto = require("crypto");
-
-            // forgot password
-            router.get('/forgot', function (req, res) {
-                res.render('forgot');
-            });
-
             router.post('/forgot', function (req, res, next) {
                 async.waterfall([
                     function (done) {
