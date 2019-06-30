@@ -13,9 +13,9 @@ router.get('/add', isAuth, servicesController.add)
 
 router.post('/add', upload.single('serviceposter'), servicesController.addpost)
 
-router.get('/edit/:id', servicesController.edit)
+router.get('/edit/:id', isAuth, servicesController.edit)
 
-router.post('/save/:id', upload.single('serviceposter'), servicesController.save)
+router.post('/edit/:id', upload.single('serviceposter'), servicesController.save)
 
 router.get('/delete/:id', isAuth, servicesController.delete)
 

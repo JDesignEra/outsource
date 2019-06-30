@@ -12,43 +12,59 @@ let validation = (function() {
             responsive(focuses);
         });
         
-        focuses.each(function(i) {
-            if ($.trim($(focuses[i]).text()) !== '') {
-                if ($(focuses[i]).hasClass('invalid-tooltip') || $(focuses[i]).hasClass('invalid-feedback')) {
-                    $(focuses[i]).parent().children('input').addClass('is-invalid');
+        focuses.each(function() {
+            _this = $(this);
+            
+            if (_this.text().trim()) {
+                if (_this.hasClass('invalid-tooltip') || _this.hasClass('invalid-feedback')) {
+                    _this.parent().children('input').addClass('is-invalid');
+
+                    if (_this.parent().children('.form-text').length > 0) {
+                        _this.parent().children('.form-text').addClass('invisible');
+                    }
+                    else {
+                        _this.parent().parent().next().addClass('invisible');
+                    }
                 }
-                else if ($(focuses[i]).hasClass('valid-tooltip') || $(focuses[i]).hasClass('invalid-feedback')) {
-                    $(focuses[i]).parent().children('input').addClass('is-valid');
+                else if (_this.hasClass('valid-tooltip') || _this.hasClass('invalid-feedback')) {
+                    _this.parent().children('input').addClass('is-valid');
+
+                    if (_this.parent().children('.form-text').length > 0) {
+                        _this.parent().children('.form-text').removeClass('invisible');
+                    }
+                    else {
+                        _this.parent().parent().next().removeClass('invisible');
+                    }
                 }
             }
         });
     }
 
     let responsive = function(focuses) {
-        if ($(window).width() <= 767.98) {
-            focuses.each(function(i) {
-                if ($(focuses[i]).hasClass('invalid-tooltip')) {
-                    $(focuses[i]).addClass('invalid-feedback');
-                    $(focuses[i]).removeClass('invalid-tooltip');
+        focuses.each(function() {
+            _this = $(this);
+
+            if ($(window).width() <= 767.98) {
+                if (_this.hasClass('invalid-tooltip')) {
+                    _this.addClass('invalid-feedback');
+                    _this.removeClass('invalid-tooltip');
                 }
-                else if ($(focuses[i]).hasClass('valid-tooltip')) {
-                    $(focuses[i]).addClass('valid-feedback');
-                    $(focuses[i]).removeClass('valid-tooltip');
+                else if (_this.hasClass('valid-tooltip')) {
+                    _this.addClass('valid-feedback');
+                    _this.removeClass('valid-tooltip');
                 }
-            });
-        }
-        else {
-            focuses.each(function(i) {
-                if ($(focuses[i]).hasClass('invalid-feedback')) {
-                    $(focuses[i]).addClass('invalid-tooltip');
-                    $(focuses[i]).removeClass('invalid-feedback');
+            }
+            else {
+                if (_this.hasClass('invalid-feedback')) {
+                    _this.addClass('invalid-tooltip');
+                    _this.removeClass('invalid-feedback');
                 }
-                else if ($(focuses[i]).hasClass('valid-feedback')) {
-                    $(focuses[i]).addClass('valid-tooltip');
-                    $(focuses[i]).removeClass('valid-feedback');
+                else if (_this.hasClass('valid-feedback')) {
+                    _this.addClass('valid-tooltip');
+                    _this.removeClass('valid-feedback');
                 }
-            });
-        }
+            }
+        });
     }
 
     return publicFuncs;
