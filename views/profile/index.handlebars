@@ -52,6 +52,7 @@
                             <!-- Background color -->
                             <div style="height:auto;" class="card-up indigo lighten-1 rounded-0">
                             </div>
+                            
                             <a href="/profile/edit" class="m-2 ml-auto text-secondary"><i class="fas fa-edit fa-lg"></i></a>
                             <!-- Avatar -->
                             <div class="avatar mx-auto white mt-4">
@@ -87,7 +88,7 @@
 
                                 <p class="text-left"><b>Birthday:</b>
                                     {{#if user.dob}}
-                                    {{user.dob}}
+                                    {{formatDate user.dob "DD MMM YYYY"}}
                                     {{else}}
                                     <span class="text-muted">Not Set</span>
                                     {{/if}}
@@ -150,14 +151,13 @@
                                 <hr class="hr-purple">
                                 <h4 class="card-title text-left">Skills</h4>
                                 <div class="row justify-content-start pl-2">
+                                    {{#each skills}}
+              
                                     <button type="button"
-                                        class="btn btn-outline-secondary btn-rounded waves-effect skill-button">Illustration</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary btn-rounded waves-effect skill-button">Logo
-                                        Design</button>
-                                    <button type="button"
-                                        class="btn btn-outline-secondary btn-rounded waves-effect skill-button">Digital
-                                        Art</button>
+                                        class="btn btn-outline-secondary btn-rounded waves-effect skill-button">{{this}}</button>
+                                 
+                                    {{/each}}
+
                                 </div>
 
                                 <hr class="hr-purple">

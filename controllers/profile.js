@@ -1,8 +1,21 @@
 Project = require('../models/portfolio')
 User = require('../models/users')
+Services = require('../models/services')
 fs = require('fs')
 countries = require('countries-list')
 fontList = require('font-list')
+const moment = require('moment');
+
+
+function removeEmpty(array, item, length) {
+    index = array.indexOf(item);
+    for (i = 0; i < length; i++) {
+        if (index > -1) {
+            array.splice(index, 1);
+        }
+    }
+
+}
 
 module.exports = {
     index: function (req, res) {
@@ -11,16 +24,30 @@ module.exports = {
                 id: req.user.id
             }
         }).then((user) => {
+            skills = user.skills.split(',')
+            removeEmpty(skills, '', skills.length)
+            removeEmpty(skills, ' ', skills.length)
             Project.findAll({
                 where: {
                     uid: req.user.id
                 },
             }).then((projects) => {
-                console.log(projects)
-                res.render('profile/index', {
-                    projects: projects,
-                    user: user
-                });
+
+                Services.findAll({
+                    where: {
+                        uid: req.user.id
+                    }
+                }).then((services) => {
+
+                    res.render('profile/index', {
+                        projects: projects,
+                        user: user,
+                        services: services,
+                        skills: skills
+                        //services2: services
+                    });
+                })
+
             })
         })
 
@@ -28,17 +55,55 @@ module.exports = {
     },
     editProfile: function (req, res) {
         countryList = countries.countries
+
         User.findOne({
             where: {
                 id: req.user.id
             }
         }).then((user) => {
+
+            skills = user.skills.split(',')
+            removeEmpty(skills, '', skills.length)
+            removeEmpty(skills, ' ', skills.length)
             res.render("profile/editProfile", {
                 user: user,
-                countryList: countryList
+                countryList: countryList,
+                skills: skills
             })
 
         })
+
+    },
+    editProfilePost: function (req, res) {
+        website = req.body.website
+        dob = moment(req.body.dob, 'DD/MM/YYYY')
+        gender = req.body.gender
+        location = req.body.location
+        occupation = req.body.occupation
+        skill1 = req.body.skill1
+        skill2 = req.body.skill2
+        skill3 = req.body.skill3
+        skill4 = req.body.skill4
+        skill5 = req.body.skill5
+        skills = "" + skill1 + "," + skill2 + "," + skill3 + "," + skill4 + "," + skill5
+        bio = req.body.bio
+
+        User.update({
+            website: website,
+            dob: dob,
+            gender: gender,
+            location: location,
+            occupation: occupation,
+            skills: skills,
+            bio: bio,
+        },
+            {
+                where: {
+                    id: req.user.id
+                }
+            }).then((user) => {
+                res.redirect('/profile/')
+            })
 
     },
 
@@ -81,10 +146,10 @@ module.exports = {
 
         })
             .then((projects) => {
-                if (req.file === undefined) {
-                    console.log("No imaged uploaded")
-                }
-                else {
+                if (req.file !== undefined) {
+                    if (!fs.existsSync('./public/uploads/profile/' + req.user.id)) {
+                        fs.mkdirSync('./public/uploads/profile/' + req.user.id);
+                    }
                     // Creates user id directory for upload if not exist
                     if (!fs.existsSync('./public/uploads/profile/' + req.user.id + '/projects/')) {
                         fs.mkdirSync('./public/uploads/profile/' + req.user.id + '/projects/');
@@ -94,30 +159,32 @@ module.exports = {
                     fs.renameSync(req.file['path'], './public/uploads/profile/' + req.user.id + '/projects/' + projectsId + '.png');
                 }
 
+
+
                 res.redirect('/profile/');
             })
             .catch(err => console.log(err))
 
     },
 
-    deleteProject: function (req, res){
+    deleteProject: function (req, res) {
         Project.findOne({
             id: req.params.id,
             uid: req.user.id
         }).then((project) => {
-            if(project == null){
+            if (project == null) {
                 res.redirect('/')
             }
-            else{
+            else {
                 Project.destroy({
                     where:
                     {
                         id: req.params.id
                     }
                 })
-                .then((project) => {
-                    res.redirect('/profile')
-                })
+                    .then((project) => {
+                        res.redirect('/profile')
+                    })
             }
         })
     },

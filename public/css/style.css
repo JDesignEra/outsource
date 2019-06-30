@@ -380,6 +380,10 @@ section.files .dataTables_wrapper .col-sm-12 {
     max-width: 90vw;
 }
 
+/* ============================================ Edit Profile ======================================== */
+
+
+
 /* ============================================ Submit Projects ======================================== */
 
 section.submit-projects .classic-tabs .nav li a {
@@ -424,14 +428,6 @@ section.submit-projects .file-upload>.wrapper>.card-text {
 }
 
 /* ============================================ Borders ======================================== */
-
-.border-red {
-    border: 1px solid red;
-}
-
-.border-purple {
-    border: 1px solid #6e2ae5;
-}
 
 body.modal-open {
     overflow: hidden !important;

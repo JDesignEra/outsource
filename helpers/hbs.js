@@ -148,4 +148,10 @@ module.exports = {
             return components;
         }
     },
+    getItem: function (array, index){
+        if(array[index] != "" || array[index] != none){
+            return array[index]
+        }
+        return ""
+    }
 }

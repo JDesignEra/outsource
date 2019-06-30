@@ -7,7 +7,10 @@ const profileController = require('../controllers/profile');
 
 // ToDo: /uid url
 router.get('/', isAuth, profileController.index);
+
 router.get('/edit', isAuth, profileController.editProfile);
+router.post('/edit', isAuth, profileController.editProfilePost);
+
 router.get('/submit', isAuth, profileController.submit)
 router.post('/submit', upload.single('coverPicture'), profileController.submitProject)
 router.get('/delete/:id', profileController.deleteProject)
