@@ -22,6 +22,7 @@
                 {{#if projects}}
                 <div class="row justify-content-start">
                     {{#each projects}}
+
                     <div class="view overlay portoflio-img-sm m-1 rounded border z-depth-2" data-toggle="modal"
                         data-target="#project{{id}}">
 
@@ -56,10 +57,213 @@
                     <!-- Modal -->
                     <div class="modal fade" id="project{{id}}" tabindex="-1" role="dialog"
                         aria-labelledby="project{{id}}Label" aria-hidden="true">
-                        {{>profile/_portfolioModal}}
+                        <button type="button" class="close m-2" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="text-white">&times;</span>
+                        </button>
+                        <div class="modal-dialog modal-lg" role="document">
+
+                            <div class="modal-content mt-5 p-0">
+
+                                <div class="modal-header">
+                                    <div class="col-12 row justify-content-between">
+                                        <div class="col-3 row justify-content-start">
+
+                                            <div class="col-2 align-self-center p-0 h-100">
+                                                <img src="https://picsum.photos/id/659/100/"
+                                                    class="white img-fluid rounded-circle lozad " alt="">
+                                            </div>
+
+                                            <div class="col-8 align-self-center pl-3 h-100">
+                                                <div class="row m-auto h-100 p-0">
+                                                    <h5 class="col-12 p-0 align-self-start text-left font-weight-bold">
+                                                        {{title}}</h5>
+                                                    <h6 class="col-12 p-0 align-self-end text-left"> {{../user.username}} </h6>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        {{!-- <div class="col-2 align-self-center row justify-content-end p-0">
+                    
+                </div> --}}
+                                        <div class="col-4 align-self-center row justify-content-end p-0">
+
+
+
+
+
+                                            {{!-- <button type="button" class="btn btn-secondary col-5"> Follow </button> --}}
+
+
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="modal-body justify-content-center black p-0">
+                                {{!-- ======================= Content ======================= --}}
+                                <div id="contentTest" class="col-12 overflow-auto white p-4">
+                                    <div id="realcontent" style="display:none">{{content}}</div>
+                                </div>
+
+                                {{#if ../services}}
+                                {{!-- ======================= Services ======================= --}}
+                                <div class="container black w-100 row justify-content-center mx-0 py-5">
+                                    <div class="row justify-content-center">
+                                        <img src="https://picsum.photos/id/659/100/"
+                                            class="white img-fluid rounded-circle lozad" alt="">
+                                        <h3 class="col-12 text-center white-text font-weight-bold my-3">
+                                            Services by {{../user.usernames}}
+                                        </h3>
+                                    </div>
+
+                                    <div class="row col-12 justify-content-around">
+                                        {{#each ../services}}
+                                        <div class="card-body border-purple white rounded mx-2">
+                                            <div class="row justify-content-around">
+
+                                                <div class="card">
+                                                    <div class="view overlay">
+                                                        <img class="card-img-top service-img"
+                                                            src="/uploads/services/{{uid}}/{{id}}.png">
+                                                    </div>
+
+                                                    <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm"
+                                                        data-tooltip="tooltip" data-placement="top"
+                                                        title="View More Details" href="#">
+                                                        <i class="far fa-eye"></i>
+                                                    </a>
+
+                                                    <div class="card-body">
+                                                        <h4 class="card-title name" data-names="Service Title">
+                                                            {{name}}</h4>
+
+                                                        <hr>
+
+                                                        <p class="card-text">
+                                                            {{desc}}
+                                                        </p>
+                                                    </div>
+
+                                                    <div
+                                                        class="card-footer deep-purple accent-2 white-text text-center mt-4">
+                                                        <h5 class="m-0">
+                                                            ${{price}}
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{/each}}
+                                    </div>
+
+                                </div>
+                                {{else}}
+                                <h1> wtf </h1>
+                                {{/if}}
+                            </div>
+
+                            <div class="modal-footer blue-grey lighten-5 ">
+                                <div class="row col-12 justify-content-around mx-0 ">
+                                    <div class="col-8 border-purple rounded p-4 white">
+                                        <h4 class="text-center"> Comments </h4>
+                                        <hr class="hr-purple w-100">
+
+                                        <div class="row my-3 mx-auto">
+                                            <div class="col-1 p-0">
+                                                <img src="https://picsum.photos/100/"
+                                                    class="white w-100 img-fluid rounded-circle lozad " alt="">
+                                            </div>
+                                            <div class="col-10 ">
+                                                <h5 class="text-left h5-responsive"> John Smith &nbsp;
+                                                    <small class="text-muted"> 21
+                                                        May 2019 </small>
+                                                </h5>
+
+                                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                    elit, sed do eiusmod
+                                                    tempor incididunt ut
+                                                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                                    exercitation ullamco
+                                                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                                                    dolor in reprehenderit in
+                                                    voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                                    Excepteur sint occaecat
+                                                    cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                                                    anim id est laborum.</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row my-3 mx-auto">
+                                            <div class="col-1 p-0">
+                                                <img src="https://picsum.photos/110/"
+                                                    class="white w-100 img-fluid rounded-circle lozad " alt="">
+                                            </div>
+                                            <div class="col-10 ">
+                                                <h5 class="text-left h5-responsive"> Albert Einstein &nbsp;
+                                                    <small class="text-muted"> 22
+                                                        May 2019 </small>
+                                                </h5>
+
+                                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                    elit, sed do eiusmod
+                                                    tempor incididunt ut
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-3 border-purple rounded p-4 pb-0 white row justify-content-center">
+                                        <h4 class="text-center"> Details </h4>
+                                        <hr class="hr-purple w-100">
+
+
+                                        <div class="row justify-content-start mx-auto col-12 p-0">
+                                            <div class="col-5">
+                                                <p class="text-right"> Posted on:</p>
+                                                <p class="text-right"> Views: </p>
+                                                <p class="text-right"> Likes: </p>
+                                                <p class="text-right"> Comments: </p>
+                                            </div>
+
+                                            <div class="col-5">
+                                                <p class="text-left"> {{formatDate datePosted "DD MMMM YYYY"}}</p>
+                                                <p class="text-left"> {{views}}</p>
+                                                <p class="text-left"> {{likes}}</p>
+                                                <p class="text-left"> 2</p>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="row justify-content-between col-12 align-self-end px-0">
+                                            <a class="btn btn-danger d-flex flex-fill justify-content-center"
+                                                href="/profile/delete/{{id}}">
+                                                Delete
+                                            </a>
+
+                                            <a class="btn btn-success d-flex flex-fill justify-content-center" href="">
+                                                Edit
+                                            </a>
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
+
                     {{/each}}
                 </div>
+
                 {{#extend 'scripts'}}
 
                 <script src="/js/displayPortfolio.js"></script>

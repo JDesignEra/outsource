@@ -24,9 +24,16 @@ module.exports = {
                 id: req.user.id
             }
         }).then((user) => {
-            skills = user.skills.split(',')
-            removeEmpty(skills, '', skills.length)
-            removeEmpty(skills, ' ', skills.length)
+
+            if (user.qskills != null) {
+                skills = user.skills.split(',')
+                removeEmpty(skills, '', skills.length)
+                removeEmpty(skills, ' ', skills.length)
+            }
+            else {
+                skills = []
+            }
+
             Project.findAll({
                 where: {
                     uid: req.user.id
@@ -38,7 +45,7 @@ module.exports = {
                         uid: req.user.id
                     }
                 }).then((services) => {
-
+                    console.log(services)
                     res.render('profile/index', {
                         projects: projects,
                         user: user,
@@ -62,9 +69,14 @@ module.exports = {
             }
         }).then((user) => {
 
-            skills = user.skills.split(',')
-            removeEmpty(skills, '', skills.length)
-            removeEmpty(skills, ' ', skills.length)
+            if (user.qskills != null) {
+                skills = user.skills.split(',')
+                removeEmpty(skills, '', skills.length)
+                removeEmpty(skills, ' ', skills.length)
+            }
+            else {
+                skills = []
+            }
             res.render("profile/editProfile", {
                 user: user,
                 countryList: countryList,
@@ -164,6 +176,41 @@ module.exports = {
                 res.redirect('/profile/');
             })
             .catch(err => console.log(err))
+
+    },
+
+    viewProject: function (req, res) {
+        Project.findOne({
+            where: {
+                id: req.params.id
+            }
+
+        })
+            .then((project) => {
+
+                User.findOne({
+                    where: {
+                        id: project.uid
+                    }
+
+                }).then((user) => {
+
+                    Services.findAll({
+                        where: {
+                            uid: project.uid
+                        }
+
+                    }).then(((services) => {
+                        res.render('profile/viewProject', {
+                            project: project,
+                            services: services,
+                            user: user
+                        })
+                    }))
+
+
+                })
+            })
 
     },
 

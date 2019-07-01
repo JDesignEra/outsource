@@ -1,10 +1,6 @@
-<button type="button" class="close m-2" data-dismiss="modal" aria-label="Close">
-    <span aria-hidden="true" class="text-white">&times;</span>
-</button>
 
-<div class="modal-dialog modal-lg" role="document">
-
-    <div class="modal-content mt-5 p-0">
+<section class="card z-depth-2">
+    <div class="p-0">
 
         <div class="modal-header">
             <div class="col-12 row justify-content-between">
@@ -18,8 +14,8 @@
                     <div class="col-8 align-self-center pl-3 h-100">
                         <div class="row m-auto h-100 p-0">
                             <h5 class="col-12 p-0 align-self-start text-left font-weight-bold">
-                                {{title}}</h5>
-                            <h6 class="col-12 p-0 align-self-end text-left"> John Doe </h6>
+                                {{project.title}}</h5>
+                            <h6 class="col-12 p-0 align-self-end text-left"> {{user.username}}</h6>
                         </div>
 
                     </div>
@@ -46,13 +42,14 @@
 
     </div>
 
-    <div class="modal-body justify-content-center black p-0">
+    <div class="justify-content-center black p-0">
         {{!-- ======================= Content ======================= --}}
         <div id="contentTest" class="col-12 overflow-auto white p-4">
-            <div id="realcontent" style="display:none">{{content}}</div>
+
+            <div id="realcontent" style="display:none">{{project.content}}</div>
         </div>
 
-        {{#if ../services}}
+        {{#if services}}
         {{!-- ======================= Services ======================= --}}
         <div class="container black w-100 row justify-content-center mx-0 py-5">
             <div class="row justify-content-center">
@@ -63,8 +60,9 @@
             </div>
 
             <div class="row col-12 justify-content-around">
-                {{#each ../services}}
-                <div class="card-body border-purple white rounded mx-2">
+
+                {{#each services}}
+                <div class="card-body border-purple white rounded mx-2 col-3">
                     <div class="row justify-content-around">
 
                         <div class="card">
@@ -73,7 +71,7 @@
                             </div>
 
                             <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm"
-                                data-tooltip="tooltip" data-placement="top" title="View More Details" href="#">
+                                data-tooltip="tooltip" data-placement="top" title="View More Details" href="/services/view/{{uid}}/{{id}}">
                                 <i class="far fa-eye"></i>
                             </a>
 
@@ -97,15 +95,16 @@
                     </div>
                 </div>
                 {{/each}}
+
+
+
             </div>
 
         </div>
-        {{else}}
-        <h1> wtf </h1>
         {{/if}}
     </div>
 
-    <div class="modal-footer blue-grey lighten-5 ">
+    <div class="blue-grey lighten-5 ">
         <div class="row col-12 justify-content-around mx-0 ">
             <div class="col-8 border-purple rounded p-4 white">
                 <h4 class="text-center"> Comments </h4>
@@ -170,9 +169,9 @@
                     </div>
 
                     <div class="col-5">
-                        <p class="text-left"> {{formatDate datePosted "DD MMMM YYYY"}}</p>
-                        <p class="text-left"> {{views}}</p>
-                        <p class="text-left"> {{likes}}</p>
+                        <p class="text-left"> {{formatDate project.datePosted "DD MMMM YYYY"}}</p>
+                        <p class="text-left"> {{project.views}}</p>
+                        <p class="text-left"> {{project.likes}}</p>
                         <p class="text-left"> 2</p>
 
                     </div>
@@ -201,4 +200,8 @@
         </div>
 
     </div>
-</div>
+</section>
+
+{{#extend 'scripts'}}
+<script src="/js/displayPortfolio.js"></script>
+{{/extend}}
