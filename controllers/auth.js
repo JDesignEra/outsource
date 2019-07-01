@@ -107,28 +107,38 @@ module.exports = {
             res.render('auth/forgot');
         }
         else if (req.method === 'POST') {
+            console.log('posted');
             async.waterfall([
                 function (done) {
+                    console.log('inside post waterfall1');
                     crypto.randomBytes(20, function (err, buf) {
                         var token = buf.toString('hex');
                         done(err, token);
                     });
                 },
                 function (token, done) {
-                    User.findOne({ email: req.body.email }, function (err, user) {
+                    User.findOne({ where: { email: req.body.email } })
+                    .then(user => { 
                         if (!user) {
+                            console.log('inside post waterfall3');
                             req.flash('error', 'No account with that email address exists.');
                             return res.redirect('/forgot');
                         }
-
+                        console.log('inside post waterfall4');
                         user.resetPasswordToken = token;
                         user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+                        
+
                         user.save(function (err) {
+                            console.log("TOKEN AND EXPIRY SAVED IN DB");
                             done(err, token, user);
+                            console.log("Save function");
                         });
+                        console.log('test');
                     });
                 },
-                function (token, user, done) {
+                function (token, user, done) { //doesnt go into this function
+                    console.log('inside post waterfall5');
                     var smtpTransport = nodemailer.createTransport({
                         service: 'Gmail',
                         auth: {
@@ -155,6 +165,10 @@ module.exports = {
                 if (err) return next(err);
                 res.redirect('/forgot');
             });
+        }
+    },
+    reset: function (res, req) {
+        if (req.method === "GET") {
             User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
                 if (!user) {
                     req.flash('error', 'Password reset token is invalid or has expired.');
@@ -162,6 +176,8 @@ module.exports = {
                 }
                 res.render('reset', { token: req.params.token });
             });
+        }
+        else if (req.method === "POST") {
             async.waterfall([
                 function (done) {
                     User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
@@ -209,8 +225,6 @@ module.exports = {
             ], function (err) {
                 res.redirect('/');
             });
-
-            module.exports = router;
         }
     }
 }
