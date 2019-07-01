@@ -30,6 +30,9 @@ const services = db.define('service', {
     category: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    views: {
+        type: Sequelize.INTEGER
     }
 });
 

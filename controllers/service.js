@@ -22,9 +22,17 @@ module.exports = {
                 id: req.params.id
             }
         }).then((services) => {
-            res.render('services/index', {
-                services
-            });
+            Services.update({
+                views: services.views + 1
+            }, {
+                    where: {
+                        id: req.params.id
+                    }
+                }).then(() => {
+                    res.render('services/index', {
+                        services
+                    });
+                })
         }).catch(err => console.log(err));
     },
     add: function (req, res) {
@@ -47,7 +55,8 @@ module.exports = {
             desc,
             price,
             uid: userId,
-            category
+            category,
+            views: 0
         }).then((services) => {
             if (req.file !== undefined) {
                 // Check if directory exists if not create directory
@@ -114,10 +123,12 @@ module.exports = {
                 uid: req.user.id
             },
         }).then((services) => {
+
             if (services == null) {
                 req.flash('warning', 'You do not have any services to delete');
                 res.redirect('/profile');
             }
+
             else {
                 Services.destroy({
                     where: {

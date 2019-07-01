@@ -380,6 +380,12 @@ section.files .dataTables_wrapper .col-sm-12 {
     max-width: 90vw;
 }
 
+.profile .viewcounts{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
 
 /* ============================================ Edit Profile ======================================== */
 
@@ -444,6 +450,12 @@ body.modal-open {
     content: "";
     display: table;
     clear: both;
+}
+
+.services .viewcounts{
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .viewservice .avatar {
