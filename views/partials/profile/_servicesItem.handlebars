@@ -35,7 +35,7 @@
 
                     <div class="card-body">
                         <h4 class="card-title name" data-names="Service Title">
-                            {{name}}</h4>
+                            {{name}} {{id}}</h4>
 
                         <hr>
 
@@ -54,15 +54,13 @@
                         <a class="btn btn-info col-5" href="/services/edit/{{id}}" style="display: inline-block"><i
                                 class="fas fa-pencil-alt"></i>Edit</a>
                         <a class="btn btn-danger col-5" style="display: inline-block"
-                            data-toggle="modal" data-target="#confirm"><i class="fas fa-trash-alt"></i>Delete</a>
+                            data-toggle="modal" data-target="#confirm{{id}}"><i class="fas fa-trash-alt"></i>Delete</a>
                     </div>
-                    <div class="modal fade" id="confirm" tabindex="-1" role="dialog"
+                    <div class="modal fade" id="confirm{{id}}" tabindex="-1" role="dialog"
                         aria-labelledby="label" aria-hidden="true">
 
                         <!-- Change class .modal-sm to change the size of the modal -->
                         <div class="modal-dialog modal-sm" role="document">
-
-
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title w-100" id="label">Confirmation</h4>
@@ -71,7 +69,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    Confirm Delete?
+                                    Confirm Delete? {{id}}
                                 </div>
                                 <div class="modal-footer">
                                     <a type="button" class="btn btn-danger btn-sm"
