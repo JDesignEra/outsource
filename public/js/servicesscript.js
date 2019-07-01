@@ -1,4 +1,4 @@
-
+//List service
 function search() {
     let input = document.getElementById('search').value;
     let filter = input.toUpperCase();
@@ -56,6 +56,24 @@ $('select.category-select').on('change', function(e) {
     }
 });
 
+$('select.sort-select').on('change', function(e) {
+    let cards = $('.servicecards');
+    let sort = $(this).find('option:selected').text();
+    if (sort == "Most viewed"){
+        cards.sort(function(a, b){ return $(b).data("views")-$(a).data("views")});    
+        $("#servcon").html(cards);
+    }
+    else if (sort == "Newest first"){
+        cards.sort(function(a, b){ return $(b).data("date")-$(a).data("date")});    
+        $("#servcon").html(cards);
+    }
+    else if (sort == "Oldest first"){
+        cards.sort(function(a, b){ return $(a).data("date")-$(b).data("date")});    
+        $("#servcon").html(cards);
+    }
+});
+
+//Edit Service/Add Service
 function categoryCheck() {
     var categories = document.getElementsByName('categories');
     var error = document.getElementById('categoryErr');

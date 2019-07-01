@@ -33,6 +33,9 @@ const services = db.define('service', {
     },
     views: {
         type: Sequelize.INTEGER
+    },
+    date: {
+        type: Sequelize.STRING
     }
 });
 
