@@ -389,10 +389,10 @@
 
 {{#extend 'scripts'}}
 <script src="/js/vendor/mdb/modules/datatables.min.js"></script>
-{{#if folders}}
-    <script>
+    {{#if folders}}
+    <script id="tree-script">
         let tree = {{{ json folders }}};
     </script>
-{{/if}}
+    {{/if}}
 <script src="/js/files.js"></script>
 {{/extend}}

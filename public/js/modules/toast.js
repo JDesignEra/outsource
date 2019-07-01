@@ -27,6 +27,8 @@ let toast = (function() {
                     }
                 }
             });
+
+            $('script#toast-script').remove();
         }
     }
 

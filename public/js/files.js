@@ -39,12 +39,6 @@ $(function() {
                     parentLink = li.attr('data-link');
 
                 if (!li.hasClass('treeview-animated-items')) {
-                    // li.attr({
-                    //     'data-toggle': 'popover',
-                    //     'data-content': 'Open Folder',
-                    //     'data-title': 'Open Folder?'
-                    // });
-
                     li.addClass('treeview-animated-items');
                     li.html(
                         `<a class="closed">` +
@@ -71,6 +65,8 @@ $(function() {
                 );
             }
         });
+
+        $('script#tree-script').remove();
 
         let path = '';
 
