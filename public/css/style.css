@@ -376,9 +376,10 @@ section.files .dataTables_wrapper .col-sm-12 {
     opacity: 1;
 }
 
-.profile .modal-dialog {
+.profile .modal-dialog-project {
     max-width: 90vw;
 }
+
 
 /* ============================================ Edit Profile ======================================== */
 

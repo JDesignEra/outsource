@@ -33,7 +33,7 @@ module.exports = {
         }
         else {
             req.flash('warning', 'You need a service provider account to add a service');
-            res.redirect('/services');
+            res.redirect('/');
         }
     },
     addpost: function (req, res) {
@@ -58,7 +58,7 @@ module.exports = {
                 let serviceId = services.id;
                 fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
             }
-            res.redirect('/services');
+            res.redirect('/profile');
         })
             .catch(err => console.log(err))
     },
@@ -76,7 +76,7 @@ module.exports = {
             }
             else {
                 req.flash('warning', 'You do not have permission to modify this service');
-                res.redirect('/services');
+                res.redirect('/');
             }
         }
 
@@ -104,7 +104,7 @@ module.exports = {
                     fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
                 }
                 req.flash('success', 'Changes saved successfully!');
-                res.redirect('/services');
+                res.redirect('/profile');
             }).catch(err => console.log(err));
     },
     delete: function (req, res) {
@@ -116,7 +116,7 @@ module.exports = {
         }).then((services) => {
             if (services == null) {
                 req.flash('warning', 'You do not have any services to delete');
-                res.redirect('/services');
+                res.redirect('/profile');
             }
             else {
                 Services.destroy({
@@ -125,7 +125,7 @@ module.exports = {
                     }
                 }).then((services) => {
                     req.flash('success', 'Service successfully deleted!');
-                    res.render('services/list');
+                    res.redirect('/profile');
                 })
             }
         })

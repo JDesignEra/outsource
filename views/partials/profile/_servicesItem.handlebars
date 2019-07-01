@@ -18,39 +18,74 @@
         <!-- Card body -->
         <div id="collapseServices1" class="collapse show row justify-content-around" role="tabpanel"
             aria-labelledby="headingPortfolio1" data-parent="#accordionServices1">
-            {{#each services}}
-            <div class="card-body z-depth-2 col-4">
-                <div class="row justify-content-around">
-                    <div class="card">
-                        <div class="view overlay">
-                            <img class="card-img-top service-img" src="/uploads/services/{{uid}}/{{id}}.png">
-                        </div>
 
-                        <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm"
-                            data-tooltip="tooltip" data-placement="top" title="View More Details" href="#">
-                            <i class="far fa-eye"></i>
-                        </a>
+            <div class="row justify-content-around">
+                {{#each services}}
+                <div class="z-depth-2 card col-12 col-md-4 col-lg-4 p-4 mt-4">
+                    <div class="view overlay">
+                        <img onerror='this.src = "/img/services/default.jpg"' class="card-img-top"
+                            src="/uploads/services/{{uid}}/{{id}}.png">
+                    </div>
 
-                        <div class="card-body">
-                            <h4 class="card-title name" data-names="Service Title">
-                               {{name}}</h4>
+                    <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm"
+                        data-tooltip="tooltip" data-placement="top" title="View More Details"
+                        href="/services/view/{{uid}}/{{id}}">
+                        <i class="far fa-eye"></i>
+                    </a>
 
-                            <hr>
+                    <div class="card-body">
+                        <h4 class="card-title name" data-names="Service Title">
+                            {{name}}</h4>
 
-                            <p class="card-text">
-                               {{desc}}
-                            </p>
-                        </div>
+                        <hr>
 
-                        <div class="card-footer deep-purple accent-2 white-text text-center mt-4">
-                            <h5 class="m-0">
-                                ${{price}}
-                            </h5>
+                        <p class="card-text">
+                            {{desc}}
+                        </p>
+                    </div>
+
+                    <div class="card-footer deep-purple accent-2 white-text text-center mt-4">
+                        <h5 class="m-0">
+                            ${{price}}
+                        </h5>
+                    </div>
+
+                    <div class="row justify-content-between">
+                        <a class="btn btn-info col-5" href="/services/edit/{{id}}" style="display: inline-block"><i
+                                class="fas fa-pencil-alt"></i>Edit</a>
+                        <a class="btn btn-danger col-5" style="display: inline-block"
+                            data-toggle="modal" data-target="#confirm"><i class="fas fa-trash-alt"></i>Delete</a>
+                    </div>
+                    <div class="modal fade" id="confirm" tabindex="-1" role="dialog"
+                        aria-labelledby="label" aria-hidden="true">
+
+                        <!-- Change class .modal-sm to change the size of the modal -->
+                        <div class="modal-dialog modal-sm" role="document">
+
+
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title w-100" id="label">Confirmation</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Confirm Delete?
+                                </div>
+                                <div class="modal-footer">
+                                    <a type="button" class="btn btn-danger btn-sm"
+                                        data-dismiss="modal" href="/profile">Cancel</a>
+                                    <a type="button" class="btn btn-success btn-sm" href="/services/delete/{{id}}">Delete</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
+                {{/each}}
             </div>
-            {{/each}}
+
 
 
         </div>
