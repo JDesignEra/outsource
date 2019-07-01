@@ -1,7 +1,7 @@
 // hbs (Handlebars Helpers) by Joel
 const path = require('path')
 const fs = require('fs')
-const moment = require('./moment');
+const moment = require('moment');
 
 let blocks = {};
 let blocksFlag = {};
@@ -25,7 +25,7 @@ module.exports = {
         return out;
     },
     currYear: function() {
-        return moment.format(new Date, 'YYYY')
+        return moment(new Date).format('YYYY')
     },
     extend: function(name, ops) {
         let block = blocks[name];
@@ -98,6 +98,18 @@ module.exports = {
 
         return out.slice(0, -seperator.length);
     },
+    math: function(lval, operator, rval) {
+        lval = parseFloat(lval);
+        rval = parseFloat(rval);
+
+        return{
+            '+': lval + rval,
+            '-': lval - rval,
+            '*': lval * rval,
+            '/': lval / rval,
+            '%': lval % rval,
+        }[operator]
+    },
     setVar: function(varName, varValue, ops) {
         if (!ops.data.root) {
             ops.data.root = {};
@@ -136,7 +148,7 @@ module.exports = {
     },
     //Lemuel
     formatDate: function (date, targetFormat) {
-        return moment.format(date, targetFormat);
+        return moment(date).format(targetFormat);
     },
     replaceQuotes: function (components) {
         if (components == '') {

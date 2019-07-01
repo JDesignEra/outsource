@@ -15,6 +15,111 @@ $(function() {
     });
 });
 
+// Folders Tree
+$(function() {
+    if (tree) {
+        let insert = $('<ul class="treeview-animated-list mt-3"></ul>');
+        
+        tree.forEach((val) => {
+            let li = insert.find(`[data-child="${val.parent}"]`);
+
+            if (li.length < 1) {
+                insert.append(
+                    `<li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">` +
+                        `<a class="treeview-animated-element d-flex align-items-center" href="${val.link}">` +
+                            `<i class="far fa-folder mr-2"></i>${val.name}` +
+                        `</a>` +
+                    `</li>`
+                );
+            }
+            else {
+                li = li.last();
+                
+                let parentName = li.attr('data-name'),
+                    parentLink = li.attr('data-link');
+
+                if (!li.hasClass('treeview-animated-items')) {
+                    // li.attr({
+                    //     'data-toggle': 'popover',
+                    //     'data-content': 'Open Folder',
+                    //     'data-title': 'Open Folder?'
+                    // });
+
+                    li.addClass('treeview-animated-items');
+                    li.html(
+                        `<a class="closed">` +
+                            `<i class="fas fa-angle-right mr-2"></i>` +
+                            `<i class="far fa-folder mr-2"></i>${parentName}` +
+                        `</a>` +
+                        `<ul class="nested">`+
+                            `<div class="pt-2 pr-2">` +
+                                `<a class="btn btn-sm btn-block btn-primary" href="${parentLink}">Open Folder</a>`+
+                                `<hr class="mt-3 mb-2">` +
+                            `</div>` +
+                        `</ul>`
+                    );
+                }
+                
+                let ul = li.find('.nested').last();
+
+                ul.append(
+                    `<li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">` +
+                        `<a class="treeview-animated-element d-flex align-items-center" href="${val.link}">` +
+                            `<i class="far fa-folder mr-2"></i>${val.name}` +
+                        `</a>` +
+                    `</li>`
+                );
+            }
+        });
+
+        let path = '';
+
+        decodeURI(window.location.pathname).split('/').forEach(val => {
+            let target = insert.find('a[href]');
+            path += val;
+            
+            target.each(function() {
+                let _this = $(this);
+
+                if (_this.attr('href') === path) {
+                    _this.addClass('open');
+
+                    let icon = _this.find('.fa-angle-right');
+                    icon.addClass('down');
+
+                    _this.parent().find('.nested').addClass('active');
+                }
+            });
+
+            path += '/';
+        });
+
+        $('#folders-tree', '#folders-card').html(insert);
+
+        $('[data-toggle="popover"]').popover();
+
+        let target = $('.closed:not(.open) + .nested', '#folders-tree')
+        target.hide();
+
+        let elements = $('.treeview-animated-element', '#folders-tree');
+        
+        $('.closed', '#folders-tree').click(function () {
+            _this = $(this);
+            target = _this.siblings('.treeview-animated .nested');
+            pointer = _this.children('.treeview-animated .fa-angle-right');
+            _this.toggleClass('open');
+            pointer.toggleClass('down');
+            !target.hasClass('active') ? target.addClass('active').slideDown() : target.removeClass('active').slideUp();
+            return false;
+        });
+
+        elements.click(function () {
+            _this = $(this);
+            _this.hasClass('opened') ? _this.removeClass('opened') : (elements.removeClass('opened'), _this.addClass('opened'));
+        });
+    }
+});
+
 // DataTable
 $(function() {
     function tableInit(tableId) {
@@ -40,6 +145,13 @@ $(function() {
                 targets: data['targets']
             }],
         });
+        
+        if (focus.find('.dataTables_empty').length > 0) {
+            focus.find('#check-all').prop('disabled', true);
+        }
+        else {
+            focus.find('#check-all').prop('disabled', false);
+        }
     }
 
     tableInit("#files-table");
@@ -284,8 +396,9 @@ $(function() {
     searchInput.on('keyup', function() {
         let _this = $(this);
         let val = _this.val().toLowerCase();
+        let shown = trs.length;
 
-        // Tie both value and llabel state together
+        // Tie both value and label state together
         searchInput.val(val);
         
         if (_this.val() !== '') {
@@ -299,12 +412,12 @@ $(function() {
             let _this = $(this);
 
             if (val) {
-                let tds = _this.children('td:not([headers="select"], [headers="actions"])');
+                let tds = _this.children('td[headers]:not([headers="select"], [headers="actions"], [id="empty-search"])');
                 let show = false;
 
                 for (let i = 0, n = tds.length; i < n && !show; i++) {
                     td = $(tds[i]);
-
+                    
                     if (td.text().toLowerCase().indexOf(val) > -1 && filters.includes(td.attr('headers'))) {
                         show = true;
                     }
@@ -317,11 +430,15 @@ $(function() {
                         _this.removeClass('flipInX');
                     });
                 }
-                else if (!show && typeof _this.attr('style') === 'undefined') {
-                    _this.addClass('flipOutX').one(animationEnd, function() {
-                        _this.removeClass('flipOutX');
-                        _this.prop('style', 'display: none !important;');
-                    });
+                else if (!show) {
+                    if (!_this.attr('style')) {
+                        _this.addClass('flipOutX').one(animationEnd, function() {
+                            _this.removeClass('flipOutX');
+                            _this.prop('style', 'display: none !important;');
+                        });
+                    }
+
+                    shown--;
                 }
             }
             else {
@@ -333,6 +450,18 @@ $(function() {
                 }
             }
         });
+
+        $('#empty-search', '#files-table').remove();
+        
+        if (shown < 1) {
+            $('tbody', '#files-table').prepend(
+                '<tr id="empty-search">'
+                +'<td colspan=100>'
+                +'Couldn\t find anything for <span class="font-weight-bolder">' + val + '</span>'
+                +'</td>'
+                +'</tr>'
+            );
+        }
     });
 
     // Autocomplete

@@ -13,7 +13,6 @@ let toast = (function() {
                 'closeButton': true,
                 'progressBar': true,
                 'newestOnTop': true,
-                'extendedTimeOut': 0,
                 'hideDuration': 300,
                 'timeOut': 2000,
                 'extendedTimeOut': 1000,

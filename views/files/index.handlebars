@@ -15,28 +15,8 @@
 
                 <hr class="mb-0">
 
-                <div id="folders-tree" class="treeview-animated mt-3 collapse show">
-                    <ul class="treeview-animated-list">
-                        <li class="treeview-animated-items">
-                            <a class="closed">
-                                <i class="fas fa-angle-right mr-1"></i>
-                                <i class="far fa-folder mr-1"></i>Project 1
-                            </a>
-                            
-                            <ul class="nested">
-                                <li>
-                                    <div class="treeview-animated-element">
-                                        <i class="far fa-folder mr-1"></i>img
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <div class="treeview-animated-element">
-                                <i class="far fa-folder mr-1"></i>Project 2
-                            </div>
-                        </li>
-                    </ul>
+                <div id="folders-tree" class="treeview-animated collapse show">
+                    <h6 class="dropdown-header text-center my-2">No Folders</h6>
                 </div>
             </div>
         </div>
@@ -60,9 +40,9 @@
                 </div>
 
                 <div class="card-body p-0">
-                    <div class="table-responsive mt-2 scrollbar scrollbar-primary-gradient square thin mb-3">
+                    <div class="mt-2 mb-3">
                         <div class="table-editable table-hover">
-                            <table id="files-table" class="table table-striped text-center mb-0">
+                            <table id="files-table" class="table table-striped text-center mb-0 w-100">
                                 <thead class="deep-purple accent-3 white-text">
                                     <th id="select" class="d-none d-md-table-cell">
                                         <div class="form-check">
@@ -84,8 +64,8 @@
                         </div>
                     </div>
 
-                    {{#if items}}
-                        <p class="text-center grey-text small font-weight-bold">End of table</p>
+                    {{#if files}}
+                        <p class="text-center grey-text small font-weight-bold">End of contents</p>
                     {{/if}}
                 </div>
             </div>
@@ -262,19 +242,24 @@
 
                 <div class="modal-body">
                     <form class="needs-validation" action="{{ postRoot }}/~newfolder" method="post" novalidate>
-                        <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Folder Name" {{#if forms.name}}value="{{ forms.name }}"{{/if}} name="name">
+                        <div class="input-group mb-0">
+                            <div class="md-form md-outline">
+                                <input class="form-control" type="text" {{#if forms.name}}value="{{ forms.name }}"{{/if}} name="name">
+                                <label>Folder Name</label>
+                                
+                                <div class="invalid-feedback">
+                                    {{ forms.errors.name }}
+                                </div>
+                            </div>
 
                             <div class="input-group-prepend">
                                 <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
                                     <i class="far fa-file-plus mr-1"></i> Create Folder
                                 </button>
                             </div>
-
-                            <div class="invalid-feedback">
-                                {{errors.name}}
-                            </div>
                         </div>
+
+                        <small class="form-text text-muted">Folder name only allow alphanumeric, underscore and dash.</small>
                     </form>
                 </div>
             </div>
@@ -404,5 +389,10 @@
 
 {{#extend 'scripts'}}
 <script src="/js/vendor/mdb/modules/datatables.min.js"></script>
+{{#if folders}}
+    <script>
+        let tree = {{{ json folders }}};
+    </script>
+{{/if}}
 <script src="/js/files.js"></script>
 {{/extend}}

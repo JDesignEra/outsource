@@ -68,15 +68,7 @@ app.use(flash());
 app.use(function(req, res, next) {
 	res.locals.user = req.user || null;
 	res.locals.url = req.originalUrl;
-	res.locals.errors = req.flash('errors');
 	res.locals.forms = req.flash('forms');
-
-	if (Object.getOwnPropertyNames(res.locals.errors).length < 1) {
-		delete res.locals.errors;
-	}
-	else {
-		res.locals.errors = res.locals.errors[0];
-	}
 
 	if (Object.getOwnPropertyNames(res.locals.forms).length < 1) {
 		delete res.locals.forms;
