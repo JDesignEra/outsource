@@ -498,6 +498,33 @@ $(function() {
     }
 });
 
+// Action Buttons
+$(function() {
+    $('.rename-action, .move-action, .copy-action, .delete-action').on('click', function() {
+        let _this = $(this);
+        let url = null;
+        let form = $('#action-form');
+        let tds = $('td[headers="select"] input:checked');
+        let ids = [];
+
+        if (_this.hasClass('rename-action')) {
+            url = form.attr('action') + '~rename';
+        }
+        else if (_this.hasClass('move-action')) {
+            url = form.attr('action') + '~move';
+        }
+        else if (_this.hasClass('copy-action')) {
+            url = form.attr('action') + '~copy';
+        }
+        else if (_this.hasClass('delete-action')) {
+            url = form.attr('action') + '~delete';
+        }
+        
+        form.attr('action', url);
+        form.submit();
+    });
+});
+
 // Show Modal if url contains modal id
 $(function() {
     let url = window.location.href;

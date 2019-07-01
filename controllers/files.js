@@ -4,6 +4,7 @@ const mime = require('mime');
 const fs = require('fs-extra');
 const walk = require('klaw');
 const moment = require('moment');
+const Op = require('sequelize').Op;
 
 const bytesToSize = require('../helpers/bytesToSize');
 const filesFolders = require('../models/filesFolders');
@@ -51,13 +52,13 @@ module.exports = {
                 let name = folderDir.slice(folderDir.lastIndexOf('/') + 1);
                     folderDir = folderDir.length !== name.length ? folderDir.slice(0, folderDir.length - name.length - 1) : '/';
 
-                let data = datas.find(v => v.name === name && v.directory === folderDir);
+                let data = datas.find(v => v.name === name && v.directory === (folderDir[0] !== '/' ? '/' + folderDir : folderDir));
                 
-                if (name !== '' && stats.isFile() && folderDir.toLowerCase() === dir.toLowerCase()) {
+                if (name && data && stats.isFile() && folderDir.toLowerCase() === dir.toLowerCase()) {
                     let type = mime.getType(name);
 
                     files.push({
-                        id: data.id,
+                        id: data['id'],
                         name: name,
                         size: size,
                         type: type.slice(0, type.indexOf('/')),
@@ -65,12 +66,12 @@ module.exports = {
                         link: '/preview' + (folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name)
                     });
                 }
-                else if (name !== '' && stats.isDirectory()) {
+                else if (name && data && stats.isDirectory()) {
                     let link = '/files' + (folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name);
 
                     if (folderDir.toLowerCase() === dir.toLowerCase()) {
                         files.push({
-                            id: data.id,
+                            id: data['id'],
                             name: name,
                             size: size,
                             type: 'folders',
@@ -104,7 +105,10 @@ module.exports = {
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
         dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir;
 
-        files.forEach(file => {
+        let replacedMsg = [];
+        let newIds = [];
+
+        files.forEach((file, i) => {
             let fileName = file['originalname'];
             let type = mime.getType(fileName) || file['mimetype'];
             type = type.slice(0, type.indexOf('/'));
@@ -123,19 +127,50 @@ module.exports = {
                         fullPath: path.join(dir, fileName).replace(/\\/g, '/'),
                         type: type,
                         uid: uid
+                    }).then(datas => {
+                        newIds.push(datas['dataValues']['id']);
+                        console.log(`\x1b[36mpushed: ${newIds}\x1b[0m`);
                     });
                 }
                 else {
-                    req.flash('warning', fileName + ' has been replaced.')
+                    newIds.push(data['id']);
+                    replacedMsg.push(fileName + ' has been replaced.');
+                    // req.flash('warning', fileName + ' has been replaced.')
                 }
 
                 if (!fs.existsSync(path.join(root, dir))) {
                     fs.mkdirSync(path.join(root, dir));
                 }
 
-                fs.renameSync(file['path'], path.join(root, dir, fileName));
+                fs.move(file['path'], path.join(root, dir, fileName));
+            }).then(() => {
+                if (i >= files.length - 1) {
+                    // console.log(`\x1b[36mi: ${i}, files length: ${files.length}\x1b[0m`);
+
+                    if (newIds.length > 0) {
+                        req.flash('forms', { select: newIds });
+                    }
+
+                    if (replacedMsg.length > 0) {
+                        req.flash('warning', replacedMsg);
+                    }
+
+                    console.log(`newIds: ${newIds}`);
+                }
             });
         });
+
+        // Promise.all([replacedMsg, newIds]).then(val => {
+        //     console.log('\x1b[36mVAL');
+        //     console.log(val);
+        //     console.log('\x1b[0m');
+        // })
+        // console.log(`\x1b[36mnewIds: ${newIds}\x1b[0m`);
+        
+        // if (newIds.length > 0) {
+        //     console.log('\x1b[36mCALL\x1b[0m');
+        //     req.flash('forms', {select: newIds});
+        // }
 
         res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
     },
@@ -143,7 +178,55 @@ module.exports = {
         // ToDo: Copy
     },
     delete: function(req, res) {
-        // ToDo: Delete
+        if (req.body.fid) {
+            let uid = req.user.id;
+            let root = './public/uploads/files/' + uid + '/';
+            let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
+            dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir;
+
+            let id = Array.isArray(req.body.fid) ? req.body.fid : [req.body.fid];
+            let removeDir = [];
+            
+            filesFolders.findAll({ where: {id: { [Op.in]: id }}, raw: true }).then(datas => {
+                let folders = datas.filter(v => v.type === 'folder');
+
+                for (data of datas) {
+                    removeDir.push(data['fullPath']);
+                }
+
+                filesFolders.destroy({ where: {id: { [Op.in ]: id }} });
+                
+                // Find child folders and files in database and removed too.
+                for (folder of folders) {
+                    filesFolders.findAll({
+                        where: { directory: { [Op.like]: folder['fullPath'] } },
+                        raw: true
+                    }).then(datas => {
+                        console.log(datas);
+                        
+                        let childId = [];
+                        
+                        for (data of datas) {
+                            if (folder['fullPath'] === data.directory.slice(0, folder['fullPath'].length)) {
+                                childId.push(data['id']);
+                            }
+                        }
+
+                        filesFolders.destroy({ where: {id: { [Op.in]: childId }} });
+                    });
+                }
+            }).then(() => {
+                for (let i = 0, n = removeDir.length; i < n; i++) {
+                    fs.remove(path.join(root, removeDir[i]));
+                }
+
+                req.flash('success', 'Selected content(s) has been deleted.');
+                res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+            });
+        }
+        else {
+            req.flash('error', 'Please select a file or folder to delete.');
+        }
     },
     move: function(req, res) {
         // ToDo: Move
@@ -153,11 +236,11 @@ module.exports = {
     },
     newfolder: function(req, res) {
         let uid = req.user.id;
-        let folderName = req.body.name;
         let root = './public/uploads/files/' + uid + '/';
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
         dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir;
-        
+
+        let folderName = req.body.name;
         let regex = /[!@#$%^&*+\=\[\]{}()~;':"\\|,.<>\/?]/;
 
         if (regex.test(folderName)) {

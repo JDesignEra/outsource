@@ -65,6 +65,9 @@ module.exports = {
 
         return (flag) ? ops.fn(this) : ops.inverse(this);
     },
+    ifIn: function(string, array, ops) {
+        return array.includes(string) ? ops.fn(this) : ops.inverse(this);
+    },
     ifNotExtend: function(name, ops) {
         let flag = (blocksFlag[name] !== undefined ? !blocksFlag[name] : true);
         blocksFlag[name] = false;

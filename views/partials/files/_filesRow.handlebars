@@ -4,7 +4,11 @@
         
             <td headers="select" class="d-none d-md-table-cell">
                 <div class="form-check">
-                    <input id="{{ this.id }}" class="form-check-input" type="checkbox" name="fid" {{#if this.id}}value="{{ this.id }}"{{/if}}>
+                    <input id="{{ this.id }}"
+                        class="form-check-input" type="checkbox"
+                        name="fid"
+                        {{#if this.id}} value="{{ this.id }}"{{/if}}
+                    >
                     <label class="form-check-label" for="{{ this.id }}"></label>
                 </div>
             </td>
@@ -46,15 +50,15 @@
                         <i class="far fa-comments"></i> Comment
                     </button>
                     <button class="dropdown-item">
-                        <i class="far fa-i-cursor"></i> Rename
+                        <i class="far fa-i-cursor rename-action"></i> Rename
                     </button>
                     <button class="dropdown-item">
-                        <i class="fas fa-exchange-alt"></i> Move
+                        <i class="fas fa-exchange-alt move-action"></i> Move
                     </button>
-                    <button class="dropdown-item">
+                    <button class="dropdown-item copy-action">
                         <i class="far fa-copy"></i> Copy
                     </button>
-                    <button class="dropdown-item">
+                    <button class="dropdown-item delete-action">
                         <i class="far fa-trash-alt"></i> Delete
                     </button>
                     <button 
