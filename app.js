@@ -19,21 +19,20 @@ const hbs = require('./helpers/hbs');
 const app = express(); 
 
 // Session
-app.use(session({ 
-	key: 'outsource_session', 
-	secret: 'toOs2019', 
-	store: new mySqlStore({ 
+app.use(session({
+	secret: '$2y$10$1fs/4go1gKR39/cXficd0eG1qg16/Fj.UxNI4WQelTbWzXOzp8tBS',
+	store: new mySqlStore({
 		host: db.host,
 		port: 3306,
 		user: db.username,
 		password: db.password,
 		database: db.database,
-		clearExpired: true, 
-		checkExpirationInterval: 1 * 24 * 60 * 60 * 10000,	// 24 Hours
-		expiration: 1 * 24 * 60 * 60 * 10000
+		clearExpired: true,
+		checkExpirationInterval: 43200000,	// 12 Hours
+		expiration: 86400000
 	}),
-	resave: false, 
-	saveUninitialized: false, 
+	resave: false,
+	saveUninitialized: false,
 }));
 
 // Passport

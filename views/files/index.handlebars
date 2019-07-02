@@ -174,198 +174,200 @@
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Rename Modal -->
-    <div class="modal fade" id="renameModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header deep-purple accent-2 white-text">
-                    <h4 class="modal-title w-100">
-                        <i class="far fa-i-cursor mr-1"></i> RENAME
-                    </h4>
+{{#extend 'modals'}}
+<!-- Rename Modal -->
+<div class="modal fade" id="renameModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header deep-purple accent-2 white-text">
+                <h4 class="modal-title w-100">
+                    <i class="far fa-i-cursor mr-1"></i> RENAME
+                </h4>
 
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span class="white-text">&times;</span>
-                    </button>
-                </div>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span class="white-text">&times;</span>
+                </button>
+            </div>
 
-                <div class="modal-body">
-                    <form class="needs-validation" action="{{ postRoot }}/~rename" method="post" novalidate>
-                        <div class="input-group mb-0">
-                            <div class="md-form md-outline">
-                                <input type="hidden" name="fid" value="">
-                                <input class="form-control" type="text" {{#if forms.rename}}value="{{ forms.rename }}"{{/if}} name="name">
-                                <label>New Name</label>
-                                
-                                <div class="invalid-feedback">
-                                    {{ forms.errors.rename }}
-                                </div>
+            <div class="modal-body">
+                <form class="needs-validation" action="{{ postRoot }}/~rename" method="post" novalidate>
+                    <div class="input-group mb-0">
+                        <div class="md-form md-outline">
+                            <input type="hidden" name="fid" value="">
+                            <input class="form-control" type="text" {{#if forms.rename}}value="{{ forms.rename }}"{{/if}} name="name">
+                            <label>New Name</label>
+                            
+                            <div class="invalid-feedback">
+                                {{ forms.errors.rename }}
                             </div>
+                        </div>
 
-                            <div class="input-group-prepend">
-                                <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect" type="submit">
-                                    <i class="far fa-i-cursor mr-1"></i> Rename
-                                </button>
-                            </div>
+                        <div class="input-group-prepend">
+                            <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect" type="submit">
+                                <i class="far fa-i-cursor mr-1"></i> Rename
+                            </button>
+                        </div>
+                    </div>
+
+                    <small class="form-text text-muted">
+                        File name should exclude file extension. And file or folder name only allow alphanumeric, underscore and dash.
+                    </small>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New File Modal -->
+<div class="modal fade" id="newFileModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header deep-purple accent-2 white-text">
+                <h4 class="modal-title w-100">
+                    <i class="far fa-file-plus mr-1"></i> NEW FILE
+                </h4>
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form method="post">
+                    <div class="input-group">
+                        <div class="md-form md-outline">
+                            <input class="form-control" type="text" name="name">
+                            <label>File Name</label>
+                        </div>
+
+                        <span class="input-group-text border-left-0 border-right-0 rounded-0">.</span>
+
+                        <div class="md-form md-outline">
+                            <input class="form-control" type="text" name="ext">
+                            <label>Extension</label>
+                        </div>
+
+                        <div class="input-group-prepend">
+                            <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
+                                <i class="far fa-file-plus mr-1"></i> Create File
+                            </button>
                         </div>
 
                         <small class="form-text text-muted">
-                            File name should exclude file extension. And file or folder name only allow alphanumeric, underscore and dash.
+                            File name and extension only allow alphanumeric, underscore and dash.
                         </small>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- New File Modal -->
-    <div class="modal fade" id="newFileModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header deep-purple accent-2 white-text">
-                    <h4 class="modal-title w-100">
-                        <i class="far fa-file-plus mr-1"></i> NEW FILE
-                    </h4>
+<!-- New Folder Modal -->
+<div class="modal fade" id="newFolderModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header deep-purple accent-2 white-text">
+                <h4 class="modal-title w-100">
+                    <i class="far fa-folder-plus mr-1"></i> NEW FOLDER
+                </h4>
 
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span class="white-text">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <form method="post">
-                        <div class="input-group">
-                            <div class="md-form md-outline">
-                                <input class="form-control" type="text" name="name">
-                                <label>File Name</label>
-                            </div>
-
-                            <span class="input-group-text border-left-0 border-right-0 rounded-0">.</span>
-
-                            <div class="md-form md-outline">
-                                <input class="form-control" type="text" name="ext">
-                                <label>Extension</label>
-                            </div>
-
-                            <div class="input-group-prepend">
-                                <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
-                                    <i class="far fa-file-plus mr-1"></i> Create File
-                                </button>
-                            </div>
-
-                            <small class="form-text text-muted">
-                                File name and extension only allow alphanumeric, underscore and dash.
-                            </small>
-                        </div>
-                    </form>
-                </div>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span class="white-text">&times;</span>
+                </button>
             </div>
-        </div>
-    </div>
 
-    <!-- New Folder Modal -->
-    <div class="modal fade" id="newFolderModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header deep-purple accent-2 white-text">
-                    <h4 class="modal-title w-100">
-                        <i class="far fa-folder-plus mr-1"></i> NEW FOLDER
-                    </h4>
-
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span class="white-text">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <form class="needs-validation" action="{{ postRoot }}/~newfolder" method="post" novalidate>
-                        <div class="input-group mb-0">
-                            <div class="md-form md-outline">
-                                <input class="form-control" type="text" {{#if forms.name}}value="{{ forms.name }}"{{/if}} name="name">
-                                <label>Folder Name</label>
-                                
-                                <div class="invalid-feedback">
-                                    {{ forms.errors.folderName }}
-                                </div>
-                            </div>
-
-                            <div class="input-group-prepend">
-                                <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect" type="submit">
-                                    <i class="far fa-folder-plus mr-1"></i> Create Folder
-                                </button>
+            <div class="modal-body">
+                <form class="needs-validation" action="{{ postRoot }}/~newfolder" method="post" novalidate>
+                    <div class="input-group mb-0">
+                        <div class="md-form md-outline">
+                            <input class="form-control" type="text" {{#if forms.name}}value="{{ forms.name }}"{{/if}} name="name">
+                            <label>Folder Name</label>
+                            
+                            <div class="invalid-feedback">
+                                {{ forms.errors.folderName }}
                             </div>
                         </div>
 
-                        <small class="form-text text-muted">Folder name only allow alphanumeric, underscore and dash.</small>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Share Link Modal -->
-    <div class="modal fade" id="shareModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header deep-purple accent-2 white-text">
-                    <h4 class="modal-title w-100">
-                        <i class="far fa-share-alt mr-1"></i> SHARE
-                    </h4>
-
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span class="white-text">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <form method="post">
-                        <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Email or Username" name="name">
-
-                            <div class="input-group-append">
-                                <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
-                                    <i class="far fa-file-plus mr-1"></i> Share With
-                                </button>
-                            </div>
+                        <div class="input-group-prepend">
+                            <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect" type="submit">
+                                <i class="far fa-folder-plus mr-1"></i> Create Folder
+                            </button>
                         </div>
-                    </form>
-                </div>
+                    </div>
 
-                <div class="modal-footer">
-                    <span class="mr-auto">
-                        <span class="border border-primary rounded-circle p-2 mr-1"><i class="far fa-unlink"></i></span> No share link created
-                    </span>
-                    <span class="ml-auto">
-                        <a href="#">Create Share Link</a>
-                    </span>
-                </div>
+                    <small class="form-text text-muted">Folder name only allow alphanumeric, underscore and dash.</small>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Upload Files Modal -->
-    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header deep-purple accent-2 white-text">
-                    <h4 class="modal-title w-100">
-                        <i class="far fa-cloud-upload-alt mr-1"></i> UPLOAD FILE(S)
-                    </h4>
+<!-- Share Link Modal -->
+<div class="modal fade" id="shareModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header deep-purple accent-2 white-text">
+                <h4 class="modal-title w-100">
+                    <i class="far fa-share-alt mr-1"></i> SHARE
+                </h4>
 
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span class="white-text">&times;</span>
-                    </button>
-                </div>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span class="white-text">&times;</span>
+                </button>
+            </div>
 
-                <div class="modal-body">
-                    <form class="files-upload" action="{{ postRoot }}/~upload" method="post" enctype="multipart/form-data">
-                        <input type="file" name="files" multiple />
-                    </form>
-                </div>
+            <div class="modal-body">
+                <form method="post">
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="Email or Username" name="name">
+
+                        <div class="input-group-append">
+                            <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
+                                <i class="far fa-file-plus mr-1"></i> Share With
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <span class="mr-auto">
+                    <span class="border border-primary rounded-circle p-2 mr-1"><i class="far fa-unlink"></i></span> No share link created
+                </span>
+                <span class="ml-auto">
+                    <a href="#">Create Share Link</a>
+                </span>
             </div>
         </div>
     </div>
-</section>
+</div>
+
+<!-- Upload Files Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header deep-purple accent-2 white-text">
+                <h4 class="modal-title w-100">
+                    <i class="far fa-cloud-upload-alt mr-1"></i> UPLOAD FILE(S)
+                </h4>
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form class="files-upload" action="{{ postRoot }}/~upload" method="post" enctype="multipart/form-data">
+                    <input type="file" name="files" multiple />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{/extend}}
 
 {{#extend "fixedAction"}}
 <!-- Mobile FAB Action -->
@@ -485,10 +487,10 @@
 
 {{#extend 'scripts'}}
 <script src="/js/vendor/mdb/modules/datatables.min.js"></script>
-    {{#if folders}}
+{{#if folders}}
     <script id="tree-script">
         let tree = {{{ json folders }}};
     </script>
-    {{/if}}
+{{/if}}
 <script src="/js/files.js"></script>
 {{/extend}}

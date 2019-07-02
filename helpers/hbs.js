@@ -25,7 +25,7 @@ module.exports = {
         return out;
     },
     currYear: function() {
-        return moment(new Date).format('YYYY')
+        return moment(new Date).format('YYYY');
     },
     extend: function(name, ops) {
         let block = blocks[name];
@@ -129,7 +129,7 @@ module.exports = {
             '*': lval * rval,
             '/': lval / rval,
             '%': lval % rval,
-        }[operator]
+        }[operator];
     },
     setVar: function(varName, varValue, ops) {
         if (!ops.data.root) {

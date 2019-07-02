@@ -16,7 +16,7 @@ $(function() {
     });
 
     // Folders Tree
-    if (tree) {
+    if (typeof tree !== 'undefined') {
         let insert = $('<ul class="treeview-animated-list mt-3"></ul>');
         
         tree.forEach((val) => {
@@ -194,11 +194,19 @@ $(function() {
     });
 
     focuses.on('change', function() {
+        let checkboxAll = $('#check-all', '#files-table').last();
         let focus = $('.select-actions', '#mobile-action-menu, #action-card');
         let count = focuses.filter(':checked').length;
 
         $('.select-count', '#mobile-action-menu, #action-card').text(count + ' Item(s) Selected');
-
+        
+        if (count >= focuses.length) {
+            checkboxAll.prop('checked', true);
+        }
+        else {
+            checkboxAll.prop('checked', false);
+        }
+        
         if (count > 0) {
             focus.each(function() {
                 _this = $(this);
@@ -207,8 +215,8 @@ $(function() {
                     if (_this.hasClass('animated')) {
                         _this.removeClass('d-none');
     
-                        _this.addClass('fadeIn').one(animationEnd, function() {
-                            $(this).removeClass('fadeIn');
+                        _this.addClass('flipInX').one(animationEnd, function() {
+                            $(this).removeClass('flipInX');
                         });
                     }
                     else {
@@ -217,17 +225,17 @@ $(function() {
                 }
             });
 
-            let find = focus.find('.single-select');
-
+            let singleActions = focus.find('.single-select');
+            
             if (count > 1) {
-                find.each(function() {
+                singleActions.each(function() {
                     _this = $(this);
 
                     if (!_this.hasClass('d-none')) {
                         if (_this.hasClass('animated')) {
-                            _this.addClass('fadeOut').one(animationEnd, function() {
+                            _this.addClass('flipOutX').one(animationEnd, function() {
                                 $(this).addClass('d-none');
-                                $(this).removeClass('fadeOut');
+                                $(this).removeClass('flipOutX');
                             });
                         }
                         else {
@@ -237,15 +245,15 @@ $(function() {
                 });
             }
             else {
-                find.each(function() {
+                singleActions.each(function() {
                     _this = $(this);
 
                     if (_this.hasClass('d-none')) {
                         if (_this.hasClass('animated')) {
                             _this.removeClass('d-none');
 
-                            _this.addClass('fadeIn').one(animationEnd, function() {
-                                $(this).removeClass('fadeIn');
+                            _this.addClass('flipInX').one(animationEnd, function() {
+                                $(this).removeClass('flipInX');
                             });
                         }
                         else {
@@ -261,9 +269,9 @@ $(function() {
 
                 if (!_this.hasClass('d-none')) {
                     if (_this.hasClass('animated')) {
-                        _this.addClass('fadeOut').one(animationEnd, function() {
+                        _this.addClass('flipOutX').one(animationEnd, function() {
                             $(this).addClass('d-none');
-                            $(this).removeClass('fadeOut');
+                            $(this).removeClass('flipOutX');
                         });
                     }
                     else {
