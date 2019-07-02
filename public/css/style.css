@@ -250,6 +250,12 @@ section.files .breadcrumb-item + .breadcrumb-item::before {
     color: #ffffff;
 }
 
+section.files #folders-card,
+section.files #action-card {
+    position: sticky;
+    top: 7rem;
+}
+
 section.files #action-card .list-group-item i {
     min-width: 20px;
 }
@@ -380,12 +386,6 @@ section.files .dataTables_wrapper .col-sm-12 {
     max-width: 90vw;
 }
 
-.profile .viewcounts{
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
 
 /* ============================================ Edit Profile ======================================== */
 
@@ -450,12 +450,6 @@ body.modal-open {
     content: "";
     display: table;
     clear: both;
-}
-
-.services .viewcounts{
-    position: absolute;
-    top: 10px;
-    right: 10px;
 }
 
 .viewservice .avatar {

@@ -224,6 +224,7 @@ footer {
         }
     
         > .invalid-feedback {
+            width: calc(100vw - (1rem * 2 + .5rem * 2));
             position: fixed;
         }
 
@@ -339,6 +340,14 @@ table {
 }
 
 // TOASTS
+.md-toast-message {
+    font-weight: 400;
+
+    &:first-letter {
+        text-transform: capitalize;
+    }
+}
+
 .md-toast-top-right {
     top: 6rem;
 }

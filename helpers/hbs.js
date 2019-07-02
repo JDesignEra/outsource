@@ -37,6 +37,13 @@ module.exports = {
         blocksFlag[name] = true;
         block.push(ops.fn(this));
     },
+    getVar: function(varName, ops) {
+        if (!ops.data.root) {
+            ops.data.root = {};
+        }
+
+        return ops.data.root[varName] !== undefined ? ops.data.root[varName] : null;
+    },
     ifCond: function(expression, ops) {
         let result;
         let context = this;
@@ -65,8 +72,12 @@ module.exports = {
 
         return (flag) ? ops.fn(this) : ops.inverse(this);
     },
-    ifIn: function(string, array, ops) {
-        return array.includes(string) ? ops.fn(this) : ops.inverse(this);
+    ifIn: function(var1, var2, ops) {
+        if (!Array.isArray(var1)) {
+            var1 = [var1]
+        }
+
+        return var1.find(v => v == var2) ? ops.fn(this) : ops.inverse(this);
     },
     ifNotExtend: function(name, ops) {
         let flag = (blocksFlag[name] !== undefined ? !blocksFlag[name] : true);
@@ -79,6 +90,13 @@ module.exports = {
     },
     ifStringContain: function(string, contains, ops) {
         return string.indexOf(contains) > -1 ? ops.fn(this) : ops.inverse(this);
+    },
+    ifVar: function(varName, ops) {
+        if (!ops.data.root) {
+            ops.data.root = {};
+        }
+
+        return ops.data.root[varName] ? ops.fn(this) : ops.inverse(this);
     },
     json: function(object) {
         return JSON.stringify(object);
@@ -117,7 +135,7 @@ module.exports = {
         if (!ops.data.root) {
             ops.data.root = {};
         }
-
+        
         ops.data.root[varName] = varValue;
     },
     partialsDirs: function(src) {     // Handlebars return partials and all folders in partials as array

@@ -1,6 +1,7 @@
 // files by Joel
-// files page collapse
+// Folders Card
 $(function() {
+    // My Folders Collapse
     $('a[data-toggle="collapse"][data-target="#folders-tree"]', '#folders-card').on('click', function() {
         let focus = $(this).find('i[class*="rotate-icon"]');
 
@@ -13,10 +14,8 @@ $(function() {
             focus.addClass('fa-angle-up');
         }
     });
-});
 
-// Folders Tree
-$(function() {
+    // Folders Tree
     if (tree) {
         let insert = $('<ul class="treeview-animated-list mt-3"></ul>');
         
@@ -119,26 +118,18 @@ $(function() {
 // DataTable
 $(function() {
     function tableInit(tableId) {
-        let data = { 'order': 1, 'targets': 0 };
         let focus = $(tableId);
-
-        if (window.innerWidth <= 767.98) {
-            data = { 'order': 1, 'targets': null };
-        }
-        else {
-            data = { 'order': 1, 'targets': 0 };
-        }
 
         focus.DataTable({
             ordering: true,
-            order: [[data['order'], 'asc']],
+            order: [[1, 'asc']],
             paging: false,
             info: false,
             searching: false,
             language: { emptyTable: 'No files or folders to display' },
             columnDefs: [{
                 orderable: false,
-                targets: data['targets']
+                targets: 0
             }],
         });
         
@@ -152,11 +143,8 @@ $(function() {
 
     tableInit("#files-table");
 
-    let tableResponsive = $('.table-responsive', '#files-card');
     let rows = $('tbody tr', '#files-table');
     let i = 1;
-
-    tableResponsive.addClass('overflow-x-hidden');
 
     $(rows[0]).removeClass('d-none');
     $(rows[0]).addClass('flipInX').one(animationEnd, function() {
@@ -172,12 +160,7 @@ $(function() {
 
         i++;
 
-        if (i > rows.length - 1) {
-            setTimeout(function() {
-                tableResponsive.removeClass('overflow-x-hidden');
-                clearTimeout(this);
-            }, 500);
-            
+        if (i === rows.length) {
             clearInterval(this);
         }
     }, 250);
@@ -185,18 +168,19 @@ $(function() {
     $(window).on('resize', function () {
         $('#files-table').DataTable().destroy();
         tableInit('#files-table');
-
-        $(function () {
-            $(".sticky").sticky({
-                topSpacing: 90,
-                zIndex: 2,
-                stopper: "footer"
-            });
-        });
     });
 
     // Checkbox
     let focuses = $('input[type="checkbox"][name="fid"]', '#files-table');
+    let checked = focuses.filter(':checked');
+
+    if (checked.length > 0) {
+        setTimeout(function() {
+            $(focuses[0]).trigger('change');
+            
+            clearTimeout(this);
+        }, 250);
+    }
 
     $('input#check-all', '#files-table').on('change', function() {
         if ($(this).prop('checked') === true) {
@@ -210,64 +194,83 @@ $(function() {
     });
 
     focuses.on('change', function() {
-        let focus = $('#cb-actions');
+        let focus = $('.select-actions', '#mobile-action-menu, #action-card');
         let count = focuses.filter(':checked').length;
 
-        $('#cb-count').text(count + ' Item(s) Selected');
+        $('.select-count', '#mobile-action-menu, #action-card').text(count + ' Item(s) Selected');
 
         if (count > 0) {
-            if (focus.hasClass('d-none')) {
-                focus.removeClass('d-none');
+            focus.each(function() {
+                _this = $(this);
 
-                focus.addClass('fadeIn').one(animationEnd, function() {
-                    $(this).removeClass('fadeIn');
-                });
-            }
+                if (_this.hasClass('d-none')) {
+                    if (_this.hasClass('animated')) {
+                        _this.removeClass('d-none');
+    
+                        _this.addClass('fadeIn').one(animationEnd, function() {
+                            $(this).removeClass('fadeIn');
+                        });
+                    }
+                    else {
+                        _this.removeClass('d-none');
+                    }
+                }
+            });
+
+            let find = focus.find('.single-select');
 
             if (count > 1) {
-                let find = focus.find('.download.list-group-item');
-                
-                if (!find.hasClass('d-none')) {
-                    find.addClass('fadeOut').one(animationEnd, function() {
-                        $(this).addClass('d-none');
-                        $(this).removeClass('fadeOut');
-                    });
-                }
+                find.each(function() {
+                    _this = $(this);
 
-                find = focus.find('.comments.list-group-item');
-
-                if (!find.hasClass('d-none')) {
-                    find.addClass('fadeOut').one(animationEnd, function() {
-                        $(this).addClass('d-none');
-                        $(this).removeClass('fadeOut');
-                    });
-                }
-
-                find = focus.find('.rename.list-group-item');
-
-                if (!find.hasClass('d-none')) {
-                    find.addClass('fadeOut').one(animationEnd, function() {
-                        $(this).addClass('d-none');
-                        $(this).removeClass('fadeOut');
-                    });
-                }
+                    if (!_this.hasClass('d-none')) {
+                        if (_this.hasClass('animated')) {
+                            _this.addClass('fadeOut').one(animationEnd, function() {
+                                $(this).addClass('d-none');
+                                $(this).removeClass('fadeOut');
+                            });
+                        }
+                        else {
+                            _this.addClass('d-none');
+                        }
+                    }
+                });
             }
             else {
-                let find = focus.find('.list-group-item');
+                find.each(function() {
+                    _this = $(this);
 
-                find.removeClass('d-none');
-                find.addClass('fadeIn').one(animationEnd, function() {
-                    $(this).removeClass('fadeIn');
+                    if (_this.hasClass('d-none')) {
+                        if (_this.hasClass('animated')) {
+                            _this.removeClass('d-none');
+
+                            _this.addClass('fadeIn').one(animationEnd, function() {
+                                $(this).removeClass('fadeIn');
+                            });
+                        }
+                        else {
+                            _this.removeClass('d-none');
+                        }
+                    }
                 });
             }
         }
         else {
-            if (!focus.hasClass('d-none')) {
-                focus.addClass('fadeOut').one(animationEnd, function() {
-                    $(this).addClass('d-none');
-                    $(this).removeClass('fadeOut');
-                });
-            }
+            focus.each(function() {
+                _this = $(this);
+
+                if (!_this.hasClass('d-none')) {
+                    if (_this.hasClass('animated')) {
+                        _this.addClass('fadeOut').one(animationEnd, function() {
+                            $(this).addClass('d-none');
+                            $(this).removeClass('fadeOut');
+                        });
+                    }
+                    else {
+                        _this.addClass('d-none');
+                    }
+                }
+            });
         }
     });
 });
@@ -299,30 +302,35 @@ $(function() {
 
                 filters = [];
             }
-            else if (checkbox.hasClass('filter-name')) {
-                $('.filter-name').prop('checked', false);
+            else {
+                $('.filter-all').prop('checked', false);
 
-                filters.splice($.inArray('name', filters), 1);
-            }
-            else if (checkbox.hasClass('filter-size')) {
-                $('.filter-size').prop('checked', false);
-
-                filters.splice($.inArray('size', filters), 1);
-            }
-            else if (checkbox.hasClass('filter-type')) {
-                $('.filter-type').prop('checked', false);
-
-                filters.splice($.inArray('type', filters), 1);
-            }
-            else if (checkbox.hasClass('filter-shared')) {
-                $('.filter-shared').prop('checked', false);
-
-                filters.splice($.inArray('shared', filters), 1);
-            }
-            else if (checkbox.hasClass('filter-modified')) {
-                $('.filter-modified').prop('checked', false);
-
-                filters.splice($.inArray('modified', filters), 1);
+                if (checkbox.hasClass('filter-name')) {
+                    $('.filter-name').prop('checked', false);
+    
+                    filters.splice($.inArray('name', filters), 1);
+                }
+                else if (checkbox.hasClass('filter-size')) {
+                    $('.filter-size').prop('checked', false);
+    
+                    filters.splice($.inArray('size', filters), 1);
+                }
+                else if (checkbox.hasClass('filter-type')) {
+                    $('.filter-type').prop('checked', false);
+    
+                    filters.splice($.inArray('type', filters), 1);
+                }
+                else if (checkbox.hasClass('filter-shared')) {
+                    $('.filter-shared').prop('checked', false);
+    
+                    filters.splice($.inArray('shared', filters), 1);
+                }
+                else if (checkbox.hasClass('filter-modified')) {
+                    
+                    $('.filter-modified').prop('checked', false);
+    
+                    filters.splice($.inArray('modified', filters), 1);
+                }
             }
         }
         else {
@@ -337,39 +345,45 @@ $(function() {
 
                 filters = ['name', 'size', 'type', 'shared', 'modified'];
             }
-            else if (checkbox.hasClass('filter-name')) {
-                $('.filter-name').prop('checked', true);
-
-                if (!filters.includes('name')) {
-                    filters.push('name');
+            else {
+                if (checkbox.hasClass('filter-name')) {
+                    $('.filter-name').prop('checked', true);
+    
+                    if (!filters.includes('name')) {
+                        filters.push('name');
+                    }
                 }
-            }
-            else if (checkbox.hasClass('filter-size')) {
-                $('.filter-size').prop('checked', true);
-
-                if (!filters.includes('size')) {
-                    filters.push('size');
+                else if (checkbox.hasClass('filter-size')) {
+                    $('.filter-size').prop('checked', true);
+    
+                    if (!filters.includes('size')) {
+                        filters.push('size');
+                    }
                 }
-            }
-            else if (checkbox.hasClass('filter-type')) {
-                $('.filter-type').prop('checked', true);
-
-                if (!filters.includes('type')) {
-                    filters.push('type');
+                else if (checkbox.hasClass('filter-type')) {
+                    $('.filter-type').prop('checked', true);
+    
+                    if (!filters.includes('type')) {
+                        filters.push('type');
+                    }
                 }
-            }
-            else if (checkbox.hasClass('filter-shared')) {
-                $('.filter-shared').prop('checked', true);
-
-                if (!filters.includes('shared')) {
-                    filters.push('shared');
+                else if (checkbox.hasClass('filter-shared')) {
+                    $('.filter-shared').prop('checked', true);
+    
+                    if (!filters.includes('shared')) {
+                        filters.push('shared');
+                    }
                 }
-            }
-            else if (checkbox.hasClass('filter-modified')) {
-                $('.filter-modified').prop('checked', true);
+                else if (checkbox.hasClass('filter-modified')) {
+                    $('.filter-modified').prop('checked', true);
+    
+                    if (!filters.includes('modified')) {
+                        filters.push('modified');
+                    }
+                }
 
-                if (!filters.includes('modified')) {
-                    filters.push('modified');
+                if (filters.length > 4) {
+                    $('.filter-all').prop('checked', true);
                 }
             }
         }
@@ -500,17 +514,12 @@ $(function() {
 
 // Action Buttons
 $(function() {
-    $('.rename-action, .move-action, .copy-action, .delete-action').on('click', function() {
+    $('.move-action, .copy-action, .delete-action').on('click', function() {
         let _this = $(this);
         let url = null;
         let form = $('#action-form');
-        let tds = $('td[headers="select"] input:checked');
-        let ids = [];
 
-        if (_this.hasClass('rename-action')) {
-            url = form.attr('action') + '~rename';
-        }
-        else if (_this.hasClass('move-action')) {
+        if (_this.hasClass('move-action')) {
             url = form.attr('action') + '~move';
         }
         else if (_this.hasClass('copy-action')) {
@@ -523,6 +532,22 @@ $(function() {
         form.attr('action', url);
         form.submit();
     });
+
+    $('#renameModal').on('show.bs.modal', function() {
+        let focus = $(this).find('form');
+        let td = $('td[headers="select"] input:checked', '#files-table').last();
+        let inputName = focus.find('input[name="name"]');
+        
+        focus.find('input[name="fid"]').val(td.attr('id'));
+
+        if (td.attr('data-name')) {
+            let name = td.attr('data-name');
+            name = name.slice(0, (name.lastIndexOf('.') > 0 ? name.lastIndexOf('.') : name.length));
+
+            inputName.val(name);
+            inputName.next().addClass('active');
+        }
+    })
 });
 
 // Show Modal if url contains modal id
@@ -530,16 +555,21 @@ $(function() {
     let url = window.location.href;
     param = url.slice(url.lastIndexOf('/'));
     
-    if (param === '/~upload') {
-        history.replaceState(null, null, url.replace(/\/~upload/gi, ''));
-        $('#uploadModal').modal('show');
-    }
-    else if (param === '/~newfile') {
+    
+    if (param === '/~newfile') {
         $('#newFileModal').modal('show');
         history.replaceState(null, null, url.replace(/\/~newfile/gi, ''));
     }
     else if (param === '/~newfolder') {
         history.replaceState(null, null, url.replace(/\/~newfolder/gi, ''));
         $('#newFolderModal').modal('show');
+    }
+    else if (param === '/~rename') {
+        history.replaceState(null, null, url.replace(/\/~rename/gi, ''));
+        $('#renameModal').modal('show');
+    }
+    else if (param === '/~upload') {
+        history.replaceState(null, null, url.replace(/\/~upload/gi, ''));
+        $('#uploadModal').modal('show');
     }
 });

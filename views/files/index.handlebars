@@ -1,8 +1,8 @@
 <section class="files">
     <div class="row">
-        <div class="col-12 col-md-2 my-4 my-md-0">
+        <div class="col-12 col-md-3 col-lg-2 my-4 my-md-0">
             <div id="folders-card" class="card card-cascade narrower">
-                <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center">
+                <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center text-center">
                     <span class="white-text mx-3">My Folders</span>
                 </div>
 
@@ -42,10 +42,10 @@
                 <div class="card-body p-0">
                     <div class="mt-2 mb-3">
                         <form id="action-form" action="{{ postRoot }}/" method="post">
-                            <div class="table-editable table-hover">
+                            <div class="table-hover">
                                 <table id="files-table" class="table table-striped text-center mb-0 w-100">
                                     <thead class="deep-purple accent-3 white-text">
-                                        <th id="select" class="d-none d-md-table-cell">
+                                        <th id="select">
                                             <div class="form-check">
                                                 <input id="check-all" class="form-check-input" type="checkbox">
                                                 <label class="form-check-label" for="check-all"></label>
@@ -56,7 +56,7 @@
                                         <th id="type" class="d-none d-md-table-cell">Type</th>
                                         <th id="shared" class="d-none d-md-table-cell">Shared</th>
                                         <th id="modified" class="d-none d-md-table-cell">Modified</th>
-                                        <th id="actions" class="d-table-cell d-md-none">Actions</th>
+                                        {{!-- <th id="actions" class="d-table-cell d-md-none">Actions</th> --}}
                                     </thead>
                                     <tbody>
                                         {{> _filesRow }}
@@ -74,8 +74,8 @@
         </div>
 
         <div class="d-none d-lg-block col-3 animated fadeIn">
-            <div id="action-card" class="card card-cascade narrower sticky">
-                <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center">
+            <div id="action-card" class="card card-cascade narrower">
+                <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center text-center">
                     <span class="white-text mx-3">Actions</span>
                 </div>
 
@@ -96,32 +96,32 @@
 
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input filter-all" checked>
-                                    <label class="custom-control-label" for="filter-all">All</label>
+                                    <label class="custom-control-label cursor-pointer" for="filter-all">All</label>
                                 </div>
 
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input filter-name" checked>
-                                    <label class="custom-control-label" for="filter-name">Name</label>
+                                    <label class="custom-control-label cursor-pointer" for="filter-name">Name</label>
                                 </div>
 
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input filter-size" checked>
-                                    <label class="custom-control-label" for="filter-size">Size</label>
+                                    <label class="custom-control-label cursor-pointer" for="filter-size">Size</label>
                                 </div>
 
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input filter-type" checked>
-                                    <label class="custom-control-label" for="filter-type">Type</label>
+                                    <label class="custom-control-label cursor-pointer" for="filter-type">Type</label>
                                 </div>
 
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input filter-shared" checked>
-                                    <label class="custom-control-label" for="filter-shared">Shared</label>
+                                    <label class="custom-control-label cursor-pointer" for="filter-shared">Shared</label>
                                 </div>
 
                                 <div class="custom-control custom-checkbox mb-3">
                                     <input type="checkbox" class="custom-control-input filter-modified" checked>
-                                    <label class="custom-control-label" for="filter-modified">Modified</label>
+                                    <label class="custom-control-label cursor-pointer" for="filter-modified">Modified</label>
                                 </div>
                             </div>
                         </div>
@@ -141,21 +141,24 @@
 
                     <hr class="my-0">
 
-                    <div id="cb-actions" class="animated faster d-none">
+                    <div class="animated faster d-none select-actions">
                         <p class="mt-3 mb-1">
-                            <small id="cb-count" class="px-3 font-weight-bolder grey-text">0 Item(s) Selected</small>
+                            <small class="px-3 font-weight-bolder grey-text select-count">0 Item(s) Selected</small>
                         </p>
 
                         <div class="list-group list-group-flush">
-                            <button class="download list-group-item list-group-item-action animated faster">
-                                <i class="far fa-cloud-download-alt"></i> Download
-                            </button>
-                            <button class="comments list-group-item list-group-item-action animated faster">
-                                <i class="far fa-comments"></i> Comments
-                            </button>
-                            <button class="rename list-group-item list-group-item-action animated faster rename-action">
-                                <i class="far fa-i-cursor"></i> Rename
-                            </button>
+                            <div class="single-select animated faster">
+                                <button class="download list-group-item list-group-item-action">
+                                    <i class="far fa-cloud-download-alt"></i> Download
+                                </button>
+                                <button class="comments list-group-item list-group-item-action">
+                                    <i class="far fa-comments"></i> Comments
+                                </button>
+                                <button data-toggle="modal" data-target="#renameModal" class="list-group-item list-group-item-action">
+                                    <i class="far fa-i-cursor"></i> Rename
+                                </button>
+                            </div>
+                            
                             <button class="list-group-item list-group-item-action move-action">
                                 <i class="fas fa-exchange-alt"></i> Move
                             </button>
@@ -172,13 +175,13 @@
         </div>
     </div>
 
-    <!-- Upload Files Modal -->
-    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog">
+    <!-- Rename Modal -->
+    <div class="modal fade" id="renameModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header deep-purple accent-2 white-text">
                     <h4 class="modal-title w-100">
-                        <i class="far fa-cloud-upload-alt mr-1"></i> UPLOAD FILE(S)
+                        <i class="far fa-i-cursor mr-1"></i> RENAME
                     </h4>
 
                     <button type="button" class="close" data-dismiss="modal">
@@ -187,8 +190,28 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="files-upload" action="{{ postRoot }}/~upload" method="post" enctype="multipart/form-data">
-                        <input type="file" name="files" multiple />
+                    <form class="needs-validation" action="{{ postRoot }}/~rename" method="post" novalidate>
+                        <div class="input-group mb-0">
+                            <div class="md-form md-outline">
+                                <input type="hidden" name="fid" value="">
+                                <input class="form-control" type="text" {{#if forms.rename}}value="{{ forms.rename }}"{{/if}} name="name">
+                                <label>New Name</label>
+                                
+                                <div class="invalid-feedback">
+                                    {{ forms.errors.rename }}
+                                </div>
+                            </div>
+
+                            <div class="input-group-prepend">
+                                <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect" type="submit">
+                                    <i class="far fa-i-cursor mr-1"></i> Rename
+                                </button>
+                            </div>
+                        </div>
+
+                        <small class="form-text text-muted">
+                            File name should exclude file extension. And file or folder name only allow alphanumeric, underscore and dash.
+                        </small>
                     </form>
                 </div>
             </div>
@@ -212,15 +235,27 @@
                 <div class="modal-body">
                     <form method="post">
                         <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Filename" name="name">
+                            <div class="md-form md-outline">
+                                <input class="form-control" type="text" name="name">
+                                <label>File Name</label>
+                            </div>
+
                             <span class="input-group-text border-left-0 border-right-0 rounded-0">.</span>
-                            <input class="form-control" type="text" placeholder="Extension" name="ext">
+
+                            <div class="md-form md-outline">
+                                <input class="form-control" type="text" name="ext">
+                                <label>Extension</label>
+                            </div>
 
                             <div class="input-group-prepend">
                                 <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
                                     <i class="far fa-file-plus mr-1"></i> Create File
                                 </button>
                             </div>
+
+                            <small class="form-text text-muted">
+                                File name and extension only allow alphanumeric, underscore and dash.
+                            </small>
                         </div>
                     </form>
                 </div>
@@ -250,13 +285,13 @@
                                 <label>Folder Name</label>
                                 
                                 <div class="invalid-feedback">
-                                    {{ forms.errors.name }}
+                                    {{ forms.errors.folderName }}
                                 </div>
                             </div>
 
                             <div class="input-group-prepend">
-                                <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
-                                    <i class="far fa-file-plus mr-1"></i> Create Folder
+                                <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect" type="submit">
+                                    <i class="far fa-folder-plus mr-1"></i> Create Folder
                                 </button>
                             </div>
                         </div>
@@ -307,6 +342,29 @@
             </div>
         </div>
     </div>
+
+    <!-- Upload Files Modal -->
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header deep-purple accent-2 white-text">
+                    <h4 class="modal-title w-100">
+                        <i class="far fa-cloud-upload-alt mr-1"></i> UPLOAD FILE(S)
+                    </h4>
+
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span class="white-text">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form class="files-upload" action="{{ postRoot }}/~upload" method="post" enctype="multipart/form-data">
+                        <input type="file" name="files" multiple />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 {{#extend "fixedAction"}}
@@ -334,32 +392,32 @@
 
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input filter-all" checked>
-                            <label class="custom-control-label" for="filter-all">All</label>
+                            <label class="custom-control-label cursor-pointer" for="filter-all">All</label>
                         </div>
 
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input filter-name" checked>
-                            <label class="custom-control-label" for="filter-name">Name</label>
+                            <label class="custom-control-label cursor-pointer" for="filter-name">Name</label>
                         </div>
 
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input filter-size" checked>
-                            <label class="custom-control-label" for="filter-size">Size</label>
+                            <label class="custom-control-label cursor-pointer" for="filter-size">Size</label>
                         </div>
 
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input filter-type" checked>
-                            <label class="custom-control-label" for="filter-type">Type</label>
+                            <label class="custom-control-label cursor-pointer" for="filter-type">Type</label>
                         </div>
 
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input filter-shared" checked>
-                            <label class="custom-control-label" for="filter-shared">Shared</label>
+                            <label class="custom-control-label cursor-pointer" for="filter-shared">Shared</label>
                         </div>
 
                         <div class="custom-control custom-checkbox mb-3">
                             <input type="checkbox" class="custom-control-input filter-modified" checked>
-                            <label class="custom-control-label" for="filter-modified">Modified</label>
+                            <label class="custom-control-label cursor-pointer" for="filter-modified">Modified</label>
                         </div>
                     </div>
                 </div>
@@ -377,6 +435,42 @@
         <button class="dropdown-item" data-toggle="modal" data-target="#newFolderModal">
             <i class="far fa-folder-plus"></i> New Folder
         </button>
+
+        <div class="d-none select-actions">
+            <hr class="my-2">
+
+            <small class="p-3 font-weight-bolder grey-text select-count">0 Item(s) Selected</small>
+
+            <hr class="my-2">
+
+            <div class="single-select">
+                <button class="download dropdown-item">
+                    <i class="far fa-cloud-download-alt"></i> Download
+                </button>
+                <button class="comments dropdown-item">
+                    <i class="far fa-comments"></i> Comments
+                </button>
+                <button data-toggle="modal" data-target="#renameModal" class="dropdown-item">
+                    <i class="far fa-i-cursor"></i> Rename
+                </button>
+            </div>
+            
+            <button class="dropdown-item move-action">
+                <i class="fas fa-exchange-alt"></i> Move
+            </button>
+            <button class="dropdown-item copy-action">
+                <i class="far fa-copy"></i> Copy
+            </button>
+            <button class="dropdown-item delete-action">
+                <i class="far fa-trash-alt"></i> Delete
+            </button>
+
+            <div class="single-select">
+                <button class="dropdown-item">
+                    <i class="far fa-info"></i> Info
+                </button>
+            </div>
+        </div>
 
         <hr class="my-2">
 

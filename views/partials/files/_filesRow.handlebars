@@ -1,13 +1,17 @@
 {{#if files}}
+{{setVar 'selectId' forms.select}}
     {{#each files}}
         <tr class="animated faster d-none">
-        
-            <td headers="select" class="d-none d-md-table-cell">
+            <td headers="select">
                 <div class="form-check">
                     <input id="{{ this.id }}"
                         class="form-check-input" type="checkbox"
+                        data-name="{{ this.name }}"
                         name="fid"
                         {{#if this.id}} value="{{ this.id }}"{{/if}}
+                        {{#ifVar 'selectId'}}
+                            {{#ifIn (getVar 'selectId') this.id}} checked{{/ifIn}}
+                        {{/ifVar}}
                     >
                     <label class="form-check-label" for="{{ this.id }}"></label>
                 </div>
@@ -33,45 +37,6 @@
                 {{/ifCond}}
             </td>
             <td headers="modified" class="d-none d-md-table-cell">{{ this.modified }}</td>
-            <td headers="actions" class="d-table-cell d-md-none dropleft">
-                <a class="btn-floating btn-sm btn-cyan material-tooltip-sm" data-toggle="modal" data-target="#shareModal">
-                    <i class="fas fa-share-alt"></i>
-                </a>
-
-                <a class="btn-floating btn-sm btn-primary ml-0 ml-md-2" data-toggle="dropdown" title="More Action">
-                    <i class="fas fa-ellipsis-h"></i>
-                </a>
-
-                <div class="dropdown-menu action-menu">
-                    <button class="dropdown-item">
-                        <i class="far fa-download"></i> Download
-                    </button>
-                    <button class="dropdown-item">
-                        <i class="far fa-comments"></i> Comment
-                    </button>
-                    <button class="dropdown-item">
-                        <i class="far fa-i-cursor rename-action"></i> Rename
-                    </button>
-                    <button class="dropdown-item">
-                        <i class="fas fa-exchange-alt move-action"></i> Move
-                    </button>
-                    <button class="dropdown-item copy-action">
-                        <i class="far fa-copy"></i> Copy
-                    </button>
-                    <button class="dropdown-item delete-action">
-                        <i class="far fa-trash-alt"></i> Delete
-                    </button>
-                    <button 
-                        data-name="{{ this.name }}" 
-                        data-name="{{ this.type }}" 
-                        data-modified="{{ this.modified }}" 
-                        data-shared="{{#ifCond (concat this.sharedUsername.length ' > 0')}}{{ this.sharedUsername.length }} member(s){{else}}Only you{{/ifCond}}"
-                        class="dropdown-item"
-                    >
-                        <i class="far fa-info"></i> Info
-                    </button>
-                </div>
-            </td>
         </tr>
     {{/each}}
 {{/if}}

@@ -8,6 +8,7 @@ const filesController = require('../controllers/files.js');
 
 router.post('^/:dir([/%_-a-zA-z0-9]+)?/~delete', isAuth, filesController.delete);
 router.post('^/:dir([/%_-a-zA-z0-9]+)?/~newfolder', isAuth, filesController.newfolder);
+router.post('^/:dir([/%_-a-zA-z0-9]+)?/~rename', isAuth, filesController.rename);
 router.post('^/:dir([/%_-a-zA-z0-9]+)?/~upload', isAuth, upload.array('files'), filesController.upload); 
 router.get('^/:dir([/%_-~a-zA-z0-9]+)?', isAuth, filesController.index);
 
