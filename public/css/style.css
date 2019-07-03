@@ -23,10 +23,11 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     background-color: #dc3545 !important;
 }
 
-/* toTopAction Button */
-#toTopAction {
-    right: 5px;
-    bottom: 40px;
+/* to-top-action Button */
+#to-top-action {
+    right: 0;
+    bottom: 5px;
+    transition: bottom 0.5s ease-out;
 }
 
 /* FileInput.js style */
@@ -250,12 +251,6 @@ section.files .breadcrumb-item + .breadcrumb-item::before {
     color: #ffffff;
 }
 
-section.files #folders-card,
-section.files #action-card {
-    position: sticky;
-    top: 7rem;
-}
-
 section.files #action-card .list-group-item i {
     min-width: 20px;
 }
@@ -274,16 +269,29 @@ section.files .dataTables_wrapper .col-sm-12 {
     padding-right: 0;
 }
 
+section.files #files-table td[headers="modified"]::first-letter {
+    text-transform: capitalize;
+}
+
+@media (min-width: 767px) {
+    section.files #folders-card,
+    section.files #action-card {
+        position: sticky;
+        top: 7rem;
+    }
+}
+
 #mobile-search button[data-toggle="dropdown"]::after {
     content: unset;
 }
 
 /* Mobile FAB */
 #mobile-action {
-    bottom: 40px;
+    bottom: 5px;
+    transition: bottom 0.5s ease-out;
 }
 
-#mobile-action.fixed-bottom .dropdown-item i {
+#mobile-action .dropdown-item i {
     min-width: 18px;
 }
 

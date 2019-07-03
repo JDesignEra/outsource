@@ -8,6 +8,7 @@ const Op = require('sequelize').Op;
 
 const bytesToSize = require('../helpers/bytesToSize');
 const filesFolders = require('../models/filesFolders');
+const users = require('../models/users');
 
 module.exports = {
     index: function (req, res) {
@@ -23,7 +24,7 @@ module.exports = {
             res.redirect('/files');
         }
 
-        filesFolders.findAll({ where: {uid: uid}, raw: true }).then(datas => {
+        filesFolders.findAll({ where: {uid: uid} }).then(datas => {
             let breadcrumbs = [{name: 'root'}];
             
             if (dir !== '/') {
@@ -45,47 +46,76 @@ module.exports = {
                 let folderDir = item['path'].replace(/\\/g, '/');
                     folderDir = folderDir.slice(folderDir.indexOf(root) + root.length + 1);
 
-                let stats = item['stats'];
-                let size = bytesToSize.convert(stats.size);
-                    size = size === '0 Bytes' ? '--' : size;
-
                 let name = folderDir.slice(folderDir.lastIndexOf('/') + 1);
                     folderDir = folderDir.length !== name.length ? folderDir.slice(0, folderDir.length - name.length - 1) : '/';
 
-                let data = datas.find(v => v.name === name && v.directory === (folderDir[0] !== '/' ? '/' + folderDir : folderDir));
-                
-                if (name && data && stats.isFile() && folderDir.toLowerCase() === dir.toLowerCase()) {
-                    let type = mime.getType(name);
+                if (name) {
+                    let data = datas.find(v => v.name === name && v.directory === (folderDir[0] !== '/' ? '/' + folderDir : folderDir));
 
-                    files.push({
-                        id: data['id'],
-                        name: name,
-                        size: size,
-                        type: type.slice(0, type.indexOf('/')),
-                        modified: moment(stats.mtime).format('DD/MM/YYYY hh:mm a'),
-                        link: '/preview' + (folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name)
-                    });
-                }
-                else if (name && data && stats.isDirectory()) {
-                    let link = '/files' + (folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name);
+                    if (data) {
+                        let sharedUid = data['sharedUid'] ? data['sharedUid'].split(',').sort(function(a, b) {return a - b}) : [null];
+                        
+                        users.findAll({
+                            where: {
+                                id: { [Op.in]: sharedUid }
+                            },
+                            attributes: ['username']
+                        }).then(userDatas => {
+                            let sharedUsername = [];
 
-                    if (folderDir.toLowerCase() === dir.toLowerCase()) {
-                        files.push({
-                            id: data['id'],
-                            name: name,
-                            size: size,
-                            type: 'folders',
-                            modified: moment(stats.mtime).format('DD/MM/YYYY hh:mm a'),
-                            link: link
+                            if (userDatas.length > 0) {
+                                for (user of userDatas) {
+                                    sharedUsername.push(user['username']);
+                                }
+                            }
+
+                            let stats = item['stats'];
+
+                            let modified = moment.duration(moment(new Date).diff(stats['mtime']));
+                            modified = parseInt(modified / (1000 * 60 * 60 * 24)) < 1 ? `${modified.humanize()} ago` : moment(stats.mtime).format('DD/MM/YYYY hh:mm a');
+                            
+                            let size = bytesToSize.convert(stats['size']);
+                            size = size === '0 Bytes' ? '--' : size;
+
+                            if (stats.isFile() && folderDir.toLowerCase() === dir.toLowerCase()) {
+                                let type = mime.getType(name);
+            
+                                files.push({
+                                    id: data['id'],
+                                    name: name,
+                                    size: size,
+                                    type: type.slice(0, type.indexOf('/')),
+                                    sharedUid: sharedUid[0] ? null : sharedUid,
+                                    sharedUsername: sharedUsername.length > 0 ? sharedUsername : null,
+                                    modified: modified,
+                                    link: '/preview' + (folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name)
+                                });
+                            }
+                            else if (stats.isDirectory()) {
+                                let link = '/files' + (folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name);
+            
+                                if (folderDir.toLowerCase() === dir.toLowerCase()) {
+                                    files.push({
+                                        id: data['id'],
+                                        name: name,
+                                        size: size,
+                                        type: 'folder',
+                                        sharedUid: sharedUid[0] ? null : sharedUid,
+                                        sharedUsername: sharedUsername.length > 0 ? sharedUsername : null,
+                                        modified: modified,
+                                        link: link
+                                    });
+                                }
+                                
+                                tree.push({
+                                    name: name,
+                                    link: link,
+                                    child: folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name,
+                                    parent: folderDir !== '/' ? '/' + folderDir : '/'
+                                });
+                            }
                         });
                     }
-                    
-                    tree.push({
-                        name: name,
-                        link: link,
-                        child: folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name,
-                        parent: folderDir !== '/' ? '/' + folderDir : '/'
-                    });
                 }
             }).on('end', () => {
                 res.render('files/index', {
@@ -111,7 +141,7 @@ module.exports = {
             let id = Array.isArray(req.body.fid) ? req.body.fid : [req.body.fid];
             let removeDir = [];
             
-            filesFolders.findAll({ where: {id: { [Op.in]: id }}, raw: true }).then(datas => {
+            filesFolders.findAll({ where: {id: { [Op.in]: id }} }).then(datas => {
                 let folders = datas.filter(v => v.type === 'folder');
 
                 for (data of datas) {
@@ -123,8 +153,7 @@ module.exports = {
                 // Find child folders and files in database and removed too.
                 for (folder of folders) {
                     filesFolders.findAll({
-                        where: { directory: { [Op.like]: folder['fullPath'] } },
-                        raw: true
+                        where: { directory: { [Op.like]: folder['fullPath'] } }
                     }).then(datas => {
                         let childId = [];
                         
@@ -161,7 +190,72 @@ module.exports = {
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
         dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
 
+        let name = req.body.name;
+        let ext = req.body.ext;
+        let errors = {};
+        let nameRegex = /[!@#$%^&*+\=\[\]{}()~;':"\\|,.<>\/?]/;
+        let extRegex = /[^a-zA-Z0-9]/;
+        
+        if (!name && !ext) {
+            errors['filename'] = 'File name and extension can\'t be empty.';
+        }
+        else if (!name) {
+            errors['filename'] = 'File name can\'t be empty.';
+        }
+        else if (!ext) {
+            errors['filename'] = 'Extension can\'t be empty.';
+        }
+        else if (nameRegex.test(name) && extRegex.test(ext)) {
+            errors['filename'] = 'File name only allow alphanumeric, underscore and dash. Extension only allow alphanumeric.';
+        }
+        else if (nameRegex.test(name)) {
+            errors['filename'] = 'File name only allow alphanumeric, underscore and dash.';
+        }
+        else if (extRegex.test(ext)) {
+            errors['filename'] = 'Extension only allow alphanumeric.';
+        }
 
+        if (Object.keys(errors).length > 0) {
+            req.flash('forms', {
+                filename: name,
+                errors: errors
+            });
+
+            res.redirect(dir === '/' ? '/files/~newfile' :  '/files' + dir + '/~newfile');
+        }
+        else {
+            let filename = `${name}.${ext}`;
+
+            filesFolders.findOne({
+                where: {
+                    name: filename,
+                    directory: path.join(dir, filename).replace(/\\/g, '/'),
+                    uid: uid
+                }
+            }).then(data => {
+                let type = mime.getType(filename);
+                type = type.slice(0, type.indexOf('/'));
+
+                if (!data) {
+                    filesFolders.create({
+                        name: filename,
+                        directory: dir,
+                        fullPath: path.join(dir, filename).replace(/\\/g, '/'),
+                        type: type,
+                        uid: uid
+                    }).then(data => {
+                        fs.ensureFile(path.join(root, dir, filename)).then(() => {
+                            req.flash('success', `${data['name']} file has been created successfully.`);
+                            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                        });
+                    });
+                }
+                else {
+                    req.flash('success', `${data['name']} file has been created successfully.`);
+                    res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                }
+            });
+        }
     },
     newfolder: function(req, res) {
         let uid = req.user.id;
@@ -170,20 +264,20 @@ module.exports = {
         dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
 
         let name = req.body.name;
-        let regex = /[!@#$%^&*+\=\[\]{}()~;':"\\|,.<>\/?]/;
         let errors = {};
+        let regex = /[!@#$%^&*+\=\[\]{}()~;':"\\|,.<>\/?]/;
 
         if (!name) {
-            errors['folderName'] = 'Folder name can\'t be empty.';
+            errors['foldername'] = 'Folder name can\'t be empty.';
         }
         else if (regex.test(name)) {
-            errors['folderName'] = 'Folder name can only contain aplhanumeric, underscore and dash.';
+            errors['foldername'] = 'Folder name can only contain alphanumeric, underscore and dash.';
         }
 
         if (Object.keys(errors).length > 0) {
             req.flash('forms', {
-                'name': name,
-                'errors': errors
+                foldername: name,
+                errors: errors
             });
             
             res.redirect(dir === '/' ? '/files/~newfolder' :  '/files' + dir + '/~newfolder');
@@ -206,16 +300,22 @@ module.exports = {
                         type: 'folder',
                         uid: uid
                     }).then(data => {
-                        fs.ensureDir(path.join(root, dir, name));
-                        
-                        req.flash('success', `${data['dataValues']['name']} folder has been created successfully.`);
-                        req.flash('forms', { select: [data['dataValues']['id']] });
-                        res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                        fs.ensureDir(path.join(root, dir, name)).then(() => {
+                            req.flash('success', `${data['name']} folder has been created successfully.`);
+                            req.flash('forms', { select: [data['id']] });
+                            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                        });
                     });
                 }
                 else {
+                    req.flash('forms', {
+                        foldername: name,
+                        errors: {
+                            foldername: `${name} folder already exist in the current directory.`
+                        }
+                    });
                     req.flash('error', `${name} folder already exist in the current directory.`);
-                    res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                    res.redirect(dir === '/' ? '/files/~newfolder' :  '/files' + dir + '/~newfolder');
                 }
             });
         }
@@ -307,7 +407,7 @@ module.exports = {
                         fullPath: fullPath,
                         type: type,
                         uid: uid
-                    }).then(data => {
+                    }).then(() => {
                         filesFolders.findAll({
                             where: {
                                 name: { [Op.in]: names },

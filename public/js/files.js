@@ -402,8 +402,23 @@ $(function() {
     });
 
     // Mobile filter
-    $('button[data-toggle]', '#mobile-search').on('click', function() {
-        $(this).next().toggle();
+    $('button[data-toggle="dropdown"]', '#mobile-search').on('click', function() {
+        let focus = $(this).next();
+        
+        if (focus.css('display') === 'none') {
+            focus.toggle();
+
+            focus.addClass('animated faster fadeIn').one(animationEnd, function() {
+                $(this).removeClass('fadeIn');
+            });
+        }
+        else {
+            focus.addClass('animated faster fadeOut').one(animationEnd, function() {
+                $(this).removeClass('fadeOut');
+                focus.toggle();
+            });
+        }
+
         return false;
     });
 
@@ -520,6 +535,37 @@ $(function() {
     }
 });
 
+
+// Mobile-Action
+$(function() {
+    let toTopAction = $('#to-top-action');
+    let focus = $('#mobile-action');
+
+    $(window).on('resize', function() {
+        if ($(window).width() < 768) {
+            if (!toTopAction.hasClass('invisible')) {
+                toTopAction.addClass('invisible');
+            }
+        }
+        else {
+            if (toTopAction.hasClass('invisible')) {
+                toTopAction.removeClass('invisible');
+            }
+        }
+    });
+
+    $(window).scroll(function() {
+        if (focus.offset().top - 47 > $('main').height()) {
+            focus.css('bottom', '40px');
+        }
+        else {
+            focus.css('bottom', '5px');
+        }
+    });
+
+    $(window).trigger('resize');
+});
+
 // Action Buttons
 $(function() {
     $('.move-action, .copy-action, .delete-action').on('click', function() {
@@ -563,10 +609,9 @@ $(function() {
     let url = window.location.href;
     param = url.slice(url.lastIndexOf('/'));
     
-    
     if (param === '/~newfile') {
-        $('#newFileModal').modal('show');
         history.replaceState(null, null, url.replace(/\/~newfile/gi, ''));
+        $('#newFileModal').modal('show');
     }
     else if (param === '/~newfolder') {
         history.replaceState(null, null, url.replace(/\/~newfolder/gi, ''));

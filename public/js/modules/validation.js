@@ -19,21 +19,48 @@ let validation = (function() {
                 if (_this.hasClass('invalid-tooltip') || _this.hasClass('invalid-feedback')) {
                     _this.parent().children('input').addClass('is-invalid');
 
-                    if (_this.parent().children('.form-text').length > 0) {
-                        _this.parent().children('.form-text').addClass('invisible');
+                    let focus = _this.parent().children('.form-text');
+
+                    if (focus.length > 0) {
+                        focus.addClass('invisible');
                     }
                     else {
-                        _this.parent().parent().next().addClass('invisible');
+                        focus = _this.parents('.input-group').find('form-text');
+                        console.log(focus);
+                        
+                        if (focus.length > 0) {
+                            focus.addClass('invisible');
+                        }
+                        else {
+                            focus = _this.parents('.input-group').next();
+
+                            if (focus.hasClass('form-text')) {
+                                focus.addClass('invisible');
+                            }
+                        }
                     }
                 }
                 else if (_this.hasClass('valid-tooltip') || _this.hasClass('invalid-feedback')) {
                     _this.parent().children('input').addClass('is-valid');
 
-                    if (_this.parent().children('.form-text').length > 0) {
-                        _this.parent().children('.form-text').removeClass('invisible');
+                    let focus = _this.parent().children('.form-text');
+
+                    if (focus.length > 0) {
+                        focus.removeClass('invisible');
                     }
                     else {
-                        _this.parent().parent().next().removeClass('invisible');
+                        focus = _this.parents('.input-group').find('form-text');
+
+                        if (focus.length > 0) {
+                            focus.removeClass('invisible');
+                        }
+                        else {
+                            focus = _this.parents('.input-group').next();
+
+                            if (focus.hasClass('form-text')) {
+                                focus.removeClass('invisible');
+                            }
+                        }
                     }
                 }
             }

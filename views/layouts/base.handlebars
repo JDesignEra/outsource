@@ -26,14 +26,13 @@
 	
 	{{> _footer}}
 	
-	{{{ block 'fixedAction' }}}
-	{{#ifNotExtend 'fixedAction'}}
-	<div id="toTopAction" class="fixed-action-btn smooth-scroll animated faster d-none">
+	<div id="to-top-action" class="fixed-action-btn smooth-scroll animated faster d-none">
 		<a href="#top" class="btn-floating btn-large primary-gradient">
 			<i class="fas fa-arrow-up"></i>
 		</a>
 	</div>
-	{{/ifNotExtend}}
+
+	{{{ block 'fixedAction' }}}
 
 	{{#if toast}}
 		<script id="toast-script">

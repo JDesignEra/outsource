@@ -42,7 +42,7 @@
                 <div class="card-body p-0">
                     <div class="mt-2 mb-3">
                         <form id="action-form" action="{{ postRoot }}/" method="post">
-                            <div class="table-hover">
+                            <div class="table-fixed table-hover">
                                 <table id="files-table" class="table table-striped text-center mb-0 w-100">
                                     <thead class="deep-purple accent-3 white-text">
                                         <th id="select">
@@ -51,12 +51,11 @@
                                                 <label class="form-check-label" for="check-all"></label>
                                             </div>
                                         </th>
-                                        <th id="name">Name</th>
-                                        <th id="sizes" class="d-none d-md-table-cell">Size</th>
+                                        <th id="name" class="th-lg">Name</th>
+                                        <th id="sizes" class="d-none d-md-table-cell th-lg">Size</th>
                                         <th id="type" class="d-none d-md-table-cell">Type</th>
                                         <th id="shared" class="d-none d-md-table-cell">Shared</th>
-                                        <th id="modified" class="d-none d-md-table-cell">Modified</th>
-                                        {{!-- <th id="actions" class="d-table-cell d-md-none">Actions</th> --}}
+                                        <th id="modified" class="d-none d-md-table-cell th-lg">Modified</th>
                                     </thead>
                                     <tbody>
                                         {{> _filesRow }}
@@ -86,7 +85,7 @@
                             <label>Search</label>
                         </div>
 
-                        <div class="input-group-prepend">
+                        <div class="dropdown input-group-prepend">
                             <button class="btn btn-primary btn-md dropdown-toggle m-0" data-toggle="dropdown">
                                 <i class="far fa-filter"></i>
                             </button>
@@ -235,8 +234,8 @@
             </div>
 
             <div class="modal-body">
-                <form method="post">
-                    <div class="input-group">
+                <form method="post" action="{{ postRoot }}/~newfile" novalidate>
+                    <div class="input-group mb-0">
                         <div class="md-form md-outline">
                             <input class="form-control" type="text" name="name">
                             <label>File Name</label>
@@ -254,11 +253,11 @@
                                 <i class="far fa-file-plus mr-1"></i> Create File
                             </button>
                         </div>
-
-                        <small class="form-text text-muted">
-                            File name and extension only allow alphanumeric, underscore and dash.
-                        </small>
                     </div>
+                    
+                    <small class="form-text text-muted">
+                        File name only allow alphanumeric, underscore and dash. Extension only allow alphanumeric.
+                    </small>
                 </form>
             </div>
         </div>
@@ -283,11 +282,11 @@
                 <form class="needs-validation" action="{{ postRoot }}/~newfolder" method="post" novalidate>
                     <div class="input-group mb-0">
                         <div class="md-form md-outline">
-                            <input class="form-control" type="text" {{#if forms.name}}value="{{ forms.name }}"{{/if}} name="name">
+                            <input class="form-control" type="text" {{#if forms.foldername}}value="{{ forms.foldername }}"{{/if}} name="name">
                             <label>Folder Name</label>
                             
                             <div class="invalid-feedback">
-                                {{ forms.errors.folderName }}
+                                {{ forms.errors.foldername }}
                             </div>
                         </div>
 
@@ -385,7 +384,7 @@
                 </div>
 
                 <div class="input-group-prepend">
-                    <button class="btn btn-md btn-primary m-0 px-3 py-2 dropdown-toggle" data-toggle="collapse">
+                    <button class="btn btn-md btn-primary m-0 px-3 py-2 dropdown-toggle" data-toggle="dropdown">
                         <i class="far fa-filter"></i>
                     </button>
 

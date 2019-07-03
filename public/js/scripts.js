@@ -33,11 +33,20 @@ $(function() {
 
 // ToTop Button animation
 $(function() {
-    let focus = $('#toTopAction');
+    let focus = $('#to-top-action');
 
     if (focus.length > 0) {
         $(window).scroll(function() {
             let nav = $('nav.navbar');
+            let footerHeight = $('footer').height();
+            let toTopBtnHeight = $('#top').height();
+
+            if (focus.offset().top > toTopBtnHeight - footerHeight - 100) {
+                focus.css('bottom', '40px');
+            }
+            else {
+                focus.css('bottom', '5px');
+            }
         
             if (nav.offset().top > 100 && focus.hasClass('d-none')) {
                 focus.removeClass('d-none');
@@ -106,32 +115,8 @@ $(function() {
 });
 
 // Data Picker Initialization
-$('.datepicker').pickadate({
-    format: 'dd/mm/yyyy',
-});
-
-/* Joshua */
 $(function() {
-    $('#posterUpload').on('change', function() {
-        let image = $("#posterUpload")[0].files[0];
-        let formdata = new FormData();
-        formdata.append('posterUpload', image);
-        $.ajax({
-            url: '/video/upload',
-            type: 'POST',
-            data: formdata,
-            contentType: false,
-            processData: false,
-            'success': (data) => {
-                $('#poster').attr('src', data.file);
-                $('#posterURL').attr('value', data.file);// sets posterURL hidden field
-                if (data.err) {
-                    $('#posterErr').show();
-                    $('#posterErr').text(data.err.message);
-                } else {
-                    $('#posterErr').hide();
-                }
-            }
-        });
+    $('.datepicker').pickadate({
+        format: 'dd/mm/yyyy',
     });
 });

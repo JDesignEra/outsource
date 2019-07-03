@@ -82,7 +82,6 @@ $breadcrumb-divider: "\f105" !default;
   }
 }
 
-
 // CUSTOM
 .vw-0 { width: 0vw !important; }
 .vw-5 { width: 5vw !important; }
@@ -172,6 +171,6 @@ $breadcrumb-divider: "\f105" !default;
 .overflow-y-hidden { overflow-y: hidden !important; }
 
 .cursor-default { cursor: default !important; }
-.cursor-pointer { cursor: pointer; }
+.cursor-pointer { cursor: pointer !important; }
 
 @import "main";
