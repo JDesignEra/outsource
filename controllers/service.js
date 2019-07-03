@@ -1,4 +1,5 @@
 const Services = require('../models/services');
+const Users = require('../models/users');
 const fs = require('fs');
 
 module.exports = {
@@ -17,23 +18,31 @@ module.exports = {
             .catch(err => console.log(err));
     },
     view: function (req, res) {
-        Services.findOne({
+        Users.findOne({
             where: {
-                id: req.params.id
+                id: req.user.id
             }
-        }).then((services) => {
-            Services.update({
-                views: services.views + 1
-            }, {
-                    where: {
-                        id: req.params.id
-                    }
-                }).then(() => {
-                    res.render('services/index', {
-                        services
-                    });
-                })
-        }).catch(err => console.log(err));
+        }).then((user)=>{
+            Services.findOne({
+                where: {
+                    id: req.params.id
+                }
+            }).then((services) => {
+                Services.update({
+                    views: services.views + 1
+                }, {
+                        where: {
+                            id: req.params.id
+                        }
+                    }).then(() => {
+                        res.render('services/index', {
+                            services,
+                            user
+                        });
+                    })
+            }).catch(err => console.log(err));
+        })
+        
     },
     add: function (req, res) {
         if (req.user.accType === 'service') {

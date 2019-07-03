@@ -4,7 +4,8 @@
             <div class="service-overview">
                 <div class="card">
                     <div class="view overlay">
-                        <img onerror='this.src = "/img/services/default.jpg"' class="card-img-top" src="/uploads/services/{{services.uid}}/{{services.id}}.png" alt="Image unavailable">
+                        <img onerror='this.src = "/img/services/default.jpg"' class="card-img-top"
+                            src="/uploads/services/{{services.uid}}/{{services.id}}.png" alt="Image unavailable">
                         <a>
                             <div class="mask rgba-white-slight"></div>
                         </a>
@@ -44,18 +45,43 @@
                         <!-- Content -->
                         <div class="card-body">
                             <!-- Name -->
-                            <h3 class="card-title">John Doe</h3>
-                            <h5 class="card-title text-muted">Illustrator</h5>
+                            <h3 class="card-title">{{user.username}}</h3>
+                            <h5 class="card-title text-muted">{{#if user.jobTitle}}
+                                {{user.jobTitle}}
+                                {{else}}
+                                Service Provider
+                                {{/if}}</h5>
                             <br>
-                            <p class="text-left"> <b>Followers:</b> 100,000 </p>
-                            <p class="text-left"> <b>Following:</b> 100</p>
+                            <p class="text-left"> <b>Followers:</b> {{user.followers}} </p>
+                            <p class="text-left"> <b>Following:</b> {{user.following}}</p>
                             <hr class="hr-purple">
 
-                            <p class="text-left"><b>Website:</b> wix.johndoecrafts.com</p>
-                            <p class="text-left"><b>Birthday:</b> 1/11/1991</p>
-                            <p class="text-left"><b>Gender:</b> Male</p>
-                            <p class="text-left"><b>Location:</b> United Kingdom</p>
-                            <p class="text-left"><b>Occupation:</b> Illustrator</p>
+                            <p class="text-left"><b>Website:</b> {{#if user.website}}
+                                {{user.website}}
+                                {{else}}
+                                <span class="text-muted">None</span>
+                                {{/if}}</p>
+                            <p class="text-left"><b>Birthday:</b> {{#if user.dob}}
+                                {{formatDate user.dob "DD MMM YYYY"}}
+                                {{else}}
+                                <span class="text-muted">Not Set</span>
+                                {{/if}}</p>
+                            <p class="text-left"><b>Gender:</b> {{#if user.gender}}
+                                {{user.gender}}
+                                {{else}}
+                                <span class="text-muted">Not Set</span>
+                                {{/if}}</p>
+                            <p class="text-left"><b>Location:</b> {{#if user.location}}
+                                {{user.location}}
+                                {{else}}
+                                <span class="text-muted">Not Set</span>
+                                {{/if}}</p>
+                            <p class="text-left"><b>Occupation:</b> {{#if user.occupation}}
+                                {{user.occupation}}
+                                {{else}}
+                                <span class="text-muted">Not Set</span>
+                                {{/if}}</p>
+                            <p class="text-left"><b>Email:</b> {{user.email}}</p>
 
                             <hr class="hr-purple">
 
