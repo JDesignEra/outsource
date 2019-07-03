@@ -2,48 +2,31 @@ const Sequelize = require('sequelize');
 const db = require('../config/dbConfig');
 const users = require('./users');
 
-const portfolio = db.define('portfolio', {
+const services = db.define('service', {
     id: {
         type: Sequelize.INTEGER,
-        allowNull:false,
+        primaryKey: true,
         autoIncrement: true,
-        primaryKey: true
+        allowNull: false
     },
     uid: {
         type: Sequelize.INTEGER,
         // references: {
         //     model: users,
-        //     key: 'id'
+        //     key: "id"
         // }
     },
-    title: {
-        type: Sequelize.STRING,
-        allowNull:false,
+    desc: {
+        type: Sequelize.STRING(2000)
+    },
+    price: {
+        type: Sequelize.DECIMAL,
+        allowNull: false
     },
     category: {
         type: Sequelize.STRING,
-        allowNull:false, 
+        allowNull: false
     },
-    content: {
-        type: Sequelize.TEXT('long'),
-        allowNull:false, 
-    },
-
-    datePosted:{
-        type: Sequelize.DATE,
-        allowNull:false,
-    },
-
-    views:{
-        type: Sequelize.INTEGER,
-        allowNull:false,
-    },
-
-    likes:{
-        type: Sequelize.INTEGER,
-        allowNull:false,
-    }
-
 });
 
-module.exports = portfolio;
+module.exports = services;
