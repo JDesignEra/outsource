@@ -28,7 +28,13 @@ function search() {
     }
 }
 
-document.getElementById('searchbut').addEventListener('click', search);
+$(function() {
+    let searchbut = document.getElementById('searchbut');
+
+    if (searchbut) {
+        searchbut.addEventListener('click', search);
+    }
+});
 
 $('select.category-select').on('change', function(e) {
     let cards = $('.servicecards');
@@ -94,6 +100,19 @@ function categoryCheck() {
         button.disabled = false;
     }
 }
+
+// Replace upload image
+$(function() {
+    if (typeof img !== 'undefined') {
+        let focus = $('.preview', '.file-upload');
+        
+        focus.addClass('d-block');
+        focus.find('.renderer').html(`<img src="${img}">`);
+
+        img = undefined
+        $('script#img-script').remove();
+    }
+});
 
 // function filterSelection(category){
 //     let cards = document.querySelectorAll('.servicecards');

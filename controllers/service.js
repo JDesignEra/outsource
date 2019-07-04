@@ -1,3 +1,4 @@
+const path = require('path');
 const Services = require('../models/services');
 const Users = require('../models/users');
 const fs = require('fs');
@@ -77,20 +78,27 @@ module.exports = {
                 let serviceId = services.id;
                 fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
             }
+            req.flash('success', 'Service added successfully!')
             res.redirect('/profile');
         })
             .catch(err => console.log(err))
     },
     edit: function (req, res) {
-        Services.findOne({
+        let uid = req.user.id;
+        let sid = req.params.id;
 
+        Services.findOne({
             where: {
-                id: req.params.id
+                id: sid,
+                uid: uid
             }
         }).then((services) => {
             if (req.user.id === services.uid) {
+                let imgPath = `/uploads/services/${uid}/${sid}.png`;
+
                 res.render('services/edit', {
-                    services
+                    services: services,
+                    img: imgPath
                 });
             }
             else {

@@ -77,5 +77,10 @@
 </div>
 
 {{#extend "scripts"}}
+{{#if img}}
+<script id ="img-script" type="text/javascript">
+	let img = {{{ json img }}}
+</script>
+{{/if}}
 <script type="text/javascript" src="/js/servicesscript.js"></script>
 {{/extend}}
