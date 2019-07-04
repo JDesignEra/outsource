@@ -10,11 +10,7 @@ const portfolio = db.define('portfolio', {
         primaryKey: true
     },
     uid: {
-        type: Sequelize.INTEGER,
-        // references: {
-        //     model: users,
-        //     key: 'id'
-        // }
+        type: Sequelize.INTEGER
     },
     title: {
         type: Sequelize.STRING,

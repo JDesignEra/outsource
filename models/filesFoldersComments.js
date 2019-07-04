@@ -1,9 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/dbConfig');
 
-const users = require('./users');
-const filesFolders = require('./filesFolders');
-
 const filesFoldersComment = db.define('files_folders_comment', {
     id: {
         type: Sequelize.INTEGER,
@@ -17,27 +14,15 @@ const filesFoldersComment = db.define('files_folders_comment', {
     },
     fid: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        // references: {
-        //     model: filesFolders,
-        //     key: 'id'
-        // }
+        allowNull: false
     },
     uid: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        // references: {
-        //     model: users,
-        //     key: 'id'
-        // }
+        allowNull: false
     },
     fromUid: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        // references: {
-        //     model: users,
-        //     key: 'id'
-        // }
+        allowNull: false
     }
 });
 

@@ -34,19 +34,20 @@
 
 	{{{ block 'fixedAction' }}}
 
+	<script src="/js/vendor/jquery.min.js" type="text/javascript"></script>
+	<script src="/js/vendor/popper.min.js" type="text/javascript"></script>
+	<script src="/js/vendor/bootstrap.min.js" type="text/javascript"></script>
+	<script src="/js/vendor/mdb/mdb.min.js" type="text/javascript"></script>
+	<script src="/js/modules/animateEnd.js" type="text/javascript"></script>
+	<script src="/js/modules/fileInput.js" type="text/javascript"></script>
+	<script src="/js/modules/validation.js" type="text/javascript"></script>
 	{{#if toast}}
-		<script id="toast-script">
-			let toastMsgs = JSON.parse( `{{{ json toast }}}` );
+		<script id="toast-script" type="text/javascript">
+			let toastMsgs = {{{ json toast }}};
 		</script>
+
+		<script src="/js/modules/toast.js" type="text/javascript"></script>
 	{{/if}}
-	<script src="/js/vendor/jquery.min.js"></script>
-	<script src="/js/vendor/popper.min.js"></script>
-	<script src="/js/vendor/bootstrap.min.js"></script>
-	<script src="/js/vendor/mdb/mdb.min.js"></script>
-	<script src="/js/modules/animateEnd.js"></script>
-	<script src="/js/modules/fileInput.js"></script>
-	<script src="/js/modules/toast.js"></script>
-	<script src="/js/modules/validation.js"></script>
-	<script src="/js/scripts.js"></script>
+	<script src="/js/scripts.js" type="text/javascript"></script>
 	{{{block 'scripts'}}}
 </html>

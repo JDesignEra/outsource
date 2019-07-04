@@ -1,8 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/dbConfig');
 
-const users = require('./users');
-
 const filesFolders = db.define('files_folder', {
     id: {
         type: Sequelize.INTEGER,
@@ -32,16 +30,9 @@ const filesFolders = db.define('files_folder', {
     sharedUid: {
         type: Sequelize.STRING
     },
-    sharedUsername: {
-        type: Sequelize.STRING
-    },
     uid: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        // references: {
-        //     model: users,
-        //     key: 'id'
-        // }
+        allowNull: false
     }
 });
 

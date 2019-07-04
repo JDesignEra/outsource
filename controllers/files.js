@@ -44,10 +44,10 @@ module.exports = {
 
             walk(path.join(root)).on('data', item => {
                 let folderDir = item['path'].replace(/\\/g, '/');
-                    folderDir = folderDir.slice(folderDir.indexOf(root) + root.length + 1);
+                folderDir = folderDir.slice(folderDir.indexOf(root) + root.length + 1);
 
                 let name = folderDir.slice(folderDir.lastIndexOf('/') + 1);
-                    folderDir = folderDir.length !== name.length ? folderDir.slice(0, folderDir.length - name.length - 1) : '/';
+                folderDir = folderDir.length !== name.length ? folderDir.slice(0, folderDir.length - name.length - 1) : '/';
 
                 if (name) {
                     let data = datas.find(v => v.name === name && v.directory === (folderDir[0] !== '/' ? '/' + folderDir : folderDir));
@@ -123,7 +123,8 @@ module.exports = {
                     files: files,
                     folders: tree,
                     breadcrumbs: breadcrumbs,
-                    postRoot: req.originalUrl.replace(/\/~newfile|\/~newfolder|\/~rename|\/~upload/gi, '')
+                    postRoot: req.originalUrl.replace(/\/~newfile|\/~newfolder|\/~rename|\/~upload/gi, ''),
+                    types: Object.keys(mime._types)
                 });
             });
         });
@@ -184,7 +185,6 @@ module.exports = {
         // ToDo: Move
     },
     newfile: function(req, res) {
-        // ToDo: new file
         let uid = req.user.id;
         let root = 'public/uploads/files/' + uid + '/';
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
@@ -194,30 +194,26 @@ module.exports = {
         let ext = req.body.ext;
         let errors = {};
         let nameRegex = /[!@#$%^&*+\=\[\]{}()~;':"\\|,.<>\/?]/;
-        let extRegex = /[^a-zA-Z0-9]/;
+        let extRegex = /[^a-zA-Z0-9-]/;
         
-        if (!name && !ext) {
-            errors['filename'] = 'File name and extension can\'t be empty.';
-        }
-        else if (!name) {
+        if (!name) {
             errors['filename'] = 'File name can\'t be empty.';
-        }
-        else if (!ext) {
-            errors['filename'] = 'Extension can\'t be empty.';
-        }
-        else if (nameRegex.test(name) && extRegex.test(ext)) {
-            errors['filename'] = 'File name only allow alphanumeric, underscore and dash. Extension only allow alphanumeric.';
         }
         else if (nameRegex.test(name)) {
             errors['filename'] = 'File name only allow alphanumeric, underscore and dash.';
         }
+        
+        if (!ext) {
+            errors['ext'] = 'Extension can\'t be empty.';
+        }
         else if (extRegex.test(ext)) {
-            errors['filename'] = 'Extension only allow alphanumeric.';
+            errors['ext'] = 'Extension only allow alphanumeric and dash.';
         }
 
         if (Object.keys(errors).length > 0) {
             req.flash('forms', {
                 filename: name,
+                ext: ext,
                 errors: errors
             });
 
@@ -229,7 +225,8 @@ module.exports = {
             filesFolders.findOne({
                 where: {
                     name: filename,
-                    directory: path.join(dir, filename).replace(/\\/g, '/'),
+                    directory: dir,
+                    fullPath: path.join(dir, filename).replace(/\\/g, '/'),
                     uid: uid
                 }
             }).then(data => {
@@ -246,13 +243,24 @@ module.exports = {
                     }).then(data => {
                         fs.ensureFile(path.join(root, dir, filename)).then(() => {
                             req.flash('success', `${data['name']} file has been created successfully.`);
+                            req.flash('forms', { select: [data['id']] });
                             res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
                         });
                     });
                 }
                 else {
-                    req.flash('success', `${data['name']} file has been created successfully.`);
-                    res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                    let errorMsg = `${filename} file already exist in the current directory.`;
+                    
+                    req.flash('forms', {
+                        filename: name,
+                        ext: ext,
+                        errors: {
+                            filename: errorMsg
+                        }
+                    });
+                    
+                    req.flash('error', errorMsg);
+                    res.redirect(dir === '/' ? '/files/~newfile' :  '/files' + dir + '/~newfile');
                 }
             });
         }
@@ -308,13 +316,16 @@ module.exports = {
                     });
                 }
                 else {
+                    let errorMsg = `${name} folder already exist in the current directory.`;
+
                     req.flash('forms', {
                         foldername: name,
                         errors: {
-                            foldername: `${name} folder already exist in the current directory.`
+                            foldername: errorMsg
                         }
                     });
-                    req.flash('error', `${name} folder already exist in the current directory.`);
+
+                    req.flash('error', errorMsg);
                     res.redirect(dir === '/' ? '/files/~newfolder' :  '/files' + dir + '/~newfolder');
                 }
             });

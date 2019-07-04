@@ -4,65 +4,57 @@ let validation = (function() {
     let publicFuncs = {};
     
     publicFuncs.init = function() {
-        let focuses = $('form .invalid-tooltip, form .invalid-tooltip, form .invalid-feedback, form .invalid-feedback');
+        let forms = $('form.needs-validation');
+        let allFeedbacks = forms.find('.invalid-tooltip, .invalid-feedback, .valid-tooltip, .valid-feedback');
 
-        responsive(focuses);
+        responsive(allFeedbacks);
 
         $(window).on('resize', function() {
-            responsive(focuses);
+            responsive(allFeedbacks);
         });
-        
-        focuses.each(function() {
-            _this = $(this);
+
+        forms.each(function() {
+            let flag = false;
+            let form = $(this);
+            let feedbacks = form.find('.invalid-tooltip, .invalid-feedback, .valid-tooltip, .valid-feedback');
             
-            if (_this.text().trim()) {
-                if (_this.hasClass('invalid-tooltip') || _this.hasClass('invalid-feedback')) {
-                    _this.parent().children('input').addClass('is-invalid');
+            feedbacks.each(function() {
+                let _this = $(this);
 
-                    let focus = _this.parent().children('.form-text');
+                if (_this.text().trim()) {
+                    flag = true;
 
-                    if (focus.length > 0) {
-                        focus.addClass('invisible');
+                    if (_this.hasClass('invalid-tooltip') || _this.hasClass('invalid-feedback')) {
+                        $(_this.prevAll('input')[0]).addClass('is-invalid');
+                    }
+                    else if (_this.hasClass('valid-tooltip') || _this.hasClass('valid-feedback')) {
+                        $(_this.prevAll('input')[0]).addClass('is-valid')
+                    }
+
+                    let find = _this.nextAll('.form-text');
+    
+                    if (find.length > 0) {
+                        $(find[0]).addClass('invisible');
                     }
                     else {
-                        focus = _this.parents('.input-group').find('form-text');
-                        console.log(focus);
-                        
-                        if (focus.length > 0) {
-                            focus.addClass('invisible');
+                        find = _this.parent().nextAll('.form-text');
+
+                        if (find.length > 0) {
+                            $(find[0]).addClass('invisible');
                         }
                         else {
-                            focus = _this.parents('.input-group').next();
+                            find = _this.parent().parent().nextAll('.form-text');
 
-                            if (focus.hasClass('form-text')) {
-                                focus.addClass('invisible');
+                            if (find.length > 0) {
+                                $(find[0]).addClass('invisible')
                             }
                         }
                     }
                 }
-                else if (_this.hasClass('valid-tooltip') || _this.hasClass('invalid-feedback')) {
-                    _this.parent().children('input').addClass('is-valid');
+            });
 
-                    let focus = _this.parent().children('.form-text');
-
-                    if (focus.length > 0) {
-                        focus.removeClass('invisible');
-                    }
-                    else {
-                        focus = _this.parents('.input-group').find('form-text');
-
-                        if (focus.length > 0) {
-                            focus.removeClass('invisible');
-                        }
-                        else {
-                            focus = _this.parents('.input-group').next();
-
-                            if (focus.hasClass('form-text')) {
-                                focus.removeClass('invisible');
-                            }
-                        }
-                    }
-                }
+            if (flag) {
+                form.find('input:not(.is-invalid)').addClass('is-valid');
             }
         });
     }
@@ -90,6 +82,16 @@ let validation = (function() {
                     _this.addClass('valid-tooltip');
                     _this.removeClass('valid-feedback');
                 }
+            }
+
+            if (_this.hasClass('valid-feedback') || _this.hasClass('invalid-feedback')) {
+                let modal = _this.parents('.modal');
+                modal.addClass('d-block');
+                _this.css('max-width', _this.parent().innerWidth());
+                modal.removeClass('d-block');
+            }
+            else {
+                _this.css('max-width', '');
             }
         });
     }

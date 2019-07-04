@@ -10,18 +10,10 @@ const profileComments = db.define('profile_comment', {
         allowNull: false
     },
     uid: {
-        type: Sequelize.INTEGER,
-        // references: {
-        //     model: users,
-        //     key: "id"
-        // }
+        type: Sequelize.INTEGER
     },
     fromUid: {
-        type: Sequelize.INTEGER,
-        // references: {
-        //     model: users,
-        //     key: "id"
-        // }
+        type: Sequelize.INTEGER
     },
     comment: {
         type: Sequelize.STRING(2000)
