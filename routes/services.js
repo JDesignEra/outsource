@@ -20,6 +20,6 @@ router.post('/edit/:id', upload.single('serviceposter'), servicesController.save
 router.get('/delete/:id', isAuth, servicesController.delete)
 
 //Lemuel
-router.get('/payment', servicesController.payment)
+router.get('/payment', isAuth, servicesController.payment)
 
 module.exports = router;
