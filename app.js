@@ -12,7 +12,7 @@ const db = require('./config/db');
 const auth = require('./config/passport');
 
 const outsourceDb = require('./config/dbConnection');
-outsourceDb.setUpDB(true);
+outsourceDb.setUpDB(false);
 
 const hbs = require('./helpers/hbs');
 
