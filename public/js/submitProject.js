@@ -4,6 +4,7 @@ test1 = test.contentDocument
 
 function execFunc(func, uiDisplay = false, value = null) {
     test1.execCommand(func, uiDisplay, value)
+    console.log("Test")
     event.preventDefault()
 
 }

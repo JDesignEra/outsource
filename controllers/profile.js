@@ -25,7 +25,7 @@ module.exports = {
             }
         }).then((user) => {
 
-            if (user.qskills != null) {
+            if (user.skills != null) {
                 skills = user.skills.split(',')
                 removeEmpty(skills, '', skills.length)
                 removeEmpty(skills, ' ', skills.length)
@@ -45,13 +45,13 @@ module.exports = {
                         uid: req.user.id
                     }
                 }).then((services) => {
-                    console.log(services)
+                    
                     res.render('profile/index', {
                         projects: projects,
                         user: user,
                         services: services,
                         skills: skills
-                        //services2: services
+                   
                     });
                 })
 
@@ -69,7 +69,7 @@ module.exports = {
             }
         }).then((user) => {
 
-            if (user.qskills != null) {
+            if (user.skills != null) {
                 skills = user.skills.split(',')
                 removeEmpty(skills, '', skills.length)
                 removeEmpty(skills, ' ', skills.length)
@@ -230,6 +230,7 @@ module.exports = {
                     }
                 })
                     .then((project) => {
+                        req.flash('success', 'Project successfully deleted!')
                         res.redirect('/profile')
                     })
             }

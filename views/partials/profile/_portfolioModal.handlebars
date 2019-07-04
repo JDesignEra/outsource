@@ -2,7 +2,7 @@
     <span aria-hidden="true" class="text-white">&times;</span>
 </button>
 
-<div class="modal-dialog modal-lg" role="document">
+<div class="modal-dialog-project modal-dialog" role="document">
 
     <div class="modal-content mt-5 p-0">
 
@@ -19,7 +19,8 @@
                         <div class="row m-auto h-100 p-0">
                             <h5 class="col-12 p-0 align-self-start text-left font-weight-bold">
                                 {{title}}</h5>
-                            <h6 class="col-12 p-0 align-self-end text-left"> John Doe </h6>
+                            <h6 class="col-12 p-0 align-self-end text-left">
+                                {{../user.username}} </h6>
                         </div>
 
                     </div>
@@ -28,8 +29,12 @@
                     
                 </div> --}}
                 <div class="col-4 align-self-center row justify-content-end p-0">
-
-
+                    <a class="btn btn-success d-flex flex-fill justify-content-center" href="">
+                        Edit
+                    </a>
+                    <a class="btn btn-danger d-flex flex-fill justify-content-center" href="/profile/delete/{{id}}">
+                        Delete
+                    </a>
 
 
 
@@ -58,13 +63,13 @@
             <div class="row justify-content-center">
                 <img src="https://picsum.photos/id/659/100/" class="white img-fluid rounded-circle lozad" alt="">
                 <h3 class="col-12 text-center white-text font-weight-bold my-3">
-                    Services by John Doe
+                    Services by {{../user.usernames}}
                 </h3>
             </div>
 
             <div class="row col-12 justify-content-around">
                 {{#each ../services}}
-                <div class="card-body border-purple white rounded mx-2">
+                <div class="card-body border-purple white col-3 rounded mx-2">
                     <div class="row justify-content-around">
 
                         <div class="card">
@@ -106,7 +111,7 @@
     </div>
 
     <div class="modal-footer blue-grey lighten-5 ">
-        <div class="row col-12 justify-content-around mx-0 ">
+        <div class="row col-12 justify-content-around mx-0">
             <div class="col-8 border-purple rounded p-4 white">
                 <h4 class="text-center"> Comments </h4>
                 <hr class="hr-purple w-100">
@@ -156,17 +161,15 @@
 
             </div>
 
-            <div class="col-3 border-purple rounded p-4 pb-0 white row justify-content-center">
+            <div class="col-3 border-purple rounded p-4 white">
                 <h4 class="text-center"> Details </h4>
                 <hr class="hr-purple w-100">
-
-
-                <div class="row justify-content-start border-danger border mx-auto col-12 p-0">
+                <div class="row justify-content-start">
                     <div class="col-5">
-                        <p class="text-right"> Posted on:</p>
-                        <p class="text-right"> Views: </p>
-                        <p class="text-right"> Likes: </p>
-                        <p class="text-right"> Comments: </p>
+                        <p class="text-right font-weight-bold"> Posted on:</p>
+                        <p class="text-right font-weight-bold"> Views: </p>
+                        <p class="text-right font-weight-bold"> Likes: </p>
+                        <p class="text-right font-weight-bold"> Comments: </p>
                     </div>
 
                     <div class="col-5">
@@ -178,23 +181,42 @@
                     </div>
 
                 </div>
-                <div class="row justify-content-between border border-danger col-12 align-self-end px-0">
-                    <a type="button" class="btn btn-danger d-flex flex-fill justify-content-center"
-                        href="/profile/delete/{{id}}">
-
-                        Delete
+                <div class="row justify-content-between col-12 align-self-end px-0">
 
 
+                    <a type="button" class="btn btn-danger d-flex flex-fill justify-content-center" data-toggle="modal"
+                        data-target="#confirmdelete">
+                        <i class="fas fa-trash-alt fa-lg"></i> &nbsp; Delete
                     </a>
 
                     <a type="button" class="btn btn-success d-flex flex-fill justify-content-center" href="">
-
-                        Edit
-
+                        <i class="fas fa-edit fa-lg"></i> &nbsp; Edit
                     </a>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="confirmdelete" tabindex="-1" role="dialog"
+                        aria-labelledby="modelTitleId" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Confirm Delete?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <div class="my-2 row justify-content-around mx-auto col-12">
+                                    <a type="button" class="btn btn-danger" href="/profile/delete/{{id}}">
+                                        Yes
+                                    </a>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-
-
             </div>
 
 

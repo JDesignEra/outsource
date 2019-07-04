@@ -1,130 +1,89 @@
-<section class="submit-projects">
+<section class="submit-projects my-n5 mx-n2">
 
     <form method="POST" enctype="multipart/form-data">
-        <div class="classic-tabs">
+        <div class="classic-tabs p-3">
             <ul class="nav tabs-white rounded-0" id="myClassicTabShadow" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link waves-light active show" id="services-tab-classic-shadow" data-toggle="tab"
-                        href="#CoverTab" role="tab" aria-controls="CoverTab" aria-selected="false">Cover</a>
+                <li class="nav-item m-0">
+                    <a class="nav-link waves-light active show px-5" id="services-tab-classic-shadow" data-toggle="tab"
+                        href="#CoverTab" role="tab" aria-controls="CoverTab" aria-selected="false">1: Cover</a>
                 </li>
 
                 <li class="nav-item m-0">
-                    <a class="nav-link waves-light" id="portfolio-tab-classic-shadow" data-toggle="tab"
-                        href="#ContentTab" role="tab" aria-controls="ContentTab" aria-selected="true">Content</a>
+                    <a class="nav-link waves-light px-5" id="portfolio-tab-classic-shadow" data-toggle="tab"
+                        href="#ContentTab" role="tab" aria-controls="ContentTab" aria-selected="true">2: Content</a>
                 </li>
             </ul>
 
             <div class="tab-content min-vh-80 p-0" id="myClassicTabContentShadow">
-
+                {{!-- ================================== Cover ================================== --}}
                 <div class="tab-pane fade active show vh-70" id="CoverTab" role="tabpanel"
                     aria-labelledby="portfolio-tab-classic-shadow">
 
                     <div class="row justify-content-center mx-auto h-100">
-
-
                         <div class="col-10 form-group p-0 align-self-center">
 
                             <div class="file-upload" data-autosubmit="false">
                                 <input type="file" name="coverPicture" />
                             </div>
+                            <p class="text-muted mt-1"> This will be the cover image that will be shown in your profile
+                            </p>
                             <br>
-                            <label for="title"> Title </label>
+                            <label for="title" class="h3"> Title of Project </label>
                             <input type="text" class="form-control" name="title" id="title" aria-describedby="helpId"
                                 placeholder="Project Title">
 
-                            <!-- Material inline 1 -->
-                            <div class="form-check form-check-inline">
-                                <input type="checkbox" class="form-check-input" value="Graphics" name="projectCategory"
-                                    id="Graphics">
-                                <label class="form-check-label" for="Graphics">Graphics & Design </label>
+                            <div class="my-3 row justify-content-between mx-auto col-12 p-0">
+                                <h3 class="col-12 text-left p-0 mb-3"> Category </h3>
+                                <!-- Material inline 1 -->
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" class="form-check-input" value="Graphics"
+                                        name="projectCategory" id="Graphics">
+                                    <label class="form-check-label" for="Graphics">Graphics & Design </label>
+                                </div>
+
+                                <!-- Material inline 2 -->
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" class="form-check-input" value="Writing"
+                                        name="projectCategory" id="Writing">
+                                    <label class="form-check-label" for="Writing">Writing & Translation</label>
+                                </div>
+
+                                <!-- Material inline 3 -->
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" class="form-check-input" value="Video" name="projectCategory"
+                                        id="Video">
+                                    <label class="form-check-label" for="Video">Video & Animation</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" class="form-check-input" value="Music" name="projectCategory"
+                                        id="Music">
+                                    <label class="form-check-label" for="Music">Music & Audio </label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" class="form-check-input" value="Programming"
+                                        name="projectCategory" id="Programming">
+                                    <label class="form-check-label" for="Programming">Programming & Tech</label>
+                                </div>
                             </div>
 
-                            <!-- Material inline 2 -->
-                            <div class="form-check form-check-inline">
-                                <input type="checkbox" class="form-check-input" value="Writing" name="projectCategory"
-                                    id="Writing">
-                                <label class="form-check-label" for="Writing">Writing & Translation</label>
-                            </div>
-
-                            <!-- Material inline 3 -->
-                            <div class="form-check form-check-inline">
-                                <input type="checkbox" class="form-check-input" value="Video" name="projectCategory"
-                                    id="Video">
-                                <label class="form-check-label" for="Video">Video & Animation</label>
-                            </div>
-
-                            <div class="form-check form-check-inline">
-                                <input type="checkbox" class="form-check-input" value="Music" name="projectCategory"
-                                    id="Music">
-                                <label class="form-check-label" for="Music">Music & Audio </label>
-                            </div>
-
-                            <div class="form-check form-check-inline">
-                                <input type="checkbox" class="form-check-input" value="Programming"
-                                    name="projectCategory" id="Programming">
-                                <label class="form-check-label" for="Programming">Programming & Tech</label>
-                            </div>
                         </div>
                     </div>
 
 
                 </div>
 
-
+                {{!-- ================================== Content ================================== --}}
                 <div class="tab-pane fade" id="ContentTab" role="tabpanel"
                     aria-labelledby="portfolio-tab-classic-shadow">
-                    <div class="mx-auto row white p-4 border-red rounded">
+
+                    <div class="mx-auto row justify-content-center white p-4 border rounded">
                         <div id="richTextEditorBtns" class="col-12">
-                            <div class="mx-auto row">
-                                <button class="btn btn-secondary fas m-1 fa-bold" onclick="execFunc('bold');"></button>
-                                <button class="btn btn-secondary fas m-1 fa-italic"
-                                    onclick="execFunc('italic');"></button>
-                                <button class="btn btn-secondary fas m-1 fa-underline"
-                                    onclick="execFunc('underline');"></button>
-                                <button class="btn btn-secondary fas m-1 fa-strikethrough"
-                                    onclick="execFunc('strikeThrough');"></button>
-                                <button class="btn btn-secondary fas m-1 fa-minus"
-                                    onclick="execFunc('insertHorizontalRule');"></button>
 
-
-                                <button class="btn btn-secondary fas fa-align-left"
-                                    onclick="execFunc('justifyLeft');"></button>
-                                <button class="btn btn-secondary fas fa-align-center"
-                                    onclick="execFunc('justifyCenter');"></button>
-                                <button class="btn btn-secondary fas fa-align-right"
-                                    onclick="execFunc('justifyRight');"></button>
-
-
-                                <button class="btn btn-secondary fas m-1 fa-indent"
-                                    onclick="execFunc('indent');"></button>
-                                <button class="btn btn-secondary fas m-1 fa-outdent"
-                                    onclick="execFunc('outdent');"></button>
-
-
-                                <button class="btn btn-secondary fas fa-list-ul"
-                                    onclick="execFunc('insertUnorderedList');"></button>
-                                <button class="btn btn-secondary fas fa-list-ol"
-                                    onclick="execFunc('insertOrderedList');"></button>
-
-                                <button class="btn btn-secondary fas m-1 fa-link" onclick="createLink();"></button>
-                                <button class="btn btn-secondary fas fa-image" onclick="uploadImage(); "></button>
-                            </div>
-
-
-
-                            <div class="mx-auto row">
-                                <select class="browser-default custom-select custom-select-sm col-1"
-                                    onclick="execFunc('fontSize', false, this.value)">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                </select>
-
-                                <select class="browser-default custom-select custom-select-sm col-1"
+                            <div class="mx-auto row justify-content-between">
+                                <div class="btn-group">
+                                <select class="browser-default custom-select col-2"
                                     onclick="execFunc('fontName', false, this.value)">
                                     {{#each fonts}}
                                     <option value="{{replaceQuotes this}}">{{replaceQuotes this}}</option>
@@ -132,7 +91,88 @@
 
                                 </select>
 
-                                <select class="browser-default custom-select custom-select-sm col-1"
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle fas fa-text-height m-0" type="button"
+                                        id="Heading" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="Heading">
+                                        <p href="#" onclick="execFunc('formatBlock', false, 'H1')" class="dropdown-item"
+                                            value="H1">Heading 1</p>
+                                        <p href="#" onclick="execFunc('formatBlock', false, 'H2')" class="dropdown-item"
+                                            value="H2">Heading 2</p>
+                                        <p href="#" onclick="execFunc('formatBlock', false, 'H3')" class="dropdown-item"
+                                            value="H3">Heading 3</p>
+                                        <p href="#" onclick="execFunc('formatBlock', false, 'H4')" class="dropdown-item"
+                                            value="H4">Heading 4</p>
+                                        <p href="#" onclick="execFunc('formatBlock', false, 'H5')" class="dropdown-item"
+                                            value="H5">Heading 5</p>
+                                        <p href="#" onclick="execFunc('formatBlock', false, 'H6')" class="dropdown-item"
+                                            value="H6">Heading 6</p>
+                                        <p href="#" onclick="execFunc('formatBlock', false, 'p')" class="dropdown-item"
+                                            value="p">Normal</p>
+                                    </div>
+                                </div>
+                                </div>
+
+
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-secondary fas fa-bold " onclick="execFunc('bold');"></button>
+                                    <button class="btn btn-secondary fas fa-italic"
+                                        onclick="execFunc('italic');"></button>
+                                    <button class="btn btn-secondary fas fa-underline"
+                                        onclick="execFunc('underline');"></button>
+                                    <button class="btn btn-secondary fas fa-strikethrough"
+                                        onclick="execFunc('strikeThrough');"></button>
+                                </div>
+
+
+                                <div class="btn-group">
+                                    <button class="btn btn-secondary fas fa-align-left"
+                                        onclick="execFunc('justifyLeft');"></button>
+                                    <button class="btn btn-secondary fas fa-align-center"
+                                        onclick="execFunc('justifyCenter');"></button>
+                                    <button class="btn btn-secondary fas fa-align-right"
+                                        onclick="execFunc('justifyRight');"></button>
+                                    <button class="btn btn-secondary fas fa-align-justify"
+                                        onclick="execFunc('justifyFull');"></button>
+                                </div>
+
+
+
+
+                                <div class="btn-group">
+                                    <button class="btn btn-secondary fas fa-list-ul"
+                                        onclick="execFunc('insertUnorderedList');"></button>
+                                    <button class="btn btn-secondary fas fa-list-ol"
+                                        onclick="execFunc('insertOrderedList');"></button>
+                                    <button class="btn btn-secondary fas fa-indent"
+                                        onclick="execFunc('indent');"></button>
+                                    <button class="btn btn-secondary fas fa-outdent"
+                                        onclick="execFunc('outdent');"></button>
+                                </div>
+
+                                <div class="btn-group">
+                                    <button class="btn btn-secondary fas fa-link" onclick="createLink();"></button>
+                                    <button class="btn btn-secondary fas fa-image" onclick="uploadImage(); "></button>
+                                    <button class="btn btn-secondary fas fa-minus"
+                                        onclick="execFunc('insertHorizontalRule');"></button>
+                                </div>
+                            </div>
+
+                            <div class="mx-auto row">
+
+
+
+                                <select class="browser-default custom-select custom-select-sm"
+                                    onclick="execFunc('fontName', false, this.value)">
+                                    {{#each fonts}}
+                                    <option value="{{replaceQuotes this}}">{{replaceQuotes this}}</option>
+                                    {{/each}}
+
+                                </select>
+
+                                {{!-- <select class="browser-default custom-select custom-select-sm"
                                     onclick="execFunc('formatBlock', false, this.value)">
                                     <option value="H1">Heading 1</option>
                                     <option value="H2">Heading 2</option>
@@ -141,7 +181,7 @@
                                     <option value="H5">Heading 5</option>
                                     <option value="H6">Heading 6</option>
                                     <option value="p">Normal</option>
-                                </select>
+                                </select>  --}}
                             </div>
 
                         </div>
