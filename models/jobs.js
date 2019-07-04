@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../config/dbConfig');
 const users = require('./users');
 
-const job = db.define('job', {
+const jobs = db.define('job', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -19,7 +19,7 @@ const job = db.define('job', {
     desc: {
         type: Sequelize.STRING(2000)
     },
-    price: {
+    salary: {
         type: Sequelize.DECIMAL,
         allowNull: false
     },
@@ -29,4 +29,4 @@ const job = db.define('job', {
     },
 });
 
-module.exports = services;
+module.exports = jobs;

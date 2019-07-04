@@ -6,6 +6,7 @@ const filesFolders = require('../models/filesFolders');
 const services = require('../models/services');
 const profileComments = require('../models/profileComments');
 const filesFoldersComments = require('../models/filesFoldersComments');
+const jobs = require('../models/jobs');
  
 const setUpDB = (drop) => { 
     mysql.authenticate() 
