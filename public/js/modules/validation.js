@@ -51,11 +51,13 @@ let validation = (function() {
                         }
                     }
 
-                    find = _this.closest('.md-outline');
-
-                    if ((_this.hasClass('invalid-tooltip') || _this.hasClass('valid-tooltip')) && find.length > 0) {
+                    if (_this.hasClass('invalid-tooltip') || _this.hasClass('valid-tooltip')) {
                         find = _this.closest('.input-group');
                         find.css('margin-bottom', '2.175rem');
+                    }
+                    else if (_this.hasClass('invalid-feedback') || _this.hasClass('valid-feedback')) {
+                        find = _this.closest('.input-group');
+                        find.css('margin-bottom', '1.875rem');
                     }
                     else {
                         find = _this.closest('.input-group');
