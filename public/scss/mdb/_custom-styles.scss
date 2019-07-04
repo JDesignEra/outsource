@@ -243,12 +243,12 @@ footer {
         }
 
         > .form-text {
-            position: fixed;
+            position: absolute;
         }
     
         > .invalid-feedback {
             width: calc(100vw - (1rem * 2 + .5rem * 2));
-            position: fixed;
+            position: absolute;
         }
 
         > .is-valid {
