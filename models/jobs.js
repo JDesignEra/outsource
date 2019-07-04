@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../config/dbConfig');
 const users = require('./users');
 
-const services = db.define('service', {
+const services = db.define('job', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
