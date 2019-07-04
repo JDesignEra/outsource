@@ -153,14 +153,22 @@ module.exports = {
                 
                 // Find child folders and files in database and removed too.
                 for (folder of folders) {
-                    filesFolders.findAll({
-                        where: { directory: { [Op.like]: folder['fullPath'] } }
-                    }).then(datas => {
+                    filesFolders.findAll({ where: {directory: { [Op.startsWith]: folder['fullPath'] }} }).then(datas => {
+                        let parentPath = folder['fullPath'].split('/');
                         let childId = [];
                         
                         for (data of datas) {
-                            if (folder['fullPath'] === data.directory.slice(0, folder['fullPath'].length)) {
-                                childId.push(data['id']);
+                            let childDir = data['directory'].split('/');
+                            let count = 0;
+
+                            for (let i = 0, n = parentPath.length; i < n; i++) {
+                                if (parentPath[i] == childDir[i]) {
+                                    count++;
+                                }
+
+                                if (count === n) {
+                                    childId.push(data['id']);
+                                }
                             }
                         }
 
@@ -183,6 +191,11 @@ module.exports = {
     },
     move: function(req, res) {
         // ToDo: Move
+        let uid = req.user.id;
+        let root = 'public/uploads/files/' + uid + '/';
+        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
+        dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
+        
     },
     newfile: function(req, res) {
         let uid = req.user.id;
