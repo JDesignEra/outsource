@@ -28,7 +28,7 @@ module.exports = {
     },
     register: function (req, res) {
         if (req.method === 'GET') {
-            res.render('register/index');
+            res.render('auth/register');
         }
         else if (req.method === 'POST') {
             let errors = {};
@@ -54,7 +54,7 @@ module.exports = {
             }
 
             if (Object.getOwnPropertyNames(errors).length > 0) {
-                res.render('register/index', {
+                res.render('auth/register', {
                     username,
                     email,
                     password,
@@ -66,7 +66,7 @@ module.exports = {
                 User.findOne({ where: { email: req.body.email } })
                     .then(user => {
                         if (user) {
-                            res.render('register/index', {
+                            res.render('auth/register', {
                                 errors: {
                                     'email': user.email + ' is already registered.'
                                 },

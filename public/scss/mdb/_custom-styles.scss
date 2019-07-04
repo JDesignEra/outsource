@@ -25,6 +25,10 @@ nav.navbar.home:not(.top-nav-collapse) {
     background: rgba(map-get($basic, "primary"), .35) !important;
 }
 
+.navbar form .md-form.md-outline input {
+    border: 1px solid #dadce0;
+}
+
 @media (max-width: 767px) and (min-width: 400px),
 (max-width: 850px) and (min-width: 800px) {
     nav.navbar.fixed-top .navbar-collapse {
@@ -37,9 +41,9 @@ nav.navbar.home:not(.top-nav-collapse) {
 }
 
 .navbar .dropdown-menu a:not(.dropdown-item) {
-    color: #6200ea;
+    color: map-get($material-colors, "primary-color");
     &:hover {
-        color: lighten(#6200ea, 15%);
+        color: lighten(map-get($material-colors, "primary-color"), 15%);
     }
 }
 
@@ -54,15 +58,15 @@ a,
 a:not([href]):not([tabindex]).link {
     cursor: pointer;
     text-decoration: none;
-    color: #6200ea;
+    color: map-get($material-colors, "primary-color");
     font-weight: 400;
     &:hover {
-        color: lighten(#6200ea, 15%);
+        color: lighten(map-get($material-colors, "primary-color"), 15%);
     }
     &.disabled,
     &:disabled {
         &:hover {
-            color: #6200ea;
+            color: map-get($material-colors, "primary-color");
         }
     }
 }
@@ -71,7 +75,7 @@ a:not([href]):not([tabindex]).link {
 .mdb-autocomplete-wrap {
     li {
         &:hover {
-            color: #ffffff;
+            color: map-get($mdb-colors, "white");
         }
     }
 }
@@ -104,9 +108,24 @@ a:not([href]):not([tabindex]).link {
     border: none;
 }
 
+// CARDS
+.card {
+    .md-form {
+        &.md-outline {
+            label {
+                font-weight: 400;
+
+                &.active {
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+}
+
 // CARDS-BASIC
 .card .list-group-item:hover {
-    color: #ffffff;
+    color: map-get($mdb-colors, "white");
     background-color: map-get($basic, "primary");
 }
 
@@ -167,11 +186,11 @@ a:not([href]):not([tabindex]).link {
     input[type=search],
     textarea.md-textarea {
         &:focus:not([readonly]) {
-            box-shadow: inset 0 1px 0 0 #6200ea !important;
-            border-bottom: 1px solid #6200ea !important;
+            box-shadow: inset 0 1px 0 0 map-get($material-colors, "primary-color") !important;
+            border-bottom: 1px solid map-get($material-colors, "primary-color") !important;
 
             + label {
-                color: #6200ea !important;
+                color: map-get($material-colors, "primary-color") !important;
             }
         }
     }
@@ -190,12 +209,12 @@ a:not([href]):not([tabindex]).link {
         input[type=search],
         textarea.md-textarea {
             &:focus:not([readonly]) {
-                border-color: #6200ea !important;
-                box-shadow: inset 0px 0px 0px 1px #6200ea !important;
+                border-color: map-get($material-colors, "primary-color") !important;
+                box-shadow: inset 0px 0px 0px 1px map-get($material-colors, "primary-color") !important;
                 
                 + label,
                 ~ label.active {
-                    color: #6200ea !important;
+                    color: map-get($material-colors, "primary-color") !important;
                 }
             }
         }
@@ -253,6 +272,12 @@ footer {
         }
     }
 
+    .form-control:not(:last-child),
+    .input-group>.custom-select:not(:last-child) {
+        border-top-right-radius: .25rem;
+        border-bottom-right-radius: .25rem;
+    }
+
     > .md-outline:not(:last-child),
     > .md-outline:first-child {
         > .form-control {
@@ -292,19 +317,17 @@ footer {
             }
         }
     }
-
+    
     > .input-group-prepend,
     > .input-group-prepend:not(:last-child) {
-        > .btn,
-        > .input-group-text {
+        > .btn {
             border-top-right-radius: .25rem !important;
             border-bottom-right-radius: .25rem !important;
         }
     }
 
     > .input-group-prepend:last-child {
-        > .btn:not(:last-child),
-        > .input-group-text:not(:last-child) {
+        > .btn:not(:last-child) {
             border-top-right-radius: .25rem !important;
             border-bottom-right-radius: .25rem !important;
         }
@@ -312,16 +335,14 @@ footer {
 
     > .input-group-append,
     > .input-group-prepend:not(:first-child) {
-        > .btn,
-        > .input-group-text {
+        > .btn {
             border-top-right-radius: .25rem !important;
             border-bottom-right-radius: .25rem !important;
         }
     }
 
     > .input-group-prepend:first-child {
-        > .btn:not(:first-child),
-        > .input-group-text:not(:first-child) {
+        > .btn:not(:first-child) {
             border-top-right-radius: .25rem !important;
             border-bottom-right-radius: .25rem !important;
         }
@@ -365,7 +386,7 @@ table {
             .form-check-input[type="checkbox"]:not(.filled-in) {
                 + label::before,
                 + label::after {
-                    border: 2px solid #ffffff;
+                    border: 2px solid map-get($mdb-colors, "white");
                 }
             }
 
@@ -373,8 +394,8 @@ table {
                 + label::before {
                     border-top: 2px solid transparent;
                     border-left: 2px solid transparent;
-                    border-right: 2px solid #ffffff;
-                    border-bottom: 2px solid #ffffff;
+                    border-right: 2px solid map-get($mdb-colors, "white");
+                    border-bottom: 2px solid map-get($mdb-colors, "white");
                 }
             }
 
@@ -383,17 +404,17 @@ table {
                     + label::before {
                         border-top: 2px solid transparent;
                         border-left: 2px solid transparent;
-                        border-right: 2px solid #ffffff;
-                        border-bottom: 2px solid #ffffff;
+                        border-right: 2px solid map-get($mdb-colors, "white");
+                        border-bottom: 2px solid map-get($mdb-colors, "white");
                     }
                 }
             }
         }
 
         a {
-            color: #6200ea;
+            color: map-get($material-colors, "primary-color");
             &:hover {
-                color: lighten(#6200ea, 15%);;
+                color: lighten(map-get($material-colors, "primary-color"), 15%);;
             }
         }
     }
@@ -438,11 +459,11 @@ table {
             }
 
             .open {
-                color: #f8f9fa;
+                color: map-get($mdb-colors, "white");
                 background-color: map-get($material-colors, "primary-color");
 
                 &:hover {
-                    color: #f8f9fa;
+                    color: map-get($mdb-colors, "white");
                     background-color: map-get($material-colors, "primary-color-dark");
                 }
             }
@@ -457,7 +478,7 @@ table {
         
             &.opened,
             &.open {
-                color: #f8f9fa;
+                color: map-get($mdb-colors, "white");
                 background-color: map-get($material-colors, "primary-color-dark");
         
                 &:hover {

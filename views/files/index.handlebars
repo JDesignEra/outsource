@@ -81,11 +81,11 @@
                 <div class="card-body card-body-cascade p-0">
                     <div id="action-search" class="input-group px-3 mt-2 mb-0">
                         <div class="md-form md-outline">
-                            <input class="form-control mdb-autocomplete" type="text" name="search">
+                            <input id="action-search-input" class="form-control mdb-autocomplete" type="text" name="search">
                             <button class="mdb-autocomplete-clear deep-purple-text">
                                 <i class="far fa-times"></i>
                             </button>
-                            <label>Search</label>
+                            <label for="action-search-input">Search</label>
                         </div>
 
                         <div class="dropdown input-group-prepend">
@@ -198,8 +198,8 @@
                     <div class="input-group mb-0">
                         <div class="md-form md-outline">
                             <input type="hidden" name="fid" value="">
-                            <input class="form-control" type="text" {{#if forms.rename}}value="{{ forms.rename }}"{{/if}} name="name">
-                            <label>New Name</label>
+                            <input id="rename-name-input" class="form-control" type="text" {{#if forms.rename}}value="{{ forms.rename }}"{{/if}} name="name">
+                            <label for="rename-name-input">New Name</label>
                             
                             <div class="invalid-tooltip">
                                 {{ forms.errors.rename }}
@@ -240,8 +240,8 @@
                 <form class="needs-validation" method="post" action="{{ postRoot }}/~newfile" novalidate>
                     <div class="input-group mb-0">
                         <div class="md-form md-outline">
-                            <input class="form-control" type="text" name="name"{{#if forms.filename}} value="{{ forms.filename }}"{{/if}}>
-                            <label>File Name</label>
+                            <input id="new-file-name-input" class="form-control" type="text" name="name"{{#if forms.filename}} value="{{ forms.filename }}"{{/if}}>
+                            <label for="new-file-name-input">File Name</label>
 
                             <div class="invalid-tooltip">
                                 {{ forms.errors.filename }}
@@ -251,8 +251,8 @@
                         <span class="input-group-text border-left-0 border-right-0 rounded-0">.</span>
 
                         <div class="md-form md-outline">
-                            <input class="form-control" type="text" name="ext"{{#if forms.ext}} value="{{ forms.ext }}"{{/if}}>
-                            <label>Extension</label>
+                            <input id="new-file-ext-input" class="form-control" type="text" name="ext"{{#if forms.ext}} value="{{ forms.ext }}"{{/if}}>
+                            <label for="new-file-ext-input">Extension</label>
 
                             <div class="invalid-tooltip">
                                 {{ forms.errors.ext }}
@@ -293,8 +293,8 @@
                 <form class="needs-validation" action="{{ postRoot }}/~newfolder" method="post" novalidate>
                     <div class="input-group mb-0">
                         <div class="md-form md-outline">
-                            <input class="form-control" type="text" {{#if forms.foldername}}value="{{ forms.foldername }}"{{/if}} name="name">
-                            <label>Folder Name</label>
+                            <input id="new-folder-name-input" class="form-control" type="text" {{#if forms.foldername}}value="{{ forms.foldername }}"{{/if}} name="name">
+                            <label for="new-folder-name-input">Folder Name</label>
                             
                             <div class="invalid-tooltip">
                                 {{ forms.errors.foldername }}
@@ -373,7 +373,7 @@
                 <form class="files-upload" action="{{ postRoot }}/~upload" method="post" enctype="multipart/form-data">
                     <input type="file" name="files" multiple />
                     <p class="text-danger text-center m-0 mt-3">
-                        <small class="font-weight-bold">
+                        <small class="font-weight-500">
                             * If uploaded file or files exist in the current directory, that file or files will be overwritten.
                         </small>
                     </p>
@@ -395,11 +395,11 @@
         <div id="mobile-search" class="px-2">
             <div class="input-group mt-2 mb-3">
                 <div class="md-form md-outline">
-                    <input class="form-control mdb-autocomplete" type="text" name="search">
+                    <input id="mobile-search-input" class="form-control mdb-autocomplete" type="text" name="search">
                     <button class="mdb-autocomplete-clear deep-purple-text">
                         <i class="far fa-times"></i>
                     </button>
-                    <label>Search</label>
+                    <label for="mobile-search-input">Search</label>
                 </div>
 
                 <div class="input-group-prepend">
