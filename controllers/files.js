@@ -108,6 +108,7 @@ module.exports = {
                                 }
                                 
                                 tree.push({
+                                    id: data['id'],
                                     name: name,
                                     link: link,
                                     child: folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name,
@@ -186,16 +187,45 @@ module.exports = {
             });
         }
         else {
-            req.flash('error', 'Please select a file or folder to delete.');
+            req.flash('error', 'No file or folder selected.');
+            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
         }
     },
     move: function(req, res) {
         // ToDo: Move
-        let uid = req.user.id;
-        let root = 'public/uploads/files/' + uid + '/';
-        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
-        dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
-        
+        if (req.body.fid) {
+            let uid = req.user.id;
+            let root = 'public/uploads/files/' + uid + '/';
+            let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
+            dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
+
+            let id = Array.isArray(req.body.fid) ? req.body.fid : [req.body.fid];
+            let moveDir = req.body.directory;
+            let errors = {};
+            let regex = /[!@#$%^&*+\=\[\]{}()~;':"\\|,.<>?]/;
+
+            if (regex.test(moveDir)) {
+                errors['directory'] = 'Directory path only allow alphanumeric, underscore, dash and forward slash.'
+            }
+            
+            if (Object.keys(errors).length > 0) {
+                req.flash('forms', {
+                    directory: moveDir,
+                    errors: errors
+                });
+
+                res.redirect(dir === '/' ? '/files/~move' :  '/files' + dir + '/~move');
+            }
+            else {
+                filesFolders.findAll({ where: {id: { [Op.in]: id } } }).then(datas => {
+
+                });
+            }
+        }
+        else {
+            req.flash('error', 'No file or folder selected.');
+            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+        }
     },
     newfile: function(req, res) {
         let uid = req.user.id;
@@ -352,17 +382,21 @@ module.exports = {
 
         let fid = req.body.fid;
         let name = req.body.name;
-
+        let errors = {};
         let regex = /[!@#$%^&*+\=\[\]{}()~;':"\\|,.<>\/?]/;
 
-        if (regex.test(name)) {
-            req.flash('forms', {
-                select: fid,
-                errors: {
-                    rename: 'Files and folder name only allow alphanumeric, underscore and dash.'
-                }
-            });
-            
+        if (!fid) {
+            errors['rename'] = 'No file or folder selected.'
+        }
+        else if (!name) {
+            errors['rename'] = 'File or folder name can\'t be empty.';
+        }
+        else if (regex.test(name)) {
+            errors['rename'] = 'File or folder name only allow alphanumeric, underscore and dash.';
+        }
+
+        if (Object.keys(errors).length > 0) {
+            req.flash('forms', { select: fid, errors: errors });
             res.redirect(dir === '/' ? '/files/~rename' :  '/files' + dir + '/~rename');
         }
         else {
@@ -373,21 +407,41 @@ module.exports = {
                 }
             }).then(data => {
                 if (data) {
+                    let originalName = data['name'];
                     let fullPath = data['fullPath'].slice(0, data['fullPath'].lastIndexOf('/'));
                     let ext = data['type'] !== 'folder' ? data['name'].slice(data['name'].lastIndexOf('.')) : '';
-    
-                    fullPath = fullPath + '/' + name + ext;
-    
-                    fs.rename(path.join(root, data['fullPath']), path.join(root, fullPath)).then(() => {
-                        data.update({
+                    
+                    fullPath = `${fullPath}/${name + ext}`;
+
+                    filesFolders.findOne({
+                        where: {
                             name: name + ext,
                             fullPath: fullPath
-                        });
-                        
-                        req.flash('forms', { select: [data['id']] });
-                        res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                        }
+                    }).then(exist => {
+                        if (exist) {
+                            req.flash('forms', {
+                                select: fid,
+                                errors: {
+                                    rename: `${name + ext} already exist in the current directory.`
+                                }
+                            });
+
+                            req.flash('error', `${name + ext} already exist in the current directory.`);
+                            res.redirect(dir === '/' ? '/files/~rename' :  '/files' + dir + '/~rename');
+                        }
+                        else {
+                            fs.rename(path.join(root, data['fullPath']), path.join(root, fullPath)).then(() => {
+                                data.update({
+                                    name: name + ext,
+                                    fullPath: fullPath
+                                });
+
+                                req.flash('success', `${originalName} has been renamed to ${name + ext} successfully.`);
+                                res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                            });
+                        }
                     });
-                    
                 }
                 else {
                     req.flash('error', 'File can\'t be found.');

@@ -38,7 +38,6 @@
     @include transition-main($picker-holder-transition-bg, $picker-holder-transition-top);
     backface-visibility: hidden;
   }
-  
   /**
    * Note: the root picker element should *NOT* be styled more than what's here.
    */

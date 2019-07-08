@@ -1,3 +1,7 @@
+/*******************************
+             Flag
+*******************************/
+
 i.flag:not(.icon) {
   display: inline-block;
   width: 16px;
@@ -20,6 +24,11 @@ i.flag:not(.icon):before {
   width: 16px;
   height: 11px;
 }
+
+
+/*******************************
+         Theme Overrides
+*******************************/
 
 i.flag.ad:before,
 i.flag.andorra:before {

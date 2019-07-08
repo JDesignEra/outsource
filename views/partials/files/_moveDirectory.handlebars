@@ -1,0 +1,27 @@
+<tr>
+    <td headers="select">
+        <div class="form-check">
+            <input id="move-0" class="form-check-input" type="radio" name="moveFid" value="0" checked>
+            <label for="move-0" class="form-check-label"></label>
+        </div>
+    </td>
+    <td headers="directory">
+        Root
+    </td>
+</tr>
+
+{{#if folders}}
+    {{#each folders}}
+        <tr> <!-- animated faster d-none -->
+            <td headers="select">
+                <div class="form-check">
+                    <input id="move-{{ this.id }}" class="form-check-input" type="radio" name="moveFid" value="{{ this.id }}">
+                    <label for="move-{{ this.id }}" class="form-check-label"></label>
+                </div>
+            </td>
+            <td headers="directory">
+                Root{{ this.child }}
+            </td>
+        </tr>
+    {{/each}}
+{{/if}}

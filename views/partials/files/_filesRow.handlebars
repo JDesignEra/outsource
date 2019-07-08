@@ -4,8 +4,9 @@
         <tr class="animated faster d-none">
             <td headers="select">
                 <div class="form-check">
-                    <input id="{{ this.id }}"
+                    <input id="ff-{{ this.id }}"
                         class="form-check-input" type="checkbox"
+                        data-id="{{ this.id }}"
                         data-name="{{ this.name }}"
                         name="fid"
                         {{#if this.id}} value="{{ this.id }}"{{/if}}
@@ -13,7 +14,7 @@
                             {{#ifIn (getVar 'selectId') this.id}} checked{{/ifIn}}
                         {{/ifVar}}
                     >
-                    <label class="form-check-label" for="{{ this.id }}"></label>
+                    <label for="ff-{{ this.id }}" class="form-check-label"></label>
                 </div>
             </td>
             <td headers="name">

@@ -231,7 +231,7 @@
   position: relative;
   margin: auto;
   margin-top: $timepicker-clockpicker-plate-margin-top;
-  /* Disable text selection highlighting. Thanks to Hermanya */
+  
   user-select: none;
   .clockpicker-canvas,
   .clockpicker-dial {

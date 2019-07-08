@@ -9,7 +9,7 @@ let toast = (function() {
     
     publicFuncs.init = function() {
         if (typeof toastMsgs !== 'undefined') {
-            Object.keys(toastMsgs).forEach((key) => {
+            Object.keys(toastMsgs).forEach(key => {
                 let _this = toastMsgs[key];
                 
                 if (['info', 'warning', 'success', 'error'].includes(key)) {
@@ -25,24 +25,24 @@ let toast = (function() {
                                 extendedTimeOut = 0;
                             }
 
-                            toastr.options = {
+                            toastr[key](_this[i], null, {
                                 'closeButton': true,
                                 'progressBar': true,
                                 'newestOnTop': true,
                                 'hideDuration': 300,
                                 'timeOut': timeOut,
                                 'extendedTimeOut': extendedTimeOut
-                            }[key](_this[i]);
+                            });
                         }
                         else {
-                            toastr.options = {
-                                'closeButton': true,
-                                'progressBar': true,
-                                'newestOnTop': true,
-                                'hideDuration': 300,
-                                'timeOut': 2500,
-                                'extendedTimeOut': 1250,
-                            }[key](obj);
+                            toastr[key](obj, null, {
+                                closeButton: true,
+                                progressBar: true,
+                                newestOnTop: true,
+                                hideDuration: 300,
+                                timeOut: 2500,
+                                extendedTimeOut: 1250
+                            });
                         }
                     }
                 }

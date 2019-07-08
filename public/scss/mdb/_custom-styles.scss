@@ -51,6 +51,11 @@ nav.navbar.home:not(.top-nav-collapse) {
     }
 }
 
+// modal-open navbar issue fix
+.modal-open nav.navbar {
+    padding-right: 1rem !important;
+}
+
 // headers text
 h1, h2, h3, h4, h5, h6 {
     font-weight: 500;
@@ -215,12 +220,16 @@ a:not([href]):not([tabindex]).link {
             &:focus:not([readonly]) {
                 border-color: map-get($material-colors, "primary-color") !important;
                 box-shadow: inset 0px 0px 0px 1px map-get($material-colors, "primary-color") !important;
-                
+
                 + label,
                 ~ label.active {
                     color: map-get($material-colors, "primary-color") !important;
                 }
             }
+        }
+        
+        > label:not(.active) {
+            transform: translateY(8px);
         }
     }
 }

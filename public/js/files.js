@@ -116,9 +116,9 @@ $(function() {
     }
 });
 
-// DataTable
+// Files-Table DataTable
 $(function() {
-    function tableInit(tableId) {
+    function filesTableInit(tableId) {
         let focus = $(tableId);
 
         focus.DataTable({
@@ -142,7 +142,7 @@ $(function() {
         }
     }
 
-    tableInit("#files-table");
+    filesTableInit("#files-table");
 
     let rows = $('tbody tr', '#files-table');
     let i = 1;
@@ -168,7 +168,7 @@ $(function() {
 
     $(window).on('resize', function () {
         $('#files-table').DataTable().destroy();
-        tableInit('#files-table');
+        filesTableInit('#files-table');
     });
 
     // Checkbox
@@ -199,7 +199,8 @@ $(function() {
         let focus = $('.select-actions', '#mobile-action-menu, #action-card');
         let count = focuses.filter(':checked').length;
 
-        $('.select-count', '#mobile-action-menu, #action-card').text(count + ' Item(s) Selected');
+        $('.select-count', '#mobile-action-menu, #action-card').text(`${count} Item(s) Selected`);
+        $('.move-count', '#moveModal').text(`Move ${count} file(s) or folder(s).`);
         
         if (count >= focuses.length) {
             checkboxAll.prop('checked', true);
@@ -540,7 +541,6 @@ $(function() {
     }
 });
 
-
 // Mobile-Action
 $(function() {
     let toTopAction = $('#to-top-action');
@@ -582,15 +582,12 @@ $(function() {
 
 // Action Buttons
 $(function() {
-    $('.move-action, .copy-action, .delete-action').on('click', function() {
+    $('.copy-action, .delete-action').on('click', function() {
         let _this = $(this);
         let url = null;
         let form = $('#action-form');
 
-        if (_this.hasClass('move-action')) {
-            url = form.attr('action') + '~move';
-        }
-        else if (_this.hasClass('copy-action')) {
+        if (_this.hasClass('copy-action')) {
             url = form.attr('action') + '~copy';
         }
         else if (_this.hasClass('delete-action')) {
@@ -601,12 +598,13 @@ $(function() {
         form.submit();
     });
 
-    $('#renameModal').on('show.bs.modal', function() {
+    // Rename Modal, Move Modal
+    $('#renameModal, #moveModal').on('show.bs.modal', function() {
         let focus = $(this).find('form');
         let td = $('td[headers="select"] input:checked', '#files-table').last();
         let inputName = focus.find('input[name="name"]');
         
-        focus.find('input[name="fid"]').val(td.attr('id'));
+        focus.find('input[name="fid"]').val(td.attr('data-id'));
 
         if (td.attr('data-name')) {
             let name = td.attr('data-name');
