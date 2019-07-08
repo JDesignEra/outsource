@@ -65,6 +65,7 @@ $(function() {
             }
         });
 
+        tree = undefined;
         $('script#tree-script').remove();
 
         let path = '';
@@ -497,7 +498,11 @@ $(function() {
         }
     });
 
-    // Autocomplete
+    searchInput.next().next('.mdb-autocomplete-clear').on('click', function() {
+        $(this).prev().prev('.mdb-autocomplete').trigger('keyup');
+    });
+
+    // Search Autocomplete
     function autocomplete(searchInput, trs, filters) {
         let autocomplete = [];
 
@@ -564,6 +569,15 @@ $(function() {
     });
 
     $(window).trigger('resize');
+});
+
+// New File Extension Autocomplete
+$(function() {
+    if (typeof types !== 'undefined') {
+        $('input[name="ext"]', '#newFileModal').mdbAutocomplete({ data: types });
+        types = undefined;
+        $('script#types-script').remove();
+    }
 });
 
 // Action Buttons

@@ -74,7 +74,7 @@ $(function() {
 
 // Init Forms Validation
 $(function() {
-    if ($('.invalid-tooltip', 'form').length > 0 || $('.valid-tooltip', 'form').length > 0) {
+    if ($('.invalid-tooltip, .invalid-feedback, valid-tooltip, valid-feedback', 'form.needs-validation').length > 0) {
         validation().init();
     }
 });

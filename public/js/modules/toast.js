@@ -9,25 +9,46 @@ let toast = (function() {
     
     publicFuncs.init = function() {
         if (typeof toastMsgs !== 'undefined') {
-            toastr.options = {
-                'closeButton': true,
-                'progressBar': true,
-                'newestOnTop': true,
-                'hideDuration': 300,
-                'timeOut': 2000,
-                'extendedTimeOut': 1000,
-            }
-
-            Object.keys(toastMsgs).forEach(function(key) {
-                _this = toastMsgs[key];
-
+            Object.keys(toastMsgs).forEach((key) => {
+                let _this = toastMsgs[key];
+                
                 if (['info', 'warning', 'success', 'error'].includes(key)) {
                     for (let i = 0, n = _this.length; i < n; i++) {
-                        toastr[key](_this[i]);
+                        let obj = _this[i];
+
+                        if (typeof obj === 'object' && obj instanceof Object) {
+                            let timeOut = 2500;
+                            let extendedTimeOut = 1250;
+
+                            if (!obj['autoHide']) {
+                                timeOut = 0;
+                                extendedTimeOut = 0;
+                            }
+
+                            toastr.options = {
+                                'closeButton': true,
+                                'progressBar': true,
+                                'newestOnTop': true,
+                                'hideDuration': 300,
+                                'timeOut': timeOut,
+                                'extendedTimeOut': extendedTimeOut
+                            }[key](_this[i]);
+                        }
+                        else {
+                            toastr.options = {
+                                'closeButton': true,
+                                'progressBar': true,
+                                'newestOnTop': true,
+                                'hideDuration': 300,
+                                'timeOut': 2500,
+                                'extendedTimeOut': 1250,
+                            }[key](obj);
+                        }
                     }
                 }
             });
 
+            toastMsgs = undefined;
             $('script#toast-script').remove();
         }
     }

@@ -93,7 +93,7 @@ let fileInput = (function() {
                 },
                 'click': function(e) {
                     input.trigger('click');
-                },
+                }
             });
 
             // On file input change

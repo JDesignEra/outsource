@@ -10,11 +10,7 @@ const services = db.define('service', {
         allowNull: false
     },
     uid: {
-        type: Sequelize.INTEGER,
-        // references: {
-        //     model: users,
-        //     key: "id"
-        // }
+        type: Sequelize.INTEGER
     },
     name: {
         type: Sequelize.STRING,
