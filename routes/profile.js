@@ -5,7 +5,6 @@ const { isAuth } = require('../middlewares/auth');
 const upload = multer({dest: './public/uploads/temp'});
 const authController = require('../controllers/auth');
 const profileController = require('../controllers/profile');
-const authController = require('../controllers/auth');
 
 // ToDo: /uid url
 router.get('/', isAuth, profileController.index);

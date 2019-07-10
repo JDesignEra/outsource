@@ -45,7 +45,7 @@ function toggleSource() {
     if (showingSourceCode) {
         test.contentWindow.document.body.innerHTML = test.contentWindow.document.body.textContent;
         showingSourceCode = false
-        document.getElementById("sourceCodeBtn").className = "btn btn-secondary fas fa-code"
+        document.getElementById("sourceCodeBtn").className = "btn btn-secondary"
         // document.getElementById("richTextEditorBtns").style.display = "block"
         event.preventDefault()
 
@@ -53,7 +53,7 @@ function toggleSource() {
     else {
         test.contentWindow.document.body.textContent = test.contentWindow.document.body.innerHTML
         showingSourceCode = true
-        document.getElementById("sourceCodeBtn").className = "btn btn-secondary fas fa-code active"
+        document.getElementById("sourceCodeBtn").className = "btn btn-secondary active"
         // document.getElementById("richTextEditorBtns").style.display = "none"
         event.preventDefault()
     }
