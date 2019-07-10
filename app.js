@@ -111,6 +111,7 @@ app.use('/profile', require('./routes/profile'));
 app.use('/services', require('./routes/services'));
 app.use('/files', require('./routes/files'));
 app.use('/jobs', require('./routes/jobs'));
+app.use('/profile/edit/:id', require('./routes/auth'));
 
 app.listen(port = 5000, () => {
 	console.log(`\n\x1b[32mServer started on port ${port}.\x1b[0m`);
