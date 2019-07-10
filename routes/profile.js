@@ -18,4 +18,7 @@ router.get('/view/:id', profileController.viewProject)
 router.get('/delete/:id', profileController.deleteProject)
 router.get('/edit/:id', authController.delete);
 
+router.get('/auth/reset', authController.changepw);
+
+
 module.exports = router;

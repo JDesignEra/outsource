@@ -139,13 +139,17 @@ module.exports = {
                 },
                 function (token, user, done) { //doesnt go into this function
                     console.log('inside post waterfall5');
-                    var smtpTransport = nodemailer.createTransport({
-                        service: 'Gmail',
+                    let transporter = nodemailer.createTransport({
+                        host: 'smtp.gmail.com',
+                        port: 465,
+                        secure: true,
                         auth: {
-                            user: 'outsourceforgetpw@gmail.com',
-                            pass: 'Outsource123'
+                            type: 'OAuth2',
+                            user: 'Outsourceforgotpw@gmail.com',
+                            accessToken: 'ya29.Xx_XX0xxxxx-xX0X0XxXXxXxXXXxX0x'
                         }
                     });
+                    
                     var mailOptions = {
                         to: user.email,
                         from: 'outsourceforgetpw@gmail.com',
@@ -155,7 +159,7 @@ module.exports = {
                             'http://' + req.headers.host + '/reset/' + token + '\n\n' +
                             'If you did not request this, please ignore this email and your password will remain unchanged.\n'
                     };
-                    smtpTransport.sendMail(mailOptions, function (err) {
+                    transporter.sendMail(mailOptions, function (err) {
                         console.log('mail sent');
                         req.flash('success', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
                         done(err, 'done');
@@ -203,11 +207,14 @@ module.exports = {
                     });
                 },
                 function (user, done) {
-                    var smtpTransport = nodemailer.createTransport({
-                        service: 'Gmail',
+                    let transporter = nodemailer.createTransport({
+                        host: 'smtp.gmail.com',
+                        port: 465,
+                        secure: true,
                         auth: {
-                            user: 'outsourceforgetpw@gmail.com',
-                            pass: 'Outsource123'
+                            type: 'OAuth2',
+                            user: 'outsourceforgotpw@gmail.com',
+                            accessToken: 'ya29.Xx_XX0xxxxx-xX0X0XxXXxXxXXXxX0x'
                         }
                     });
                     var mailOptions = {
@@ -217,7 +224,7 @@ module.exports = {
                         text: 'Hello,\n\n' +
                             'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
                     };
-                    smtpTransport.sendMail(mailOptions, function (err) {
+                    transporter.sendMail(mailOptions, function (err) {
                         req.flash('success', 'Success! Your password has been changed.');
                         done(err);
                     });
@@ -248,6 +255,11 @@ module.exports = {
                         })
                 }
             })
+        }
+    },
+    changepw: function (req, res) {
+        if(req.method === "GET"){
+            res.render('auth/changePw');
         }
     }
 }
