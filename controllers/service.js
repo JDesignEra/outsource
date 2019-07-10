@@ -83,7 +83,8 @@ module.exports = {
             uid: userId,
             category,
             views: 0,
-            date: today
+            date: today,
+            time: new Date().getTime()
         }).then((services) => {
             if (req.file !== undefined) {
                 // Check if directory exists if not create directory
@@ -131,7 +132,8 @@ module.exports = {
             desc: req.body.desc === undefined ? '' : req.body.desc.slice(0, 1999),
             price: req.body.price,
             category: req.body.categories.toString(),
-            date: today
+            date: today,
+            time: new Date().getTime()
         }, {
                 where: {
                     id: req.params.id
