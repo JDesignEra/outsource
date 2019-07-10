@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const { isAuth } = require('../middlewares/auth');
 const upload = multer({dest: './public/uploads/temp'});
+const authController = require('../controllers/auth');
 const profileController = require('../controllers/profile');
 
 // ToDo: /uid url
@@ -15,4 +16,5 @@ router.get('/submit', isAuth, profileController.submit)
 router.post('/submit', upload.single('coverPicture'), profileController.submitProject)
 router.get('/view/:id', profileController.viewProject)
 router.get('/delete/:id', profileController.deleteProject)
+router.get('/edit/:id', authController.delete)
 module.exports = router;

@@ -122,17 +122,23 @@ module.exports = {
 
 
     submit: function (req, res) {
-        // fonts = ["Arial", "Calibri", "Courier", "Courier New", "Georgia",
-        //     "Helvetica", "Times New Roman", "Verdana", "Palatino", "Garamond", "Bookman", "Comic Sans MS", "Trebuchet MS", "Impact", "Arial Black"]
-        // fonts.sort()
-        fontList.getFonts()
-            .then(fonts => {
-                res.render('profile/submitProjects', {
-                    fonts: fonts
-                })
-            }).catch(err => {
-                console.log(err)
-            })
+        fonts = [
+            "Arial", "Calibri", "Impact", "Courier", "Helvetica", "Times New Roman", "Verdana",
+            //"Segoe UI", "Helvetica Neue", "Noto Sans", "Courier New", "Garamond", "Roboto",
+            ]
+        fonts.sort()
+        res.render('profile/submitProjects', {
+            fonts: fonts
+        })
+
+        // fontList.getFonts()
+        //     .then(fonts => {
+        //         res.render('profile/submitProjects', {
+        //             fonts: fonts
+        //         })
+        //     }).catch(err => {
+        //         console.log(err)
+        //     })
     },
 
 
@@ -230,7 +236,7 @@ module.exports = {
                     }
                 })
                     .then((project) => {
-                        req.flash('success', 'Project successfully deleted!')
+                        req.flash('success', ['Project successfully deleted!'])
                         res.redirect('/profile')
                     })
             }

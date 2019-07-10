@@ -1,4 +1,3 @@
-
 <section class="profile">
 
     <!-- Card -->
@@ -40,7 +39,7 @@
         <div style="" class="card-body p-0">
 
             <div class="row justify-content-around">
-                <div class="col-3">
+                <div class="col-lg-3 col-sm-12">
                     <div style="margin-top:-100px;" class="">
                         <!-- Card -->
                         <div class="card testimonial-card ">
@@ -48,8 +47,9 @@
                             <!-- Background color -->
                             <div style="height:auto;" class="card-up indigo lighten-1 rounded-0">
                             </div>
-                            
-                            <a href="/profile/edit" class="m-2 ml-auto text-secondary"><i class="fas fa-edit fa-lg"></i></a>
+
+                            <a href="/profile/edit" class="m-2 ml-auto text-secondary"><i
+                                    class="fas fa-edit fa-lg"></i></a>
                             <!-- Avatar -->
                             <div class="avatar mx-auto white mt-4">
                                 <img src="https://picsum.photos/id/659/400/" class="rounded-circle lozad" alt="">
@@ -148,10 +148,10 @@
                                 <h4 class="card-title text-left">Skills</h4>
                                 <div class="row justify-content-start pl-2">
                                     {{#each skills}}
-              
+
                                     <button type="button"
                                         class="btn btn-outline-secondary btn-rounded waves-effect skill-button">{{this}}</button>
-                                 
+
                                     {{/each}}
 
                                 </div>
@@ -167,7 +167,7 @@
                     <br>
                 </div>
 
-                <div class="classic-tabs col-8">
+                <div class="classic-tabs col-lg-8 col-sm-12">
 
                     <ul class="nav tabs-white rounded-0" id="myClassicTabShadow" role="tablist">
 
@@ -181,6 +181,12 @@
                             <a class="nav-link waves-light" id="services-tab-classic-shadow" data-toggle="tab"
                                 href="#services-classic-shadow" role="tab" aria-controls="services-classic-shadow"
                                 aria-selected="false"> Services </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link waves-light" id="status-tab-classic-shadow" data-toggle="tab"
+                                href="#status-classic-shadow" role="tab" aria-controls="status-classic-shadow"
+                                aria-selected="false"> Status </a>
                         </li>
 
                         {{!-- <ul class="ml-auto nav tabs-white">
@@ -216,9 +222,15 @@
                             {{> profile/_servicesItem}}
 
                         </div>
+                        {{!-- =============================== Status =============================== --}}
+                        <div class="tab-pane fade active profile-content" id="status-classic-shadow" role="tabpanel"
+                            aria-labelledby="status-tab-classic-shadow">
+                           
+
+                        </div>
 
                     </div>
-                    
+
                 </div>
 
             </div>

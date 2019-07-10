@@ -360,7 +360,7 @@ section.files #folders-card .treeview-animated-list > li {
 }
 
 .profile .portoflio-img-sm {
-    width: 32%;
+    /* width: 32%; */
     height: 30vh;
 }
 

@@ -23,7 +23,7 @@
                 <div class="row justify-content-start">
                     {{#each projects}}
 
-                    <div class="view overlay portoflio-img-sm m-1 rounded border z-depth-2" data-toggle="modal"
+                    <div class="portoflio-img-sm col-sm-5 col-lg-4 view overlay m-1 rounded border z-depth-2" data-toggle="modal"
                         data-target="#project{{id}}">
 
                         <img src="/uploads/profile/{{uid}}/projects/{{id}}.png" class="h-100 lozad" alt="">
@@ -81,7 +81,6 @@
         </button>
 
         <div class="modal-dialog-project modal-dialog" role="document">
-
             <div class="modal-content mt-5 p-0">
 
                 <div class="modal-header">
@@ -104,18 +103,9 @@
                             </div>
                         </div>
 
-                        <div class="col-4 align-self-center row justify-content-end p-0">
-                            <a class="btn btn-success d-flex flex-fill justify-content-center" href="">
-                                Edit
-                            </a>
-                            <a class="btn btn-danger d-flex flex-fill justify-content-center"
-                                href="/profile/delete/{{id}}">
-                                Delete
-                            </a>
-
-                        </div>
                     </div>
                 </div>
+
                 <div class="modal-body justify-content-center black p-0">
                     {{!-- ======================= Content ======================= --}}
                     <div id="contentTest" class="col-12 overflow-auto white p-4">
@@ -279,6 +269,7 @@
         aria-labelledby="confirmDelete{{id}}Label" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
+
                 <div class="modal-header">
                     <h5 class="modal-title">Confirm Delete?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -293,6 +284,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
 
                 </div>
+
             </div>
         </div>
     </div>
@@ -303,11 +295,34 @@
 {{#extend 'scripts'}}
 <script>
     $("[id^=deleteButton]").on("click",
-        function(){setTimeout(function () {
-            backdrop = document.querySelectorAll('.modal-backdrop')
-            backdrop[1].style.zIndex = 1060;
-        }, 10)}
+        function () {
+            setTimeout(function () {
+                backdrop = document.querySelectorAll('.modal-backdrop')
+                backdrop[1].style.zIndex = 1060;
+            }, 10)
+        }
     )
+</script>
+
+<script>
+    $("[id^=confirmDelete]").on('show.bs.modal', function (e) {
+        idname = $(this).attr('id').toString()
+
+        num = idname.slice((idname.length - 2), idname.length)
+        $("#project" + num).modal('hide')
+
+    })
+    
+    $("[id^=confirmDelete]").on('hide.bs.modal', function (e) {
+        idname = $(this).attr('id').toString()
+
+        num = idname.slice((idname.length - 2), idname.length)
+        setTimeout(function () {
+            $("#project" + num).modal('show')
+            console.log("eh")
+        }, 400)
+
+    })
 </script>
 {{/extend}}
 {{/if}}

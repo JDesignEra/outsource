@@ -54,7 +54,7 @@ module.exports = {
             }
 
             if (Object.getOwnPropertyNames(errors).length > 0) {
-                res.render('auth/register', {
+                res.render('register/index', {
                     username,
                     email,
                     password,
@@ -124,13 +124,13 @@ module.exports = {
                             req.flash('error', 'No account with that email address exists.');
                             return res.redirect('/forgot');
                         }
+
                         console.log('inside post waterfall4');
                         user.resetPasswordToken = token;
                         user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
                         
-
+                       
                         user.save(function (err) {
-                            console.log("TOKEN AND EXPIRY SAVED IN DB");
                             done(err, token, user);
                             console.log("Save function");
                         });
@@ -225,6 +225,30 @@ module.exports = {
             ], function (err) {
                 res.redirect('/');
             });
+        }
+    },
+    delete: function (req, res) {
+        if(req.method === "GET"){
+            User.findOne({
+                id: req.params.id
+            }).then((user) => {
+                if (user == null) {
+                    res.redirect('/')
+                }
+                else {
+                    User.destroy({
+                        where:{
+                            id: req.params.id
+                        }
+                    })
+                        .then((user) => {
+                            console.log('destroy');
+                            req.flash('success', 'Account successfully deleted!');
+                            res.redirect('/')
+
+                        })
+                }
+            })
         }
     }
 }

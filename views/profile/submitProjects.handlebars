@@ -20,8 +20,7 @@
                     aria-labelledby="portfolio-tab-classic-shadow">
 
                     <div class="row justify-content-center mx-auto h-100">
-                        <div class="col-10 form-group p-0 align-self-center">
-
+                        <div class="col-10 form-group p-0 align-self-center mt-5">
                             <div class="file-upload" data-autosubmit="false">
                                 <input type="file" name="coverPicture" />
                             </div>
@@ -79,83 +78,94 @@
                     aria-labelledby="portfolio-tab-classic-shadow">
 
                     <div class="mx-auto row justify-content-center white p-4 border rounded">
+
                         <div id="richTextEditorBtns" class="col-12">
 
-                            <div class="mx-auto row justify-content-between">
-                                <div class="btn-group">
-                                <select class="browser-default custom-select col-2"
-                                    onclick="execFunc('fontName', false, this.value)">
-                                    {{#each fonts}}
-                                    <option value="{{replaceQuotes this}}">{{replaceQuotes this}}</option>
-                                    {{/each}}
-
-                                </select>
-
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle fas fa-text-height m-0" type="button"
-                                        id="Heading" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="Heading">
-                                        <p href="#" onclick="execFunc('formatBlock', false, 'H1')" class="dropdown-item"
-                                            value="H1">Heading 1</p>
-                                        <p href="#" onclick="execFunc('formatBlock', false, 'H2')" class="dropdown-item"
-                                            value="H2">Heading 2</p>
-                                        <p href="#" onclick="execFunc('formatBlock', false, 'H3')" class="dropdown-item"
-                                            value="H3">Heading 3</p>
-                                        <p href="#" onclick="execFunc('formatBlock', false, 'H4')" class="dropdown-item"
-                                            value="H4">Heading 4</p>
-                                        <p href="#" onclick="execFunc('formatBlock', false, 'H5')" class="dropdown-item"
-                                            value="H5">Heading 5</p>
-                                        <p href="#" onclick="execFunc('formatBlock', false, 'H6')" class="dropdown-item"
-                                            value="H6">Heading 6</p>
-                                        <p href="#" onclick="execFunc('formatBlock', false, 'p')" class="dropdown-item"
-                                            value="p">Normal</p>
-                                    </div>
-                                </div>
-                                </div>
-
-
+                            <div class="mx-auto row justify-content-center show" id="editTools">
                                 <div class="btn-group" role="group">
-                                    <button class="btn btn-secondary fas fa-bold " onclick="execFunc('bold');"></button>
-                                    <button class="btn btn-secondary fas fa-italic"
+                                    <div class="dropdown">
+                                        <button
+                                            class="btn btn-secondary btn-sm dropdown-toggle rounded-0 rounded-left"
+                                            type="button" id="fontFamily" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            <i class="fas fa-font m-0"></i>
+                                        </button>
+
+                                        <div class="dropdown-menu" aria-labelledby="fontFamily">
+                                            <h6 class="dropdown-header text-center">Font</h6>
+                                            <div class="dropdown-divider"></div>
+                                            {{#each fonts}}
+                                            <p href="#" onclick="execFunc('fontName', false, '{{replaceQuotes this}}')"
+                                                class="dropdown-item" value="H1">{{replaceQuotes this}}</p>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown">
+                                        <button
+                                            class="btn btn-secondary btn-sm dropdown-toggle m-0 rounded-0"
+                                            type="button" id="Heading" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            <i class="fas fa-text-height"></i>
+                                        </button>
+
+                                        <div class="dropdown-menu" aria-labelledby="Heading">
+                                            <h6 class="dropdown-header text-center">Text Heading</h6>
+                                            <div class="dropdown-divider"></div>
+                                            <p href="#" onclick="execFunc('formatBlock', false, 'H1')"
+                                                class="dropdown-item" value="H1">Heading 1</p>
+                                            <p href="#" onclick="execFunc('formatBlock', false, 'H2')"
+                                                class="dropdown-item" value="H2">Heading 2</p>
+                                            <p href="#" onclick="execFunc('formatBlock', false, 'H3')"
+                                                class="dropdown-item" value="H3">Heading 3</p>
+                                            <p href="#" onclick="execFunc('formatBlock', false, 'H4')"
+                                                class="dropdown-item" value="H4">Heading 4</p>
+                                            <p href="#" onclick="execFunc('formatBlock', false, 'H5')"
+                                                class="dropdown-item" value="H5">Heading 5</p>
+                                            <p href="#" onclick="execFunc('formatBlock', false, 'H6')"
+                                                class="dropdown-item" value="H6">Heading 6</p>
+                                            <p href="#" onclick="execFunc('formatBlock', false, 'p')"
+                                                class="dropdown-item" value="p">Normal</p>
+                                        </div>
+                                    </div>
+
+                                    {{!-- Text Change --}}
+                                    <button class="btn btn-secondary btn-sm fas fa-bold " onclick="execFunc('bold');">
+                                    </button>
+                                    <button class="btn btn-secondary btn-sm fas fa-italic"
                                         onclick="execFunc('italic');"></button>
-                                    <button class="btn btn-secondary fas fa-underline"
+                                    <button class="btn btn-secondary btn-sm fas fa-underline"
                                         onclick="execFunc('underline');"></button>
-                                    <button class="btn btn-secondary fas fa-strikethrough"
+                                    <button class="btn btn-secondary btn-sm fas fa-strikethrough"
                                         onclick="execFunc('strikeThrough');"></button>
-                                </div>
 
-
-                                <div class="btn-group">
-                                    <button class="btn btn-secondary fas fa-align-left"
+                                    {{!-- Block Change --}}
+                                    <button class="btn btn-secondary btn-sm fas fa-align-left"
                                         onclick="execFunc('justifyLeft');"></button>
-                                    <button class="btn btn-secondary fas fa-align-center"
+                                    <button class="btn btn-secondary btn-sm fas fa-align-center"
                                         onclick="execFunc('justifyCenter');"></button>
-                                    <button class="btn btn-secondary fas fa-align-right"
+                                    <button class="btn btn-secondary btn-sm fas fa-align-right"
                                         onclick="execFunc('justifyRight');"></button>
-                                    <button class="btn btn-secondary fas fa-align-justify"
+                                    <button class="btn btn-secondary btn-sm fas fa-align-justify"
                                         onclick="execFunc('justifyFull');"></button>
-                                </div>
 
-
-
-
-                                <div class="btn-group">
-                                    <button class="btn btn-secondary fas fa-list-ul"
+                                    <button class="btn btn-secondary btn-sm fas fa-list-ul"
                                         onclick="execFunc('insertUnorderedList');"></button>
-                                    <button class="btn btn-secondary fas fa-list-ol"
+                                    <button class="btn btn-secondary btn-sm fas fa-list-ol"
                                         onclick="execFunc('insertOrderedList');"></button>
-                                    <button class="btn btn-secondary fas fa-indent"
+                                    <button class="btn btn-secondary btn-sm fas fa-indent"
                                         onclick="execFunc('indent');"></button>
-                                    <button class="btn btn-secondary fas fa-outdent"
+                                    <button class="btn btn-secondary btn-sm fas fa-outdent"
                                         onclick="execFunc('outdent');"></button>
                                 </div>
 
+                                {{!-- Media --}}
                                 <div class="btn-group">
-                                    <button class="btn btn-secondary fas fa-link" onclick="createLink();"></button>
-                                    <button class="btn btn-secondary fas fa-image" onclick="uploadImage(); "></button>
-                                    <button class="btn btn-secondary fas fa-minus"
+                                    <button class="btn btn-secondary btn-sm fas fa-link" onclick="createLink();"></button>
+                                    <button class="btn btn-secondary btn-sm fas fa-image" onclick="uploadImage(); "></button>
+                                    <button class="btn btn-secondary btn-sm fas fa-file-audio"
+                                        onclick="uploadAudio(); "></button>
+                                    <button class="btn btn-secondary btn-sm fas fa-minus"
                                         onclick="execFunc('insertHorizontalRule');"></button>
                                 </div>
                             </div>
@@ -164,15 +174,14 @@
 
 
 
-                                <select class="browser-default custom-select custom-select-sm"
+                                {{!-- <select class="browser-default custom-select custom-select-sm"
                                     onclick="execFunc('fontName', false, this.value)">
                                     {{#each fonts}}
                                     <option value="{{replaceQuotes this}}">{{replaceQuotes this}}</option>
                                     {{/each}}
+                                </select> 
 
-                                </select>
-
-                                {{!-- <select class="browser-default custom-select custom-select-sm"
+                                <select class="browser-default custom-select custom-select-sm"
                                     onclick="execFunc('formatBlock', false, this.value)">
                                     <option value="H1">Heading 1</option>
                                     <option value="H2">Heading 2</option>
@@ -185,8 +194,9 @@
                             </div>
 
                         </div>
-                        <button id="sourceCodeBtn" class="btn btn-secondary fas fa-code"
-                            onclick="toggleSource();"></button>
+                        <button id="sourceCodeBtn" class="btn btn-secondary fas fa-code" data-target="#editTools"
+                            data-toggle="collapse" onclick="toggleSource();"></button>
+
                     </div>
 
                     <div class=" mx-auto row grey lighten-5 p-4 overflow-auto border-red justify-content-center">
