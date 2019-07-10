@@ -245,7 +245,6 @@ module.exports = {
                             console.log('destroy');
                             req.flash('success', 'Account successfully deleted!');
                             res.redirect('/')
-
                         })
                 }
             })

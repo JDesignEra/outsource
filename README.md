@@ -1,4 +1,4 @@
-[![OutSource](https://github.com/JDesignEra/outsource/blob/master/public/img/logo/darker.png)](https://github.com/JDesignEra/outsource/wiki)
+[![OutSource](https://github.com/JDesignEra/outsource/blob/master/public/img/logo/darker.png)](https://github.com/JDesignEra/outsource)
 
 ## Initial Setup
 Install required packages with `npm i`.
@@ -47,6 +47,7 @@ _**Note:** Remember to do a `npm i --only-dev` first._
 * [moment 2.24.0](https://www.npmjs.com/package/moment)
 * [multer 1.4.1](https://www.npmjs.com/package/multer)
 * [mysql2 1.6.5](https://www.npmjs.com/package/mysql2)
+* [nodemailer 6.2.1](https://www.npmjs.com/package/nodemailer)
 * [passport 0.4.0](https://www.npmjs.com/package/passport)
 * [passport-facebook 3.0.0](https://www.npmjs.com/package/passport-facebook)
 * [passport-local 1.0.0](https://www.npmjs.com/package/passport-local)
@@ -60,3 +61,7 @@ _**Note:** Remember to do a `npm i --only-dev` first._
 * [Lemuel [ Ryuse ]](https://github.com/Ryuse)
 * [Dylan [ layzeer ]](https://github.com/layzeer)
 * [Benedict [ KeroZee ]](https://github.com/KeroZee)
+
+***
+
+<small>[OutSource's Github Wiki](https://github.com/JDesignEra/outsource/wiki)</small>

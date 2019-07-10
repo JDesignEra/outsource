@@ -78,8 +78,9 @@
         transition: all .1s linear;
         background-color: rgb(50, 160, 255);
         &:hover{
-          color: #f8f9fa;
-          background-color: rgb(50, 160, 255);
+
+    color: #f8f9fa;
+    background-color: rgb(50, 160, 255);
         }
         span{
           color: #f8f9fa;

@@ -156,12 +156,12 @@
                                 <button class="comments list-group-item list-group-item-action">
                                     <i class="far fa-comments"></i> Comments
                                 </button>
-                                <button data-toggle="modal" data-target="#renameModal" class="list-group-item list-group-item-action">
+                                <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#renameModal">
                                     <i class="far fa-i-cursor"></i> Rename
                                 </button>
                             </div>
                             
-                            <button class="list-group-item list-group-item-action move-action">
+                            <button class="list-group-item list-group-item-action move-action" data-toggle="modal" data-target="#moveModal">
                                 <i class="fas fa-exchange-alt"></i> Move
                             </button>
                             <button class="list-group-item list-group-item-action copy-action">
@@ -179,45 +179,57 @@
 </section>
 
 {{#extend 'modals'}}
-<!-- Rename Modal -->
-<div class="modal fade" id="renameModal" tabindex="-1" role="dialog">
+<!-- Move Modal -->
+<div class="modal fade" id="moveModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
-                <h4 class="modal-title w-100">
-                    <i class="far fa-i-cursor mr-1"></i> RENAME
-                </h4>
+               <h4 class="modal-title">
+                    <i class="far fa-exchange-alt mr-1"></i> MOVE
+               </h4>
 
                 <button type="button" class="close" data-dismiss="modal">
                     <span class="white-text">&times;</span>
                 </button>
             </div>
 
-            <div class="modal-body">
-                <form class="needs-validation" action="{{ postRoot }}/~rename" method="post" novalidate>
+            <form id="move-form" action="{{ postRoot }}/~move" method="post">
+                <div class="modal-body">
                     <div class="input-group mb-0">
+                        <div class="input-group-append">
+                            <span class="input-group-text border-right-0 rounded-left">Root/</span>
+                        </div>
+                        
                         <div class="md-form md-outline">
-                            <input type="hidden" name="fid" value="">
-                            <input id="rename-name-input" class="form-control" type="text" {{#if forms.rename}}value="{{ forms.rename }}"{{/if}} name="name">
-                            <label for="rename-name-input">New Name</label>
+                            <input id="move-directory-input" class="form-control" type="text" {{#if forms.move}}value="{{ forms.rename }}"{{/if}} name="directory">
+                            <label for="move-directory-input">Directory Path</label>
                             
                             <div class="invalid-tooltip">
-                                {{ forms.errors.rename }}
+                                {{ forms.errors.move }}
                             </div>
                         </div>
 
                         <div class="input-group-prepend">
-                            <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect" type="submit">
-                                <i class="far fa-i-cursor mr-1"></i> Rename
+                            <button class="btn btn-md btn-primary m-0 px-3 py-2 waves-effect" type="submit">
+                                <i class="far fa-exchange mr-2"></i> Move
                             </button>
                         </div>
                     </div>
-
+                    
                     <small class="form-text text-muted">
-                        File name should exclude file extension. And file or folder name only allow alphanumeric, underscore and dash.
+                        Directory path only allow alphanumeric, underscore, dash and forward slash. And, if directory path is empty, it will be moved to root directory.
                     </small>
-                </form>
-            </div>
+
+                    <input type="hidden" name="fid" value="">
+                </div>
+
+                {{!-- <div class="modal-footer">
+                    <span class="move-count mr-auto">0 File(s) or Folder(s) Selected.</span>
+                    <button class="btn btn-md btn-primary" type="submit">
+                        <i class="far fa-exchange-alt mr-2"></i>Move
+                    </button>
+                </div> --}}
+            </form>
         </div>
     </div>
 </div>
@@ -227,7 +239,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
-                <h4 class="modal-title w-100">
+                <h4 class="modal-title">
                     <i class="far fa-file-plus mr-1"></i> NEW FILE
                 </h4>
 
@@ -260,7 +272,7 @@
                         </div>
 
                         <div class="input-group-prepend">
-                            <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
+                            <button class="btn btn-md btn-primary m-0 px-3 py-2">
                                 <i class="far fa-file-plus mr-1"></i> Create File
                             </button>
                         </div>
@@ -280,7 +292,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
-                <h4 class="modal-title w-100">
+                <h4 class="modal-title">
                     <i class="far fa-folder-plus mr-1"></i> NEW FOLDER
                 </h4>
 
@@ -302,7 +314,7 @@
                         </div>
 
                         <div class="input-group-prepend">
-                            <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect" type="submit">
+                            <button class="btn btn-md btn-primary m-0 px-3 py-2" type="submit">
                                 <i class="far fa-folder-plus mr-1"></i> Create Folder
                             </button>
                         </div>
@@ -315,12 +327,56 @@
     </div>
 </div>
 
+<!-- Rename Modal -->
+<div class="modal fade" id="renameModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header deep-purple accent-2 white-text">
+                <h4 class="modal-title">
+                    <i class="far fa-i-cursor mr-1"></i> RENAME
+                </h4>
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form class="needs-validation" action="{{ postRoot }}/~rename" method="post" novalidate>
+                    <div class="input-group mb-0">
+                        <div class="md-form md-outline">
+                            <input id="rename-name-input" class="form-control" type="text" {{#if forms.rename}}value="{{ forms.rename }}"{{/if}} name="name">
+                            <label for="rename-name-input">New Name</label>
+                            
+                            <div class="invalid-tooltip">
+                                {{ forms.errors.rename }}
+                            </div>
+                        </div>
+
+                        <div class="input-group-prepend">
+                            <button class="btn btn-md btn-primary m-0 px-3 py-2" type="submit">
+                                <i class="far fa-i-cursor mr-2"></i> Rename
+                            </button>
+                        </div>
+                    </div>
+
+                    <small class="form-text text-muted">
+                        File name should exclude file extension. And file or folder name only allow alphanumeric, underscore and dash.
+                    </small>
+
+                    <input type="hidden" name="fid" value="">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Share Link Modal -->
 <div class="modal fade" id="shareModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
-                <h4 class="modal-title w-100">
+                <h4 class="modal-title">
                     <i class="far fa-share-alt mr-1"></i> SHARE
                 </h4>
 
@@ -360,7 +416,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
-                <h4 class="modal-title w-100">
+                <h4 class="modal-title">
                     <i class="far fa-cloud-upload-alt mr-1"></i> UPLOAD FILE(S)
                 </h4>
 
@@ -470,12 +526,12 @@
                 <button class="comments dropdown-item">
                     <i class="far fa-comments"></i> Comments
                 </button>
-                <button data-toggle="modal" data-target="#renameModal" class="dropdown-item">
+                <button class="dropdown-item" data-toggle="modal" data-target="#renameModal">
                     <i class="far fa-i-cursor"></i> Rename
                 </button>
             </div>
             
-            <button class="dropdown-item move-action">
+            <button class="dropdown-item move-action" data-toggle="modal" data-target="#moveModal">
                 <i class="fas fa-exchange-alt"></i> Move
             </button>
             <button class="dropdown-item copy-action">
