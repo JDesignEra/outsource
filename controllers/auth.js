@@ -126,6 +126,7 @@ module.exports = {
                         `<a href="${link}">${link}</a></p>` +
                         `<p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`
                     );
+                    req.flash('success','A verification email has been sent to ' + user.email);
                 }
                 else {
                     req.flash('error', 'No account with that email address exists.');
@@ -133,100 +134,33 @@ module.exports = {
 
                 res.redirect('/forgot');
             });
-
-            // user.findOne({ where: { email: req.body.email } }).then(user => {
-
-            // });
-
-            
-            // async.waterfall([
-            //     function (done) {
-            //         console.log('inside post waterfall1');
-            //         crypto.randomBytes(20, function (err, buf) {
-            //             var token = buf.toString('hex');
-            //             done(err, token);
-            //         });
-            //     },
-            //     function (token, done) {
-            //         User.findOne({ where: { email: req.body.email } })
-            //         .then(user => { 
-                    //     if (!user) {
-                    //         console.log('inside post waterfall3');
-                    //         req.flash('error', 'No account with that email address exists.');
-                    //         return res.redirect('/forgot');
-                    //     }
-
-                    //     console.log('inside post waterfall4');
-                    //     user.resetPasswordToken = token;
-                    //     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-                        
-                       
-                    //     user.save(function (err) {
-                    //         done(err, token, user);
-                    //         console.log("Save function");
-                    //     });
-                    //     console.log('test');
-                    // });
-            //     },
-            //     function (token, user, done) { //doesnt go into this function
-            //         console.log('inside post waterfall5');
-            //         // let transporter = nodemailer.createTransport({
-            //         //     host: 'smtp.gmail.com',
-            //         //     port: 465,
-            //         //     secure: true,
-            //         //     auth: {
-            //         //         type: 'OAuth2',
-            //         //         user: 'Outsourceforgotpw@gmail.com',
-            //         //         accessToken: 'ya29.Xx_XX0xxxxx-xX0X0XxXXxXxXXXxX0x'
-            //         //     }
-            //         // });
-                    
-            //         // var mailOptions = {
-            //         //     to: user.email,
-            //         //     from: 'outsourceforgetpw@gmail.com',
-            //         //     subject: 'outsource Password Reset',
-            //         //     text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-            //         //         'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-            //         //         'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-            //         //         'If you did not request this, please ignore this email and your password will remain unchanged.\n'
-            //         // };
-            //         // transporter.sendMail(mailOptions, function (err) {
-            //         //     console.log('mail sent');
-            //         //     req.flash('success', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
-            //         //     done(err, 'done');
-            //         // });
-            //     }
-            // ], function (err) {
-            //     if (err) return next(err);
-            //     res.redirect('/forgot');
-            // });
         }
     },
-    reset: function (res, req) {
+    reset: function (req, res) {
+        console.log('reset');
+        console.log(req.method);
         if (req.method === "GET") {
-            User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
-                if (!user) {
-                    req.flash('error', 'Password reset token is invalid or has expired.');
-                    return res.redirect('/forgot');
-                }
-                res.render('reset', { token: req.params.token });
-            });
+            console.log('resetget');
+            res.render('auth/reset', { token: req.params.token });
         }
         else if (req.method === "POST") {
+            
             async.waterfall([
                 function (done) {
                     User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
                         if (!user) {
+                            console.log('resetpost1');
                             req.flash('error', 'Password reset token is invalid or has expired.');
                             return res.redirect('back');
                         }
                         if (req.body.password === req.body.confirm) {
+                            console.log('resetpost1');
                             user.setPassword(req.body.password, function (err) {
                                 user.resetPasswordToken = undefined;
                                 user.resetPasswordExpires = undefined;
 
                                 user.save(function (err) {
-                                    req.logIn(user, function (err) {
+                                    req.login(user, function (err) {
                                         done(err, user);
                                     });
                                 });
@@ -237,34 +171,34 @@ module.exports = {
                         }
                     });
                 },
-                function (user, done) {
-                    let transporter = nodemailer.createTransport({
-                        host: 'smtp.gmail.com',
-                        port: 465,
-                        secure: true,
-                        auth: {
-                            type: 'OAuth2',
-                            user: 'outsourceforgotpw@gmail.com',
-                            accessToken: 'ya29.Xx_XX0xxxxx-xX0X0XxXXxXxXXXxX0x'
-                        }
-                    });
-                    var mailOptions = {
-                        to: user.email,
-                        from: 'outsourceforgetpw@gmail.com',
-                        subject: 'Your password has been changed',
-                        text: 'Hello,\n\n' +
-                            'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
-                    };
-                    transporter.sendMail(mailOptions, function (err) {
-                        req.flash('success', 'Success! Your password has been changed.');
-                        done(err);
-                    });
-                }
+                // function (user, done) {
+                //     let transporter = nodemailer.createTransport({
+                //         host: 'smtp.gmail.com',
+                //         port: 465,
+                //         secure: true,
+                //         auth: {
+                //             type: 'OAuth2',
+                //             user: 'outsourceforgotpw@gmail.com',
+                //             accessToken: 'ya29.Xx_XX0xxxxx-xX0X0XxXXxXxXXXxX0x'
+                //         }
+                //     });
+                //     var mailOptions = {
+                //         to: user.email,
+                //         from: 'outsourceforgetpw@gmail.com',
+                //         subject: 'Your password has been changed',
+                //         text: 'Hello,\n\n' +
+                //             'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+                //     };
+                //     transporter.sendMail(mailOptions, function (err) {
+                //         req.flash('success', 'Success! Your password has been changed.');
+                //         done(err);
+                //     });
+                // }
             ], function (err) {
                 res.redirect('/');
             });
         }
-    },
+     },
     delete: function (req, res) {
         if(req.method === "GET"){
             User.findOne({
