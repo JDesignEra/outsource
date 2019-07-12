@@ -17,8 +17,8 @@ let toast = (function() {
                         let obj = _this[i];
 
                         if (typeof obj === 'object' && obj instanceof Object) {
-                            let timeOut = 2500;
-                            let extendedTimeOut = 1250;
+                            let timeOut = 3000;
+                            let extendedTimeOut = 1500;
 
                             if (!obj['autoHide']) {
                                 timeOut = 0;
@@ -40,8 +40,8 @@ let toast = (function() {
                                 progressBar: true,
                                 newestOnTop: true,
                                 hideDuration: 300,
-                                timeOut: 2500,
-                                extendedTimeOut: 1250
+                                timeOut: 3000,
+                                extendedTimeOut: 1500
                             });
                         }
                     }

@@ -1,3 +1,4 @@
+// nodemailerConfig by Joel
 module.exports = {
     type: 'oAuth2',
     user: 'outsource.automation@gmail.com',

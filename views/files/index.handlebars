@@ -130,13 +130,13 @@
                     </div>
 
                     <div class="list-group list-group-flush mt-3">
-                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#uploadModal">
+                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#upload-modal">
                             <i class="far fa-cloud-upload-alt"></i> Upload File(s)
                         </button>
-                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newFileModal">
+                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newfile-modal">
                             <i class="far fa-file-plus"></i> New File
                         </button>
-                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newFolderModal">
+                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newfolder-modal">
                             <i class="far fa-folder-plus"></i> New Folder
                         </button>
                     </div>
@@ -156,15 +156,15 @@
                                 <button class="comments list-group-item list-group-item-action">
                                     <i class="far fa-comments"></i> Comments
                                 </button>
-                                <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#renameModal">
+                                <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#rename-modal">
                                     <i class="far fa-i-cursor"></i> Rename
                                 </button>
                             </div>
                             
-                            <button class="list-group-item list-group-item-action move-action" data-toggle="modal" data-target="#moveModal">
+                            <button class="list-group-item list-group-item-action move-action" data-toggle="modal" data-target="#move-modal">
                                 <i class="fas fa-exchange-alt"></i> Move
                             </button>
-                            <button class="list-group-item list-group-item-action copy-action">
+                            <button class="list-group-item list-group-item-action copy-action" data-toggle="modal" data-target="#copy-modal">
                                 <i class="far fa-copy"></i> Copy
                             </button>
                             <button class="list-group-item list-group-item-action delete-action">
@@ -179,8 +179,59 @@
 </section>
 
 {{#extend 'modals'}}
+<!-- Copy Modal -->
+<div id="copy-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header deep-purple accent-2 white-text">
+               <h4 class="modal-title">
+                    <i class="far fa-copy mr-1"></i> COPY
+               </h4>
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <form id="copy-form" class="needs-validation" action="{{ postRoot }}/~copy" method="post">
+                <div class="modal-body">
+                    <div class="input-group mb-0">
+                        <div class="input-group-append">
+                            <span class="input-group-text border-right-0 rounded-left">Root/</span>
+                        </div>
+                        
+                        <div class="md-form md-outline">
+                            <input id="copy-directory-input" class="form-control mdb-autocomplete" type="text" {{#if forms.copyDir}}value="{{ forms.copyDir }}"{{/if}} name="directory">
+                            <button class="mdb-autocomplete-clear deep-purple-text">
+                                <i class="far fa-times"></i>
+                            </button>
+                            <label for="copy-directory-input">Directory Path</label>
+                            
+                            <div class="invalid-tooltip">
+                                {{ forms.errors.copyDir }}
+                            </div>
+                        </div>
+
+                        <div class="input-group-prepend">
+                            <button class="btn btn-md btn-primary m-0 px-3 py-2 waves-effect" type="submit">
+                                <i class="far fa-exchange mr-2"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <small class="form-text text-muted">
+                        If directory path is empty, it will be copied to root directory. Directory path only allow alphanumeric, underscore, dash and forward slash.
+                    </small>
+
+                    <input type="hidden" name="fid" value="">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Move Modal -->
-<div class="modal fade" id="moveModal" tabindex="-1" role="dialog">
+<div id="move-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
@@ -193,7 +244,7 @@
                 </button>
             </div>
 
-            <form id="move-form" action="{{ postRoot }}/~move" method="post">
+            <form id="move-form" class="needs-validation" action="{{ postRoot }}/~move" method="post" novalidate>
                 <div class="modal-body">
                     <div class="input-group mb-0">
                         <div class="input-group-append">
@@ -201,11 +252,14 @@
                         </div>
                         
                         <div class="md-form md-outline">
-                            <input id="move-directory-input" class="form-control" type="text" {{#if forms.move}}value="{{ forms.rename }}"{{/if}} name="directory">
+                            <input id="move-directory-input" class="form-control mdb-autocomplete" type="text" {{#if forms.moveDir}}value="{{ forms.moveDir }}"{{/if}} name="directory">
+                            <button class="mdb-autocomplete-clear deep-purple-text">
+                                <i class="far fa-times"></i>
+                            </button>
                             <label for="move-directory-input">Directory Path</label>
                             
                             <div class="invalid-tooltip">
-                                {{ forms.errors.move }}
+                                {{ forms.errors.moveDir }}
                             </div>
                         </div>
 
@@ -217,25 +271,18 @@
                     </div>
                     
                     <small class="form-text text-muted">
-                        Directory path only allow alphanumeric, underscore, dash and forward slash. And, if directory path is empty, it will be moved to root directory.
+                        If directory path is empty, it will be moved to root directory. Directory path only allow alphanumeric, underscore, dash and forward slash.
                     </small>
 
                     <input type="hidden" name="fid" value="">
                 </div>
-
-                {{!-- <div class="modal-footer">
-                    <span class="move-count mr-auto">0 File(s) or Folder(s) Selected.</span>
-                    <button class="btn btn-md btn-primary" type="submit">
-                        <i class="far fa-exchange-alt mr-2"></i>Move
-                    </button>
-                </div> --}}
             </form>
         </div>
     </div>
 </div>
 
 <!-- New File Modal -->
-<div class="modal fade" id="newFileModal" tabindex="-1" role="dialog">
+<div id="newfile-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
@@ -263,7 +310,7 @@
                         <span class="input-group-text border-left-0 border-right-0 rounded-0">.</span>
 
                         <div class="md-form md-outline">
-                            <input id="new-file-ext-input" class="form-control" type="text" name="ext"{{#if forms.ext}} value="{{ forms.ext }}"{{/if}}>
+                            <input id="new-file-ext-input" class="form-control mdb-autocomplete" type="text" name="ext"{{#if forms.ext}} value="{{ forms.ext }}"{{/if}}>
                             <label for="new-file-ext-input">Extension</label>
 
                             <div class="invalid-tooltip">
@@ -288,7 +335,7 @@
 </div>
 
 <!-- New Folder Modal -->
-<div class="modal fade" id="newFolderModal" tabindex="-1" role="dialog">
+<div id="newfolder-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
@@ -328,7 +375,7 @@
 </div>
 
 <!-- Rename Modal -->
-<div class="modal fade" id="renameModal" tabindex="-1" role="dialog">
+<div id="rename-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
@@ -345,7 +392,7 @@
                 <form class="needs-validation" action="{{ postRoot }}/~rename" method="post" novalidate>
                     <div class="input-group mb-0">
                         <div class="md-form md-outline">
-                            <input id="rename-name-input" class="form-control" type="text" {{#if forms.rename}}value="{{ forms.rename }}"{{/if}} name="name">
+                            <input id="rename-name-input" class="form-control" type="text" {{#if forms.rename}}value="{{ forms.rename }}"{{/if}} name="rename">
                             <label for="rename-name-input">New Name</label>
                             
                             <div class="invalid-tooltip">
@@ -372,7 +419,7 @@
 </div>
 
 <!-- Share Link Modal -->
-<div class="modal fade" id="shareModal" tabindex="-1" role="dialog">
+<div id="share-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
@@ -412,7 +459,7 @@
 </div>
 
 <!-- Upload Files Modal -->
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog">
+<div id="upload-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
@@ -502,13 +549,13 @@
 
         <hr class="mt-3 mb-2">
 
-        <button class="dropdown-item" data-toggle="modal" data-target="#uploadModal">
+        <button class="dropdown-item" data-toggle="modal" data-target="#upload-modal">
             <i class="far fa-cloud-upload-alt"></i> Upload File(s)
         </button>
-        <button class="dropdown-item" data-toggle="modal" data-target="#newFileModal">
+        <button class="dropdown-item" data-toggle="modal" data-target="#newfile-modal">
             <i class="far fa-file-plus"></i> New File
         </button>
-        <button class="dropdown-item" data-toggle="modal" data-target="#newFolderModal">
+        <button class="dropdown-item" data-toggle="modal" data-target="#newfolder-modal">
             <i class="far fa-folder-plus"></i> New Folder
         </button>
 
@@ -526,15 +573,15 @@
                 <button class="comments dropdown-item">
                     <i class="far fa-comments"></i> Comments
                 </button>
-                <button class="dropdown-item" data-toggle="modal" data-target="#renameModal">
+                <button class="dropdown-item" data-toggle="modal" data-target="#rename-modal">
                     <i class="far fa-i-cursor"></i> Rename
                 </button>
             </div>
             
-            <button class="dropdown-item move-action" data-toggle="modal" data-target="#moveModal">
+            <button class="dropdown-item move-action" data-toggle="modal" data-target="#move-modal">
                 <i class="fas fa-exchange-alt"></i> Move
             </button>
-            <button class="dropdown-item copy-action">
+            <button class="dropdown-item copy-action" data-toggle="modal" data-target="#copy-modal">
                 <i class="far fa-copy"></i> Copy
             </button>
             <button class="dropdown-item delete-action">

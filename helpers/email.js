@@ -1,3 +1,4 @@
+// email by Joel
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 const config = require('../config/nodemailerConfig');
@@ -33,6 +34,7 @@ module.exports = {
         };
 
         smtpTransport.sendMail(mailOptions, (err, res) => {
+            console.log('\n\x1b[36mSending Email\x1b[0m');
             err ? console.log(err) : console.log(res);
 
             smtpTransport.close();

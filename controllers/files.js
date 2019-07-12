@@ -14,10 +14,10 @@ module.exports = {
     index: function (req, res) {
         let uid = req.user.id;
         let root = 'public/uploads/files/' + uid;
-        let dir = req.params['dir'] !== undefined ? req.params['dir'].replace(/~newfile|~newfolder|~rename|~upload/gi, '') : '/';
+        let dir = req.params['dir'] !== undefined ? req.params['dir'].replace(/~copy|~move|~newfile|~newfolder|~rename|~upload/gi, '') : '/';
         dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
         
-        fs.ensureDir(root);
+        fs.ensureDirSync(root);
         
         if (!fs.exists(path.join(root, dir))) {
             req.flash('error', 'Directory does not exist.');
@@ -60,11 +60,11 @@ module.exports = {
                                 id: { [Op.in]: sharedUid }
                             },
                             attributes: ['username']
-                        }).then(userDatas => {
+                        }).then(username => {
                             let sharedUsername = [];
 
-                            if (userDatas.length > 0) {
-                                for (user of userDatas) {
+                            if (username.length > 0) {
+                                for (const user of userDatas) {
                                     sharedUsername.push(user['username']);
                                 }
                             }
@@ -79,12 +79,13 @@ module.exports = {
 
                             if (stats.isFile() && folderDir.toLowerCase() === dir.toLowerCase()) {
                                 let type = mime.getType(name);
+                                type = type ? type.slice(0, type.indexOf('/')) : data['type'];
             
                                 files.push({
                                     id: data['id'],
                                     name: name,
                                     size: size,
-                                    type: type.slice(0, type.indexOf('/')),
+                                    type: type,
                                     sharedUid: sharedUid[0] ? null : sharedUid,
                                     sharedUsername: sharedUsername.length > 0 ? sharedUsername : null,
                                     modified: modified,
@@ -119,71 +120,160 @@ module.exports = {
                     }
                 }
             }).on('end', () => {
-                res.render('files/index', {
-                    title: 'File Management',
-                    files: files,
-                    folders: tree,
-                    breadcrumbs: breadcrumbs,
-                    postRoot: req.originalUrl.replace(/\/~newfile|\/~newfolder|\/~rename|\/~upload/gi, ''),
-                    types: Object.keys(mime._types)
-                });
+                setTimeout(() => {
+                    res.render('files/index', {
+                        title: 'File Management',
+                        files: files,
+                        folders: tree,
+                        breadcrumbs: breadcrumbs,
+                        postRoot: req.originalUrl.replace(/\/~copy|\/~move|\/~newfile|\/~newfolder|\/~rename|\/~upload/gi, ''),
+                        types: Object.keys(mime._types)
+                    });
+                }, 100);
             });
         });
     },
     copy: function(req, res) {
-        // ToDo: Copy
-    },
-    delete: function(req, res) {
-        if (req.body.fid) {
-            let uid = req.user.id;
-            let root = 'public/uploads/files/' + uid + '/';
-            let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~delete/gi, '') : '/';
-            dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
+        let uid = req.user.id;
+        let root = 'public/uploads/files/' + uid + '/';
+        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~delete/gi, '') : '/';
+        dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
 
-            let id = Array.isArray(req.body.fid) ? req.body.fid : [req.body.fid];
-            let removeDir = [];
-            
-            filesFolders.findAll({ where: {id: { [Op.in]: id }} }).then(datas => {
-                let folders = datas.filter(v => v.type === 'folder');
+        let ids = req.body.fid.split(',');
 
-                for (data of datas) {
-                    removeDir.push(data['fullPath']);
-                }
+        if (ids.length > 0) {
+            let copyDir = req.body.directory ? req.body.directory : '/';
+            let errors = {};
+            let regex = /[!@#$%^&*+\=\[\]{}()~;':"\\|,.<>?]/;
 
-                filesFolders.destroy({ where: {id: { [Op.in ]: id }} });
-                
-                // Find child folders and files in database and removed too.
-                for (folder of folders) {
-                    filesFolders.findAll({ where: {directory: { [Op.startsWith]: folder['fullPath'] }} }).then(datas => {
-                        let parentPath = folder['fullPath'].split('/');
-                        let childId = [];
-                        
-                        for (data of datas) {
-                            let childDir = data['directory'].split('/');
-                            let count = 0;
+            if (regex.test(copyDir)) {
+                errors['copyDir'] = 'Directory path only allow alphanumeric, underscore, dash and forward slash.';
+            }
+            else if (!fs.pathExistsSync(path.join(root, copyDir))) {
+                errors['copyDir'] = 'Directory path does not exist.';
+            }
 
-                            for (let i = 0, n = parentPath.length; i < n; i++) {
-                                if (parentPath[i] == childDir[i]) {
-                                    count++;
-                                }
+            if (Object.keys(errors).length > 0) {
+                req.flash('forms', {
+                    copyDir: copyDir,
+                    errors: { copyDir: errors['copyDir']},
+                    select: ids
+                });
 
-                                if (count === n) {
-                                    childId.push(data['id']);
-                                }
-                            }
+                req.flash('error', errors['copyDir']);
+                res.redirect(dir === '/' ? '/files/~copy' :  '/files' + dir + '/~copy');
+            }
+            else {
+                filesFolders.findAll({ where: {id: {[Op.in]: ids}} }).then(datas => {
+                    let flashMsgs = {success: [], error: []};
+                    let directory = copyDir.length > 1 && copyDir[0] !== '/' ? `/${copyDir}` : copyDir;
+                    directory = directory.length > 1 && directory[directory.length - 1] === '/' ? directory.slice(0, directory.length - 1) : directory;
+
+                    for (const [i, data] of datas.entries()) {
+                        let name = data['name'];
+
+                        while(fs.pathExistsSync(path.join(root, directory, name))) {
+                            name = name.lastIndexOf('.') === -1 ? `${name} - Copy` : `${name.slice(0, name.lastIndexOf('.'))} - Copy${name.slice(name.lastIndexOf('.'))}`;
                         }
 
-                        filesFolders.destroy({ where: {id: { [Op.in]: childId }} });
+                        let fullPath = directory === '/' ? `${directory}${name}` : `${directory}/${name}`;
+
+                        fs.copy(path.join(root, data['fullPath']), path.join(root, directory, name)).then(() => {
+                            filesFolders.create({
+                                name: name,
+                                directory: directory,
+                                fullPath: fullPath,
+                                type: data['type'],
+                                uid: uid
+                            }).then(() => {
+                                if (data['type'] === 'folder') {
+                                    filesFolders.findAll({
+                                        where :{
+                                            fullPath: {[Op.startsWith]: `${data['fullPath']}/`},
+                                            id: {[Op.not]: data['id']}
+                                        }
+                                    }).then(childs => {
+                                        for (const child of childs) {
+                                            filesFolders.create({
+                                                name: child['name'],
+                                                directory: fullPath,
+                                                fullPath: `${fullPath}/${child['name']}`,
+                                                type: child['type'],
+                                                uid: uid
+                                            });
+                                        }
+                                    });
+                                }
+    
+                                if (i >= datas.length - 1) {
+                                    if (flashMsgs['success'].length > 0) req.flash('success', flashMsgs['success']);
+                                    if (flashMsgs['error'].length > 0) req.flash('error', flashMsgs['error']);
+                                    
+                                    res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                                }
+                            });
+                            
+                            if (name !== data['name']) {
+                                flashMsgs['success'].push(`${data['name']} copied successfully as ${name}.`);
+                            }
+                            else {
+                                flashMsgs['success'].push(`${name} copied successfully.`);
+                            }
+                        }).catch(() => {
+                            flashMsgs['error'].push(`${name} can't be copied to a subdirectory of itself.`);
+
+                            if (i >= datas.length - 1) {
+                                if (flashMsgs['success'].length > 0) req.flash('success', flashMsgs['success']);
+                                if (flashMsgs['error'].length > 0) req.flash('error', flashMsgs['error']);
+                                
+                                res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                            }
+                        });
+                    }
+                });
+            }
+            
+        }
+        else {
+            req.flash('error', 'No file or folder selected.');
+            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+        }
+    },
+    delete: function(req, res) {
+        let uid = req.user.id;
+        let root = 'public/uploads/files/' + uid + '/';
+        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~delete/gi, '') : '/';
+        dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
+
+        if (req.body.fid) {
+            let ids = Array.isArray(req.body.fid) ? req.body.fid : [req.body.fid];
+            
+            filesFolders.findAll({ where: {id: { [Op.in]: ids }} }).then(datas => {
+                let successMsgs = [];
+                
+                for (const [i, data] of datas.entries()) {
+                    fs.remove(path.join(root, data['fullPath'])).then(() => {
+                        if (data['type'] === 'folder') {
+                            filesFolders.findAll({
+                                where: {
+                                    fullPath: {[Op.startsWith]: `${data['fullPath']}/`}
+                                }
+                            }).then(childs => {
+                                for (const child of childs) {
+                                    child.destroy();
+                                }
+                            });
+                        }
+
+                        data.destroy();
+                        successMsgs.push(`${data['name']} deleted sucessfully`);
                     });
-                }
 
-                // Remove all selected directories
-                for (let i = 0, n = removeDir.length; i < n; i++) {
-                    fs.remove(path.join(root, removeDir[i]));
+                    if (i >= datas.length - 1) {
+                        if (successMsgs.length > 0) req.flash('success', successMsgs);
+                        res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                    }
                 }
-
-                req.flash('success', 'Selected content(s) has been deleted.');
-                res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
             });
         }
         else {
@@ -192,33 +282,103 @@ module.exports = {
         }
     },
     move: function(req, res) {
-        // ToDo: Move
-        if (req.body.fid) {
-            let uid = req.user.id;
-            let root = 'public/uploads/files/' + uid + '/';
-            let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
-            dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
+        let uid = req.user.id;
+        let root = 'public/uploads/files/' + uid + '/';
+        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~move/gi, '') : '/';
+        dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
 
-            let id = Array.isArray(req.body.fid) ? req.body.fid : [req.body.fid];
-            let moveDir = req.body.directory;
+        let ids = req.body.fid.split(',');
+
+        if (ids.length > 0) {
+            let moveDir = req.body.directory ? req.body.directory : '/';
             let errors = {};
             let regex = /[!@#$%^&*+\=\[\]{}()~;':"\\|,.<>?]/;
 
             if (regex.test(moveDir)) {
-                errors['directory'] = 'Directory path only allow alphanumeric, underscore, dash and forward slash.'
+                errors['moveDir'] = 'Directory path only allow alphanumeric, underscore, dash and forward slash.';
             }
-            
+            else if (!fs.pathExistsSync(path.join(root, moveDir))) {
+                errors['moveDir'] = 'Directory path does not exist.';
+            }
+
             if (Object.keys(errors).length > 0) {
                 req.flash('forms', {
-                    directory: moveDir,
-                    errors: errors
+                    moveDir: moveDir,
+                    errors: { moveDir: errors['copyDir']},
+                    select: ids
                 });
 
+                req.flash('error', errors['moveDir']);
                 res.redirect(dir === '/' ? '/files/~move' :  '/files' + dir + '/~move');
             }
             else {
-                filesFolders.findAll({ where: {id: { [Op.in]: id } } }).then(datas => {
+                filesFolders.findAll({ where: {id: {[Op.in]: ids}} }).then(datas => {
+                    let flashMsgs = {success: [], error: []};
+                    let directory = moveDir.length > 1 && moveDir[0] !== '/' ? `/${moveDir}` : moveDir;
+                    directory = directory.length > 1 && directory[directory.length - 1] === '/' ? directory.slice(0, directory.length - 1) : directory;
 
+                    for (const [i, data] of datas.entries()) {
+                        let name = data['name'];
+                        let fullPath = directory === '/' ? `${directory}${name}` : `${directory}/${name}`;
+                        
+                        fs.pathExists(path.join(root, directory, name)).then(exist => {
+                            if (exist) {
+                                flashMsgs['error'].push(`${name} not moved as a file or folder with the same name exist in that directory.`);
+
+                                if (i >= datas.length - 1) {
+                                    if (flashMsgs['success'].length > 0) req.flash('success', flashMsgs['success']);
+                                    if (flashMsgs['error'].length > 0) req.flash('error', flashMsgs['error']);
+                                    
+                                    res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                                }
+                            }
+                            else {
+                                fs.copy(path.join(root, data['fullPath']), path.join(root, directory, name)).then(() => {
+                                    flashMsgs['success'].push(`${name} moved successfully.`);
+
+                                    fs.remove(path.join(root, data['fullPath'])).then(() => {
+                                        data.update({
+                                            directory: directory,
+                                            fullPath: fullPath
+                                        }).then(() => {
+                                            if (data['type'] === 'folder') {
+                                                filesFolders.findAll({
+                                                    where: {
+                                                        fullPath: {[Op.startsWith]: `${data['fullPath']}/`},
+                                                        id: {[Op.not]: data['id']}
+                                                    }
+                                                }).then(childs => {
+                                                    for (const child of childs) {
+                                                        child.update({
+                                                            directory: fullPath,
+                                                            fullPath: `${fullPath}/${child['name']}`
+                                                        });
+                                                    }
+                                                });
+                                            }
+
+                                            if (i >= datas.length - 1) {
+                                                if (flashMsgs['success'].length > 0) req.flash('success', flashMsgs['success']);
+                                                if (flashMsgs['error'].length > 0) req.flash('error', flashMsgs['error']);
+                                                
+                                                res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                                            }
+                                        });
+                                    });
+                                    
+                                }).catch(() => {
+                                    flashMsgs['error'].push(`${name} can't be moved to a subdirectory of itself.`);
+    
+                                    if (i >= datas.length - 1) {
+                                        if (flashMsgs['success'].length > 0) req.flash('success', flashMsgs['success']);
+                                        if (flashMsgs['error'].length > 0) req.flash('error', flashMsgs['error']);
+                                        
+                                        res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                                    }
+                                });
+                            }
+                        });
+                    }
                 });
             }
         }
@@ -381,7 +541,7 @@ module.exports = {
         dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
 
         let fid = req.body.fid;
-        let name = req.body.name;
+        let name = req.body.rename;
         let errors = {};
         let regex = /[!@#$%^&*+\=\[\]{}()~;':"\\|,.<>\/?]/;
 
@@ -396,7 +556,7 @@ module.exports = {
         }
 
         if (Object.keys(errors).length > 0) {
-            req.flash('forms', { select: fid, errors: errors });
+            req.flash('forms', { rename: name, select: fid, errors: errors });
             res.redirect(dir === '/' ? '/files/~rename' :  '/files' + dir + '/~rename');
         }
         else {
@@ -421,6 +581,7 @@ module.exports = {
                     }).then(exist => {
                         if (exist) {
                             req.flash('forms', {
+                                rename: name,
                                 select: fid,
                                 errors: {
                                     rename: `${name + ext} already exist in the current directory.`
@@ -457,83 +618,51 @@ module.exports = {
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
         dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
 
-        let names = [];
-        let paths = [];
+        let flashMsgs = {success: [], warning: []};
         let uploadsId = [];
-        let replaceMsg = [];
 
-        files.forEach((file, i) => {
-            let fileName = file['originalname'];
+        for (const [i, file] of files.entries()) {
+            let fileName= file['originalname'];
             let fullPath = path.join(dir, fileName).replace(/\\/g, '/');
             let type = mime.getType(fileName) || file['mimetype'];
-                type = type.slice(0, type.indexOf('/'));
+            type = type.slice(0, type.indexOf('/'));
 
-            names.push(fileName);
-            paths.push(fullPath);
+            filesFolders.findOne({ where: {name: fileName, directory: dir, fullPath: fullPath} }).then(data => {
+                fs.move(file['path'], path.join(root, dir, fileName), { overwrite: true }).then(() => {
+                    if (!data) {
+                        filesFolders.create({
+                            name: fileName,
+                            directory: dir,
+                            fullPath: fullPath,
+                            type: type,
+                            uid: uid
+                        }).then(created => {
+                            uploadsId.push(created['id']);
+                            flashMsgs['success'].push(`${fileName} uploaded successfully.`);
 
-            filesFolders.findOne({
-                where: {
-                    name: fileName,
-                    directory: dir,
-                    fullPath: fullPath
-                }
-            }).then(data => {
-                if (!data) {
-                    filesFolders.create({
-                        name: fileName,
-                        directory: dir,
-                        fullPath: fullPath,
-                        type: type,
-                        uid: uid
-                    }).then(() => {
-                        filesFolders.findAll({
-                            where: {
-                                name: { [Op.in]: names },
-                                fullPath: { [Op.in]: paths },
-                                directory: dir
-                            }
-                        }).then(datas => {
                             if (i >= files.length - 1) {
-                                datas.forEach(data => {
-                                    uploadsId.push(data['id']);
-                                });
+                                if (flashMsgs['success'].length > 0) req.flash('success', flashMsgs['success']);
+                                if (flashMsgs['warning'].length > 0) req.flash('warning', flashMsgs['warning']);
 
-                                if (replaceMsg.length > 0) {
-                                    req.flash('warning', replaceMsg);
-                                }
-                                
-                                req.flash('success', 'Files has been uploaded successfully.');
-                                req.flash('forms', {select: uploadsId});
+                                req.flash('forms', { select: uploadsId });
                                 res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
                             }
                         });
-                    });
-                }
-                else {
-                    replaceMsg.push(data['name'] + ' has been replaced.')
-
-                    if (i >= files.length - 1) {
-                        filesFolders.findAll({
-                            where: {
-                                name: { [Op.in]: names },
-                                fullPath: { [Op.in]: paths },
-                                directory: dir
-                            }
-                        }).then(datas => {
-                            datas.forEach(data => {
-                                uploadsId.push(data['id']);
-                            });
-
-                            req.flash('success', 'Files has been uploaded successfully.');
-                            req.flash('warning', replaceMsg);
-                            req.flash('forms', {select: uploadsId});
-                            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
-                        });
                     }
-                }
-            });
+                    else {
+                        uploadsId.push(data['id']);
+                        flashMsgs['warning'].push(`${fileName} has been replaced.`);
 
-            fs.move(file['path'], path.join(root, dir, fileName), { overwrite: true });
-        });
+                        if (i >= files.length - 1) {
+                            if (flashMsgs['success'].length > 0) req.flash('success', flashMsgs['success']);
+                            if (flashMsgs['warning'].length > 0) req.flash('warning', flashMsgs['warning']);
+                            
+                            req.flash('forms', { select: uploadsId });
+                            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                        }
+                    }
+                });
+            });
+        }
     }
 }

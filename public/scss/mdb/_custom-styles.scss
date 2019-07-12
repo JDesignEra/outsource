@@ -86,6 +86,16 @@ a:not([href]):not([tabindex]).link {
         &:hover {
             color: map-get($mdb-colors, "white");
         }
+        &.selcted {
+            color: map-get($mdb-colors, "white");
+        }
+    }
+}
+
+.mdb-autocomplete-clear {
+    > i {
+        padding-right: .3rem;
+        padding-left: .3rem;
     }
 }
 

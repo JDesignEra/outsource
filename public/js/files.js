@@ -18,8 +18,13 @@ $(function() {
     // Folders Tree
     if (typeof tree !== 'undefined') {
         let insert = $('<ul class="treeview-animated-list mt-3"></ul>');
+        let dirData = [];
         
         tree.forEach((val) => {
+            // Build move-modal and copy-modal directory input autocomplete data
+            dirData.push(val.child.slice(1));
+
+            // Build Tree UI
             let li = insert.find(`[data-child="${val.parent}"]`);
 
             if (li.length < 1) {
@@ -64,6 +69,9 @@ $(function() {
                 );
             }
         });
+
+        // Init move-modal and copy-modal autocomplete
+        $('input[name="directory"]').mdbAutocomplete({ data: dirData });
 
         tree = undefined;
         $('script#tree-script').remove();
@@ -198,9 +206,6 @@ $(function() {
         let checkboxAll = $('#check-all', '#files-table').last();
         let focus = $('.select-actions', '#mobile-action-menu, #action-card');
         let count = focuses.filter(':checked').length;
-
-        $('.select-count', '#mobile-action-menu, #action-card').text(`${count} Item(s) Selected`);
-        $('.move-count', '#moveModal').text(`Move ${count} file(s) or folder(s).`);
         
         if (count >= focuses.length) {
             checkboxAll.prop('checked', true);
@@ -528,7 +533,7 @@ $(function() {
             return Array.from(new Set(arr.concat(autocomplete[k])));
         }, []);
 
-        let wrapper = $('.mdb-autocomplete-wrap');
+        let wrapper = $('.mdb-autocomplete-wrap', '#action-search, #mobile-search');
         wrapper.remove();
 
         searchInput.mdbAutocomplete({ data: data });
@@ -574,7 +579,7 @@ $(function() {
 // New File Extension Autocomplete
 $(function() {
     if (typeof types !== 'undefined') {
-        $('input[name="ext"]', '#newFileModal').mdbAutocomplete({ data: types });
+        $('input[name="ext"]', '#newfile-modal').mdbAutocomplete({ data: types });
         types = undefined;
         $('script#types-script').remove();
     }
@@ -582,36 +587,48 @@ $(function() {
 
 // Action Buttons
 $(function() {
-    $('.copy-action, .delete-action').on('click', function() {
-        let _this = $(this);
-        let url = null;
+    // Delete
+    $('.delete-action').on('click', function() {
         let form = $('#action-form');
-
-        if (_this.hasClass('copy-action')) {
-            url = form.attr('action') + '~copy';
-        }
-        else if (_this.hasClass('delete-action')) {
-            url = form.attr('action') + '~delete';
-        }
         
-        form.attr('action', url);
+        form.attr('action', form.attr('action') + '~delete');
         form.submit();
     });
 
-    // Rename Modal, Move Modal
-    $('#renameModal, #moveModal').on('show.bs.modal', function() {
-        let focus = $(this).find('form');
-        let td = $('td[headers="select"] input:checked', '#files-table').last();
-        let inputName = focus.find('input[name="name"]');
+    // Copy and Move Modal
+    $('#move-modal, #copy-modal').on('show.bs.modal', function() {
+        let modalId = $(this).attr('id');
+        let form = $(this).find('form');
+        let td = $('td[headers="select"] input:checked', '#files-table');
+        let ids = [];
         
-        focus.find('input[name="fid"]').val(td.attr('data-id'));
+        td.each(function() {
+            ids.push($(this).attr('data-id'));
+        });
+
+        ids = ids.join(',');
+        ids = ids[ids.length - 1] === ',' ? ids.slice(0, ids.length - 1) : ids;
+
+        form.find('input[name="fid"]', modalId).val(ids);
+    });
+
+    // Rename Modal
+    $('#rename-modal').on('show.bs.modal', function() {
+        let form = $(this).find('form');
+        let td = $('td[headers="select"] input:checked', '#files-table').last();
+        let input = form.find('input[name="rename"]');
+        
+        form.find('input[name="fid"]', '#rename-modal').val(td.attr('data-id'));
 
         if (td.attr('data-name')) {
             let name = td.attr('data-name');
             name = name.slice(0, (name.lastIndexOf('.') > 0 ? name.lastIndexOf('.') : name.length));
 
-            inputName.val(name);
-            inputName.next().addClass('active');
+            if (!input.val()) {
+                input.val(name);
+            }
+
+            input.next().addClass('active');
         }
     })
 });
@@ -621,20 +638,28 @@ $(function() {
     let url = window.location.href;
     param = url.slice(url.lastIndexOf('/'));
     
-    if (param === '/~newfile') {
+    if (param === '/~copy') {
+        history.replaceState(null, null, url.replace(/\/~copy/gi, ''));
+        $('#copy-modal').modal('show');
+    }
+    else if (param === '/~move') {
+        history.replaceState(null, null, url.replace(/\/~move/gi, ''));
+        $('#move-modal').modal('show');
+    }
+    else if (param === '/~newfile') {
         history.replaceState(null, null, url.replace(/\/~newfile/gi, ''));
-        $('#newFileModal').modal('show');
+        $('#newfile-modal').modal('show');
     }
     else if (param === '/~newfolder') {
         history.replaceState(null, null, url.replace(/\/~newfolder/gi, ''));
-        $('#newFolderModal').modal('show');
+        $('#newfolder-modal').modal('show');
     }
     else if (param === '/~rename') {
         history.replaceState(null, null, url.replace(/\/~rename/gi, ''));
-        $('#renameModal').modal('show');
+        $('#rename-modal').modal('show');
     }
     else if (param === '/~upload') {
         history.replaceState(null, null, url.replace(/\/~upload/gi, ''));
-        $('#uploadModal').modal('show');
+        $('#upload-modal').modal('show');
     }
 });
