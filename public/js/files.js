@@ -205,7 +205,10 @@ $(function() {
     focuses.on('change', function() {
         let checkboxAll = $('#check-all', '#files-table').last();
         let focus = $('.select-actions', '#mobile-action-menu, #action-card');
+        let singleActions = focus.find('.single-select');
         let count = focuses.filter(':checked').length;
+
+        focus.find('.select-count').text(`${count} Item(s) Selected`);
         
         if (count >= focuses.length) {
             checkboxAll.prop('checked', true);
@@ -231,8 +234,6 @@ $(function() {
                     }
                 }
             });
-
-            let singleActions = focus.find('.single-select');
             
             if (count > 1) {
                 singleActions.each(function() {
@@ -272,6 +273,22 @@ $(function() {
         }
         else {
             focus.each(function() {
+                _this = $(this);
+
+                if (!_this.hasClass('d-none')) {
+                    if (_this.hasClass('animated')) {
+                        _this.addClass('flipOutX').one(animationEnd, function() {
+                            $(this).addClass('d-none');
+                            $(this).removeClass('flipOutX');
+                        });
+                    }
+                    else {
+                        _this.addClass('d-none');
+                    }
+                }
+            });
+
+            singleActions.each(function() {
                 _this = $(this);
 
                 if (!_this.hasClass('d-none')) {

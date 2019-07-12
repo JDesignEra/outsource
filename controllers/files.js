@@ -1,4 +1,3 @@
-// const fs = require('fs');
 const path = require('path');
 const mime = require('mime');
 const fs = require('fs-extra');
@@ -15,7 +14,8 @@ module.exports = {
         let uid = req.user.id;
         let root = 'public/uploads/files/' + uid;
         let dir = req.params['dir'] !== undefined ? req.params['dir'].replace(/~copy|~move|~newfile|~newfolder|~rename|~upload/gi, '') : '/';
-        dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
         
         fs.ensureDirSync(root);
         
@@ -72,7 +72,7 @@ module.exports = {
                             let stats = item['stats'];
 
                             let modified = moment.duration(moment(new Date).diff(stats['mtime']));
-                            modified = parseInt(modified / (1000 * 60 * 60 * 24)) < 1 ? `${modified.humanize()} ago` : moment(stats.mtime).format('DD/MM/YYYY hh:mm a');
+                            modified = modified / (1000 * 60 * 60 * 24) < 1 ? `${modified.humanize()} ago` : moment(stats.mtime).format('DD/MM/YYYY hh:mm a');
                             
                             let size = bytesToSize.convert(stats['size']);
                             size = size === '0 Bytes' ? '--' : size;
@@ -89,7 +89,7 @@ module.exports = {
                                     sharedUid: sharedUid[0] ? null : sharedUid,
                                     sharedUsername: sharedUsername.length > 0 ? sharedUsername : null,
                                     modified: modified,
-                                    link: '/preview' + (folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name)
+                                    link: `${(folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name)}/~preview`
                                 });
                             }
                             else if (stats.isDirectory()) {
@@ -136,8 +136,9 @@ module.exports = {
     copy: function(req, res) {
         let uid = req.user.id;
         let root = 'public/uploads/files/' + uid + '/';
-        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~delete/gi, '') : '/';
-        dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
+        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~copy/gi, '') : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
 
         let ids = req.body.fid.split(',');
 
@@ -243,7 +244,8 @@ module.exports = {
         let uid = req.user.id;
         let root = 'public/uploads/files/' + uid + '/';
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~delete/gi, '') : '/';
-        dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
 
         if (req.body.fid) {
             let ids = Array.isArray(req.body.fid) ? req.body.fid : [req.body.fid];
@@ -285,7 +287,8 @@ module.exports = {
         let uid = req.user.id;
         let root = 'public/uploads/files/' + uid + '/';
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~move/gi, '') : '/';
-        dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
 
         let ids = req.body.fid.split(',');
 
@@ -391,7 +394,8 @@ module.exports = {
         let uid = req.user.id;
         let root = 'public/uploads/files/' + uid + '/';
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
-        dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
 
         let name = req.body.name;
         let ext = req.body.ext;
@@ -472,7 +476,8 @@ module.exports = {
         let uid = req.user.id;
         let root = 'public/uploads/files/' + uid + '/';
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
-        dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
 
         let name = req.body.name;
         let errors = {};
@@ -538,7 +543,8 @@ module.exports = {
         let uid = req.user.id;
         let root = 'public/uploads/files/' + uid + '/';
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~rename/gi, '') : '/';
-        dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
 
         let fid = req.body.fid;
         let name = req.body.rename;
@@ -615,8 +621,9 @@ module.exports = {
         let uid = req.user.id;
         let files = req.files;
         let root = 'public/uploads/files/' + uid;
-        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
-        dir = dir[dir.length - 1] === '/' && dir.length > 1 ? dir.slice(0, -1) : dir ? dir : '/';
+        let dir = req.params['dir'] !== undefined ? req.params['dir'].replace(/~newfile/gi, '') : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
 
         let flashMsgs = {success: [], warning: []};
         let uploadsId = [];
