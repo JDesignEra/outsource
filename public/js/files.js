@@ -29,11 +29,11 @@ $(function() {
 
             if (li.length < 1) {
                 insert.append(
-                    `<li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">` +
-                        `<a class="treeview-animated-element d-flex align-items-center" href="${val.link}">` +
-                            `<i class="far fa-folder mr-2"></i>${val.name}` +
-                        `</a>` +
-                    `</li>`
+                    `<li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">
+                        <a class="treeview-animated-element d-flex align-items-center" href="${val.link}">
+                            <i class="far fa-folder mr-2"></i>${val.name}
+                        </a>
+                    </li>`
                 );
             }
             else {
@@ -45,27 +45,27 @@ $(function() {
                 if (!li.hasClass('treeview-animated-items')) {
                     li.addClass('treeview-animated-items');
                     li.html(
-                        `<a class="closed">` +
-                            `<i class="fas fa-angle-right mr-2"></i>` +
-                            `<i class="far fa-folder mr-2"></i>${parentName}` +
-                        `</a>` +
-                        `<ul class="nested">`+
-                            `<div class="pt-2 pr-2">` +
-                                `<a class="btn btn-sm btn-block btn-primary" href="${parentLink}">Open Folder</a>`+
-                                `<hr class="mt-3 mb-2">` +
-                            `</div>` +
-                        `</ul>`
+                        `<a class="closed">
+                            <i class="fas fa-angle-right mr-2"></i>
+                            <i class="far fa-folder mr-2"></i>${parentName}
+                        </a>
+                        <ul class="nested">
+                            <div class="pt-2 pr-2">
+                                <a class="btn btn-sm btn-block btn-primary" href="${parentLink}">Open Folder</a>
+                                <hr class="mt-3 mb-2">
+                            </div>
+                        </ul>`
                     );
                 }
                 
                 let ul = li.find('.nested').last();
 
                 ul.append(
-                    `<li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">` +
-                        `<a class="treeview-animated-element d-flex align-items-center" href="${val.link}">` +
-                            `<i class="far fa-folder mr-2"></i>${val.name}` +
-                        `</a>` +
-                    `</li>`
+                    `<li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">
+                        <a class="treeview-animated-element d-flex align-items-center" href="${val.link}">
+                            <i class="far fa-folder mr-2"></i>${val.name}
+                        </a>
+                    </li>`
                 );
             }
         });
@@ -206,15 +206,18 @@ $(function() {
         let checkboxAll = $('#check-all', '#files-table').last();
         let focus = $('.select-actions', '#mobile-action-menu, #action-card');
         let singleActions = focus.find('.single-select');
+        let selectCount = focus.find('.select-count');
         let count = focuses.filter(':checked').length;
 
-        focus.find('.select-count').text(`${count} Item(s) Selected`);
-        
         if (count >= focuses.length) {
             checkboxAll.prop('checked', true);
         }
         else {
             checkboxAll.prop('checked', false);
+        }
+
+        if (count < 1) {
+            selectCount.html(`${count} Item Selected`);
         }
         
         if (count > 0) {
@@ -234,8 +237,12 @@ $(function() {
                     }
                 }
             });
+
+            selectCount.html(`${count} Item Selected<i class="far fa-check ml-2"></i>`);
             
             if (count > 1) {
+                selectCount.html(`${count} Items Selected<i class="far fa-check ml-2"></i>`);
+
                 singleActions.each(function() {
                     _this = $(this);
 
@@ -626,26 +633,88 @@ $(function() {
         ids = ids.join(',');
         ids = ids[ids.length - 1] === ',' ? ids.slice(0, ids.length - 1) : ids;
 
-        form.find('input[name="fid"]', modalId).val(ids);
+        form.find('input[name="fid"]', `#${modalId}`).val(ids);
     });
 
-    // Rename Modal
-    $('#rename-modal').on('show.bs.modal', function() {
+    // Rename and Share Modal
+    $('#rename-modal, #share-modal').on('show.bs.modal', function() {
+        let modalId = $(this).attr('id');
         let form = $(this).find('form');
         let td = $('td[headers="select"] input:checked', '#files-table').last();
-        let input = form.find('input[name="rename"]');
         
-        form.find('input[name="fid"]', '#rename-modal').val(td.attr('data-id'));
+        form.find('input[name="fid"]', `#${modalId}`).val(td.attr('data-id'));
 
-        if (td.attr('data-name')) {
-            let name = td.attr('data-name');
-            name = name.slice(0, (name.lastIndexOf('.') > 0 ? name.lastIndexOf('.') : name.length));
-
-            if (!input.val()) {
-                input.val(name);
+        if (modalId === 'rename-modal') {
+            let input = form.find('input[name="rename"]');
+            
+            if (td.attr('data-name')) {
+                let name = td.attr('data-name');
+                name = name.slice(0, (name.lastIndexOf('.') > 0 ? name.lastIndexOf('.') : name.length));
+    
+                if (!input.val()) {
+                    input.val(name);
+                }
+    
+                input.next().addClass('active');
             }
+        }
+        else if (modalId === 'share-modal') {
+            let code = td.attr('data-share-code') ? td.attr('data-share-code') : null;
 
-            input.next().addClass('active');
+            if (code) {
+                let focus = $(this).find('.modal-footer');
+                let left = focus.find('.text-left:not(.text-md-right)', '.row');
+                let right = focus.find('.text-md-right', '.row');
+
+                let fid = focus.find('input[name="fid"]').last().val();
+                let url = `${window.location.host}/${fid}/${code}/~shared`;
+
+                // Left-Col
+                let icon = left.find('i').clone();
+                icon.removeClass('fa-unlink');
+                icon.addClass('fa-link');
+
+                left.html(`
+                    ${icon[0].outerHTML}
+                    <span class="align-middle cursor-default material-tooltip-sm" data-tooltip="tooltip" data-placement="bottom" title="${url}">
+                        Share link created
+                    </span>
+                `);
+
+                $('[data-tooltip="tooltip"].material-tooltip-sm').tooltip({
+                    template: '<div class="tooltip md-tooltip"><div class="tooltip-arrow md-arrow"></div><div class="tooltip-inner md-inner"></div></div>'
+                });
+
+                // Right-Col
+                right.html(`
+                    <button class="btn btn-md btn-primary m-0 waves-effect waves-light" type="button">
+                        <i class="far fa-clipboard mr-2"></i>Copy Link
+                    </button>
+                    <button class="btn btn-md btn-danger m-0 waves-effect waves-light" type="submit">
+                        <i class="far fa-unlink mr-2"></i>Remove Share Link
+                    </button>
+                `);
+                
+                let copyBtn = right.find('button[type="button"]');
+
+                copyBtn.on('click', function() {
+                    focus.append(`<input type="text" name="clipboard" value="${url}">`);
+
+                    let clipboardInput = focus.find('input[name="clipboard"]');
+                    clipboardInput.select();
+                    document.execCommand('copy');
+                    clipboardInput.remove();
+
+                    toastr['success']('Share link copied.', null, {
+                        'closeButton': true,
+                        'progressBar': true,
+                        'newestOnTop': true,
+                        'hideDuration': 300,
+                        'timeOut': 2000,
+                        'extendedTimeOut': 1000
+                    });
+                });
+            }
         }
     })
 });
@@ -674,6 +743,10 @@ $(function() {
     else if (param === '/~rename') {
         history.replaceState(null, null, url.replace(/\/~rename/gi, ''));
         $('#rename-modal').modal('show');
+    }
+    else if (param === '/~sharecode') {
+        history.replaceState(null, null, url.replace(/\/~sharecode/gi, ''));
+        $('#share-modal').modal('show');
     }
     else if (param === '/~upload') {
         history.replaceState(null, null, url.replace(/\/~upload/gi, ''));

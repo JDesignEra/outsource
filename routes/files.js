@@ -7,6 +7,7 @@ const { isAuth } = require('../middlewares/auth');
 const filesController = require('../controllers/files.js');
 
 router.post('^/:dir([/%-_a-zA-z0-9]+)?/~copy', isAuth, filesController.copy);
+router.post('^/:dir([/%-_a-zA-z0-9]+)?/~sharecode', isAuth, filesController.sharecode);
 router.post('^/:dir([/%-_a-zA-z0-9]+)?/~delete', isAuth, filesController.delete);
 router.post('^/:dir([/%-_a-zA-z0-9]+)?/~newfile', isAuth, filesController.newfile);
 router.post('^/:dir([/%-_a-zA-z0-9]+)?/~newfolder', isAuth, filesController.newfolder);

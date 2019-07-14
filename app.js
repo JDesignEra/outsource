@@ -6,6 +6,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const flash = require('connect-flash');
+const mime = require('./config/mimeConfig');
 
 const mySqlStore = require('express-mysql-session');
 const db = require('./config/db');
@@ -100,6 +101,9 @@ app.use(bodyParser.urlencoded({
 	extended: true,
 	parameterLimit: 50000
 }));
+
+// init mime custom mapping
+mime.init();
 
 // Static Folder
 app.use(express.static(path.join(__dirname, 'public')));

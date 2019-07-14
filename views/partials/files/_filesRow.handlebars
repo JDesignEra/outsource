@@ -8,6 +8,8 @@
                         class="form-check-input" type="checkbox"
                         data-id="{{ this.id }}"
                         data-name="{{ this.name }}"
+                        {{#if this.shareUsername}}data-share-username="{{ joinSeperator ',' this.shareUsername }}"{{/if}}
+                        {{#if this.shareCode}}data-share-code="{{ this.shareCode }}"{{/if}}
                         name="fid"
                         {{#if this.id}} value="{{ this.id }}"{{/if}}
                         {{#ifVar 'selectId'}}
@@ -29,9 +31,9 @@
             </td>
             <td headers="type" class="d-none d-md-table-cell text-capitalize">{{ this.type }}</td>
             <td headers="shared" class="d-none d-md-table-cell"><!-- ToDo: <i class="far fa-link mr-1"></i> -->
-                {{#if this.sharedUsername}}
-                    <span class="material-tooltip-sm" data-tooltip="tooltip" title="{{ joinSeperator ', ' this.sharedUsername }}">
-                        {{ this.sharedUsername.length }} member(s)
+                {{#if this.shareUsername}}
+                    <span class="material-tooltip-sm" data-tooltip="tooltip" title="{{ joinSeperator ', ' this.shareUsername }}">
+                        {{ this.shareUsername.length }} member(s)
                     </span>
                 {{else}}
                     Only you

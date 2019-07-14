@@ -131,13 +131,13 @@
 
                     <div class="list-group list-group-flush mt-3">
                         <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#upload-modal">
-                            <i class="far fa-cloud-upload-alt"></i> Upload File(s)
+                            <i class="far fa-cloud-upload-alt mr-1"></i>Upload File(s)
                         </button>
                         <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newfile-modal">
-                            <i class="far fa-file-plus"></i> New File
+                            <i class="far fa-file-plus mr-1"></i>New File
                         </button>
                         <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newfolder-modal">
-                            <i class="far fa-folder-plus"></i> New Folder
+                            <i class="far fa-folder-plus mr-1"></i>New Folder
                         </button>
                     </div>
 
@@ -145,31 +145,39 @@
 
                     <div class="animated faster d-none select-actions">
                         <p class="mt-3 mb-1">
-                            <small class="px-3 font-weight-bolder grey-text select-count">0 Item(s) Selected</small>
+                            <small class="px-3 font-weight-bolder grey-text select-count">0 Item Selected</small>
                         </p>
 
                         <div class="list-group list-group-flush">
                             <div class="single-select animated faster">
-                                <button class="download list-group-item list-group-item-action">
-                                    <i class="far fa-cloud-download-alt"></i> Download
-                                </button>
-                                <button class="comments list-group-item list-group-item-action">
-                                    <i class="far fa-comments"></i> Comments
+                                <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#share-modal">
+                                    <i class="far fa-share-alt mr-1"></i>Share
                                 </button>
                                 <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#rename-modal">
-                                    <i class="far fa-i-cursor"></i> Rename
+                                    <i class="far fa-i-cursor mr-1"></i>Rename
                                 </button>
                             </div>
                             
                             <button class="list-group-item list-group-item-action move-action" data-toggle="modal" data-target="#move-modal">
-                                <i class="fas fa-exchange-alt"></i> Move
+                                <i class="fas fa-exchange-alt mr-1"></i>Move
                             </button>
                             <button class="list-group-item list-group-item-action copy-action" data-toggle="modal" data-target="#copy-modal">
-                                <i class="far fa-copy"></i> Copy
+                                <i class="far fa-copy mr-1"></i>Copy
                             </button>
                             <button class="list-group-item list-group-item-action delete-action">
-                                <i class="far fa-trash-alt"></i> Delete
+                                <i class="far fa-trash-alt mr-1"></i>Delete
                             </button>
+
+                            <div class="single-select animated faster">
+                                <!-- ToDo: Download Function -->
+                                {{!-- <button class="download list-group-item list-group-item-action">
+                                    <i class="far fa-cloud-download-alt mr-1"></i>Download
+                                </button> --}}
+                                <!-- ToDo: Comment Function -->
+                                {{!-- <button class="comments list-group-item list-group-item-action">
+                                    <i class="far fa-comments mr-1"></i>Comments
+                                </button> --}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -433,26 +441,61 @@
             </div>
 
             <div class="modal-body">
-                <form class="needs-validation" method="post">
-                    <div class="input-group">
-                        <input class="form-control" type="text" placeholder="Email or Username" name="name">
+                <form class="needs-validation" action="{{ postRoot }}/~shareuser" method="post" novalidate>
+                    <div class="input-group mb-0">
+                        <div class="md-form md-outline">
+                            <input id="share-user-input" class="form-control" type="text" {{#if forms.shareUser}}value="{{ forms.shareUser }}"{{/if}} name="shareUser">
+                            <label for="share-user-input">Username or Email</label>
+                            
+                            <div class="invalid-tooltip">
+                                {{ forms.errors.shareUser }}
+                            </div>
+                        </div>
 
                         <div class="input-group-append">
-                            <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
-                                <i class="far fa-file-plus mr-1"></i> Share With
+                            <button class="btn btn-md btn-primary m-0 px-3 py-2" type="submit">
+                                <i class="far fa-share-alt mr-1"></i> Share
                             </button>
                         </div>
                     </div>
+
+                    <small class="form-text text-muted">
+                        Registered user's Username or Email.
+                    </small>
+
+                    <input type="hidden" name="fid" value="">
                 </form>
+
+                <!-- ToDo: Populate Shared User -->
             </div>
 
-            <div class="modal-footer">
-                <span class="mr-auto">
-                    <span class="border border-primary rounded-circle p-2 mr-1"><i class="far fa-unlink"></i></span> No share link created
-                </span>
-                <span class="ml-auto">
-                    <a href="#">Create Share Link</a>
-                </span>
+            <div class="modal-footer d-block">
+                <form class="needs-validation d-block d-md-flex flex-fill" action="{{ postRoot }}/~sharecode" method="post" novalidate>
+                    <div class="flex-md-fill mb-3 mt-0 mb-md-auto mt-md-auto text-left">
+                        <i class="far fa-unlink fa-sm border border-primary rounded-circle p-2 mr-2"></i>
+                        <span class="align-middle">Share link not created</span>
+                    </div>
+
+                    <div class="flex-md-fill text-left text-md-right">
+                        <button class="btn btn-md btn-primary m-0" type="submit">
+                            <i class="far fa-link mr-2"></i>Create Share Link
+                        </button>
+                    </div>
+                    {{!-- <div class="row">
+                        <div class="col-12 col-md-6 mb-3 mt-0 mb-md-auto mt-md-auto text-left">
+                            <i class="far fa-unlink fa-sm border border-primary rounded-circle p-2 mr-2"></i>
+                            <span class="align-middle">Share link not created</span>
+                        </div>
+
+                        <div class="col-12 col-md-6 text-left text-md-right">
+                            <button class="btn btn-md btn-primary m-0" type="submit">
+                                <i class="far fa-link mr-2"></i>Create Share Link
+                            </button>
+                        </div>
+                    </div> --}}
+
+                    <input type="hidden" name="fid" value="">
+                </form>
             </div>
         </div>
     </div>
@@ -550,48 +593,53 @@
         <hr class="mt-3 mb-2">
 
         <button class="dropdown-item" data-toggle="modal" data-target="#upload-modal">
-            <i class="far fa-cloud-upload-alt"></i> Upload File(s)
+            <i class="far fa-cloud-upload-alt mr-1"></i>Upload File(s)
         </button>
         <button class="dropdown-item" data-toggle="modal" data-target="#newfile-modal">
-            <i class="far fa-file-plus"></i> New File
+            <i class="far fa-file-plus mr-1"></i>New File
         </button>
         <button class="dropdown-item" data-toggle="modal" data-target="#newfolder-modal">
-            <i class="far fa-folder-plus"></i> New Folder
+            <i class="far fa-folder-plus mr-1"></i>New Folder
         </button>
 
         <div class="d-none select-actions">
             <hr class="my-2">
 
-            <small class="p-3 font-weight-bolder grey-text select-count">0 Item(s) Selected</small>
+            <small class="p-3 font-weight-bolder grey-text select-count">0 Item Selected</small>
 
             <hr class="my-2">
 
             <div class="single-select">
-                <button class="download dropdown-item">
-                    <i class="far fa-cloud-download-alt"></i> Download
-                </button>
-                <button class="comments dropdown-item">
-                    <i class="far fa-comments"></i> Comments
+                <button class="dropdown-item" data-toggle="modal" data-target="#share-modal">
+                    <i class="far fa-share-alt mr-1"></i>Share
                 </button>
                 <button class="dropdown-item" data-toggle="modal" data-target="#rename-modal">
-                    <i class="far fa-i-cursor"></i> Rename
+                    <i class="far fa-i-cursor mr-1"></i>Rename
                 </button>
             </div>
             
             <button class="dropdown-item move-action" data-toggle="modal" data-target="#move-modal">
-                <i class="fas fa-exchange-alt"></i> Move
+                <i class="fas fa-exchange-alt mr-1"></i>Move
             </button>
             <button class="dropdown-item copy-action" data-toggle="modal" data-target="#copy-modal">
-                <i class="far fa-copy"></i> Copy
+                <i class="far fa-copy mr-1"></i>Copy
             </button>
             <button class="dropdown-item delete-action">
-                <i class="far fa-trash-alt"></i> Delete
+                <i class="far fa-trash-alt mr-1"></i>Delete
             </button>
-
+            
             <div class="single-select">
+                <!-- ToDo: Download Function -->
+                {{!-- <button class="download dropdown-item">
+                    <i class="far fa-cloud-download-alt mr-1"></i>Download
+                </button> --}}
+                <!-- ToDo: Comment and info function -->
+                {{!-- <button class="comments dropdown-item">
+                    <i class="far fa-comments mr-1"></i>Comments
+                </button>
                 <button class="dropdown-item">
                     <i class="far fa-info"></i> Info
-                </button>
+                </button> --}}
             </div>
         </div>
 
