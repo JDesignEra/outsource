@@ -1,6 +1,7 @@
 const path = require('path');
 const crypto = require('crypto');
 
+const archiver = require('archiver');
 const fs = require('fs-extra');
 const moment = require('moment');
 const mime = require('mime');
@@ -12,13 +13,16 @@ const filesFolders = require('../models/filesFolders');
 const users = require('../models/users');
 
 module.exports = {
+    // ToDo: Share Folders and Files
     index: function (req, res) {
         let uid = req.user.id;
         let root = 'public/uploads/files/' + uid;
-        let dir = req.params['dir'] !== undefined ? req.params['dir'].replace(/~copy|~move|~newfile|~newfolder|~rename|~sharecode|~upload/gi, '') : '/';
+        let dir = req.params['dir'] !== undefined ? req.params['dir'].replace(/~addshareuser|~copy|~delshareuser|~download|~move|~newfile|~newfolder|~rename|~sharecode|~upload/gi, '') : '/';
         dir = dir ? dir : '/';
         dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
         dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
+
+        let endCheck = 0;
         
         fs.ensureDirSync(root);
         
@@ -45,12 +49,15 @@ module.exports = {
             let files = [];
             let tree = [];
 
-            users.findAll({ attributes: ['id', 'username', 'email'], raw: true }).then(userDatas => {
-                let users = [];
+            users.findAll({ attributes: ['id', 'username', 'email'] }).then(userDatas => {
+                let usersAutocomplete = userDatas ? [] : null;
 
-                for (const user of userDatas) {
-                    users.push(user['username']);
-                    users.push(user['email']);
+                if (userDatas) {
+                    for (const user of userDatas) {
+                        if (user['id'] !== uid) {
+                            usersAutocomplete.push(`${user['username']} (${user['email']})`);
+                        }
+                    }
                 }
                 
                 walk(path.join(root)).on('data', item => {
@@ -64,17 +71,19 @@ module.exports = {
                         let data = datas.find(v => v.name === name && v.directory === (folderDir[0] !== '/' ? `/${folderDir}` : folderDir));
                         
                         if (data) {
-                            let shareUid = data['shareUid'] ? data['shareUid'].split(',').map(Number).sort((a, b) => {return a - b}) : [null];
-                            let shareUsername = [];
+                            let shareUid = data['shareUid'] ? data['shareUid'].split(',').map(Number).sort((a, b) => {return a - b}) : null;
+                            let share = shareUid ? {uids: [], usernames: [], emails: []} : null;
                             
-                            if (shareUid[0] !== null) {
+                            if (shareUid) {
                                 for (const uid of shareUid) {
-                                    shareUsername.push(userDatas.find(v => v.id === uid)['username']);
-                                }
-                            }
+                                    let user = userDatas.find(v => v.id === uid);
 
-                            if (shareUsername.length < 1) {
-                                shareUsername = null;
+                                    if (user) {
+                                        share['uids'].push(user['id']);
+                                        share['usernames'].push(user['username']);
+                                        share['emails'].push(user['email']);
+                                    }
+                                }
                             }
     
                             let stats = item['stats'];
@@ -97,8 +106,7 @@ module.exports = {
                                     modified: modified,
                                     link: `${(folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name)}/~preview`,
                                     shareCode: data['shareCode'],
-                                    shareUid: shareUid[0] ? null: shareUid,
-                                    shareUsername: shareUsername
+                                    share: share
                                 });
                             }
                             else if (stats.isDirectory()) {
@@ -113,8 +121,7 @@ module.exports = {
                                         modified: modified,
                                         link: link,
                                         shareCode: data['shareCode'],
-                                        shareUid: shareUid[0] ? null: shareUid,
-                                        shareUsername: shareUsername
+                                        share: share
                                     });
                                 }
                                 
@@ -135,18 +142,130 @@ module.exports = {
                             files: files,
                             folders: tree,
                             breadcrumbs: breadcrumbs,
-                            postRoot: req.originalUrl.replace(/\/~copy|\/~move|\/~newfile|\/~newfolder|\/~rename|\/~sharecode|\/~upload/gi, ''),
+                            postRoot: req.originalUrl.replace(/\/~addshareuser|\/~copy|\/~delshareuser|~download|\/~move|\/~newfile|\/~newfolder|\/~rename|\/~sharecode|\/~upload/gi, ''),
                             types: Object.keys(mime._types),
-                            users: users
+                            users: usersAutocomplete
                         });
                     }, 50);
                 });
             });
         });
+
+        filesFolders.findAll({
+            where: {
+                shareUid: { [Op.like]: `%${uid}%` }
+            }
+        }).then(datas => {
+            // console.log(datas);
+        });
+    },
+    addShareUser: function(req, res) {
+        let uid = req.user.id;
+        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~addshareuser/gi, '') : '/';
+        dir = dir ? dir : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
+
+        let fid = parseInt(req.body.fid);
+
+        if (fid) {
+            let shareUser = req.body.shareUser;
+            let errors = {};
+
+            if (!shareUser) {
+                errors['shareUser'] = 'Username or Email can\'t be empty.';
+            }
+
+            if (Object.keys(errors).length > 0) {
+                req.flash('forms', {
+                    shareUser: shareUser,
+                    select: fid
+                });
+
+                req.flash('error', errors['shareUser']);
+                res.redirect(dir === '/' ? '/files/~addshareuser' :  `/files/${dir}/~addshareuser`);
+            }
+            else {
+                if (shareUser.indexOf('(') !== -1 && shareUser.indexOf(')') !== -1) {
+                    where = {
+                        where: {
+                            username: shareUser.slice(0, shareUser.indexOf(' (')),
+                            email: shareUser.slice(shareUser.indexOf(' (') + 2, shareUser.lastIndexOf(')'))
+                        }
+                    };
+                }
+                else {
+                    where = {
+                        where: {
+                            ['Op.or']: [
+                                {username: shareUser},
+                                {email: shareUser}
+                            ]
+                        }
+                    };
+                }
+
+                users.findOne(where).then(user => {
+                    if (user) {
+                        filesFolders.findOne({
+                            where: {
+                                id: fid,
+                                uid: uid
+                            }
+                        }).then(data => {
+                            if (data) {
+                                let userId = user['id'];
+                                let shareUid = data['shareUid'] ? data['shareUid'].split(',').map(Number) : [];
+
+                                if (shareUid.indexOf(userId) === -1) {
+                                    shareUid.push(userId);
+
+                                    shareUid = shareUid.sort(function(a, b) { return a - b });
+                                    shareUid = shareUid.join(',');
+
+                                    data.update({ shareUid: shareUid }).then(() => {
+                                        req.flash('forms', {select: fid});
+                                        req.flash('success', `Sucessfully shared with ${shareUser}.`);
+
+                                        res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
+                                    });
+                                }
+                                else {
+                                    req.flash('forms', {
+                                        select: fid,
+                                        shareUser: shareUser
+                                    });
+
+                                    req.flash('error', `Already shared with ${shareUser}.`);
+                                    res.redirect(dir === '/' ? '/files/~addshareuser' :  `/files/${dir}/~addshareuser`);
+                                }
+                            }
+                            else {
+                                req.flash('error', 'File or folder can\t be found');
+                                res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
+                            }
+                        });
+                    }
+                    else {
+                        req.flash('forms', {
+                            shareUser: shareUser,
+                            select: fid
+                        });
+        
+                        req.flash('error', `${shareUser} is not a registered user.`);
+                        res.redirect(dir === '/' ? '/files/~addshareuser' :  `/files/${dir}/~addshareuser`);
+                    }
+                });
+            }
+        }
+        else {
+            req.flash('error', 'No file or folder selected.');
+            res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
+        }
     },
     copy: function(req, res) {
         let uid = req.user.id;
-        let root = 'public/uploads/files/' + uid + '/';
+        let root = `public/uploads/files/${uid}/`;
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~copy/gi, '') : '/';
         dir = dir ? dir : '/';
         dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
@@ -174,7 +293,7 @@ module.exports = {
                 });
 
                 req.flash('error', errors['copyDir']);
-                res.redirect(dir === '/' ? '/files/~copy' :  `/files${dir}/~copy`);
+                res.redirect(dir === '/' ? '/files/~copy' :  `/files/${dir}/~copy`);
             }
             else {
                 filesFolders.findAll({
@@ -245,12 +364,12 @@ module.exports = {
         }
         else {
             req.flash('error', 'No file or folder selected.');
-            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+            res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
         }
     },
     delete: function(req, res) {
         let uid = req.user.id;
-        let root = 'public/uploads/files/' + uid + '/';
+        let root = `public/uploads/files/${uid}/`;
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~delete/gi, '') : '/';
         dir = dir ? dir : '/';
         dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
@@ -289,7 +408,7 @@ module.exports = {
                     setTimeout(() => {
                         if (i >= datas.length - 1) {
                             if (successMsgs.length > 0) req.flash('success', successMsgs);
-                            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                            res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
                         }
                     }, 50);
                 }
@@ -297,12 +416,149 @@ module.exports = {
         }
         else {
             req.flash('error', 'No file or folder selected.');
-            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+            res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
+        }
+    },
+    delShareUser: function(req, res) {
+        let uid = req.user.id;
+        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~delshareuser/gi, '') : '/';
+        dir = dir ? dir : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
+
+        let fid = req.body.fid;
+        let delUids = Array.isArray(req.body.uid) ? req.body.uid : [req.body.uid];
+        
+        if (fid) {
+            if (delUids[0]) {
+                filesFolders.findOne({ where: {id: fid, uid: uid} }).then(data => {
+                    if (data) {
+                        users.findAll({ 
+                            where: {
+                                id: { [Op.in]: delUids }
+                            },
+                            attributes: ['id', 'username', 'email']
+                        }).then(userDatas => {
+                            let successMsgs = [];
+                            let shareUid = data['shareUid'].split(',').map(Number);
+
+                            for (const uid of delUids) {
+                                let i = shareUid.indexOf(parseInt(uid));
+
+                                if (i > -1) {
+                                    let user = userDatas.find(v => v.id === shareUid[i]);
+                                    successMsgs.push(`Unshared with ${user['username']} (${user['email']})`);
+
+                                    shareUid.splice(i, 1);
+                                }
+                            }
+
+                            shareUid = shareUid.join(',');
+                            shareUid = shareUid.length > 0 ? shareUid : null;
+
+                            data.update({ shareUid: shareUid }).then(() => {
+                                if (successMsgs.length > 0) {
+                                    req.flash('success', successMsgs);
+                                }
+
+                                req.flash('forms', { select: data['id'] });
+                                res.redirect(dir === '/' ? '/files' : `/files/${dir}`);
+                            });
+                        });
+                    }
+                    else {
+                        req.flash('error', 'File or folder can\t be found.');
+                        res.redirect(dir === '/' ? '/files' : `/files/${dir}`);
+                    }
+                });
+            }
+            else {
+                req.flash('error', 'No user selected.');
+                res.redirect(dir === '/' ? '/files/~delshareuser' : `/files/${dir}/~delshareuser`);
+            }
+        }
+        else {
+            req.flash('error', 'No file or folder selected.');
+            res.redirect(dir === '/' ? '/files' : `/files/${dir}`);
+        }
+    },
+    download: function(req, res) {
+        let uid = req.user.id;
+        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~delshareuser/gi, '') : '/';
+        dir = dir ? dir : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
+
+        let fid = req.params.fid;
+        let shareCode = req.params.code;
+
+        if (fid || shareCode) {
+            let where = { where: {id: null} };
+
+            if (fid) {
+                where = { where: {id: fid} };
+            }
+            else if (shareCode) {
+                where = { where: {shareCode: shareCode} };
+            }
+
+            filesFolders.findOne(where).then(data => {
+                if (data) {
+                    let shareUid = data['shareUid'] ? data['shareUid'].split(',').map(Number) : null;
+                    
+                    if ((fid && data['uid'] !== uid && shareUid.indexOf(uid) === -1) && (shareCode && data['shareCode'] !== shareCode)) {
+                        req.flash('error', 'You do not have permission to download this file.');
+                        res.redirect(dir === '/' ? '/files' : `/files/${dir}`);
+                    }
+                    else {
+                        let root = `public/uploads/files/${data['uid']}`;
+    
+                        if (data['type'] === 'folder') {
+                            let code = crypto.randomBytes(5).toString('hex');
+                            let directory = `public/uploads/temp/${code}`;
+    
+                            while(fs.existsSync(directory)) {
+                                code = crypto.randomBytes(5).toString('hex');
+                                directory = `public/uploads/temp/${code}`;
+                            }
+    
+                            fs.ensureDir(directory).then(() => {
+                                let zipPath = `${directory}/${data['name']}.zip`;
+                                let output = fs.createWriteStream(zipPath);
+                                let archive = archiver('zip', { zlib: {level: 1} });
+    
+                                archive.on('end', () => {
+                                    setTimeout(() => {
+                                        res.download(zipPath, () => {
+                                            fs.remove(directory);
+                                        });
+                                    }, 50);
+                                });
+    
+                                archive.pipe(output);
+                                archive.directory(path.join(root, data['fullPath']), false);
+                                archive.finalize();
+                            });
+                        }
+                        else {
+                            res.download(root + data['fullPath']);
+                        }
+                    }
+                }
+                else {
+                    req.flash('error', 'File or folder can\'t be found');
+                    res.redirect(dir === '/' ? '/files' : `/files/${dir}`);
+                }
+            });
+        }
+        else {
+            req.flash('error', 'You do not have permission to download this file or this file can\'t be found.');
+            res.redirect(dir === '/' ? '/files' : `/files/${dir}`);
         }
     },
     move: function(req, res) {
         let uid = req.user.id;
-        let root = 'public/uploads/files/' + uid + '/';
+        let root = `public/uploads/files/${uid}/`;
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~move/gi, '') : '/';
         dir = dir ? dir : '/';
         dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
@@ -330,7 +586,7 @@ module.exports = {
                 });
 
                 req.flash('error', errors['moveDir']);
-                res.redirect(dir === '/' ? '/files/~move' :  `/files${dir}/~move`);
+                res.redirect(dir === '/' ? '/files/~move' :  `/files/${dir}/~move`);
             }
             else {
                 filesFolders.findAll({
@@ -355,7 +611,7 @@ module.exports = {
                                     if (flashMsgs['success'].length > 0) req.flash('success', flashMsgs['success']);
                                     if (flashMsgs['error'].length > 0) req.flash('error', flashMsgs['error']);
                                     
-                                    res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                                    res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
                                 }
                             }
                             else {
@@ -401,12 +657,12 @@ module.exports = {
         }
         else {
             req.flash('error', 'No file or folder selected.');
-            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+            res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
         }
     },
     newfile: function(req, res) {
         let uid = req.user.id;
-        let root = 'public/uploads/files/' + uid + '/';
+        let root = `public/uploads/files/${uid}/`;
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
         dir = dir ? dir : '/';
         dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
@@ -433,13 +689,21 @@ module.exports = {
         }
 
         if (Object.keys(errors).length > 0) {
+            let flashErrors = Object.keys(errors).map(k => {
+                return errors[k];
+            });
+
             req.flash('forms', {
                 filename: name,
                 ext: ext,
                 errors: errors
             });
 
-            res.redirect(dir === '/' ? '/files/~newfile' :  `/files${dir}/~newfile`);
+            if (flashErrors.length > 0) {
+                req.flash('error', flashErrors);
+            }
+
+            res.redirect(dir === '/' ? '/files/~newfile' :  `/files/${dir}/~newfile`);
         }
         else {
             let filename = `${name}.${ext}`;
@@ -468,7 +732,7 @@ module.exports = {
                         fs.ensureFile(path.join(root, dir, filename)).then(() => {
                             req.flash('success', `${data['name']} file has been created successfully.`);
                             req.flash('forms', { select: [data['id']] });
-                            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                            res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
                         });
                     });
                 }
@@ -484,14 +748,14 @@ module.exports = {
                     });
                     
                     req.flash('error', errorMsg);
-                    res.redirect(dir === '/' ? '/files/~newfile' :  `/files${dir}/~newfile`);
+                    res.redirect(dir === '/' ? '/files/~newfile' :  `/files/${dir}/~newfile`);
                 }
             });
         }
     },
     newfolder: function(req, res) {
         let uid = req.user.id;
-        let root = 'public/uploads/files/' + uid + '/';
+        let root = `public/uploads/files/${uid}/`;
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~newfile/gi, '') : '/';
         dir = dir ? dir : '/';
         dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
@@ -514,6 +778,7 @@ module.exports = {
                 errors: errors
             });
             
+            req.flash('error', errors['foldername']);
             res.redirect(dir === '/' ? '/files/~newfolder' :  `/files/${dir}/~newfolder`);
         }
         else {
@@ -540,7 +805,7 @@ module.exports = {
                         fs.ensureDir(path.join(root, dir, name)).then(() => {
                             req.flash('success', `${data['name']} folder has been created successfully.`);
                             req.flash('forms', { select: [data['id']] });
-                            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                            res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
                         });
                     });
                 }
@@ -555,14 +820,14 @@ module.exports = {
                     });
 
                     req.flash('error', errorMsg);
-                    res.redirect(dir === '/' ? '/files/~newfolder' :  `/files${dir}/~newfolder`);
+                    res.redirect(dir === '/' ? '/files/~newfolder' :  `/files/${dir}/~newfolder`);
                 }
             });
         }
     },
     rename: function(req, res) {
         let uid = req.user.id;
-        let root = 'public/uploads/files/' + uid + '/';
+        let root = `public/uploads/files/${uid}/`;
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~rename/gi, '') : '/';
         dir = dir ? dir : '/';
         dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
@@ -583,7 +848,7 @@ module.exports = {
     
             if (Object.keys(errors).length > 0) {
                 req.flash('forms', { rename: name, select: fid, errors: errors });
-                res.redirect(dir === '/' ? '/files/~rename' :  `/files#{dir}/~rename`);
+                res.redirect(dir === '/' ? '/files/~rename' :  `/files${dir}/~rename`);
             }
             else {
                 filesFolders.findOne({
@@ -615,7 +880,7 @@ module.exports = {
                                 });
     
                                 req.flash('error', `${name + ext} already exist in the current directory.`);
-                                res.redirect(dir === '/' ? '/files/~rename' :  `/files${dir}/~rename`);
+                                res.redirect(dir === '/' ? '/files/~rename' :  `/files/${dir}/~rename`);
                             }
                             else {
                                 fs.rename(path.join(root, data['fullPath']), path.join(root, fullPath)).then(() => {
@@ -625,21 +890,21 @@ module.exports = {
                                     });
     
                                     req.flash('success', `${originalName} has been renamed to ${name + ext} successfully.`);
-                                    res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                                    res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
                                 });
                             }
                         });
                     }
                     else {
                         req.flash('error', 'File can\'t be found.');
-                        res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                        res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
                     }
                 });
             }
         }
         else {
             req.flash('error', 'No file or folder selected.');
-            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+            res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
         }
     },
     sharecode: function(req, res) {
@@ -659,7 +924,7 @@ module.exports = {
                     if (data['shareCode']) {
                         data.update({shareCode: code}).then(() => {
                             req.flash('success', `${data['name']} share link removed successfully.`);
-                            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                            res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
                         });
                     }
                     else {
@@ -678,13 +943,13 @@ module.exports = {
                 }
                 else {
                     req.flash('error', 'File or folder can\'t be found.');
-                    res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+                    res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
                 }
             });
         }
         else {
             req.flash('error', 'No file or folder selected.');
-            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+            res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
         }
     },
     upload: function (req, res) {
@@ -705,13 +970,13 @@ module.exports = {
             let type = mime.getType(fileName) || file['mimetype'];
             type = type.slice(0, type.indexOf('/'));
 
-            filesFolders.findOne({ where: {name: fileName, directory: dir, fullPath: fullPath} }).then(data => {
+            filesFolders.findOne({ where: {name: fileName, directory: dir, fullPath: fullPath, uid: uid} }).then(data => {
                 fs.move(file['path'], path.join(root, dir, fileName), { overwrite: true }).then(() => {
                     if (!data) {
                         filesFolders.create({
                             name: fileName,
-                            directory: dir !== '/' ? `/${dir}` : dir,
-                            fullPath: fullPath !== '/' ? `/${fullPath}` : fullPath,
+                            directory: dir[0] !== '/' ? `/${dir}` : dir,
+                            fullPath: fullPath[0] !== '/' ? `/${fullPath}` : fullPath,
                             type: type,
                             uid: uid
                         }).then(created => {
@@ -752,7 +1017,7 @@ const loopRedirect = (req, res, dir, i, lengthCheck, flashMsgs, selectIds = []) 
                 req.flash('forms', { select: selectIds });
             }
             
-            res.redirect(dir === '/' ? '/files' :  '/files/' + dir);
+            res.redirect(dir === '/' ? '/files' :  `/files/${dir}`);
         }
     }, 50);
 }

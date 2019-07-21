@@ -3,12 +3,12 @@
         <div class="col-12 col-md-3 col-lg-2 my-4 my-md-0">
             <div id="folders-card" class="card card-cascade narrower">
                 <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center text-center">
-                    <span class="white-text mx-3">My Folders</span>
+                    <span class="white-text mx-3">Folders</span>
                 </div>
 
                 <a class="link" data-toggle="collapse" data-target="#folders-tree">
                     <h6 class="pt-2 pl-3 mb-0">
-                        <i class="far fa-folders"></i> Folders
+                        <i class="far fa-hdd mr-2"></i>My Drive
                         <i class="float-right pr-3 fas fa-angle-up rotate-icon"></i>
                     </h6>
                 </a>
@@ -17,6 +17,21 @@
 
                 <div id="folders-tree" class="treeview-animated collapse show">
                     <h6 class="dropdown-header text-center my-2">No Folders</h6>
+                </div>
+
+                <hr class="my-0">
+
+                <a class="link" data-toggle="collapse" data-target="#shared-tree">
+                    <h6 class="pt-2 pl-3 mb-0 mt-3">
+                        <i class="far fa-users mr-2"></i>Shared With Me
+                        <i class="float-right pr-3 fas fa-angle-up rotate-icon"></i>
+                    </h6>
+                </a>
+
+                <hr class="mb-0">
+
+                <div id="shared-tree" class="treeview-animated collapse show">
+                    <h6 class="dropdown-header text-center my-2">No Shared Folders</h6>
                 </div>
             </div>
         </div>
@@ -150,6 +165,9 @@
 
                         <div class="list-group list-group-flush">
                             <div class="single-select animated faster">
+                                <a class="download list-group-item list-group-item-action" href="{{ postRoot}}">
+                                    <i class="far fa-cloud-download-alt mr-1"></i>Download
+                                </a>
                                 <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#share-modal">
                                     <i class="far fa-share-alt mr-1"></i>Share
                                 </button>
@@ -169,10 +187,6 @@
                             </button>
 
                             <div class="single-select animated faster">
-                                <!-- ToDo: Download Function -->
-                                {{!-- <button class="download list-group-item list-group-item-action">
-                                    <i class="far fa-cloud-download-alt mr-1"></i>Download
-                                </button> --}}
                                 <!-- ToDo: Comment Function -->
                                 {{!-- <button class="comments list-group-item list-group-item-action">
                                     <i class="far fa-comments mr-1"></i>Comments
@@ -441,10 +455,13 @@
             </div>
 
             <div class="modal-body">
-                <form class="needs-validation" action="{{ postRoot }}/~shareuser" method="post" novalidate>
+                <form class="needs-validation" action="{{ postRoot }}/~addshareuser" method="post" novalidate>
                     <div class="input-group mb-0">
                         <div class="md-form md-outline">
-                            <input id="share-user-input" class="form-control" type="text" {{#if forms.shareUser}}value="{{ forms.shareUser }}"{{/if}} name="shareUser">
+                            <input id="share-user-input" class="form-control mdb-autocomplete" type="text" {{#if forms.shareUser}}value="{{ forms.shareUser }}"{{/if}} name="shareUser">
+                            <button class="mdb-autocomplete-clear deep-purple-text">
+                                <i class="far fa-times"></i>
+                            </button>
                             <label for="share-user-input">Username or Email</label>
                             
                             <div class="invalid-tooltip">
@@ -460,13 +477,43 @@
                     </div>
 
                     <small class="form-text text-muted">
-                        Registered user's Username or Email.
+                        Accepts registered user's username, email or username (email) format.
                     </small>
 
                     <input type="hidden" name="fid" value="">
                 </form>
+                
+                <div class="share-users d-none">
+                    <hr>
 
-                <!-- ToDo: Populate Shared User -->
+                    <h6 class="card-title">
+                        <i class="far fa-users mr-2"></i>Shared With
+                    </h6>
+
+                    <form class="needs-validaton text-right" action="{{ postRoot }}/~delshareuser" method="post" novalidate>
+                        <div class="table-fixed table-hover w-100 mb-3">
+                            <table id="share-users-table" class="table table-striped text-center mb-0">
+                                <thead class="deep-purple accent-3 white-text">
+                                    <th id="share-select">
+                                        <div class="form-check">
+                                            <input id="check-all-share-user" class="form-check-input" type="checkbox">
+                                            <label class="form-check-label" for="check-all-share-user"></label>
+                                        </div>
+                                    </th>
+                                    <th id="share-name">Name</th>
+                                    <th id="share-email">Email</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        
+                        <button class="btn btn-md btn-danger animated faster d-none" type="submit">
+                            <i class="fas fa-user-times mr-2"></i>Unshare with selected user(s)
+                        </button>
+
+                        <input type="hidden" name="fid" value="">
+                    </form>
+                </div>
             </div>
 
             <div class="modal-footer d-block">
@@ -481,18 +528,6 @@
                             <i class="far fa-link mr-2"></i>Create Share Link
                         </button>
                     </div>
-                    {{!-- <div class="row">
-                        <div class="col-12 col-md-6 mb-3 mt-0 mb-md-auto mt-md-auto text-left">
-                            <i class="far fa-unlink fa-sm border border-primary rounded-circle p-2 mr-2"></i>
-                            <span class="align-middle">Share link not created</span>
-                        </div>
-
-                        <div class="col-12 col-md-6 text-left text-md-right">
-                            <button class="btn btn-md btn-primary m-0" type="submit">
-                                <i class="far fa-link mr-2"></i>Create Share Link
-                            </button>
-                        </div>
-                    </div> --}}
 
                     <input type="hidden" name="fid" value="">
                 </form>
@@ -613,6 +648,9 @@
                 <button class="dropdown-item" data-toggle="modal" data-target="#share-modal">
                     <i class="far fa-share-alt mr-1"></i>Share
                 </button>
+                <button class="download dropdown-item">
+                    <i class="far fa-cloud-download-alt mr-1"></i>Download
+                </button>
                 <button class="dropdown-item" data-toggle="modal" data-target="#rename-modal">
                     <i class="far fa-i-cursor mr-1"></i>Rename
                 </button>
@@ -630,9 +668,6 @@
             
             <div class="single-select">
                 <!-- ToDo: Download Function -->
-                {{!-- <button class="download dropdown-item">
-                    <i class="far fa-cloud-download-alt mr-1"></i>Download
-                </button> --}}
                 <!-- ToDo: Comment and info function -->
                 {{!-- <button class="comments dropdown-item">
                     <i class="far fa-comments mr-1"></i>Comments
@@ -666,5 +701,11 @@
         let types = {{{ json types }}};
     </script>
 {{/if}}
+{{#if users}}
+    <script id="users-script" type="text/javascript">
+        let users = {{{ json users }}};
+    </script>
+{{/if
+}}
 <script src="/js/files.js" type="text/javascript"></script>
 {{/extend}}

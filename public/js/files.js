@@ -179,7 +179,7 @@ $(function() {
         filesTableInit('#files-table');
     });
 
-    // Checkbox
+    // Checkboxes
     let focuses = $('input[type="checkbox"][name="fid"]', '#files-table');
     let checked = focuses.filter(':checked');
 
@@ -207,7 +207,8 @@ $(function() {
         let focus = $('.select-actions', '#mobile-action-menu, #action-card');
         let singleActions = focus.find('.single-select');
         let selectCount = focus.find('.select-count');
-        let count = focuses.filter(':checked').length;
+        let checked = focuses.filter(':checked');
+        let count = checked.length;
 
         if (count >= focuses.length) {
             checkboxAll.prop('checked', true);
@@ -239,6 +240,13 @@ $(function() {
             });
 
             selectCount.html(`${count} Item Selected<i class="far fa-check ml-2"></i>`);
+            
+            // Download link
+            if (count === 1) {
+                let downloadAction = singleActions.find('a.download');
+                
+                downloadAction.attr('href', `${window.location.pathname}/${checked.last().attr('data-id')}/~download`);
+            }
             
             if (count > 1) {
                 selectCount.html(`${count} Items Selected<i class="far fa-check ml-2"></i>`);
@@ -636,6 +644,14 @@ $(function() {
         form.find('input[name="fid"]', `#${modalId}`).val(ids);
     });
 
+    // Share Modal's Users Autocomplete
+    if (typeof users !== 'undefined') {
+        $('input[name="shareUser"]', '#share-modal').mdbAutocomplete({ data: users });
+        
+        users = undefined;
+        $('script#users-script').remove();
+    }
+
     // Rename and Share Modal
     $('#rename-modal, #share-modal').on('show.bs.modal', function() {
         let modalId = $(this).attr('id');
@@ -659,14 +675,124 @@ $(function() {
             }
         }
         else if (modalId === 'share-modal') {
+            let share = {
+                uids: td.attr('data-share-uids'),
+                usernames: td.attr('data-share-usernames'),
+                emails: td.attr('data-share-emails')
+            };
+
+            if (share['uids'] && share['usernames'] && share['emails']) {
+                let table = $('#share-users-table', '#share-modal');
+                let tbody = table.find('tbody');
+
+                share['uids']  = share['uids'].split(',');
+                share['usernames'] = share['usernames'].split(',');
+                share['emails'] = share['emails'].split(',');
+
+                $('.share-users', '#share-modal').removeClass('d-none');
+                
+                for (let i = 0, n = share['uids'].length; i < n; i++) {
+                    // ToDo: profile picture
+                    let uid = share['uids'][i];
+                    let username = share['usernames'][i];
+                    let email = share['emails'][i];
+
+                    tbody.append(`
+                        <tr>
+                            <td headers="share-select">
+                                <div class="form-check">
+                                    <input id="su-${uid}" class="form-check-input" type="checkbox" name="uid" value="${uid}">
+                                    <label class="form-check-label" for="su-${uid}"></label>
+                                </div>
+                            </td>
+                            <td headers="share-username">
+                                ${username}
+                            </td>
+                            <td headers="share-email">
+                                ${email}
+                            </td>
+                        </tr>
+                    `);
+                }
+                
+                // Init or Re-init DataTable
+                table.DataTable().destroy();
+
+                table.DataTable({
+                    ordering: true,
+                    order: [[1, 'asc']],
+                    paging: false,
+                    info: false,
+                    searching: false,
+                    language: { emptyTable: 'Not shared with any user yet.' },
+                    columnDefs: [{
+                        orderable: false,
+                        targets: 0
+                    }],
+                });
+
+                // Checkboxes
+                let checkall = table.find('#check-all-share-user');
+                let checkboxes = table.find('td[headers="share-select"] input[type="checkbox"]');
+                
+                checkboxes.on('change', function() {
+                    let removeBtn = $('.share-users button[type="submit"]', '#share-modal');
+                    let checked = checkboxes.filter(':checked');
+                    let count = checked.length;
+                    
+                    if (count > 0) {
+                        if (removeBtn.hasClass('d-none')) {
+                            removeBtn.removeClass('d-none');
+
+                            removeBtn.addClass('bounceIn').one(animationEnd, function() {
+                                $(this).removeClass('bounceIn');
+                            });
+                        }
+                    }
+                    else {
+                        removeBtn.addClass('bounceOut').one(animationEnd, function() {
+                            $(this).addClass('d-none');
+                            $(this).removeClass('bounceOut');
+                        });
+                    }
+
+                    if (count >= checkboxes.length) {
+                        checkall.prop('checked', true);
+                    }
+                    else {
+                        checkall.prop('checked', false);
+                    }
+                });
+
+                // Check All
+                checkall.on('click', function() {
+                    let _this = $(this);
+                    
+                    if (_this.prop('checked')) {
+                        _this.prop('checked', true);
+                        checkboxes.prop('checked', true);
+                    }
+                    else {
+                        _this.prop('checked', false);
+                        checkboxes.prop('checked', false);
+                    }
+
+                    $(checkboxes[0]).trigger('change');
+                });
+            }
+            else {
+                $('.share-users', '#share-modal').addClass('d-none');
+            }
+
+            // Share Code
             let code = td.attr('data-share-code') ? td.attr('data-share-code') : null;
 
             if (code) {
-                let focus = $(this).find('.modal-footer');
-                let left = focus.find('.text-left:not(.text-md-right)', '.row');
-                let right = focus.find('.text-md-right', '.row');
+                let footer = $(this).find('.modal-footer');
+                let left = footer.find('.text-left:not(.text-md-right)', '.row');
+                let right = footer.find('.text-md-right', '.row');
 
-                let fid = focus.find('input[name="fid"]').last().val();
+                let fid = footer.find('input[name="fid"]').last().val();
                 let url = `${window.location.host}/${fid}/${code}/~shared`;
 
                 // Left-Col
@@ -724,9 +850,17 @@ $(function() {
     let url = window.location.href;
     param = url.slice(url.lastIndexOf('/'));
     
-    if (param === '/~copy') {
+    if (param === '/~addshareuser') {
+        history.replaceState(null, null, url.replace(/\/~addshareuser/gi, ''));
+        $('#share-modal').modal('show');
+    }
+    else if (param === '/~copy') {
         history.replaceState(null, null, url.replace(/\/~copy/gi, ''));
         $('#copy-modal').modal('show');
+    }
+    else if (param === '/~delshareuser') {
+        history.replaceState(null, null, url.replace(/\/~delshareuser/gi, ''));
+        $('#share-modal').modal('show');
     }
     else if (param === '/~move') {
         history.replaceState(null, null, url.replace(/\/~move/gi, ''));

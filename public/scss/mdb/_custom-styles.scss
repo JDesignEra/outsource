@@ -86,7 +86,8 @@ a:not([href]):not([tabindex]).link {
         &:hover {
             color: map-get($mdb-colors, "white");
         }
-        &.selcted {
+
+        &.selected {
             color: map-get($mdb-colors, "white");
         }
     }
