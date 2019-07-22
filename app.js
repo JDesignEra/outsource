@@ -8,14 +8,23 @@ const passport = require('passport');
 const flash = require('connect-flash');
 const mime = require('./config/mimeConfig');
 
+
 const mySqlStore = require('express-mysql-session');
 const db = require('./config/db');
 const auth = require('./config/passport');
+
 
 const outsourceDb = require('./config/dbConnection');
 outsourceDb.setUpDB(false);
 
 const hbs = require('./helpers/hbs');
+
+//PayPal
+var paypal = require('paypal-rest-sdk');
+paypal.configure({
+	mode: 'sandbox', // Sandbox or live
+	client_id: 'AU0gOYOjaL87P0T2vYWhfI8H62bKOvPCBxn3fI8kM9VqAueU9-O_0xYWbNVaHXo2FgI6Nmwlb0OPhrAJ',
+	client_secret: 'ECG4YL9F_2UWuT5yGSLKO90SfcMfx6aVb7xRzFX3KD42hNj0yenw8BinuTQ6XK3v8sjutoeFzC9LmOZM'});
 
 const app = express(); 
 
@@ -63,6 +72,8 @@ app.set('view engine', 'handlebars');
 
 // Connect Flash
 app.use(flash());
+
+
 
 // Render Engine Global Variable
 app.use(function(req, res, next) {

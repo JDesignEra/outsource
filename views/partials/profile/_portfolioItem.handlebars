@@ -23,10 +23,11 @@
                 <div class="row justify-content-start">
                     {{#each projects}}
 
-                    <div class="portoflio-img-sm col-sm-5 col-lg-4 view overlay m-1 rounded border z-depth-2" data-toggle="modal"
-                        data-target="#project{{id}}">
+                    <div class="portoflio-img-sm col-sm-5 col-lg-4 view overlay mb-1 rounded border-depth-2 p-0"
+                        data-toggle="modal" data-target="#project{{id}}">
 
-                        <img src="/uploads/profile/{{uid}}/projects/{{id}}.png" class="h-100 lozad" alt="">
+                        <img src="/uploads/profile/{{uid}}/projects/{{id}}.png" class="h-100 lozad mx-auto d-block"
+                            alt="">
 
                         <div class="mask flex-center waves-effect waves-light rgba-black-strong">
                             <div
@@ -68,6 +69,8 @@
         </div>
     </div>
 </div>
+
+{{!-- =================================================== Modals =================================================== --}}
 
 {{#extend 'modals'}}
 {{#if projects}}
@@ -243,14 +246,20 @@
                             </div>
 
                             <div id="deleteButton" class="row justify-content-center col-12 align-self-end px-0 border">
-                                <a type="button" class="btn btn-danger d-flex flex-fill justify-content-center"
-                                    data-toggle="modal" data-target="#confirmDelete{{id}}">
-                                    <i class="fas fa-trash-alt fa-lg"></i> &nbsp; Delete
+                                <a data-toggle="modal" data-target="#confirmDelete{{id}}">
+                                    <button type="button"
+                                        class="btn btn-danger d-flex flex-fill justify-content-center">
+                                        <i class="fas fa-trash-alt fa-lg"></i> &nbsp; Delete
+
+                                    </button>
                                 </a>
 
-                                <a type="button" class="btn btn-success d-flex flex-fill justify-content-center"
-                                    href="">
-                                    <i class="fas fa-edit fa-lg"></i> &nbsp; Edit
+                                <a href="">
+                                    <button type="button"
+                                        class="btn btn-success d-flex flex-fill justify-content-center">
+                                        <i class="fas fa-edit fa-lg"></i> &nbsp; Edit
+
+                                    </button>
                                 </a>
                             </div>
                         </div>
@@ -278,8 +287,11 @@
                 </div>
 
                 <div class="my-2 row justify-content-around mx-auto col-12">
-                    <a type="button" class="btn btn-danger" href="/profile/delete/{{id}}">
-                        Yes
+                    <a href="/profile/delete/{{id}}">
+                        <button type="button" class="btn btn-danger">
+                            Yes
+
+                        </button>
                     </a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
 
@@ -312,7 +324,7 @@
         $("#project" + num).modal('hide')
 
     })
-    
+
     $("[id^=confirmDelete]").on('hide.bs.modal', function (e) {
         idname = $(this).attr('id').toString()
 

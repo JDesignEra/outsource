@@ -1,12 +1,41 @@
+{{#extend 'stylesheets'}}
+{{!-- <link rel="stylesheet" href="croppie.css" /> --}}
+{{!-- <style>
+    #page {
+        background: #FFF;
+        padding: 20px;
+        margin: 20px;
+    }
+
+    #demo-basic {
+        width: 200px;
+        height: 300px;
+    }
+</style> --}}
+{{/extend}}
 <section class="edit-profile">
+    <!-- Button trigger modal -->
     <form method="POST" class="row justify-content-around">
-        <div class="col-6">
+        <input type="hidden" name="imgString" id="imgString">
+        <div class="col-md-12 col-lg-6">
 
             <!-- Card -->
-            <div class="testimonial-card z-depth-2 pt-2 mb-5">
+            <div class="card testimonial-card z-depth-2 pt-2 mb-5">
                 <!-- Avatar -->
-                <div class="avatar mx-auto white mt-4">
-                    <img src="https://picsum.photos/id/659/400/" class="rounded-circle lozad" alt="">
+                <div class="avatar mx-auto white mt-4 view overlay">
+                    <img onerror='this.src = "/img/profile/default.png"'
+                        src="/uploads/profile/{{user.id}}/profilePic.png" id="profilePic" class="rounded-circle lozad"
+                        alt="">
+                    <div id="inputImg" class="mask flex-center waves-effect waves-light rgba-black-strong">
+
+                        <small class="text-white">Change Image</small>
+                        {{!-- <div class="file-upload-circle" data-autosubmit="false">
+                            <input type="file" name="coverPicture" />
+
+                        </div> --}}
+                    </div>
+                    <input type="file" class="d-none" name="upload_image" id="upload_image">
+
                 </div>
                 <!-- Content -->
                 <div class="card-body">
@@ -73,8 +102,8 @@
 
 
         </div>
-        <div class="col-6">
-                        <div class="z-depth-2">
+        <div class="col-md-12 col-lg-6">
+            <div class="z-depth-2 card">
                 <!-- Content -->
                 <div class="card-body">
                     <!-- Name -->
@@ -130,90 +159,74 @@
 
             <div class="z-depth-2 mt-5 text-center py-4">
                 <h4 class="card-title">Delete Account</h4>
-                
-                <a class="btn btn-danger col-5" data-toggle="modal"
-                            data-target="#confirm{{id}}"><i class="fas fa-trash-alt fa-lg"></i>Delete Account</a>
+
+                <a class="btn btn-danger col-5" data-toggle="modal" data-target="#confirm{{id}}"><i
+                        class="fas fa-trash-alt fa-lg"></i>Delete Account</a>
             </div>
-                    {{#extend 'modals'}}
-                    <div class="modal fade" id="confirm{{id}}" tabindex="-1" role="dialog" aria-labelledby="label"
-                        aria-hidden="true">
+            <div class="z-depth-2 mt-5 text-center py-4">
+                <h4 class="card-title">Change Password</h4>
+                <a href="../auth/changePw"><input type="button" value="Change Password" class="btn btn-secondary"></a>
+            </div>
+            {{#extend 'modals'}}
+            <div class="modal fade" id="confirm{{id}}" tabindex="-1" role="dialog" aria-labelledby="label"
+                aria-hidden="true">
 
-                        <!-- Change class .modal-sm to change the size of the modal -->
-                        <div class="modal-dialog modal-sm" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title w-100" id="label">Confirm Delete?</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="my-2 row justify-content-around mx-auto col-12">
-                                    <a type="button" class="btn btn-danger" href="./edit/{{user.id}}">
-                                        Yes
-                                    </a>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <!-- Change class .modal-sm to change the size of the modal -->
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title w-100" id="label">Confirm Delete?</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="my-2 row justify-content-around mx-auto col-12">
+                            <a type="button" class="btn btn-danger" href="./edit/{{user.id}}">
+                                Yes
+                            </a>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
 
-                                </div>
-                            </div>
                         </div>
                     </div>
-                    {{/extend}}
+                </div>
+            </div>
+            {{/extend}}
         </div>
 
     </form>
-
-
-    {{#extend 'scripts'}}
-    <script>
-        counter = 0
-        for (i = 1; i < 6; i++) {
-            skillInput = document.getElementById("skill" + i)
-            if (skillInput.value != "") {
-                counter++
-            }
-        }
-
-        for (j = 5; j > counter; j--) {
-            emptyInput = document.getElementById("skillInput" + j).style.display = "none"
-        }
-
-        $("#addButton").click(function () {
-            console.log("clicks")
-
-            counter++;
-            console.log(counter)
-
-            document.getElementById("skillInput" + counter).style.display = "block"
-            disableOrEnable()
-        });
-
-        $("#removeButton").click(function () {
-            skillInput = document.getElementById("skill" + counter).value = ""
-            document.getElementById("skillInput" + counter).style.display = "none"
-            counter--;
-            disableOrEnable()
-
-        });
-
-        function disableOrEnable() {
-            if (counter == 1) {
-                $('#removeButton').attr("disabled", true);
-                return false
-            }
-            else {
-                $('#removeButton').attr("disabled", false);
-
-            }
-            if (counter >= 5) {
-                $('#addButton').attr("disabled", true);
-                return false;
-            }
-            else {
-                $('#addButton').attr("disabled", false);
-
-            }
-        }
-    </script>
-    {{/extend}}
-
 </section>
+{{#extend 'modals'}}
+
+
+<!-- Modal -->
+<div class="modal fade" id="uploadimageModal" tabindex="-1" role="dialog" aria-labelledby="uploadimageModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload Profile Picture</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12">
+                    <div id="img-demo">
+
+                    </div>
+                </div>
+                {{!-- <div class="col-12">
+                    
+                </div> --}}
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success crop_image">Crop & Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{/extend}}
+
+{{#extend 'scripts'}}
+<script src="/js/editProfile.js"></script>
+{{/extend}}

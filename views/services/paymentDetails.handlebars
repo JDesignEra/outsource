@@ -1,0 +1,66 @@
+<section class="payment-details">
+    {{!-- 
+    <h1 class="col-12 text-center">Transaction Successful!</h1> --}}
+    <div class="row col-12 mb-2">
+        <a href="/transactions" class="text-secondary">
+            <h4><i class="fas fa-chevron-left"></i> Transactions</h4>
+        </a>
+    </div>
+    <div class="row col-10 justify-content-center z-depth-2 p-3 rounded mx-auto">
+        {{!-- <h1>{{payment.transactions.0.related_resources.0.sale.id}}</h1> --}}
+        <h1 class="text-center col-12 mb-3 deep-purple-text"> Receipt </h1>
+        <div class="col-6 mb-3">
+            <h3 class="text-start purple-text"> Service Provider Details </h3>
+            <p><b>Service Provider:</b> {{freelancer.username}}</p>
+            <p><b>Paypal Email:</b> {{freelancer.paypal}}</p>
+            <p><b>Merchanct ID:</b> {{payment.transactions.0.payee.merchant_id}}</p>
+        </div>
+
+        <div class="col-6">
+            <h3 class="text-start purple-text">Transaction Info</h3>
+            <p><b>Paid With:</b> {{capitalize payment.payer.payment_method}}</p>
+        </div>
+
+
+        <div class="row col-12 secondary-color-dark rounded-top p-0">
+            <div class="col-3 border border-top-0 border-bottom-0 border-white py-2">
+                <h5 class="text-white">Transaction ID</h5>
+            </div>
+            <div class="col-2 border border-top-0 border-bottom-0 border-white py-2">
+                <h5 class="text-white">Service Name</h5>
+            </div>
+            <div class="col-3 border border-top-0 border-bottom-0 border-white py-2">
+                <h5 class="text-white">Description</h5>
+            </div>
+            <div class="col-2 border border-top-0 border-bottom-0 border-white py-2">
+                <h5 class="text-white">Price</h5>
+            </div>
+            <div class="col-2 border border-top-0 border-bottom-0 border-white py-2">
+                <h5 class="text-white">Date</h5>
+            </div>
+        </div>
+        <div class="row col-12 py-2 p-0 border-bottom">
+            <div class="col-3">
+                <p>{{payment.id}}</p>
+            </div>
+            <div class="col-2">
+                <p>{{payment.transactions.0.item_list.items.0.name}}</p>
+            </div>
+            <div class="col-3">
+                <p>{{payment.transactions.0.description}}</p>
+            </div>
+            <div class="col-2">
+                <p>${{payment.transactions.0.item_list.items.0.price}}
+                    {{payment.transactions.0.item_list.items.0.currency}}</p>
+            </div>
+            <div class="col-2">
+                {{formatDate payment.create_time "DD MMMM YYYY"}}
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+</section>

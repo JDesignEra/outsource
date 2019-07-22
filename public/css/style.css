@@ -438,6 +438,41 @@ section.submit-projects .file-upload>.wrapper>.card-text {
     z-index: 1070;
 }
 
+/* Edit Profile */
+
+.files-upload-circle,
+.file-upload-circle {
+    /* min-height: 0px; */
+    /* height:100%; */
+    width:100%;
+    
+}
+
+
+
+.edit-profile .testimonial-card .avatar > img {
+    width: 100%;
+    /* height: 100%; */
+    /* clip: rect(0px,0px,200px,0px); */
+
+    /* width: 120px;
+    height: 120px; */
+    /* border: 1px solid red; */
+    overflow: hidden;
+}
+
+.object-fit-img{
+    object-fit: cover;
+}
+
+
+/* Stuff */
+
+
+[id^="confirmDelete"]{
+    z-index: 1070;
+}
+
 /* Borders */
 
 body.modal-open {

@@ -4,8 +4,9 @@
     <div class="card testimonial-card z-depth-2">
         <!-- Background color -->
         <div class="vh-40 card-up indigo lighten-1 rounded-0 jarallax">
-            <img class="img-fluid jarallax-img lozad" src="https://picsum.photos/1200/500" alt="">
-            <div class="mask flex-center waves-effect waves-light rgba-black-light">
+            <img class="img-fluid jarallax-img lozad" onerror='this.src="/img/profile/banner.png"'
+                src="/uploads/profile/{{user.id}}/banner.png" alt="">
+            <div class="mask flex-center waves-effect waves-light rgba-black-slight">
                 <div class="h-100 w-100 col-12 align-items-end row justify-content-end p-0">
                     <div id="socialmedias" class="row col-3 justify-content-center p-1 mr-2">
 
@@ -47,12 +48,14 @@
                             <!-- Background color -->
                             <div style="height:auto;" class="card-up indigo lighten-1 rounded-0">
                             </div>
-
                             <a href="/profile/edit" class="m-2 ml-auto text-secondary"><i
                                     class="fas fa-edit fa-lg"></i></a>
                             <!-- Avatar -->
                             <div class="avatar mx-auto white mt-4">
-                                <img src="https://picsum.photos/id/659/400/" class="rounded-circle lozad" alt="">
+
+                                <img onerror='this.src = "/img/profile/default.png"'
+                                    src="/uploads/profile/{{user.id}}/profilePic.png"
+                                    class="rounded-circle lozad border" alt="">
                             </div>
                             <!-- Content -->
                             <div class="card-body">
@@ -225,7 +228,7 @@
                         {{!-- =============================== Status =============================== --}}
                         <div class="tab-pane fade active profile-content" id="status-classic-shadow" role="tabpanel"
                             aria-labelledby="status-tab-classic-shadow">
-                           
+
 
                         </div>
 

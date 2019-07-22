@@ -1,10 +1,12 @@
 Project = require('../models/portfolio')
 User = require('../models/users')
 Services = require('../models/services')
+
 fs = require('fs')
 countries = require('countries-list')
 fontList = require('font-list')
-const moment = require('moment');
+moment = require('moment');
+
 
 
 function removeEmpty(array, item, length) {
@@ -45,13 +47,13 @@ module.exports = {
                         uid: req.user.id
                     }
                 }).then((services) => {
-                    
+
                     res.render('profile/index', {
                         projects: projects,
                         user: user,
                         services: services,
                         skills: skills
-                   
+
                     });
                 })
 
@@ -87,6 +89,9 @@ module.exports = {
 
     },
     editProfilePost: function (req, res) {
+        base64String = req.body.imgString
+        let base64Image = base64String.split(';base64,').pop();
+
         website = req.body.website
         dob = moment(req.body.dob, 'DD/MM/YYYY')
         gender = req.body.gender
@@ -114,31 +119,28 @@ module.exports = {
                     id: req.user.id
                 }
             }).then((user) => {
+                if (!fs.existsSync('./public/uploads/profile/' + req.user.id)) {
+                    fs.mkdirSync('./public/uploads/profile/' + req.user.id);
+                }
+
+                //Changes Base64 to PNG
+                fs.writeFile('./public/uploads/profile/' + req.user.id + '/profilePic.png', base64Image, {encoding: 'base64'}, function(err) {
+                });
                 res.redirect('/profile/')
             })
 
     },
 
-
-
     submit: function (req, res) {
         fonts = [
             "Arial", "Calibri", "Impact", "Courier", "Helvetica", "Times New Roman", "Verdana",
             //"Segoe UI", "Helvetica Neue", "Noto Sans", "Courier New", "Garamond", "Roboto",
-            ]
+        ]
         fonts.sort()
+
         res.render('profile/submitProjects', {
             fonts: fonts
         })
-
-        // fontList.getFonts()
-        //     .then(fonts => {
-        //         res.render('profile/submitProjects', {
-        //             fonts: fonts
-        //         })
-        //     }).catch(err => {
-        //         console.log(err)
-        //     })
     },
 
 
@@ -168,10 +170,12 @@ module.exports = {
                     if (!fs.existsSync('./public/uploads/profile/' + req.user.id)) {
                         fs.mkdirSync('./public/uploads/profile/' + req.user.id);
                     }
+                    
                     // Creates user id directory for upload if not exist
                     if (!fs.existsSync('./public/uploads/profile/' + req.user.id + '/projects/')) {
                         fs.mkdirSync('./public/uploads/profile/' + req.user.id + '/projects/');
                     }
+
                     // Move file
                     let projectsId = projects.id;
                     fs.renameSync(req.file['path'], './public/uploads/profile/' + req.user.id + '/projects/' + projectsId + '.png');

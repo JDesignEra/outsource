@@ -1,12 +1,13 @@
 // File(s) Upload by Joel
-let fileInput = (function() {
+let fileInput = (function () {
+
     'use strict';
     let publicFuncs = {};
-    
-    publicFuncs.init = function() {
+
+    publicFuncs.init = function () {
         let focuses = $('.files-upload, .file-upload');
 
-        focuses.each(function() {
+        focuses.each(function () {
             let _this = $(this);
 
             _this.prepend(`
@@ -42,7 +43,7 @@ let fileInput = (function() {
             let invalid = wrapper.children('.invalid-tooltip');
             let preview = wrapper.children('.preview');
             let renderer = preview.children('.renderer');
-            
+
             // Checks for proper multiple attribute based on class.
             if (input.attr('multiple') && _this.hasClass('file-upload')) {
                 input.removeAttr('multiple');
@@ -52,23 +53,23 @@ let fileInput = (function() {
             }
 
             _this.on({
-                'dragover dragenter': function(e) {
+                'dragover dragenter': function (e) {
                     e.originalEvent.dataTransfer.dropEffect = 'copy';
 
                     reset(_this);
                     return false;
                 },
-                'dragleave dragexit': function(e) {
+                'dragleave dragexit': function (e) {
                     reset(_this);
                     return false;
                 },
-                'drop': function(e) {
+                'drop': function (e) {
                     e.preventDefault();
                     e.originalEvent.dataTransfer.dropEffect = 'copy';
 
                     let error;
                     let files = e.originalEvent.dataTransfer.files || (event.dataTransfer && event.dataTransfer.files) || e.target.files;
-                    
+
                     if (_this.hasClass('file-upload') && files.length > 1) {
                         error = 'Only 1 file upload is allow.';
                     }
@@ -97,20 +98,20 @@ let fileInput = (function() {
                         invalid.addClass('d-block');
                     }
                 },
-                'click': function(e) {
+                'click': function (e) {
                     input.trigger('click');
                 }
             });
 
             // On file input change
-            input.on('change', function() {
+            input.on('change', function () {
                 let file = this.files[0];
-                
+
                 // Render image or file extension icon, and overlay text.
                 if (file && file.type.match(/image\//)) {
                     let reader = new FileReader();
 
-                    reader.onload = function(e) {
+                    reader.onload = function (e) {
                         renderer.html('<img src="' + e.target.result + '" />');
                     };
 
@@ -143,8 +144,8 @@ let fileInput = (function() {
                     findForm.submit();
                 }
             });
-            
-            _this.hover(function() {
+
+            _this.hover(function () {
                 if (renderer.has('img')) {
                     preview.removeClass('d-none');
                 }
@@ -153,20 +154,20 @@ let fileInput = (function() {
             // Attach EventListener to button remove.
             let btnRemove = _this.find('button.remove');
 
-            btnRemove.on('click', function(e) {
+            btnRemove.on('click', function (e) {
                 e.stopPropagation();
                 reset(_this);
             });
-            
+
             // Prevent Bubbling Event
-            input.on('click', function(e) {
+            input.on('click', function (e) {
                 e.stopPropagation();
                 input.val(null);
             });
         });
     }
 
-    let reset = function(focus) {
+    let reset = function (focus) {
         $(focus).find('input[type=file]').val(null);
         $(focus).find('.invalid-tooltip').removeClass('d-block');
         $(focus).find('.wrapper').removeClass('has-preview');

@@ -186,5 +186,14 @@ module.exports = {
             return array[index]
         }
         return ""
+    },
+    capitalize: function (components) {
+        if (components == '') {
+            components = 'None';
+            return components;
+        }
+        else {
+            return components.charAt(0).toUpperCase() + components.slice(1);
+        }
     }
 }
