@@ -3,12 +3,12 @@
         <div class="col-12 col-md-3 col-lg-2 my-4 my-md-0">
             <div id="folders-card" class="card card-cascade narrower">
                 <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center text-center">
-                    <span class="white-text mx-3">My Folders</span>
+                    <span class="white-text mx-3">Folders</span>
                 </div>
 
                 <a class="link" data-toggle="collapse" data-target="#folders-tree">
                     <h6 class="pt-2 pl-3 mb-0">
-                        <i class="far fa-folders"></i> Folders
+                        <i class="far fa-hdd mr-2"></i>My Drive
                         <i class="float-right pr-3 fas fa-angle-up rotate-icon"></i>
                     </h6>
                 </a>
@@ -17,6 +17,21 @@
 
                 <div id="folders-tree" class="treeview-animated collapse show">
                     <h6 class="dropdown-header text-center my-2">No Folders</h6>
+                </div>
+
+                <hr class="my-0">
+
+                <a class="link" data-toggle="collapse" data-target="#shared-tree">
+                    <h6 class="pt-2 pl-3 mb-0 mt-3">
+                        <i class="far fa-users mr-2"></i>Shared With Me
+                        <i class="float-right pr-3 fas fa-angle-up rotate-icon"></i>
+                    </h6>
+                </a>
+
+                <hr class="mb-0">
+
+                <div id="shared-tree" class="treeview-animated collapse show">
+                    <h6 class="dropdown-header text-center my-2">No Shared Folders</h6>
                 </div>
             </div>
         </div>
@@ -130,14 +145,14 @@
                     </div>
 
                     <div class="list-group list-group-flush mt-3">
-                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#uploadModal">
-                            <i class="far fa-cloud-upload-alt"></i> Upload File(s)
+                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#upload-modal">
+                            <i class="far fa-cloud-upload-alt mr-1"></i>Upload File(s)
                         </button>
-                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newFileModal">
-                            <i class="far fa-file-plus"></i> New File
+                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newfile-modal">
+                            <i class="far fa-file-plus mr-1"></i>New File
                         </button>
-                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newFolderModal">
-                            <i class="far fa-folder-plus"></i> New Folder
+                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newfolder-modal">
+                            <i class="far fa-folder-plus mr-1"></i>New Folder
                         </button>
                     </div>
 
@@ -145,31 +160,38 @@
 
                     <div class="animated faster d-none select-actions">
                         <p class="mt-3 mb-1">
-                            <small class="px-3 font-weight-bolder grey-text select-count">0 Item(s) Selected</small>
+                            <small class="px-3 font-weight-bolder grey-text select-count">0 Item Selected</small>
                         </p>
 
                         <div class="list-group list-group-flush">
                             <div class="single-select animated faster">
-                                <button class="download list-group-item list-group-item-action">
-                                    <i class="far fa-cloud-download-alt"></i> Download
+                                <a class="download list-group-item list-group-item-action" href="{{ postRoot}}">
+                                    <i class="far fa-cloud-download-alt mr-1"></i>Download
+                                </a>
+                                <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#share-modal">
+                                    <i class="far fa-share-alt mr-1"></i>Share
                                 </button>
-                                <button class="comments list-group-item list-group-item-action">
-                                    <i class="far fa-comments"></i> Comments
-                                </button>
-                                <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#renameModal">
-                                    <i class="far fa-i-cursor"></i> Rename
+                                <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#rename-modal">
+                                    <i class="far fa-i-cursor mr-1"></i>Rename
                                 </button>
                             </div>
                             
-                            <button class="list-group-item list-group-item-action move-action" data-toggle="modal" data-target="#moveModal">
-                                <i class="fas fa-exchange-alt"></i> Move
+                            <button class="list-group-item list-group-item-action move-action" data-toggle="modal" data-target="#move-modal">
+                                <i class="fas fa-exchange-alt mr-1"></i>Move
                             </button>
-                            <button class="list-group-item list-group-item-action copy-action">
-                                <i class="far fa-copy"></i> Copy
+                            <button class="list-group-item list-group-item-action copy-action" data-toggle="modal" data-target="#copy-modal">
+                                <i class="far fa-copy mr-1"></i>Copy
                             </button>
                             <button class="list-group-item list-group-item-action delete-action">
-                                <i class="far fa-trash-alt"></i> Delete
+                                <i class="far fa-trash-alt mr-1"></i>Delete
                             </button>
+
+                            <div class="single-select animated faster">
+                                <!-- ToDo: Comment Function -->
+                                {{!-- <button class="comments list-group-item list-group-item-action">
+                                    <i class="far fa-comments mr-1"></i>Comments
+                                </button> --}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -179,8 +201,59 @@
 </section>
 
 {{#extend 'modals'}}
+<!-- Copy Modal -->
+<div id="copy-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header deep-purple accent-2 white-text">
+               <h4 class="modal-title">
+                    <i class="far fa-copy mr-1"></i> COPY
+               </h4>
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <form id="copy-form" class="needs-validation" action="{{ postRoot }}/~copy" method="post">
+                <div class="modal-body">
+                    <div class="input-group mb-0">
+                        <div class="input-group-append">
+                            <span class="input-group-text border-right-0 rounded-left">Root/</span>
+                        </div>
+                        
+                        <div class="md-form md-outline">
+                            <input id="copy-directory-input" class="form-control mdb-autocomplete" type="text" {{#if forms.copyDir}}value="{{ forms.copyDir }}"{{/if}} name="directory">
+                            <button class="mdb-autocomplete-clear deep-purple-text">
+                                <i class="far fa-times"></i>
+                            </button>
+                            <label for="copy-directory-input">Directory Path</label>
+                            
+                            <div class="invalid-tooltip">
+                                {{ forms.errors.copyDir }}
+                            </div>
+                        </div>
+
+                        <div class="input-group-prepend">
+                            <button class="btn btn-md btn-primary m-0 px-3 py-2 waves-effect" type="submit">
+                                <i class="far fa-exchange mr-2"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <small class="form-text text-muted">
+                        If directory path is empty, it will be copied to root directory. Directory path only allow alphanumeric, underscore, dash and forward slash.
+                    </small>
+
+                    <input type="hidden" name="fid" value="">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Move Modal -->
-<div class="modal fade" id="moveModal" tabindex="-1" role="dialog">
+<div id="move-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
@@ -193,7 +266,7 @@
                 </button>
             </div>
 
-            <form id="move-form" action="{{ postRoot }}/~move" method="post">
+            <form id="move-form" class="needs-validation" action="{{ postRoot }}/~move" method="post" novalidate>
                 <div class="modal-body">
                     <div class="input-group mb-0">
                         <div class="input-group-append">
@@ -201,11 +274,14 @@
                         </div>
                         
                         <div class="md-form md-outline">
-                            <input id="move-directory-input" class="form-control" type="text" {{#if forms.move}}value="{{ forms.rename }}"{{/if}} name="directory">
+                            <input id="move-directory-input" class="form-control mdb-autocomplete" type="text" {{#if forms.moveDir}}value="{{ forms.moveDir }}"{{/if}} name="directory">
+                            <button class="mdb-autocomplete-clear deep-purple-text">
+                                <i class="far fa-times"></i>
+                            </button>
                             <label for="move-directory-input">Directory Path</label>
                             
                             <div class="invalid-tooltip">
-                                {{ forms.errors.move }}
+                                {{ forms.errors.moveDir }}
                             </div>
                         </div>
 
@@ -217,25 +293,18 @@
                     </div>
                     
                     <small class="form-text text-muted">
-                        Directory path only allow alphanumeric, underscore, dash and forward slash. And, if directory path is empty, it will be moved to root directory.
+                        If directory path is empty, it will be moved to root directory. Directory path only allow alphanumeric, underscore, dash and forward slash.
                     </small>
 
                     <input type="hidden" name="fid" value="">
                 </div>
-
-                {{!-- <div class="modal-footer">
-                    <span class="move-count mr-auto">0 File(s) or Folder(s) Selected.</span>
-                    <button class="btn btn-md btn-primary" type="submit">
-                        <i class="far fa-exchange-alt mr-2"></i>Move
-                    </button>
-                </div> --}}
             </form>
         </div>
     </div>
 </div>
 
 <!-- New File Modal -->
-<div class="modal fade" id="newFileModal" tabindex="-1" role="dialog">
+<div id="newfile-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
@@ -263,7 +332,7 @@
                         <span class="input-group-text border-left-0 border-right-0 rounded-0">.</span>
 
                         <div class="md-form md-outline">
-                            <input id="new-file-ext-input" class="form-control" type="text" name="ext"{{#if forms.ext}} value="{{ forms.ext }}"{{/if}}>
+                            <input id="new-file-ext-input" class="form-control mdb-autocomplete" type="text" name="ext"{{#if forms.ext}} value="{{ forms.ext }}"{{/if}}>
                             <label for="new-file-ext-input">Extension</label>
 
                             <div class="invalid-tooltip">
@@ -288,7 +357,7 @@
 </div>
 
 <!-- New Folder Modal -->
-<div class="modal fade" id="newFolderModal" tabindex="-1" role="dialog">
+<div id="newfolder-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
@@ -328,7 +397,7 @@
 </div>
 
 <!-- Rename Modal -->
-<div class="modal fade" id="renameModal" tabindex="-1" role="dialog">
+<div id="rename-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
@@ -345,7 +414,7 @@
                 <form class="needs-validation" action="{{ postRoot }}/~rename" method="post" novalidate>
                     <div class="input-group mb-0">
                         <div class="md-form md-outline">
-                            <input id="rename-name-input" class="form-control" type="text" {{#if forms.rename}}value="{{ forms.rename }}"{{/if}} name="name">
+                            <input id="rename-name-input" class="form-control" type="text" {{#if forms.rename}}value="{{ forms.rename }}"{{/if}} name="rename">
                             <label for="rename-name-input">New Name</label>
                             
                             <div class="invalid-tooltip">
@@ -372,7 +441,7 @@
 </div>
 
 <!-- Share Link Modal -->
-<div class="modal fade" id="shareModal" tabindex="-1" role="dialog">
+<div id="share-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
@@ -386,33 +455,89 @@
             </div>
 
             <div class="modal-body">
-                <form class="needs-validation" method="post">
-                    <div class="input-group">
-                        <input class="form-control" type="text" placeholder="Email or Username" name="name">
+                <form class="needs-validation" action="{{ postRoot }}/~addshareuser" method="post" novalidate>
+                    <div class="input-group mb-0">
+                        <div class="md-form md-outline">
+                            <input id="share-user-input" class="form-control mdb-autocomplete" type="text" {{#if forms.shareUser}}value="{{ forms.shareUser }}"{{/if}} name="shareUser">
+                            <button class="mdb-autocomplete-clear deep-purple-text">
+                                <i class="far fa-times"></i>
+                            </button>
+                            <label for="share-user-input">Username or Email</label>
+                            
+                            <div class="invalid-tooltip">
+                                {{ forms.errors.shareUser }}
+                            </div>
+                        </div>
 
                         <div class="input-group-append">
-                            <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect">
-                                <i class="far fa-file-plus mr-1"></i> Share With
+                            <button class="btn btn-md btn-primary m-0 px-3 py-2" type="submit">
+                                <i class="far fa-share-alt mr-1"></i> Share
                             </button>
                         </div>
                     </div>
+
+                    <small class="form-text text-muted">
+                        Accepts registered user's username, email or username (email) format.
+                    </small>
+
+                    <input type="hidden" name="fid" value="">
                 </form>
+                
+                <div class="share-users d-none">
+                    <hr>
+
+                    <h6 class="card-title">
+                        <i class="far fa-users mr-2"></i>Shared With
+                    </h6>
+
+                    <form class="needs-validaton text-right" action="{{ postRoot }}/~delshareuser" method="post" novalidate>
+                        <div class="table-fixed table-hover w-100 mb-3">
+                            <table id="share-users-table" class="table table-striped text-center mb-0">
+                                <thead class="deep-purple accent-3 white-text">
+                                    <th id="share-select">
+                                        <div class="form-check">
+                                            <input id="check-all-share-user" class="form-check-input" type="checkbox">
+                                            <label class="form-check-label" for="check-all-share-user"></label>
+                                        </div>
+                                    </th>
+                                    <th id="share-name">Name</th>
+                                    <th id="share-email">Email</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        
+                        <button class="btn btn-md btn-danger animated faster d-none" type="submit">
+                            <i class="fas fa-user-times mr-2"></i>Unshare with selected user(s)
+                        </button>
+
+                        <input type="hidden" name="fid" value="">
+                    </form>
+                </div>
             </div>
 
-            <div class="modal-footer">
-                <span class="mr-auto">
-                    <span class="border border-primary rounded-circle p-2 mr-1"><i class="far fa-unlink"></i></span> No share link created
-                </span>
-                <span class="ml-auto">
-                    <a href="#">Create Share Link</a>
-                </span>
+            <div class="modal-footer d-block">
+                <form class="needs-validation d-block d-md-flex flex-fill" action="{{ postRoot }}/~sharecode" method="post" novalidate>
+                    <div class="flex-md-fill mb-3 mt-0 mb-md-auto mt-md-auto text-left">
+                        <i class="far fa-unlink fa-sm border border-primary rounded-circle p-2 mr-2"></i>
+                        <span class="align-middle">Share link not created</span>
+                    </div>
+
+                    <div class="flex-md-fill text-left text-md-right">
+                        <button class="btn btn-md btn-primary m-0" type="submit">
+                            <i class="far fa-link mr-2"></i>Create Share Link
+                        </button>
+                    </div>
+
+                    <input type="hidden" name="fid" value="">
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Upload Files Modal -->
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog">
+<div id="upload-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header deep-purple accent-2 white-text">
@@ -502,49 +627,54 @@
 
         <hr class="mt-3 mb-2">
 
-        <button class="dropdown-item" data-toggle="modal" data-target="#uploadModal">
-            <i class="far fa-cloud-upload-alt"></i> Upload File(s)
+        <button class="dropdown-item" data-toggle="modal" data-target="#upload-modal">
+            <i class="far fa-cloud-upload-alt mr-1"></i>Upload File(s)
         </button>
-        <button class="dropdown-item" data-toggle="modal" data-target="#newFileModal">
-            <i class="far fa-file-plus"></i> New File
+        <button class="dropdown-item" data-toggle="modal" data-target="#newfile-modal">
+            <i class="far fa-file-plus mr-1"></i>New File
         </button>
-        <button class="dropdown-item" data-toggle="modal" data-target="#newFolderModal">
-            <i class="far fa-folder-plus"></i> New Folder
+        <button class="dropdown-item" data-toggle="modal" data-target="#newfolder-modal">
+            <i class="far fa-folder-plus mr-1"></i>New Folder
         </button>
 
         <div class="d-none select-actions">
             <hr class="my-2">
 
-            <small class="p-3 font-weight-bolder grey-text select-count">0 Item(s) Selected</small>
+            <small class="p-3 font-weight-bolder grey-text select-count">0 Item Selected</small>
 
             <hr class="my-2">
 
             <div class="single-select">
+                <button class="dropdown-item" data-toggle="modal" data-target="#share-modal">
+                    <i class="far fa-share-alt mr-1"></i>Share
+                </button>
                 <button class="download dropdown-item">
-                    <i class="far fa-cloud-download-alt"></i> Download
+                    <i class="far fa-cloud-download-alt mr-1"></i>Download
                 </button>
-                <button class="comments dropdown-item">
-                    <i class="far fa-comments"></i> Comments
-                </button>
-                <button class="dropdown-item" data-toggle="modal" data-target="#renameModal">
-                    <i class="far fa-i-cursor"></i> Rename
+                <button class="dropdown-item" data-toggle="modal" data-target="#rename-modal">
+                    <i class="far fa-i-cursor mr-1"></i>Rename
                 </button>
             </div>
             
-            <button class="dropdown-item move-action" data-toggle="modal" data-target="#moveModal">
-                <i class="fas fa-exchange-alt"></i> Move
+            <button class="dropdown-item move-action" data-toggle="modal" data-target="#move-modal">
+                <i class="fas fa-exchange-alt mr-1"></i>Move
             </button>
-            <button class="dropdown-item copy-action">
-                <i class="far fa-copy"></i> Copy
+            <button class="dropdown-item copy-action" data-toggle="modal" data-target="#copy-modal">
+                <i class="far fa-copy mr-1"></i>Copy
             </button>
             <button class="dropdown-item delete-action">
-                <i class="far fa-trash-alt"></i> Delete
+                <i class="far fa-trash-alt mr-1"></i>Delete
             </button>
-
+            
             <div class="single-select">
+                <!-- ToDo: Download Function -->
+                <!-- ToDo: Comment and info function -->
+                {{!-- <button class="comments dropdown-item">
+                    <i class="far fa-comments mr-1"></i>Comments
+                </button>
                 <button class="dropdown-item">
                     <i class="far fa-info"></i> Info
-                </button>
+                </button> --}}
             </div>
         </div>
 
@@ -571,5 +701,11 @@
         let types = {{{ json types }}};
     </script>
 {{/if}}
+{{#if users}}
+    <script id="users-script" type="text/javascript">
+        let users = {{{ json users }}};
+    </script>
+{{/if
+}}
 <script src="/js/files.js" type="text/javascript"></script>
 {{/extend}}

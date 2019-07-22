@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const db = require('../config/dbConfig');
 
 const users = db.define('user', {
-    id:{
+    id: {
         type: Sequelize.INTEGER,
         allowNull:false,
         autoIncrement: true,
@@ -11,7 +11,8 @@ const users = db.define('user', {
     },
     username: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     password: {
         type: Sequelize.TEXT,
@@ -19,7 +20,8 @@ const users = db.define('user', {
     },
     email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     resetPasswordToken: {
         type: Sequelize.STRING,

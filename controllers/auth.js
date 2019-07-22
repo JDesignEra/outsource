@@ -4,8 +4,9 @@ const User = require('../models/users');
 const express = require("express");
 const router = express.Router();
 const async = require("async");
-const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const email = require('../helpers/email');
+const Op = require('sequelize').Op;
 
 module.exports = {
     logout: function (req, res) {
@@ -63,42 +64,93 @@ module.exports = {
                 });
             }
             else {
-                User.findOne({ where: { email: req.body.email } })
-                    .then(user => {
+                if (Object.keys(errors).length > 0) {
+                    req.flash('forms', { errors: errors });
+                    res.redirect('/register');
+                }
+                else {
+                    User.findOne({
+                        where: { username: req.body.username }
+                    }).then(user => {
                         if (user) {
-                            res.render('auth/register', {
+                            req.flash('forms', {
                                 errors: {
-                                    'email': user.email + ' is already registered.'
+                                    username: `${user.username} is already registered.`
                                 },
-                                username,
-                                email,
-                                password,
-                                cfmPassword
+                                username: username,
+                                email: email,
+                                password: password,
+                                cfmPassword: cfmPassword
                             });
+
+                            res.redirect('/register');
                         }
                         else {
-                            bcrypt.genSalt(10, function (err, salt) {
-                                bcrypt.hash(password, salt, function (err, hash) {
-                                    password = bcrypt.hashSync(password, salt)
+                            User.findOne({ where: { email: req.body.email } })
+                                .then(user => {
+                                    if (user) {
+                                        req.flash('forms', {
+                                            errors: {
+                                                email: user.email + ' is already registered.'
+                                            },
+                                            username: username,
+                                            email: email,
+                                            password: password,
+                                            cfmPassword: cfmPassword
+                                        });
 
-                                    User.create({
-                                        username: username,
-                                        email,
-                                        password,
-                                        accType,
-                                        followers: 0,
-                                        following: 0,
+                                        res.redirect('/register');
 
-                                    })
-                                        .then(user => {
-                                            req.flash('success', user.username + ' register successfully. You may login now.');
-                                            res.redirect('./');
-                                        })
-                                        .catch(err => console.log(err));
+                                        // res.render('auth/register', {
+                                        //     errors: {
+                                        //         'email': user.email + ' is already registered.'
+                                        //     },
+                                        //     username,
+                                        //     email,
+                                        //     password,
+                                        //     cfmPassword
+                                        // });
+                                    }
+                                    else {
+                                        bcrypt.genSalt(10, (err, salt) => {
+                                            bcrypt.hash(password, salt, (err, hash) => {
+                                                User.create({
+                                                    username: username,
+                                                    email: email,
+                                                    password: hash,
+                                                    accType: accType,
+                                                    followers: 0,
+                                                    following: 0,
+
+                                                }).then(user => {
+                                                    req.flash('success', user.username + ' register successfully. You may login now.');
+                                                    res.redirect('./');
+                                                }).catch(err => console.log(err))
+                                            });
+                                        });
+                                        // bcrypt.genSalt(10, function (err, salt) {
+                                        //     bcrypt.hash(password, salt, function (err, hash) {
+                                        //         password = bcrypt.hashSync(password, salt)
+
+                                        //         User.create({
+                                        //             username: username,
+                                        //             email,
+                                        //             password,
+                                        //             accType,
+                                        //             followers: 0,
+                                        //             following: 0,
+
+                                        //         }).then(user => {
+                                        //             req.flash('success', user.username + ' register successfully. You may login now.');
+                                        //             res.redirect('./');
+                                        //         }).catch(err => console.log(err));
+                                        //     });
+                                        // });
+                                    }
                                 });
-                            });
                         }
                     });
+                }
             }
         }
     },
@@ -107,128 +159,115 @@ module.exports = {
             res.render('auth/forgot');
         }
         else if (req.method === 'POST') {
-            console.log('posted');
-            async.waterfall([
-                function (done) {
-                    console.log('inside post waterfall1');
-                    crypto.randomBytes(20, function (err, buf) {
-                        var token = buf.toString('hex');
-                        done(err, token);
-                    });
-                },
-                function (token, done) {
-                    User.findOne({ where: { email: req.body.email } })
-                    .then(user => { 
-                        if (!user) {
-                            console.log('inside post waterfall3');
-                            req.flash('error', 'No account with that email address exists.');
-                            return res.redirect('/forgot');
-                        }
+            let token = crypto.randomBytes(20).toString('hex');
 
-                        console.log('inside post waterfall4');
-                        user.resetPasswordToken = token;
-                        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-                        
-                       
-                        user.save(function (err) {
-                            done(err, token, user);
-                            console.log("Save function");
-                        });
-                        console.log('test');
+            User.findOne({ where: { email: req.body.email } }).then(user => {
+                if (user) {
+                    user.update({
+                        resetPasswordToken: token,
+                        resetPasswordExpires: Date.now() + 3600000
                     });
-                },
-                function (token, user, done) { //doesnt go into this function
-                    console.log('inside post waterfall5');
-                    var smtpTransport = nodemailer.createTransport({
-                        service: 'Gmail',
-                        auth: {
-                            user: 'outsourceforgetpw@gmail.com',
-                            pass: 'Outsource123'
-                        }
-                    });
-                    var mailOptions = {
-                        to: user.email,
-                        from: 'outsourceforgetpw@gmail.com',
-                        subject: 'outsource Password Reset',
-                        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-                            'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                            'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-                            'If you did not request this, please ignore this email and your password will remain unchanged.\n'
-                    };
-                    smtpTransport.sendMail(mailOptions, function (err) {
-                        console.log('mail sent');
-                        req.flash('success', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
-                        done(err, 'done');
-                    });
+
+                    let link = `http://${req.headers.host}/reset/${token}`;
+
+                    email.send(
+                        user.email,
+                        'Outsource Password Reset',
+                        `<p>You are receiving this because you (or someone else) have requested the reset of the password for your account.</p>` +
+                        `<p>Please click on the following link, or paste this into your browser to complete the process:<br>` +
+                        `<a href="${link}">${link}</a></p>` +
+                        `<p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`
+                    );
+                    req.flash('success', 'A verification email has been sent to ' + user.email);
                 }
-            ], function (err) {
-                if (err) return next(err);
+                else {
+                    req.flash('error', 'No account with that email address exists.');
+                }
+
                 res.redirect('/forgot');
             });
         }
     },
-    reset: function (res, req) {
+    reset: function (req, res) {
+        console.log('reset');
+        console.log(req.method);
         if (req.method === "GET") {
-            User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
-                if (!user) {
-                    req.flash('error', 'Password reset token is invalid or has expired.');
-                    return res.redirect('/forgot');
-                }
-                res.render('reset', { token: req.params.token });
-            });
+            console.log('resetget');
+            res.render('auth/reset', { token: req.params.token });
         }
         else if (req.method === "POST") {
-            async.waterfall([
-                function (done) {
-                    User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
-                        if (!user) {
-                            req.flash('error', 'Password reset token is invalid or has expired.');
-                            return res.redirect('back');
-                        }
-                        if (req.body.password === req.body.confirm) {
-                            user.setPassword(req.body.password, function (err) {
-                                user.resetPasswordToken = undefined;
-                                user.resetPasswordExpires = undefined;
+            let token = req.params.token;
+            console.log(token);
 
-                                user.save(function (err) {
-                                    req.logIn(user, function (err) {
-                                        done(err, user);
-                                    });
-                                });
-                            })
-                        } else {
-                            req.flash("error", "Passwords do not match.");
-                            return res.redirect('back');
-                        }
-                    });
-                },
-                function (user, done) {
-                    var smtpTransport = nodemailer.createTransport({
-                        service: 'Gmail',
-                        auth: {
-                            user: 'outsourceforgetpw@gmail.com',
-                            pass: 'Outsource123'
-                        }
-                    });
-                    var mailOptions = {
-                        to: user.email,
-                        from: 'outsourceforgetpw@gmail.com',
-                        subject: 'Your password has been changed',
-                        text: 'Hello,\n\n' +
-                            'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
-                    };
-                    smtpTransport.sendMail(mailOptions, function (err) {
-                        req.flash('success', 'Success! Your password has been changed.');
-                        done(err);
+
+            User.findOne({
+                where: {
+                    resetPasswordToken: token,
+                    resetPasswordExpires: { [Op.gt]: Date.now() }
+                }
+            }).then(user => {
+                if (!user) {
+                    console.log('resetpost1');
+                    req.flash('error', 'Password reset token is invalid or has expired.');
+                    res.redirect('back');
+                }
+                if (req.body.newpass === req.body.newconfirmpass && req.body.newpass.length > 8) {
+                    console.log('resetpost1');
+                    let password = req.body.newpass
+
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(password, salt, (err, hash) => {
+                            user.update({
+                                password: hash,
+                                resetPasswordToken: token,
+                                resetPasswordExpires: Date.now() + 36000
+                            }).then(() => {
+                                res.redirect('/');
+                            });
+                        });
                     });
                 }
-            ], function (err) {
-                res.redirect('/');
+                 else if(req.body.newpass.length < 8) {
+                    req.flash("error", "Passwords have to be at least 8 characters.");
+                    res.redirect('back');
+                }
+                else if(req.body.newpass != req.body.newconfirmpass){
+                    req.flash("error", "Passwords do not match.");
+                    res.redirect('back');
+                }
             });
+            // User.findOne({
+            //     where: {
+            //         resetPasswordToken: req.params.token,
+            //         resetPasswordExpires: { [Op.gt]: Date.now() }
+            //     }
+            // }, (user) => {
+            //     if (!user) {
+            //         console.log('resetpost1');
+            //         req.flash('error', 'Password reset token is invalid or has expired.');
+            //         return res.redirect('back');
+            //     }
+            //     if (req.body.newpass === req.body.newconfirmpass) {
+            //         console.log('resetpost1');
+            //         user.setPassword(req.body.newpass, function (done) {
+            //             user.resetPasswordToken = token;
+            //             user.resetPasswordExpires = Date.now + 36000;
+
+            //             user.save(function (done) {
+            //                 req.login(user, function (err) {
+            //                     done(err, user);
+            //                 });
+            //             });
+            //         })
+            //     } else {
+            //         req.flash("error", "Passwords do not match.");
+            //         return res.redirect('auth/reset');
+            //     }
+            // });
         }
     },
     delete: function (req, res) {
-        if(req.method === "GET"){
+        if (req.method === "GET") {
             User.findOne({
                 id: req.params.id
             }).then((user) => {
@@ -237,7 +276,7 @@ module.exports = {
                 }
                 else {
                     User.destroy({
-                        where:{
+                        where: {
                             id: req.params.id
                         }
                     })
@@ -248,6 +287,11 @@ module.exports = {
                         })
                 }
             })
+        }
+    },
+    changepw: function (req, res) {
+        if (req.method === "GET") {
+            res.render('auth/changePw');
         }
     }
 }

@@ -9,26 +9,32 @@ let fileInput = (function() {
         focuses.each(function() {
             let _this = $(this);
 
-            _this.prepend('<div class="wrapper card card-body primary-gradient view overlay text-center z-depth-2">' +
-                '<div class="mask rgba-black-slight" style=""></div>' +
-                '<div class="card-text">' +
-                '<i class="fas fa-cloud-upload-alt fa-5x"></i>' +
-                '<p class="font-weight-bolder">Drag and drop a file here or click</p>' +
-                '</div>' +
-                '<button type="button" class="btn btn-sm btn-danger remove">' +
-                '<i class="far fa-trash-alt mr-1"></i> Remove' +
-                '</button>' +
-                '<div class="preview">' +
-                '<span class="renderer"></span>' +
-                '<div class="infos">' +
-                '<div class="infos-inner">' +
-                '<p class="filename"></p>' +
-                '<p class="message">Drag and drop or click to replace</p>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '<div class="invalid-tooltip animated shake" style="margin-top: -2.5rem;"></div>' +
-                '</div>');
+            _this.prepend(`
+                <div class="wrapper card card-body primary-gradient view overlay text-center z-depth-2">
+                    <div class="mask rgba-black-slight" style=""></div>
+
+                    <div class="card-text">
+                        <i class="fas fa-cloud-upload-alt fa-5x"></i>
+                        <p class="font-weight-bolder">Drag and drop a file here or click</p>
+                    </div>
+
+                    <button type="button" class="btn btn-sm btn-danger remove">
+                        <i class="far fa-trash-alt mr-1"></i> Remove
+                    </button>
+                    
+                    <div class="preview">
+                        <span class="renderer"></span>
+                        <div class="infos">
+                            <div class="infos-inner">
+                                <p class="filename"></p>
+                                <p class="message">Drag and drop or click to replace</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="invalid-tooltip animated shake" style="margin-top: -2.5rem;"></div>
+                </div>
+            `);
 
             // Attach EvenListener
             let input = _this.children('input[type=file]');

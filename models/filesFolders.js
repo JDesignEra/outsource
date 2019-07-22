@@ -27,8 +27,8 @@ const filesFolders = db.define('files_folder', {
     shareCode: {
         type: Sequelize.TEXT
     },
-    sharedUid: {
-        type: Sequelize.STRING
+    shareUid: {
+        type: Sequelize.TEXT
     },
     uid: {
         type: Sequelize.INTEGER,

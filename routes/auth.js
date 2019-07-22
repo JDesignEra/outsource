@@ -17,5 +17,4 @@ router.get('/reset/:token', authController.reset);
 router.post('/reset/:token', authController.reset);
 
 
-
 module.exports = router;

@@ -18,17 +18,22 @@ $(function() {
     // Folders Tree
     if (typeof tree !== 'undefined') {
         let insert = $('<ul class="treeview-animated-list mt-3"></ul>');
+        let dirData = [];
         
         tree.forEach((val) => {
+            // Build move-modal and copy-modal directory input autocomplete data
+            dirData.push(val.child.slice(1));
+
+            // Build Tree UI
             let li = insert.find(`[data-child="${val.parent}"]`);
 
             if (li.length < 1) {
                 insert.append(
-                    `<li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">` +
-                        `<a class="treeview-animated-element d-flex align-items-center" href="${val.link}">` +
-                            `<i class="far fa-folder mr-2"></i>${val.name}` +
-                        `</a>` +
-                    `</li>`
+                    `<li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">
+                        <a class="treeview-animated-element d-flex align-items-center" href="${val.link}">
+                            <i class="far fa-folder mr-2"></i>${val.name}
+                        </a>
+                    </li>`
                 );
             }
             else {
@@ -40,30 +45,33 @@ $(function() {
                 if (!li.hasClass('treeview-animated-items')) {
                     li.addClass('treeview-animated-items');
                     li.html(
-                        `<a class="closed">` +
-                            `<i class="fas fa-angle-right mr-2"></i>` +
-                            `<i class="far fa-folder mr-2"></i>${parentName}` +
-                        `</a>` +
-                        `<ul class="nested">`+
-                            `<div class="pt-2 pr-2">` +
-                                `<a class="btn btn-sm btn-block btn-primary" href="${parentLink}">Open Folder</a>`+
-                                `<hr class="mt-3 mb-2">` +
-                            `</div>` +
-                        `</ul>`
+                        `<a class="closed">
+                            <i class="fas fa-angle-right mr-2"></i>
+                            <i class="far fa-folder mr-2"></i>${parentName}
+                        </a>
+                        <ul class="nested">
+                            <div class="pt-2 pr-2">
+                                <a class="btn btn-sm btn-block btn-primary" href="${parentLink}">Open Folder</a>
+                                <hr class="mt-3 mb-2">
+                            </div>
+                        </ul>`
                     );
                 }
                 
                 let ul = li.find('.nested').last();
 
                 ul.append(
-                    `<li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">` +
-                        `<a class="treeview-animated-element d-flex align-items-center" href="${val.link}">` +
-                            `<i class="far fa-folder mr-2"></i>${val.name}` +
-                        `</a>` +
-                    `</li>`
+                    `<li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">
+                        <a class="treeview-animated-element d-flex align-items-center" href="${val.link}">
+                            <i class="far fa-folder mr-2"></i>${val.name}
+                        </a>
+                    </li>`
                 );
             }
         });
+
+        // Init move-modal and copy-modal autocomplete
+        $('input[name="directory"]').mdbAutocomplete({ data: dirData });
 
         tree = undefined;
         $('script#tree-script').remove();
@@ -171,7 +179,7 @@ $(function() {
         filesTableInit('#files-table');
     });
 
-    // Checkbox
+    // Checkboxes
     let focuses = $('input[type="checkbox"][name="fid"]', '#files-table');
     let checked = focuses.filter(':checked');
 
@@ -197,16 +205,20 @@ $(function() {
     focuses.on('change', function() {
         let checkboxAll = $('#check-all', '#files-table').last();
         let focus = $('.select-actions', '#mobile-action-menu, #action-card');
-        let count = focuses.filter(':checked').length;
+        let singleActions = focus.find('.single-select');
+        let selectCount = focus.find('.select-count');
+        let checked = focuses.filter(':checked');
+        let count = checked.length;
 
-        $('.select-count', '#mobile-action-menu, #action-card').text(`${count} Item(s) Selected`);
-        $('.move-count', '#moveModal').text(`Move ${count} file(s) or folder(s).`);
-        
         if (count >= focuses.length) {
             checkboxAll.prop('checked', true);
         }
         else {
             checkboxAll.prop('checked', false);
+        }
+
+        if (count < 1) {
+            selectCount.html(`${count} Item Selected`);
         }
         
         if (count > 0) {
@@ -227,9 +239,18 @@ $(function() {
                 }
             });
 
-            let singleActions = focus.find('.single-select');
+            selectCount.html(`${count} Item Selected<i class="far fa-check ml-2"></i>`);
+            
+            // Download link
+            if (count === 1) {
+                let downloadAction = singleActions.find('a.download');
+                
+                downloadAction.attr('href', `${window.location.pathname}/${checked.last().attr('data-id')}/~download`);
+            }
             
             if (count > 1) {
+                selectCount.html(`${count} Items Selected<i class="far fa-check ml-2"></i>`);
+
                 singleActions.each(function() {
                     _this = $(this);
 
@@ -267,6 +288,22 @@ $(function() {
         }
         else {
             focus.each(function() {
+                _this = $(this);
+
+                if (!_this.hasClass('d-none')) {
+                    if (_this.hasClass('animated')) {
+                        _this.addClass('flipOutX').one(animationEnd, function() {
+                            $(this).addClass('d-none');
+                            $(this).removeClass('flipOutX');
+                        });
+                    }
+                    else {
+                        _this.addClass('d-none');
+                    }
+                }
+            });
+
+            singleActions.each(function() {
                 _this = $(this);
 
                 if (!_this.hasClass('d-none')) {
@@ -528,7 +565,7 @@ $(function() {
             return Array.from(new Set(arr.concat(autocomplete[k])));
         }, []);
 
-        let wrapper = $('.mdb-autocomplete-wrap');
+        let wrapper = $('.mdb-autocomplete-wrap', '#action-search, #mobile-search');
         wrapper.remove();
 
         searchInput.mdbAutocomplete({ data: data });
@@ -574,7 +611,7 @@ $(function() {
 // New File Extension Autocomplete
 $(function() {
     if (typeof types !== 'undefined') {
-        $('input[name="ext"]', '#newFileModal').mdbAutocomplete({ data: types });
+        $('input[name="ext"]', '#newfile-modal').mdbAutocomplete({ data: types });
         types = undefined;
         $('script#types-script').remove();
     }
@@ -582,36 +619,228 @@ $(function() {
 
 // Action Buttons
 $(function() {
-    $('.copy-action, .delete-action').on('click', function() {
-        let _this = $(this);
-        let url = null;
+    // Delete
+    $('.delete-action').on('click', function() {
         let form = $('#action-form');
-
-        if (_this.hasClass('copy-action')) {
-            url = form.attr('action') + '~copy';
-        }
-        else if (_this.hasClass('delete-action')) {
-            url = form.attr('action') + '~delete';
-        }
         
-        form.attr('action', url);
+        form.attr('action', form.attr('action') + '~delete');
         form.submit();
     });
 
-    // Rename Modal, Move Modal
-    $('#renameModal, #moveModal').on('show.bs.modal', function() {
-        let focus = $(this).find('form');
-        let td = $('td[headers="select"] input:checked', '#files-table').last();
-        let inputName = focus.find('input[name="name"]');
+    // Copy and Move Modal
+    $('#move-modal, #copy-modal').on('show.bs.modal', function() {
+        let modalId = $(this).attr('id');
+        let form = $(this).find('form');
+        let td = $('td[headers="select"] input:checked', '#files-table');
+        let ids = [];
         
-        focus.find('input[name="fid"]').val(td.attr('data-id'));
+        td.each(function() {
+            ids.push($(this).attr('data-id'));
+        });
 
-        if (td.attr('data-name')) {
-            let name = td.attr('data-name');
-            name = name.slice(0, (name.lastIndexOf('.') > 0 ? name.lastIndexOf('.') : name.length));
+        ids = ids.join(',');
+        ids = ids[ids.length - 1] === ',' ? ids.slice(0, ids.length - 1) : ids;
 
-            inputName.val(name);
-            inputName.next().addClass('active');
+        form.find('input[name="fid"]', `#${modalId}`).val(ids);
+    });
+
+    // Share Modal's Users Autocomplete
+    if (typeof users !== 'undefined') {
+        $('input[name="shareUser"]', '#share-modal').mdbAutocomplete({ data: users });
+        
+        users = undefined;
+        $('script#users-script').remove();
+    }
+
+    // Rename and Share Modal
+    $('#rename-modal, #share-modal').on('show.bs.modal', function() {
+        let modalId = $(this).attr('id');
+        let form = $(this).find('form');
+        let td = $('td[headers="select"] input:checked', '#files-table').last();
+        
+        form.find('input[name="fid"]', `#${modalId}`).val(td.attr('data-id'));
+
+        if (modalId === 'rename-modal') {
+            let input = form.find('input[name="rename"]');
+            
+            if (td.attr('data-name')) {
+                let name = td.attr('data-name');
+                name = name.slice(0, (name.lastIndexOf('.') > 0 ? name.lastIndexOf('.') : name.length));
+    
+                if (!input.val()) {
+                    input.val(name);
+                }
+    
+                input.next().addClass('active');
+            }
+        }
+        else if (modalId === 'share-modal') {
+            let share = {
+                uids: td.attr('data-share-uids'),
+                usernames: td.attr('data-share-usernames'),
+                emails: td.attr('data-share-emails')
+            };
+
+            if (share['uids'] && share['usernames'] && share['emails']) {
+                let table = $('#share-users-table', '#share-modal');
+                let tbody = table.find('tbody');
+
+                share['uids']  = share['uids'].split(',');
+                share['usernames'] = share['usernames'].split(',');
+                share['emails'] = share['emails'].split(',');
+
+                $('.share-users', '#share-modal').removeClass('d-none');
+                
+                for (let i = 0, n = share['uids'].length; i < n; i++) {
+                    // ToDo: profile picture
+                    let uid = share['uids'][i];
+                    let username = share['usernames'][i];
+                    let email = share['emails'][i];
+
+                    tbody.append(`
+                        <tr>
+                            <td headers="share-select">
+                                <div class="form-check">
+                                    <input id="su-${uid}" class="form-check-input" type="checkbox" name="uid" value="${uid}">
+                                    <label class="form-check-label" for="su-${uid}"></label>
+                                </div>
+                            </td>
+                            <td headers="share-username">
+                                ${username}
+                            </td>
+                            <td headers="share-email">
+                                ${email}
+                            </td>
+                        </tr>
+                    `);
+                }
+                
+                // Init or Re-init DataTable
+                table.DataTable().destroy();
+
+                table.DataTable({
+                    ordering: true,
+                    order: [[1, 'asc']],
+                    paging: false,
+                    info: false,
+                    searching: false,
+                    language: { emptyTable: 'Not shared with any user yet.' },
+                    columnDefs: [{
+                        orderable: false,
+                        targets: 0
+                    }],
+                });
+
+                // Checkboxes
+                let checkall = table.find('#check-all-share-user');
+                let checkboxes = table.find('td[headers="share-select"] input[type="checkbox"]');
+                
+                checkboxes.on('change', function() {
+                    let removeBtn = $('.share-users button[type="submit"]', '#share-modal');
+                    let checked = checkboxes.filter(':checked');
+                    let count = checked.length;
+                    
+                    if (count > 0) {
+                        if (removeBtn.hasClass('d-none')) {
+                            removeBtn.removeClass('d-none');
+
+                            removeBtn.addClass('bounceIn').one(animationEnd, function() {
+                                $(this).removeClass('bounceIn');
+                            });
+                        }
+                    }
+                    else {
+                        removeBtn.addClass('bounceOut').one(animationEnd, function() {
+                            $(this).addClass('d-none');
+                            $(this).removeClass('bounceOut');
+                        });
+                    }
+
+                    if (count >= checkboxes.length) {
+                        checkall.prop('checked', true);
+                    }
+                    else {
+                        checkall.prop('checked', false);
+                    }
+                });
+
+                // Check All
+                checkall.on('click', function() {
+                    let _this = $(this);
+                    
+                    if (_this.prop('checked')) {
+                        _this.prop('checked', true);
+                        checkboxes.prop('checked', true);
+                    }
+                    else {
+                        _this.prop('checked', false);
+                        checkboxes.prop('checked', false);
+                    }
+
+                    $(checkboxes[0]).trigger('change');
+                });
+            }
+            else {
+                $('.share-users', '#share-modal').addClass('d-none');
+            }
+
+            // Share Code
+            let code = td.attr('data-share-code') ? td.attr('data-share-code') : null;
+
+            if (code) {
+                let footer = $(this).find('.modal-footer');
+                let left = footer.find('.text-left:not(.text-md-right)', '.row');
+                let right = footer.find('.text-md-right', '.row');
+
+                let fid = footer.find('input[name="fid"]').last().val();
+                let url = `${window.location.host}/${fid}/${code}/~shared`;
+
+                // Left-Col
+                let icon = left.find('i').clone();
+                icon.removeClass('fa-unlink');
+                icon.addClass('fa-link');
+
+                left.html(`
+                    ${icon[0].outerHTML}
+                    <span class="align-middle cursor-default material-tooltip-sm" data-tooltip="tooltip" data-placement="bottom" title="${url}">
+                        Share link created
+                    </span>
+                `);
+
+                $('[data-tooltip="tooltip"].material-tooltip-sm').tooltip({
+                    template: '<div class="tooltip md-tooltip"><div class="tooltip-arrow md-arrow"></div><div class="tooltip-inner md-inner"></div></div>'
+                });
+
+                // Right-Col
+                right.html(`
+                    <button class="btn btn-md btn-primary m-0 waves-effect waves-light" type="button">
+                        <i class="far fa-clipboard mr-2"></i>Copy Link
+                    </button>
+                    <button class="btn btn-md btn-danger m-0 waves-effect waves-light" type="submit">
+                        <i class="far fa-unlink mr-2"></i>Remove Share Link
+                    </button>
+                `);
+                
+                let copyBtn = right.find('button[type="button"]');
+
+                copyBtn.on('click', function() {
+                    focus.append(`<input type="text" name="clipboard" value="${url}">`);
+
+                    let clipboardInput = focus.find('input[name="clipboard"]');
+                    clipboardInput.select();
+                    document.execCommand('copy');
+                    clipboardInput.remove();
+
+                    toastr['success']('Share link copied.', null, {
+                        'closeButton': true,
+                        'progressBar': true,
+                        'newestOnTop': true,
+                        'hideDuration': 300,
+                        'timeOut': 2000,
+                        'extendedTimeOut': 1000
+                    });
+                });
+            }
         }
     })
 });
@@ -621,20 +850,40 @@ $(function() {
     let url = window.location.href;
     param = url.slice(url.lastIndexOf('/'));
     
-    if (param === '/~newfile') {
+    if (param === '/~addshareuser') {
+        history.replaceState(null, null, url.replace(/\/~addshareuser/gi, ''));
+        $('#share-modal').modal('show');
+    }
+    else if (param === '/~copy') {
+        history.replaceState(null, null, url.replace(/\/~copy/gi, ''));
+        $('#copy-modal').modal('show');
+    }
+    else if (param === '/~delshareuser') {
+        history.replaceState(null, null, url.replace(/\/~delshareuser/gi, ''));
+        $('#share-modal').modal('show');
+    }
+    else if (param === '/~move') {
+        history.replaceState(null, null, url.replace(/\/~move/gi, ''));
+        $('#move-modal').modal('show');
+    }
+    else if (param === '/~newfile') {
         history.replaceState(null, null, url.replace(/\/~newfile/gi, ''));
-        $('#newFileModal').modal('show');
+        $('#newfile-modal').modal('show');
     }
     else if (param === '/~newfolder') {
         history.replaceState(null, null, url.replace(/\/~newfolder/gi, ''));
-        $('#newFolderModal').modal('show');
+        $('#newfolder-modal').modal('show');
     }
     else if (param === '/~rename') {
         history.replaceState(null, null, url.replace(/\/~rename/gi, ''));
-        $('#renameModal').modal('show');
+        $('#rename-modal').modal('show');
+    }
+    else if (param === '/~sharecode') {
+        history.replaceState(null, null, url.replace(/\/~sharecode/gi, ''));
+        $('#share-modal').modal('show');
     }
     else if (param === '/~upload') {
         history.replaceState(null, null, url.replace(/\/~upload/gi, ''));
-        $('#uploadModal').modal('show');
+        $('#upload-modal').modal('show');
     }
 });

@@ -16,5 +16,9 @@ router.get('/submit', isAuth, profileController.submit)
 router.post('/submit', upload.single('coverPicture'), profileController.submitProject)
 router.get('/view/:id', profileController.viewProject)
 router.get('/delete/:id', profileController.deleteProject)
-router.get('/edit/:id', authController.delete)
+router.get('/edit/:id', authController.delete);
+
+router.get('/auth/reset', authController.changepw);
+
+
 module.exports = router;

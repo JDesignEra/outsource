@@ -27,7 +27,7 @@ _**Note:** Remember to do a `npm i --only-dev` first._
 ***
 
 ## Frameworks / Libraries / APIs / Languages
-* [Node.js 10.15.3](https://nodejs.org/en/)
+* [Node.js 10.16.0](https://nodejs.org/en/)
 * [Bootstrap 4.3](https://getbootstrap.com/)
 * [FontAwesome Pro 5](https://fontawesome.com/)
 * [jQuery 3.4.1](https://jquery.com/)

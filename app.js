@@ -6,6 +6,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const flash = require('connect-flash');
+const mime = require('./config/mimeConfig');
 
 const mySqlStore = require('express-mysql-session');
 const db = require('./config/db');
@@ -101,6 +102,9 @@ app.use(bodyParser.urlencoded({
 	parameterLimit: 50000
 }));
 
+// init mime custom mapping
+mime.init();
+
 // Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -111,7 +115,6 @@ app.use('/profile', require('./routes/profile'));
 app.use('/services', require('./routes/services'));
 app.use('/files', require('./routes/files'));
 app.use('/jobs', require('./routes/jobs'));
-app.use('/profile/edit/:id', require('./routes/auth'));
 
 app.listen(port = 5000, () => {
 	console.log(`\n\x1b[32mServer started on port ${port}.\x1b[0m`);

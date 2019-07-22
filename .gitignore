@@ -2,3 +2,5 @@
 \*.DS_Store
 \.__*
 \.vscode
+\public/uploads/**/*.*
+\public/uploads/temp/**/*

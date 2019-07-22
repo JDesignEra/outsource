@@ -3,6 +3,22 @@ const Services = require('../models/services');
 const Users = require('../models/users');
 const fs = require('fs');
 
+let today = new Date();
+let dd = today.getDate();
+
+let mm = today.getMonth()+1; 
+let yyyy = today.getFullYear();
+if(dd<10) 
+{
+    dd='0'+dd;
+} 
+
+if(mm<10) 
+{
+    mm='0'+mm;
+} 
+today = dd+'/'+mm+'/'+yyyy;
+
 module.exports = {
     index: function (req, res) {
         Services.findAll({
@@ -67,7 +83,8 @@ module.exports = {
             uid: userId,
             category,
             views: 0,
-            date: new Date().getTime()
+            date: today,
+            time: new Date().getTime()
         }).then((services) => {
             if (req.file !== undefined) {
                 // Check if directory exists if not create directory
@@ -115,7 +132,8 @@ module.exports = {
             desc: req.body.desc === undefined ? '' : req.body.desc.slice(0, 1999),
             price: req.body.price,
             category: req.body.categories.toString(),
-            date: new Date().getTime()
+            date: today,
+            time: new Date().getTime()
         }, {
                 where: {
                     id: req.params.id
