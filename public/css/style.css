@@ -304,6 +304,12 @@ section.files #folders-card .treeview-animated-list > li {
 }
 
 /* Lemuel */
+@media (min-width: 992px) {
+    .profile-margin{
+        margin-top: -100px;
+    }
+}
+
 .profile .avatar {
     z-index: 1020;
 }
