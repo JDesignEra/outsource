@@ -189,13 +189,13 @@ module.exports = {
 
             Project.findAll({
                 where: {
-                    uid: req.user.id
+                    uid: user.id
                 },
             }).then((projects) => {
 
                 Services.findAll({
                     where: {
-                        uid: req.user.id
+                        uid: user.id
                     }
                 }).then((services) => {
                     Servicefavs.findAll({
