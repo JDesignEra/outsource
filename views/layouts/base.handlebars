@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" id="top">
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -27,17 +28,18 @@
 
 <body>
 	{{> _navbar}}
-	
+
 	{{{ block 'hero' }}}
 
-	<main class="container-fluid mb-4 pb-4{{#ifCond 'mainType != "null" && mainType == "vCenter"'}} d-flex flex-column justify-content-center{{/ifCond}}{{#ifExtend 'hero'}} mt-4 pt-4{{else}} mt-5 pt-3 pt-md-7{{/ifExtend}} animated fadeIn">
-	{{{ body }}}
+	<main
+		class="container-fluid mb-4 pb-4{{#ifCond 'mainType != "null" && mainType == "vCenter"'}} d-flex flex-column justify-content-center{{/ifCond}}{{#ifExtend 'hero'}} mt-4 pt-4{{else}} mt-5 pt-3 pt-md-7{{/ifExtend}} animated fadeIn">
+		{{{ body }}}
 	</main>
 
 	{{{ block 'modals' }}}
-	
+
 	{{> _footer}}
-	
+
 	<div id="to-top-action" class="fixed-action-btn smooth-scroll animated faster d-none">
 		<a href="#top" class="btn-floating btn-large primary-gradient">
 			<i class="fas fa-arrow-up"></i>
@@ -54,14 +56,15 @@
 	<script src="/js/modules/animateEnd.js" type="text/javascript"></script>
 	<script src="/js/modules/fileInput.js" type="text/javascript"></script>
 	<script src="/js/modules/validation.js" type="text/javascript"></script>
-	
-	{{#if toast}}
-		<script id="toast-script" type="text/javascript">
-			let toastMsgs = {{{ json toast }}};
-		</script>
 
-		<script src="/js/modules/toast.js" type="text/javascript"></script>
+	{{#if toast}}
+	<script id="toast-script" type="text/javascript">
+		let toastMsgs = {{{ json toast }}};
+	</script>
+
+	<script src="/js/modules/toast.js" type="text/javascript"></script>
 	{{/if}}
 	<script src="/js/scripts.js" type="text/javascript"></script>
 	{{{block 'scripts'}}}
+
 </html>

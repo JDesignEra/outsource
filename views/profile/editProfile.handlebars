@@ -16,9 +16,16 @@
 <section class="edit-profile">
     <!-- Button trigger modal -->
     <form method="POST" class="row justify-content-around">
-        <input type="hidden" name="imgString" id="imgString">
+        <div class="col-12">
+            <div class="card testimonial-card z-depth-2 pt-2 mb-1 jarallax view overlay">
+                <img class="img-fluid jarallax-img lozad" onerror='this.src="/img/profile/banner.png"'
+                    src="/uploads/profile/{{user.id}}/banner.png" alt="">
+                <div class="mask flex-center waves-effect waves-light rgba-black-strong">
+                    <h3 class="text-white"> Change Banner</h3>
+                </div>
+            </div>
+        </div>
         <div class="col-md-12 col-lg-6">
-
             <!-- Card -->
             <div class="card testimonial-card z-depth-2 pt-2 mb-5">
                 <!-- Avatar -->
@@ -35,7 +42,7 @@
                         </div> --}}
                     </div>
                     <input type="file" class="d-none" name="upload_image" id="upload_image">
-
+                    <input type="hidden" name="imgString" id="imgString">
                 </div>
                 <!-- Content -->
                 <div class="card-body">
@@ -68,8 +75,10 @@
                     <div class="form-group row mx-auto">
                         <label for="gender" class="text-left">Gender</label>
                         <select name="gender" id="gender" class="browser-default custom-select custom-select mb-3">
+                            {{#if user.gender}}
                             <option value="{{user.gender}}" selected>{{user.gender}}</option>
                             <hr>
+                            {{/if}}
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Others">Others</option>
@@ -81,7 +90,9 @@
                         <label for="location" class="text-left">Country</label>
                         <select name="location" id="location" class="browser-default custom-select custom-select mb-3"
                             placeholder="Country">
+                            {{#if user.location}}
                             <option value="{{user.location}}" selected>{{user.location}}</option>
+                            {{/if}}
                             {{#each countryList}}
                             <option value="{{this.name}}">{{this.name}}</option>
                             {{/each}}

@@ -1,51 +1,51 @@
-// counter = 0
-// for (i = 1; i < 6; i++) {
-//     skillInput = document.getElementById("skill" + i)
-//     if (skillInput.value != "") {
-//         counter++
-//     }
-// }
+counter = 0
+for (i = 1; i < 6; i++) {
+    skillInput = document.getElementById("skill" + i)
+    if (skillInput.value != "") {
+        counter++
+    }
+}
 
-// for (j = 5; j > counter; j--) {
-//     emptyInput = document.getElementById("skillInput" + j).style.display = "none"
-// }
+for (j = 5; j > counter; j--) {
+    emptyInput = document.getElementById("skillInput" + j).style.display = "none"
+}
 
-// $("#addButton").click(function () {
-//     console.log("clicks")
+$("#addButton").click(function () {
+    console.log("clicks")
 
-//     counter++;
-//     console.log(counter)
+    counter++;
+    console.log(counter)
 
-//     document.getElementById("skillInput" + counter).style.display = "block"
-//     disableOrEnable()
-// });
+    document.getElementById("skillInput" + counter).style.display = "block"
+    disableOrEnable()
+});
 
-// $("#removeButton").click(function () {
-//     skillInput = document.getElementById("skill" + counter).value = ""
-//     document.getElementById("skillInput" + counter).style.display = "none"
-//     counter--;
-//     disableOrEnable()
+$("#removeButton").click(function () {
+    skillInput = document.getElementById("skill" + counter).value = ""
+    document.getElementById("skillInput" + counter).style.display = "none"
+    counter--;
+    disableOrEnable()
 
-// });
+});
 
-// function disableOrEnable() {
-//     if (counter == 1) {
-//         $('#removeButton').attr("disabled", true);
-//         return false
-//     }
-//     else {
-//         $('#removeButton').attr("disabled", false);
+function disableOrEnable() {
+    if (counter == 1) {
+        $('#removeButton').attr("disabled", true);
+        return false
+    }
+    else {
+        $('#removeButton').attr("disabled", false);
 
-//     }
-//     if (counter >= 5) {
-//         $('#addButton').attr("disabled", true);
-//         return false;
-//     }
-//     else {
-//         $('#addButton').attr("disabled", false);
+    }
+    if (counter >= 5) {
+        $('#addButton').attr("disabled", true);
+        return false;
+    }
+    else {
+        $('#addButton').attr("disabled", false);
 
-//     }
-// }
+    }
+}
 
 //=================================
 $(document).ready(function () {
