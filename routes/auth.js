@@ -14,7 +14,7 @@ router.post('/forgot', authController.forgot);
 router.get('/forgot', authController.forgot);
 
 router.get('/reset/:token', authController.reset);
-router.post('/reset', authController.reset);
+router.post('/reset/:token', authController.reset);
 
 
 module.exports = router;

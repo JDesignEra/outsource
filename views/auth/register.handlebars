@@ -36,10 +36,10 @@
 						</div>
 
 						<div class="md-form md-outline">
-							<input id="cUser" type="text" class="form-control" name="username" value="{{username}}" required>
+							<input id="cUser" type="text" class="form-control" name="username" value="{{forms.username}}" required>
 							<label for="cUser">Username</label>
 							<div class="invalid-tooltip">
-								{{errors.username}}
+								{{forms.errors.username}}
 							</div>
 						</div>
 					</div>
@@ -52,10 +52,10 @@
 						</div>
 
 						<div class="md-form md-outline">
-							<input id="cEmail" type="email" name="email" class="form-control" value="{{email}}" required>
+							<input id="cEmail" type="email" name="email" class="form-control" value="{{forms.email}}" required>
 							<label for="cEmail">Email</label>
 							<div class="invalid-tooltip">
-								{{errors.email}}
+								{{forms.errors.email}}
 							</div>
 						</div>
 					</div>
@@ -68,10 +68,10 @@
 						</div>
 
 						<div class="md-form md-outline">
-							<input id="cPass" type="password" name="password" class="form-control"value="{{password}}" required>
+							<input id="cPass" type="password" name="password" class="form-control"value="{{forms.password}}" required>
 							<label for="cPass">Password</label>
 							<div class="invalid-tooltip">
-								{{errors.password}}
+								{{eforms.errors.password}}
 							</div>
 						</div>
 					</div>
@@ -84,10 +84,10 @@
 						</div>
 
 						<div class="md-form md-outline">
-							<input id="cCfmPass" type="password" name="cfmPassword" class="form-control"value="{{cfmPassword}}" required>
+							<input id="cCfmPass" type="password" name="cfmPassword" class="form-control"value="{{forms.cfmPassword}}" required>
 							<label for="cCfmPass">Confirm Password</label>
 							<div class="invalid-tooltip">
-								{{errors.cfmPassword}}
+								{{forms.errors.cfmPassword}}
 							</div>
 						</div>
 					</div>
