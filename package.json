@@ -1,6 +1,6 @@
 {
   "name": "outsource",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "This is for OOADP Project",
   "main": "app.js",
   "scripts": {
@@ -22,7 +22,6 @@
     "express-handlebars": "^3.1.0",
     "express-mysql-session": "^2.1.0",
     "express-session": "^1.16.2",
-    "font-list": "^1.1.0",
     "fs-extra": "^8.1.0",
     "googleapis": "^41.0.0",
     "klaw": "^3.0.0",

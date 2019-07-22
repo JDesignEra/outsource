@@ -4,7 +4,6 @@ Services = require('../models/services')
 
 fs = require('fs')
 countries = require('countries-list')
-fontList = require('font-list')
 moment = require('moment');
 
 
