@@ -29,5 +29,6 @@ router.get('/payment/:id', isAuth, servicesController.payment)
 router.post('/payment/:id', isAuth, servicesController.sendPayment)
 
 router.get('/payment/:id/success/', isAuth, servicesController.PaymentSuccess)
-
+router.get('/receipt/', isAuth, servicesController.transactions)
+router.get('/receipt/:id/', isAuth, servicesController.viewPaymentDetails)
 module.exports = router;

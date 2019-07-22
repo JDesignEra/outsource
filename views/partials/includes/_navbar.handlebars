@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-md navbar-dark z-depth-3{{#ifCond 'url == "/"'}} home{{/ifCond}} fixed-top scrolling-navbar" style="padding-left: 12px 1rem !important;">
+<nav class="navbar navbar-expand-md navbar-dark z-depth-3{{#ifCond 'url == "/"'}} home{{/ifCond}} fixed-top scrolling-navbar"
+	style="padding-left: 12px 1rem !important;">
 	<a class="navbar-brand" href="/"></a>
 
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
@@ -15,20 +16,24 @@
 			</li>
 		</ul>
 		<ul class="navbar-nav ml-auto">
-		{{#if user}}
+			{{#if user}}
 			<!-- Desktop -->
 			<li class="nav-item dropdown d-none d-md-block">
-				<a class="nav-link chip primary-reverse-light-gradient dropdown-toggle m-0 z-depth-1-half" data-toggle="dropdown">
+				<a class="nav-link chip primary-reverse-light-gradient dropdown-toggle m-0 z-depth-1-half"
+					data-toggle="dropdown">
 					{{#ifFile (concat './public/uploads/profile/' user.id '.png') }}
-						<img class="deep-purple lighten-5 z-depth-1-half" src="/uploads/profile/{{user.id}}.png">
+					<img class="deep-purple lighten-5 z-depth-1-half" src="/uploads/profile/{{user.id}}.png">
 					{{else}}
-						<i class="fas fa-user animated faster"></i>
+					<i class="fas fa-user animated faster"></i>
 					{{/ifFile}} {{user.username}}
 				</a>
 
 				<div class="dropdown-menu dropdown-primary dropdown-menu-right mt-1">
 					<a class="dropdown-item" href="/profile">
 						<i class="far fa-id-card mr-1"></i> My Profile
+					</a>
+					<a class="dropdown-item" href="/services/receipt">
+						<i class="fas fa-exchange-alt"></i> Transaction History
 					</a>
 					<a class="dropdown-item" href="/files">
 						<i class="far fa-folders mr-1"></i> File Management
@@ -71,14 +76,14 @@
 					<i class="far fa-briefcase mr-1"></i> Job Management
 				</a>
 			</li>
-			
+
 			<hr class="deep-purple accent-1 w-100 my-2 d-block d-md-none">
 			<li class="nav-item d-block d-md-none">
 				<a class="btn btn-md btn-danger btn-block" href="/logout">
 					<i class="far fa-power-off mr-1"></i> Sign Out
 				</a>
 			</li>
-		{{else}}
+			{{else}}
 			<li class="nav-item">
 				<hr class="hr-light d-md-none mt-3 mb-4">
 				<a class="btn btn-md btn-block dusty-grass-gradient black-text" href="/register">
@@ -93,7 +98,8 @@
 			</li>
 			<!-- Desktop Login -->
 			<li class="nav-item dropdown">
-				<button class="btn btn-md primary-gradient d-none d-md-block m-0 ml-3" href="#" role="button" data-toggle="dropdown">
+				<button class="btn btn-md primary-gradient d-none d-md-block m-0 ml-3" href="#" role="button"
+					data-toggle="dropdown">
 					<i class="far fa-sign-in-alt mr-1"></i> Sign In
 				</button>
 
@@ -125,7 +131,7 @@
 								<label for="dd-login-pass">Password</label>
 							</div>
 						</div>
-						
+
 						<a class="pt-0" href="/forgot">
 							<small>Forgot Password?</small>
 						</a>
@@ -157,7 +163,7 @@
 					</p>
 				</div>
 			</li>
-		{{/if}}
+			{{/if}}
 		</ul>
 	</div>
 </nav>
@@ -166,7 +172,7 @@
 <div class="modal fade" id="loginModel" tabindex="-1" role="dialog">
 	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
 		<div class="modal-content">
-			<form action="/login"  method="post">
+			<form action="/login" method="post">
 				<div class="modal-header deep-purple accent-2 white-text">
 					<h5 class="modal-title">
 						<i class="far fa-sign-in-alt mr-1"></i> SIGN IN
@@ -225,7 +231,7 @@
 						</button>
 					</div>
 				</div>
-				
+
 				<div class="modal-footer d-block">
 					<p class="text-center small m-0">
 						Don't have an account? <a href="/register">Join now</a>

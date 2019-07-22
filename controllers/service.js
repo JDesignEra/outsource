@@ -435,6 +435,30 @@ module.exports = {
             })
         })
 
+    },
+
+    transactions: function (req, res){
+        Transactions.findAll({
+            where:{
+                uid: req.user.id
+            }
+        }).then((transactions) => {
+            res.render('services/transactionLists', {
+                transactions
+            })
+        })
+    },
+
+    viewPaymentDetails: function (req, res){
+        Transactions.findOne({
+            where:{
+                id: req.params.id
+            }
+        }).then((transaction) => {
+            res.render('services/viewPaymentDetails', {
+                transaction
+            })
+        })
     }
 }
 function capitalize(components) {

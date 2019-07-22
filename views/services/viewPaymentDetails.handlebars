@@ -2,7 +2,7 @@
     {{!-- 
     <h1 class="col-12 text-center">Transaction Successful!</h1> --}}
     <div class="row col-12 mb-2">
-        <a href="/transactions" class="text-secondary">
+        <a href="/services/receipt" class="text-secondary">
             <h4><i class="fas fa-chevron-left"></i> Transactions</h4>
         </a>
     </div>
@@ -11,14 +11,14 @@
         <h1 class="text-center col-12 mb-3 deep-purple-text"> Receipt </h1>
         <div class="col-6 mb-3">
             <h3 class="text-start purple-text"> Service Provider Details </h3>
-            <p><b>Service Provider:</b> {{freelancer.username}}</p>
-            <p><b>Paypal Email:</b> {{freelancer.paypal}}</p>
-            <p><b>Merchanct ID:</b> {{payment.transactions.0.payee.merchant_id}}</p>
+            <p><b>Service Provider:</b> {{transaction.serviceProvider}}</p>
+            <p><b>Paypal Email:</b> {{transaction.freelancerPayPal}}</p>
+            <p><b>Merchanct ID:</b> {{transaction.paypalMerchantID}}</p>
         </div>
 
         <div class="col-6">
             <h3 class="text-start purple-text">Transaction Info</h3>
-            <p><b>Paid With:</b> {{capitalize payment.payer.payment_method}}</p>
+            <p><b>Paid With:</b> {{transaction.paidWith}}</p>
         </div>
 
         {{!-- <hr class="col-12 hr-primary mb-4"> --}}
@@ -42,20 +42,20 @@
         </div>
         <div class="row col-12 py-2 p-0 border-bottom">
             <div class="col-3">
-                <p>{{payment.id}}</p>
+                <p>{{transaction.paypalTransactionID}}</p>
             </div>
             <div class="col-2">
-                <p>{{payment.transactions.0.item_list.items.0.name}}</p>
+                <p>{{transaction.serviceName}}</p>
             </div>
             <div class="col-3">
-                <p>{{payment.transactions.0.description}}</p>
+                <p>{{transaction.description}}</p>
             </div>
             <div class="col-2">
-                <p>${{payment.transactions.0.item_list.items.0.price}}
-                    {{payment.transactions.0.item_list.items.0.currency}}</p>
+                <p>${{transaction.price}}
+                    {{transaction.currency}}</p>
             </div>
             <div class="col-2">
-                {{formatDate payment.create_time "DD MMMM YYYY"}}
+                {{formatDate transaction.date "DD MMMM YYYY"}}
             </div>
         </div>
 

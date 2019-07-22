@@ -1,0 +1,63 @@
+<section class="transaction-list">
+    <section class="payment-details">
+        {{!-- 
+    <h1 class="col-12 text-center">Transaction Successful!</h1> --}}
+        <div class="row col-12 mb-2">
+            <a href="/profile" class="text-secondary">
+                <h4><i class="fas fa-chevron-left"></i> Profile</h4>
+            </a>
+        </div>
+        <div class="row col-10 justify-content-center z-depth-2 p-3 rounded mx-auto">
+            <h3 class="col-12 text-center">
+                Transaction List
+            </h3>
+            {{#if transactions}}
+            <div class="row col-12 secondary-color-dark rounded-top p-0">
+                <div class="col-3 border border-top-0 border-bottom-0 border-white py-2">
+                    <h5 class="text-white">Transaction ID</h5>
+                </div>
+                <div class="col-2 border border-top-0 border-bottom-0 border-white py-2">
+                    <h5 class="text-white">Service Name</h5>
+                </div>
+                <div class="col-3 border border-top-0 border-bottom-0 border-white py-2">
+                    <h5 class="text-white">Description</h5>
+                </div>
+                <div class="col-2 border border-top-0 border-bottom-0 border-white py-2">
+                    <h5 class="text-white">Price</h5>
+                </div>
+                <div class="col-2 border border-top-0 border-bottom-0 border-white py-2">
+                    <h5 class="text-white">Date</h5>
+                </div>
+            </div>
+            {{#each transactions}}
+            <div class="row col-12 py-2 p-0 border-bottom">
+                <div class="col-3">
+                    <a href="/services/receipt/{{id}}"><p>{{paypalTransactionID}}</p></a>
+                </div>
+                <div class="col-2">
+                    <p>{{serviceName}}</p>
+                </div>
+                <div class="col-3">
+                    <p>{{description}}</p>
+                </div>
+                <div class="col-2">
+                    <p>${{price}}
+                        {{currency}}</p>
+                </div>
+                <div class="col-2">
+                    {{formatDate date "DD MMMM YYYY"}}
+                </div>
+            </div>
+            {{/each}}
+
+            {{else}}
+            <h4 class="col-12 text-center">
+                You have no transactions
+            </h4>
+            {{/if}}
+
+
+        </div>
+
+    </section>
+</section>
