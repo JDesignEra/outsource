@@ -6,6 +6,6 @@ const upload = multer({dest: './public/uploads/temp'});
 const servicesController = require('../controllers/service.js');
 const jobController = require('../controllers/jobs.js')
 
-router.get('/', jobController.index);
+router.get('/', isAuth, jobController.index);
 
 module.exports = router;

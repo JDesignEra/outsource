@@ -55,13 +55,8 @@ module.exports = {
             }
 
             if (Object.getOwnPropertyNames(errors).length > 0) {
-                res.render('register/index', {
-                    username,
-                    email,
-                    password,
-                    cfmPassword,
-                    errors
-                });
+                req.flash('forms', { errors: errors });
+                res.redirect('/register');
             }
             else {
                 if (Object.keys(errors).length > 0) {
@@ -100,16 +95,6 @@ module.exports = {
                                         });
 
                                         res.redirect('/register');
-
-                                        // res.render('auth/register', {
-                                        //     errors: {
-                                        //         'email': user.email + ' is already registered.'
-                                        //     },
-                                        //     username,
-                                        //     email,
-                                        //     password,
-                                        //     cfmPassword
-                                        // });
                                     }
                                     else {
                                         bcrypt.genSalt(10, (err, salt) => {
@@ -198,8 +183,6 @@ module.exports = {
         else if (req.method === "POST") {
             let token = req.params.token;
             console.log(token);
-
-
             User.findOne({
                 where: {
                     resetPasswordToken: token,
@@ -211,7 +194,15 @@ module.exports = {
                     req.flash('error', 'Password reset token is invalid or has expired.');
                     res.redirect('back');
                 }
-                if (req.body.newpass === req.body.newconfirmpass && req.body.newpass.length > 8) {
+                if (req.body.newpass.length < 8) {
+                    req.flash("error", "Passwords have to be at least 8 characters.");
+                    res.redirect('back');
+                }
+                if (req.body.newpass != req.body.newconfirmpass) {
+                    req.flash("error", "Passwords do not match.");
+                    res.redirect('back');
+                }
+                if (req.body.newpass === req.body.newconfirmpass) {
                     console.log('resetpost1');
                     let password = req.body.newpass
 
@@ -222,48 +213,13 @@ module.exports = {
                                 resetPasswordToken: token,
                                 resetPasswordExpires: Date.now() + 36000
                             }).then(() => {
+                                req.flash('success', 'Password have been successfully changed!');
                                 res.redirect('/');
                             });
                         });
                     });
                 }
-                 else if(req.body.newpass.length < 8) {
-                    req.flash("error", "Passwords have to be at least 8 characters.");
-                    res.redirect('back');
-                }
-                else if(req.body.newpass != req.body.newconfirmpass){
-                    req.flash("error", "Passwords do not match.");
-                    res.redirect('back');
-                }
             });
-            // User.findOne({
-            //     where: {
-            //         resetPasswordToken: req.params.token,
-            //         resetPasswordExpires: { [Op.gt]: Date.now() }
-            //     }
-            // }, (user) => {
-            //     if (!user) {
-            //         console.log('resetpost1');
-            //         req.flash('error', 'Password reset token is invalid or has expired.');
-            //         return res.redirect('back');
-            //     }
-            //     if (req.body.newpass === req.body.newconfirmpass) {
-            //         console.log('resetpost1');
-            //         user.setPassword(req.body.newpass, function (done) {
-            //             user.resetPasswordToken = token;
-            //             user.resetPasswordExpires = Date.now + 36000;
-
-            //             user.save(function (done) {
-            //                 req.login(user, function (err) {
-            //                     done(err, user);
-            //                 });
-            //             });
-            //         })
-            //     } else {
-            //         req.flash("error", "Passwords do not match.");
-            //         return res.redirect('auth/reset');
-            //     }
-            // });
         }
     },
     delete: function (req, res) {
@@ -291,7 +247,36 @@ module.exports = {
     },
     changepw: function (req, res) {
         if (req.method === "GET") {
-            res.render('auth/changePw');
+            res.render('auth/changepass');
+        }
+        else if (req.method === "POST") {
+            User.findOne({
+                where: {
+                    password: req.body.currpass
+                }
+            }).then(user => {
+                if (user) {
+                    req.flash('error', 'Current Password is incorrect.');
+                    res.redirect('back');
+                }
+                else {
+                    if (req.body.newpass === req.body.confirmpass) {
+                        console.log('correct newpass and confirmpass')
+                        let password = req.body.newpass
+
+                        bcrypt.genSalt(10, (err, salt) => {
+                            bcrypt.hash(password, salt, (err, hash) => {
+                                user.update({
+                                    password: hash,
+                                }).then(() => {
+                                    res.redirect('/');
+                                    req.flash('success', 'Password have been successfully changed!');
+                                });
+                            });
+                        });
+                    }
+                }
+            });
         }
     }
 }
