@@ -157,7 +157,7 @@ module.exports = {
 
                     email.send(
                         user.email,
-                        'Outsource Password Reset',
+                        '[Outsource] Password Reset',
                         `<p>You are receiving this because you (or someone else) have requested the reset of the password for your account.</p>` +
                         `<p>Please click on the following link, or paste this into your browser to complete the process:<br>` +
                         `<a href="${link}">${link}</a></p>` +

@@ -9,6 +9,7 @@ const walk = require('klaw');
 const Op = require('sequelize').Op;
 
 const bytesToSize = require('../helpers/bytesToSize');
+const email = require('../helpers/email');
 const filesFolders = require('../models/filesFolders');
 const users = require('../models/users');
 
@@ -16,13 +17,18 @@ module.exports = {
     // ToDo: Share Folders and Files
     index: function (req, res) {
         let uid = req.user.id;
-        let root = 'public/uploads/files/' + uid;
+        let root = `public/uploads/files/${uid}`;
         let dir = req.params['dir'] !== undefined ? req.params['dir'].replace(/~addshareuser|~copy|~delshareuser|~download|~move|~newfile|~newfolder|~rename|~sharecode|~upload/gi, '') : '/';
         dir = dir ? dir : '/';
         dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
         dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
 
-        let endCheck = 0;
+        let doneCount = 0;
+        let breadcrumbs = [{name: 'My Drive'}];
+        let files = [];
+        let tree = [];
+        let shareTree = [];
+        let usersAutocomplete = null;
         
         fs.ensureDirSync(root);
         
@@ -32,10 +38,8 @@ module.exports = {
         }
 
         filesFolders.findAll({ where: {uid: uid} }).then(datas => {
-            let breadcrumbs = [{name: 'root'}];
-            
             if (dir !== '/') {
-                breadcrumbs = ['root'].concat(dir.split('/')).map((v, i, arr) => {
+                breadcrumbs = ['My Drive'].concat(dir.split('/')).map((v, i, arr) => {
                     let link = '/files';
 
                     for (let x = 1, n = arr.length; x < n && x <= i && i < n - 1; x++) {
@@ -46,11 +50,8 @@ module.exports = {
                  });
             }
 
-            let files = [];
-            let tree = [];
-
             users.findAll({ attributes: ['id', 'username', 'email'] }).then(userDatas => {
-                let usersAutocomplete = userDatas ? [] : null;
+                usersAutocomplete = userDatas ? [] : null;
 
                 if (userDatas) {
                     for (const user of userDatas) {
@@ -110,7 +111,7 @@ module.exports = {
                                 });
                             }
                             else if (stats.isDirectory()) {
-                                let link = '/files' + (folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name);
+                                let link = '/files' + (folderDir !== '/' ? `/${folderDir}/${name}` : `/${name}`);
             
                                 if (folderDir.toLowerCase() === dir.toLowerCase()) {
                                     files.push({
@@ -129,35 +130,88 @@ module.exports = {
                                     id: data['id'],
                                     name: name,
                                     link: link,
-                                    child: folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name,
-                                    parent: folderDir !== '/' ? '/' + folderDir : '/'
+                                    child: folderDir !== '/' ? `/${folderDir}/${name}` : `/${name}`,
+                                    parent: folderDir !== '/' ? `/${folderDir}` : '/'
                                 });
                             }
                         }
                     }
                 }).on('end', () => {
-                    setTimeout(() => {
-                        res.render('files/index', {
-                            title: 'File Management',
-                            files: files,
-                            folders: tree,
-                            breadcrumbs: breadcrumbs,
-                            postRoot: req.originalUrl.replace(/\/~addshareuser|\/~copy|\/~delshareuser|~download|\/~move|\/~newfile|\/~newfolder|\/~rename|\/~sharecode|\/~upload/gi, ''),
-                            types: Object.keys(mime._types),
-                            users: usersAutocomplete
-                        });
-                    }, 50);
+                    doneCount += 1;
                 });
             });
         });
 
+        // shareTree
         filesFolders.findAll({
             where: {
+                type: 'folder',
                 shareUid: { [Op.like]: `%${uid}%` }
             }
         }).then(datas => {
-            // console.log(datas);
+            if (datas.length > 0) {
+                for (const [i, data] of datas.entries()) {
+                    let uploadRoot = `public/uploads/files/${data['uid']}`;
+                    let shareUid = data['shareUid'] ? data['shareUid'].split(',').map(Number).sort((a, b) => {return a - b}) : null;
+    
+                    if (shareUid && shareUid.indexOf(uid) !== -1) {
+                        walk(path.join(uploadRoot, data['fullPath'])).on('data', item => {
+                            let stats = item.stats;
+
+                            if (stats.isDirectory()) {
+                                let folderDir = item['path'].replace(/\\/g, '/');
+                                folderDir = folderDir.slice(folderDir.indexOf(uploadRoot) + uploadRoot.length + 1);
+                
+                                let name = folderDir.slice(folderDir.lastIndexOf('/') + 1);
+                                folderDir = folderDir.length !== name.length ? folderDir.slice(0, folderDir.length - name.length - 1) : '/';
+                                
+                                let link = '/files' + (folderDir !== '/' ? `/${folderDir}/${name}` : `/${name}`);
+                                
+                                shareTree.push({
+                                    id: data['id'],
+                                    name: name,
+                                    link: link,
+                                    child: folderDir !== '/' ? `/${folderDir}/${name}` : `/${name}`,
+                                    parent: folderDir !== '/' ? `/${folderDir}` : '/'
+                                });
+                            }
+                            else if (i >= datas.length - 1) {
+                                doneCount += 1;
+                            }
+                        }).on('end', () => {
+                            if (i >= datas.length - 1) {
+                                doneCount += 1;
+                            }
+                        });
+                    }
+                    else if (i >= datas.length - 1) {
+                        doneCount += 1;
+                    }
+                }
+            }
+            else {
+                doneCount += 1;
+            }
         });
+
+        setInterval(function() {
+            if (doneCount >= 2) {
+                setTimeout(() => {
+                    res.render('files/index', {
+                        title: 'File Management',
+                        files: files,
+                        folders: tree,
+                        shareFolders: shareTree,
+                        breadcrumbs: breadcrumbs,
+                        postRoot: req.originalUrl.replace(/\/~addshareuser|\/~copy|\/~delshareuser|~download|\/~move|\/~newfile|\/~newfolder|\/~rename|\/~sharecode|\/~upload/gi, ''),
+                        types: Object.keys(mime._types),
+                        users: usersAutocomplete
+                    });
+                }, 50);
+
+                clearInterval(this);
+            }
+        }, 1);
     },
     addShareUser: function(req, res) {
         let uid = req.user.id;
@@ -186,21 +240,20 @@ module.exports = {
                 res.redirect(dir === '/' ? '/files/~addshareuser' :  `/files/${dir}/~addshareuser`);
             }
             else {
+                let where = {
+                    where: {
+                        [Op.or]: [
+                            {username: shareUser},
+                            {email: shareUser}
+                        ]
+                    }
+                };
+
                 if (shareUser.indexOf('(') !== -1 && shareUser.indexOf(')') !== -1) {
                     where = {
                         where: {
                             username: shareUser.slice(0, shareUser.indexOf(' (')),
                             email: shareUser.slice(shareUser.indexOf(' (') + 2, shareUser.lastIndexOf(')'))
-                        }
-                    };
-                }
-                else {
-                    where = {
-                        where: {
-                            ['Op.or']: [
-                                {username: shareUser},
-                                {email: shareUser}
-                            ]
                         }
                     };
                 }
@@ -224,6 +277,17 @@ module.exports = {
                                     shareUid = shareUid.join(',');
 
                                     data.update({ shareUid: shareUid }).then(() => {
+                                        email.sendTemplate(
+                                            user['email'],
+                                            '[OutSource] A file or folder has been shared with you',
+                                            'addshareuser',
+                                            {
+                                                title: 'Shared With You',
+                                                message: `${req.user.username} (${req.user.email}) has shared ${data['name']} ${data['type'] === 'folder' ? data['type'] : 'file'} with you`,
+                                                host: req.hostname
+                                            }
+                                        );
+                                        
                                         req.flash('forms', {select: fid});
                                         req.flash('success', `Sucessfully shared with ${shareUser}.`);
 
@@ -439,6 +503,7 @@ module.exports = {
                             },
                             attributes: ['id', 'username', 'email']
                         }).then(userDatas => {
+                            let emails = [];
                             let successMsgs = [];
                             let shareUid = data['shareUid'].split(',').map(Number);
 
@@ -450,6 +515,7 @@ module.exports = {
                                     successMsgs.push(`Unshared with ${user['username']} (${user['email']})`);
 
                                     shareUid.splice(i, 1);
+                                    emails.push(user['email']);
                                 }
                             }
 
@@ -457,6 +523,19 @@ module.exports = {
                             shareUid = shareUid.length > 0 ? shareUid : null;
 
                             data.update({ shareUid: shareUid }).then(() => {
+                                if (emails.length > 0) {
+                                    email.sendTemplate(
+                                        emails,
+                                        '[OutSource] A file or folder has been unshared with you',
+                                        'addshareuser',
+                                        {
+                                            title: 'Unshared With You',
+                                            message: `${req.user.username} (${req.user.email}) has unshared ${data['name']} ${data['type'] === 'folder' ? data['type'] : 'file'} with you`,
+                                            host: req.hostname,
+                                        }
+                                    );
+                                }
+
                                 if (successMsgs.length > 0) {
                                     req.flash('success', successMsgs);
                                 }

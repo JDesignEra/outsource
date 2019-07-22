@@ -16,7 +16,7 @@ router.post('^/:dir([/%-_a-zA-z0-9]+)?/~newfolder', isAuth, filesController.newf
 router.post('^/:dir([/%-_a-zA-z0-9]+)?/~rename', isAuth, filesController.rename);
 router.post('^/:dir([/%-_a-zA-z0-9]+)?/~sharecode', isAuth, filesController.sharecode);
 router.post('^/:dir([/%-_a-zA-z0-9]+)?/~upload', isAuth, upload.array('files'), filesController.upload); 
-router.get('/(:fid([0-9]+)?|:code?)/~download', isAuth, filesController.download);
+router.get('^/(:fid([0-9]+)?|:code?)/~download', filesController.download);
 router.get('^/:dir([/%-_~a-zA-z0-9]+)?', isAuth, filesController.index);
 
 module.exports = router;

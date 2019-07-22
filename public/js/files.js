@@ -1,7 +1,7 @@
 // files by Joel
 // Folders Card
 $(function() {
-    // My Folders Collapse
+    // My Drive Collapse
     $('a[data-toggle="collapse"][data-target="#folders-tree"]', '#folders-card').on('click', function() {
         let focus = $(this).find('i[class*="rotate-icon"]');
 
@@ -17,9 +17,17 @@ $(function() {
 
     // Folders Tree
     if (typeof tree !== 'undefined') {
-        let insert = $('<ul class="treeview-animated-list mt-3"></ul>');
+        let insert = $('<ul class="treeview-animated-list mt-2"></ul>');
         let dirData = [];
-        
+
+        insert.prepend(
+            `<li class="text-capitalize">
+                <a class="treeview-animated-element d-flex align-items-center" href="/files">
+                    <i class="far fa-hdd mr-2"></i>View My Drive
+                </a>
+            </li>`
+        );
+
         tree.forEach((val) => {
             // Build move-modal and copy-modal directory input autocomplete data
             dirData.push(val.child.slice(1));
@@ -44,29 +52,30 @@ $(function() {
 
                 if (!li.hasClass('treeview-animated-items')) {
                     li.addClass('treeview-animated-items');
-                    li.html(
-                        `<a class="closed">
-                            <i class="fas fa-angle-right mr-2"></i>
+                    li.html(`
+                        <a class="closed">
+                            <i class="fas fa-angle-right mr-2 ml-2"></i>
                             <i class="far fa-folder mr-2"></i>${parentName}
                         </a>
-                        <ul class="nested">
-                            <div class="pt-2 pr-2">
-                                <a class="btn btn-sm btn-block btn-primary" href="${parentLink}">Open Folder</a>
-                                <hr class="mt-3 mb-2">
-                            </div>
-                        </ul>`
-                    );
+                        <ul class="nested"></ul>
+                    `);
                 }
                 
                 let ul = li.find('.nested').last();
 
-                ul.append(
-                    `<li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">
+                ul.append(`
+                    <li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">
                         <a class="treeview-animated-element d-flex align-items-center" href="${val.link}">
                             <i class="far fa-folder mr-2"></i>${val.name}
                         </a>
-                    </li>`
-                );
+                    </li>
+
+                    <li class="text-capitalize">
+                        <a class="treeview-animated-element d-flex align-items-center parent-folder" href="${parentLink}">
+                            <i class="far fa-folder-open mr-2"></i>Open This Folder
+                        </a>
+                    </li>
+                `);
             }
         });
 
@@ -79,7 +88,7 @@ $(function() {
         let path = '';
 
         decodeURI(window.location.pathname).split('/').forEach(val => {
-            let target = insert.find('a[href]');
+            let target = insert.find('a[href]:not(.parent-folder)');
             path += val;
             
             target.each(function() {
@@ -97,10 +106,8 @@ $(function() {
 
             path += '/';
         });
-
+        
         $('#folders-tree', '#folders-card').html(insert);
-
-        $('[data-toggle="popover"]').popover();
 
         let target = $('.closed:not(.open) + .nested', '#folders-tree')
         target.hide();
@@ -108,6 +115,114 @@ $(function() {
         let elements = $('.treeview-animated-element', '#folders-tree');
         
         $('.closed', '#folders-tree').click(function () {
+            _this = $(this);
+            target = _this.siblings('.treeview-animated .nested');
+            pointer = _this.children('.treeview-animated .fa-angle-right');
+            _this.toggleClass('open');
+            pointer.toggleClass('down');
+            !target.hasClass('active') ? target.addClass('active').slideDown() : target.removeClass('active').slideUp();
+            return false;
+        });
+
+        elements.click(function () {
+            _this = $(this);
+            _this.hasClass('opened') ? _this.removeClass('opened') : (elements.removeClass('opened'), _this.addClass('opened'));
+        });
+    }
+
+    // Shared-Tree
+    if (typeof shareTree !== 'undefined') {
+        let insert = $('<ul class="treeview-animated-list mt-2"></ul>');
+
+        insert.prepend(
+            `<li class="text-capitalize">
+                <a class="treeview-animated-element d-flex align-items-center" href="/files">
+                    <i class="far fa-users mr-2"></i>View Share Drive
+                </a>
+            </li>`
+        );
+
+        shareTree.forEach((val) => {
+            // Build Share Tree UI
+            let li = insert.find(`[data-child="${val.parent}"]`);
+
+            if (li.length < 1) {
+                insert.append(
+                    `<li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">
+                        <a class="treeview-animated-element d-flex align-items-center" href="${val.link}">
+                            <i class="far fa-folder mr-2"></i>${val.name}
+                        </a>
+                    </li>`
+                );
+            }
+            else {
+                li = li.last();
+                
+                let parentName = li.attr('data-name'),
+                    parentLink = li.attr('data-link');
+
+                if (!li.hasClass('treeview-animated-items')) {
+                    li.addClass('treeview-animated-items');
+                    li.html(`
+                        <a class="closed">
+                            <i class="fas fa-angle-right mr-2 ml-2"></i>
+                            <i class="far fa-folder mr-2"></i>${parentName}
+                        </a>
+                        <ul class="nested"></ul>
+                    `);
+                }
+                
+                let ul = li.find('.nested').last();
+
+                ul.append(`
+                    <li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">
+                        <a class="treeview-animated-element d-flex align-items-center" href="${val.link}">
+                            <i class="far fa-folder mr-2"></i>${val.name}
+                        </a>
+                    </li>
+
+                    <li class="text-capitalize">
+                        <a class="treeview-animated-element d-flex align-items-center parent-folder" href="${parentLink}">
+                            <i class="far fa-folder-open mr-2"></i>Open This Folder
+                        </a>
+                    </li>
+                `);
+            }
+        });
+
+        shareTree = undefined;
+        $('script#share-tree-script').remove();
+
+        let path = '';
+
+        decodeURI(window.location.pathname).split('/').forEach(val => {
+            let target = insert.find('a[href]:not(.parent-folder)');
+            path += val;
+            
+            target.each(function() {
+                let _this = $(this);
+
+                if (_this.attr('href') === path) {
+                    _this.addClass('open');
+
+                    let icon = _this.find('.fa-angle-right');
+                    icon.addClass('down');
+
+                    _this.parent().find('.nested').addClass('active');
+                }
+            });
+
+            path += '/';
+        });
+        
+        $('#share-tree', '#folders-card').html(insert);
+
+        let target = $('.closed:not(.open) + .nested', '#share-tree')
+        target.hide();
+
+        let elements = $('.treeview-animated-element', '#share-tree');
+        
+        $('.closed', '#share-tree').click(function () {
             _this = $(this);
             target = _this.siblings('.treeview-animated .nested');
             pointer = _this.children('.treeview-animated .fa-angle-right');
@@ -824,6 +939,7 @@ $(function() {
                 let copyBtn = right.find('button[type="button"]');
 
                 copyBtn.on('click', function() {
+                    let focus = $('.modal-footer', '#share-modal');
                     focus.append(`<input type="text" name="clipboard" value="${url}">`);
 
                     let clipboardInput = focus.find('input[name="clipboard"]');

@@ -21,7 +21,7 @@
 
                 <hr class="my-0">
 
-                <a class="link" data-toggle="collapse" data-target="#shared-tree">
+                <a class="link" data-toggle="collapse" data-target="#share-tree">
                     <h6 class="pt-2 pl-3 mb-0 mt-3">
                         <i class="far fa-users mr-2"></i>Shared With Me
                         <i class="float-right pr-3 fas fa-angle-up rotate-icon"></i>
@@ -30,7 +30,7 @@
 
                 <hr class="mb-0">
 
-                <div id="shared-tree" class="treeview-animated collapse show">
+                <div id="share-tree" class="treeview-animated collapse show">
                     <h6 class="dropdown-header text-center my-2">No Shared Folders</h6>
                 </div>
             </div>
@@ -165,7 +165,7 @@
 
                         <div class="list-group list-group-flush">
                             <div class="single-select animated faster">
-                                <a class="download list-group-item list-group-item-action" href="{{ postRoot}}">
+                                <a class="download list-group-item list-group-item-action" href="{{ postRoot }}">
                                     <i class="far fa-cloud-download-alt mr-1"></i>Download
                                 </a>
                                 <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#share-modal">
@@ -486,7 +486,7 @@
                 <div class="share-users d-none">
                     <hr>
 
-                    <h6 class="card-title">
+                    <h6 class="card-title pt-2">
                         <i class="far fa-users mr-2"></i>Shared With
                     </h6>
 
@@ -648,9 +648,9 @@
                 <button class="dropdown-item" data-toggle="modal" data-target="#share-modal">
                     <i class="far fa-share-alt mr-1"></i>Share
                 </button>
-                <button class="download dropdown-item">
+                <a class="download dropdown-item" href="{{ postRoot }}">
                     <i class="far fa-cloud-download-alt mr-1"></i>Download
-                </button>
+                </a>
                 <button class="dropdown-item" data-toggle="modal" data-target="#rename-modal">
                     <i class="far fa-i-cursor mr-1"></i>Rename
                 </button>
@@ -667,7 +667,6 @@
             </button>
             
             <div class="single-select">
-                <!-- ToDo: Download Function -->
                 <!-- ToDo: Comment and info function -->
                 {{!-- <button class="comments dropdown-item">
                     <i class="far fa-comments mr-1"></i>Comments
@@ -694,6 +693,11 @@
 {{#if folders}}
     <script id="tree-script" type="text/javascript">
         let tree = {{{ json folders }}};
+    </script>
+{{/if}}
+{{#if shareFolders}}
+    <script id="share-tree-script" type="text/javascript">
+        let shareTree = {{{ json shareFolders }}};
     </script>
 {{/if}}
 {{#if types}}
