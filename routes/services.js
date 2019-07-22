@@ -9,6 +9,8 @@ router.get('/', servicesController.index)
 
 router.get('/view/:uid/:id', servicesController.view)
 
+router.get('/manage', servicesController.management)
+
 router.get('/add', isAuth, servicesController.add)
 
 router.post('/add', upload.single('serviceposter'), servicesController.addpost)

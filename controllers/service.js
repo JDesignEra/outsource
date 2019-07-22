@@ -62,6 +62,25 @@ module.exports = {
         })
 
     },
+
+    management: function(req,res){
+        Services.findAll({
+            where: {
+                uid: req.user.id
+            },
+            order: [
+                ['name', 'ASC']
+            ],
+            raw: true
+        })
+            .then((services) => {
+                res.render('services/manage', {
+                    services: services,
+                });
+            })
+            .catch(err => console.log(err));
+    },
+
     add: function (req, res) {
         if (req.user.accType === 'service') {
             res.render('services/add')
