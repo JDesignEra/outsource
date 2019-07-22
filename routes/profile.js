@@ -8,7 +8,7 @@ const profileController = require('../controllers/profile');
 
 // ToDo: /uid url
 router.get('/', isAuth, profileController.index);
-router.get('/:id', isAuth, profileController.viewProfile);
+router.get('/:id', profileController.viewProfile);
 
 router.get('/edit', isAuth, profileController.editProfile);
 router.post('/edit', isAuth, profileController.editProfilePost);
