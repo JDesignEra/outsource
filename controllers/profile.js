@@ -65,7 +65,7 @@ module.exports = {
                                     uid: req.user.id
                                 }
                             }).then((favs) => {
-                                res.render('profile/index', {
+                                res.render('profile/', {
                                     projects: projects,
                                     user: user,
                                     services: services,
@@ -75,7 +75,7 @@ module.exports = {
                             })
                         }
                         else {
-                            res.render('profile/index', {
+                            res.render('profile/', {
                                 projects: projects,
                                 user: user,
                                 services: services,
@@ -171,6 +171,81 @@ module.exports = {
             })
 
     },
+    viewProfile: function (req, res) {
+        User.findOne({
+            where: {
+                id: req.params.id
+            }
+        }).then((user) => {
+
+            if (user.skills != null) {
+                skills = user.skills.split(',')
+                removeEmpty(skills, '', skills.length)
+                removeEmpty(skills, ' ', skills.length)
+            }
+            else {
+                skills = []
+            }
+
+            Project.findAll({
+                where: {
+                    uid: req.user.id
+                },
+            }).then((projects) => {
+
+                Services.findAll({
+                    where: {
+                        uid: req.user.id
+                    }
+                }).then((services) => {
+                    Servicefavs.findAll({
+                        where: {
+                            uid: user.id
+                        }
+                    }).then((datas) => {
+                        let serviceIds = [];
+
+                        for (const data of datas) {
+                            serviceIds.push(data['sid']);
+                        }
+                        if (datas) {
+                            Services.findAll({
+                                where: {
+                                    id: {[Op.in]: serviceIds},
+                                    uid: user.id
+                                }
+                            }).then((favs) => {
+                                res.render('profile/viewProfile', {
+                                    projects: projects,
+                                    viewuser: user,
+                                    services: services,
+                                    skills: skills,
+                                    favs: favs
+                                });
+                            })
+                        }
+                        else {
+                            res.render('profile/viewProfile', {
+                                projects: projects,
+                                user: user,
+                                services: services,
+                                skills: skills
+                            });
+
+                        }
+
+
+                    })
+
+                })
+
+            })
+        })
+
+
+    },
+
+
 
     submit: function (req, res) {
         fonts = [
@@ -183,8 +258,6 @@ module.exports = {
             fonts: fonts
         })
     },
-
-
     submitProject: function (req, res) {
         uid = req.user.id
         title = req.body.title
@@ -229,7 +302,6 @@ module.exports = {
             .catch(err => console.log(err))
 
     },
-
     viewProject: function (req, res) {
         Project.findOne({
             where: {
@@ -264,7 +336,6 @@ module.exports = {
             })
 
     },
-
     deleteProject: function (req, res) {
         Project.findOne({
             id: req.params.id,

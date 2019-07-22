@@ -54,7 +54,7 @@
                         <!-- Content -->
                         <div class="card-body">
                             <!-- Name -->
-                            <h3 class="card-title">{{user.username}}</h3>
+                            <a href="/profile/{{user.id}}"><h3 class="card-title">{{user.username}}</h3></a>
                             <h5 class="card-title text-muted">{{#if user.jobTitle}}
                                 {{user.jobTitle}}
                                 {{else}}
