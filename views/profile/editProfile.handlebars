@@ -17,12 +17,14 @@
     <!-- Button trigger modal -->
     <form method="POST" class="row justify-content-around">
         <div class="col-12">
-            <div class="card testimonial-card z-depth-2 pt-2 mb-1 jarallax view overlay">
-                <img class="img-fluid jarallax-img lozad" onerror='this.src="/img/profile/banner.png"'
-                    src="/uploads/profile/{{user.id}}/banner.png" alt="">
-                <div class="mask flex-center waves-effect waves-light rgba-black-strong">
+            <div class="card testimonial-card z-depth-2 pt-2 mb-2 jarallax view overlay">
+                <img id="bannerePic" class="img-fluid jarallax-img lozad h-100"
+                    onerror='this.src="/img/profile/banner.png"' src="/uploads/profile/{{user.id}}/banner.png" alt="">
+                <div id="inputBorder" class="mask flex-center waves-effect waves-light rgba-black-strong">
                     <h3 class="text-white"> Change Banner</h3>
                 </div>
+                <input type="file" class="d-none" name="upload_banner" id="upload_banner">
+                <input type="hidden" name="bannerString" id="bannerString">
             </div>
         </div>
         <div class="col-md-12 col-lg-6">
@@ -67,8 +69,13 @@
 
                     <div class="form-group row mx-auto">
                         <label for="dob" class="text-left">Birthday</label>
+                        {{#if user.dob}}
                         <input placeholder="Selected date" type="text" id="dob" name="dob"
                             class="form-control datepicker" value="{{formatDate user.dob 'DD/MM/YYYY'}}">
+                        {{else}}
+                        <input type="text" id="dob" name="dob"
+                            class="form-control datepicker">
+                        {{/if}}
                     </div>
 
 
@@ -78,7 +85,10 @@
                             {{#if user.gender}}
                             <option value="{{user.gender}}" selected>{{user.gender}}</option>
                             <hr>
+                            {{else}}
+                            <option value="Not Set" selected>Not Set</option>}
                             {{/if}}
+                            
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Others">Others</option>
@@ -106,10 +116,11 @@
                     </div>
 
                     <hr class="hr-primary">
-            <div class="mt-5 text-center py-4">
-                <h4 class="card-title">Delete Account</h4>   
-                <a class="btn btn-danger col-5" data-toggle="modal" data-target="#confirm{{id}}"><i class="fas fa-trash-alt fa-lg"></i>Delete Account</a>
-            </div>
+                    <div class="mt-5 text-center py-4">
+                        <h4 class="card-title">Delete Account</h4>
+                        <a class="btn btn-danger col-5" data-toggle="modal" data-target="#confirm{{id}}"><i
+                                class="fas fa-trash-alt fa-lg"></i>Delete Account</a>
+                    </div>
 
                 </div>
             </div>
@@ -158,8 +169,8 @@
 
                     </div>
                     <div class="mx-auto row justify-content-between">
-                        <input type="button" value="Add Button" class="btn btn-secondary" id="addButton">
-                        <input type="button" value="Remove Button" class="btn btn-secondary" id="removeButton">
+                        <input type="button" value="Add Skill" class="btn btn-secondary" id="addButton">
+                        <input type="button" value="Remove Skill" class="btn btn-secondary" id="removeButton">
                     </div>
 
                     <hr class="hr-primary">
@@ -170,33 +181,6 @@
                     </div>
                 </div>
             </div>
-                    {{#extend 'modals'}}
-                    <div class="modal fade" id="confirm{{id}}" tabindex="-1" role="dialog" aria-labelledby="label"
-                        aria-hidden="true">
-
-                        <!-- Change class .modal-sm to change the size of the modal -->
-                        <div class="modal-dialog modal-sm" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title w-100" id="label">Confirm Delete?</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="my-2 row justify-content-around mx-auto col-12">
-                                    <a type="button" class="btn btn-danger" href="./edit/{{user.id}}">
-                                        Yes
-                                    </a>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {{/extend}}
-        </div>
-
-    </form>
             {{#extend 'modals'}}
             <div class="modal fade" id="confirm{{id}}" tabindex="-1" role="dialog" aria-labelledby="label"
                 aria-hidden="true">
@@ -224,17 +208,43 @@
         </div>
 
     </form>
+    {{#extend 'modals'}}
+    <div class="modal fade" id="confirm{{id}}" tabindex="-1" role="dialog" aria-labelledby="label" aria-hidden="true">
+
+        <!-- Change class .modal-sm to change the size of the modal -->
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title w-100" id="label">Confirm Delete?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="my-2 row justify-content-around mx-auto col-12">
+                    <a type="button" class="btn btn-danger" href="./edit/{{user.id}}">
+                        Yes
+                    </a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/extend}}
+    </div>
+
+    </form>
 </section>
 {{#extend 'modals'}}
 
 
-<!-- Modal -->
+<!-- Profile Picture Modal -->
 <div class="modal fade" id="uploadimageModal" tabindex="-1" role="dialog" aria-labelledby="uploadimageModal"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Upload Profile Picture</h5>
+                <h5 class="modal-title">Update Profile Picture</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -251,6 +261,33 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-success crop_image">Crop & Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Banner Picture Modal -->
+<div class="modal fade" id="uploadBannerModal" tabindex="-1" role="dialog" aria-labelledby="uploadBannerModal"
+    aria-hidden="true">
+
+
+    <div class="modal-dialog-banner modal-dialog mx-auto">
+        <div class="modal-content mt-5">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Banner Picture</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12">
+                    <div id="banner">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success crop_banner" data-dismiss="modal">Crop & Upload</button>
             </div>
         </div>
     </div>

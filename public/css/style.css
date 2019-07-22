@@ -446,6 +446,10 @@ section.submit-projects .file-upload>.wrapper>.card-text {
 
 /* Edit Profile */
 
+.modal-dialog-banner {
+    max-width: 90vw;
+}
+
 .files-upload-circle,
 .file-upload-circle {
     /* min-height: 0px; */
@@ -454,6 +458,9 @@ section.submit-projects .file-upload>.wrapper>.card-text {
     
 }
 
+.edit-profile .jarallax {
+    min-height: 300px
+}
 
 
 .edit-profile .testimonial-card .avatar > img {

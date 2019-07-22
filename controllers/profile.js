@@ -88,9 +88,11 @@ module.exports = {
 
     },
     editProfilePost: function (req, res) {
-        base64String = req.body.imgString
-        let base64Image = base64String.split(';base64,').pop();
+        base64StringImg = req.body.imgString
+        let base64Image = base64StringImg.split(';base64,').pop();
 
+        base64StringBanner = req.body.bannerString
+        let base64Banner = base64StringBanner.split(';base64,').pop();
         website = req.body.website
         dob = moment(req.body.dob, 'DD/MM/YYYY')
         gender = req.body.gender
@@ -123,8 +125,15 @@ module.exports = {
                 }
 
                 //Changes Base64 to PNG
-                fs.writeFile('./public/uploads/profile/' + req.user.id + '/profilePic.png', base64Image, {encoding: 'base64'}, function(err) {
-                });
+                if(base64Image !== ""){
+                    fs.writeFile('./public/uploads/profile/' + req.user.id + '/profilePic.png', base64Image, {encoding: 'base64'}, function(err) {
+                    });
+                }
+                if(base64Banner !== ""){
+                    fs.writeFile('./public/uploads/profile/' + req.user.id + '/banner.png', base64Banner, {encoding: 'base64'}, function(err) {
+                    });
+                }
+
                 res.redirect('/profile/')
             })
 

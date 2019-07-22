@@ -49,9 +49,10 @@ function disableOrEnable() {
 
 //=================================
 $(document).ready(function () {
-    $('#inputImg').click(function(){
+    $('#inputImg').click(function () {
         $("#upload_image").trigger('click');
     })
+
     //Initialize Croppie
     $image_crop = $('#img-demo').croppie({
         enableExif: true,
@@ -97,4 +98,60 @@ $(document).ready(function () {
 
     })
 
+
+    //===================================================================
+
+    $('#inputBorder').click(function () {
+        $("#upload_banner").trigger('click');
+    })
+
+    //Initialize Croppie
+    $banner_crop = $('#banner').croppie({
+        enableExif: true,
+        viewport: {
+            width: 700,
+            height: 200,
+            // type: 'circle'
+        },
+        boundary: {
+            width: 800,
+            height: 400
+        },
+
+        enforceBoundary: true
+    });
+
+    //When files change
+    $('#upload_banner').on('change', function () {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            $banner_crop.croppie('bind', {
+                url: e.target.result
+            })
+        }
+
+        reader.readAsDataURL(this.files[0])
+        $('#uploadBannerModal').modal('show')
+    })
+
+
+
+    $('.crop_banner').click(function (e) {
+        newimg = $banner_crop.croppie('result', {
+            type: 'base64',
+            size: 'viewport'
+        })
+            .then((image) => {
+                console.log(image)
+                $('#bannerePic').attr('src', image)
+                $('#bannerString').val(image)
+
+                console.log($('#uploadBannerModal').modal('hide'))
+                $('#uploadBannerModal').modal('hide')
+            }).catch(err => console.log(err))
+       
+    })
+
+
 })
+
