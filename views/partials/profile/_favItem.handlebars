@@ -51,12 +51,13 @@
                             {{desc}}
                         </p>
                         <p class="card-text">Last Updated: {{date}}</p>
-                        <div class="viewcounts text-right mt-4">
-                            <form class="d-flex" method="post" action="/services/fav/{{id}}"></form>
-                            <button class="favs btn btn-sm btn-red material-tooltip-sm" type="submit">
-                                <span class="font-weight-bold">{{favourites}}</span>
-                                <i class="fas fa-heart fa-fw"></i>
-                            </button>
+                        <div class="viewcounts text-right mt-4 text-right">
+                            <form method="post" action="/services/fav/{{id}}">
+                                <button class="favs btn btn-sm btn-red material-tooltip-sm" data-tooltip="tooltip"
+                                    data-placement="top" title="Favourite/Unfavourite" type="submit">
+                                    <span class="font-weight-bold">{{favourites}}</span>
+                                    <i class="fas fa-heart fa-fw"></i>
+                                </button>
                             </form>
                         </div>
                     </div>
