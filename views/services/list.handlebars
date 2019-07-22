@@ -37,18 +37,31 @@
     {{#if services}}
     <div class="row" id="servcon">
         {{#each services}}
-        <div class="col-12 col-md-4 col-lg-3 mt-4 servicecards {{replacecommas category}}" data-views="{{views}}" data-date="{{time}}">
+        <div class="col-12 col-md-4 col-lg-3 mt-4 servicecards {{replacecommas category}}" data-views="{{views}}"
+            data-date="{{time}}">
             <div class="card">
                 <div class="view overlay">
-                    <img onerror='this.src = "/img/services/default.jpg"' class="card-img-top" src="/uploads/services/{{uid}}/{{id}}.png" alt="Image not available">
+                    <img onerror='this.src = "/img/services/default.jpg"' class="card-img-top"
+                        src="/uploads/services/{{uid}}/{{id}}.png" alt="Image not available">
                     <div class="viewcounts">
-                        <span class="white-text font-weight-bold">{{views}}</span>
-                        <i class="far fa-eye fa-fw white-text"></i>
+                        <div class="views">
+                            <span class="white-text font-weight-bold">{{views}}</span>
+                            <i class="far fa-eye fa-fw white-text"></i>
+                        </div>
+                        <div class="favs">
+                            <span class="white-text font-weight-bold">{{favourites}}</span>
+                            <form method="POST" style="display: inline" action="/services/fav/{{id}}">
+                                <a href="#" type="submit" ><i
+                                        class="fas fa-heart fa-fw white-text"></i></a>
+                            </form>
+                        </div>
+
                     </div>
                 </div>
 
                 <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm"
-                    data-tooltip="tooltip" data-placement="top" title="View More Details" href="/services/view/{{uid}}/{{id}}">
+                    data-tooltip="tooltip" data-placement="top" title="View More Details"
+                    href="/services/view/{{uid}}/{{id}}">
                     <i class="far fa-eye"></i>
                 </a>
 

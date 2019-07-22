@@ -1,5 +1,6 @@
 const path = require('path');
 const Services = require('../models/services');
+const Servicefavs = require('../models/servicesfav');
 const Users = require('../models/users');
 const Transactions = require('../models/transactions');
 const fs = require('fs');
@@ -8,18 +9,16 @@ var paypal = require('paypal-rest-sdk');
 let today = new Date();
 let dd = today.getDate();
 
-let mm = today.getMonth()+1; 
+let mm = today.getMonth() + 1;
 let yyyy = today.getFullYear();
-if(dd<10) 
-{
-    dd='0'+dd;
-} 
+if (dd < 10) {
+    dd = '0' + dd;
+}
 
-if(mm<10) 
-{
-    mm='0'+mm;
-} 
-today = dd+'/'+mm+'/'+yyyy;
+if (mm < 10) {
+    mm = '0' + mm;
+}
+today = dd + '/' + mm + '/' + yyyy;
 
 module.exports = {
     index: function (req, res) {
@@ -86,7 +85,8 @@ module.exports = {
             category,
             views: 0,
             date: today,
-            time: new Date().getTime()
+            time: new Date().getTime(),
+            favourites: 0
         }).then((services) => {
             if (req.file !== undefined) {
                 // Check if directory exists if not create directory
@@ -179,6 +179,31 @@ module.exports = {
                 })
             }
         })
+    },
+
+    fav: function (req, res) {
+        Services.findOne({
+            where: {
+                id: req.params.id
+            }
+        }).then((services) => {
+            Services.update({
+                favourites: services.favourites + 1
+            }, {
+                    where: {
+                        id: req.params.id
+                    }
+                }).then(() => {
+                    Servicefavs.create({
+                        uid: req.user.id,
+                        sid: req.params.id
+                    })
+                }).then((services) => {
+                    res.render('services/list', {
+                        services
+                    })
+                })
+        }).catch(err => console.log(err));
     },
 
     //Lemuel

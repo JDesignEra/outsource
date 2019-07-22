@@ -39,6 +39,9 @@ const services = db.define('service', {
     },
     time: {
         type: Sequelize.STRING
+    },
+    favourites: {
+        type: Sequelize.INTEGER
     }
 });
 
