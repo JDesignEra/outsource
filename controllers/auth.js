@@ -145,8 +145,8 @@ module.exports = {
         }
         else if (req.method === 'POST') {
             let token = crypto.randomBytes(20).toString('hex');
-
-            User.findOne({ where: { email: req.body.email } }).then(user => {
+            
+            User.findOne({ where: { email: req.body.email }}).then(user => {
                 if (user) {
                     user.update({
                         resetPasswordToken: token,
@@ -163,7 +163,7 @@ module.exports = {
                         `<a href="${link}">${link}</a></p>` +
                         `<p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`
                     );
-                    req.flash('success', 'A verification email has been sent to ' + user.email);
+                    req.flash('success','A verification email has been sent to ' + user.email);
                 }
                 else {
                     req.flash('error', 'No account with that email address exists.');
@@ -181,45 +181,57 @@ module.exports = {
             res.render('auth/reset', { token: req.params.token });
         }
         else if (req.method === "POST") {
+            let errors = [];
             let token = req.params.token;
-            console.log(token);
-            User.findOne({
-                where: {
-                    resetPasswordToken: token,
-                    resetPasswordExpires: { [Op.gt]: Date.now() }
-                }
-            }).then(user => {
-                if (!user) {
-                    console.log('resetpost1');
-                    req.flash('error', 'Password reset token is invalid or has expired.');
-                    res.redirect('back');
-                }
-                if (req.body.newpass.length < 8) {
-                    req.flash("error", "Passwords have to be at least 8 characters.");
-                    res.redirect('back');
-                }
-                if (req.body.newpass != req.body.newconfirmpass) {
-                    req.flash("error", "Passwords do not match.");
-                    res.redirect('back');
-                }
-                if (req.body.newpass === req.body.newconfirmpass) {
-                    console.log('resetpost1');
-                    let password = req.body.newpass
+            
+            if (req.body.newpass.length < 8) {
+                errors.push('Passwords have to be at least 8 characters.');
+                console.log('password needs 8 chars');
+            }
 
-                    bcrypt.genSalt(10, (err, salt) => {
-                        bcrypt.hash(password, salt, (err, hash) => {
-                            user.update({
-                                password: hash,
-                                resetPasswordToken: token,
-                                resetPasswordExpires: Date.now() + 36000
-                            }).then(() => {
-                                req.flash('success', 'Password have been successfully changed!');
-                                res.redirect('/');
+            if (req.body.newpass != req.body.newconfirmpass) {
+                errors.push("Passwords do not match.");
+                console.log('password does not match');
+            }
+
+            if (errors.length > 0) {
+                req.flash('error', errors);
+                res.redirect('back');
+            }
+            else {
+                User.findOne({
+                    where: {
+                        resetPasswordToken: token,
+                        resetPasswordExpires: { [Op.gt]: Date.now() }
+                    }
+                }).then(user => {
+                    if (!user) {
+                        console.log('resetpost1');
+                        req.flash('error', 'Password reset token is invalid or has expired.');
+                        res.redirect('back');
+                    }
+                    else {
+                        if (req.body.newpass === req.body.newconfirmpass) {
+                            console.log('resetpost1');
+                            let password = req.body.newpass
+        
+                            bcrypt.genSalt(10, (err, salt) => {
+                                bcrypt.hash(password, salt, (err, hash) => {
+                                    user.update({
+                                        password: hash,
+                                        resetPasswordToken: token,
+                                        resetPasswordExpires: Date.now() + 36000
+                                    }).then(() => {
+                                        req.flash('success', 'Password have been successfully changed!');
+                                        console.log('password changed')
+                                        res.redirect('/');
+                                    });
+                                });
                             });
-                        });
-                    });
-                }
-            });
+                        }
+                    }
+                });
+            }
         }
     },
     delete: function (req, res) {
