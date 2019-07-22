@@ -304,12 +304,6 @@ section.files #folders-card .treeview-animated-list > li {
 }
 
 /* Lemuel */
-@media (min-width: 992px) {
-    .profile-margin{
-        margin-top: -100px;
-    }
-}
-
 .profile .avatar {
     z-index: 1020;
 }
@@ -390,12 +384,6 @@ section.files #folders-card .treeview-animated-list > li {
 
 .profile-modal .modal-dialog-project {
     max-width: 90vw;
-}
-
-.profile .viewcounts{
-    position: absolute;
-    top: 10px;
-    right: 10px;
 }
 
 /* Submit Projects */
@@ -494,12 +482,6 @@ body.modal-open {
     content: "";
     display: table;
     clear: both;
-}
-
-.services .viewcounts{
-    position: absolute;
-    top: 10px;
-    right: 10px;
 }
 
 .viewservice .avatar {

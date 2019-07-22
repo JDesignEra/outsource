@@ -43,21 +43,6 @@
                 <div class="view overlay">
                     <img onerror='this.src = "/img/services/default.jpg"' class="card-img-top"
                         src="/uploads/services/{{uid}}/{{id}}.png" alt="Image not available">
-                    <div class="viewcounts">
-                        <div class="views">
-                            <span class="white-text font-weight-bold">{{views}}</span>
-                            <i class="far fa-eye fa-fw white-text"></i>
-                        </div>
-                        <div class="favs">
-                            <span class="white-text font-weight-bold">{{favourites}}</span>
-                            <form method="POST" class="d-inline" action="/services/fav/{{id}}">
-                                <button class="btn btn-link p-0" type="submit">
-                                    <i class="fas fa-heart fa-fw white-text"></i>
-                                </button>
-                            </form>
-                        </div>
-
-                    </div>
                 </div>
 
                 <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm"
@@ -67,7 +52,16 @@
                 </a>
 
                 <div class="card-body">
-                    <h4 class="card-title name" data-names="{{name}}">{{name}}</h4>
+                    <div class="d-flex mt-3">
+                        <div class="flex-fill">
+                            <h4 class="card-title mb-0" data-names="{{name}}">
+                                {{name}}</h4>
+                        </div>
+                        <div class="flex-fill text-right">
+                            <span class="font-weight-bold">{{views}}</span>
+                            <i class="far fa-eye fa-fw ml-1"></i>
+                        </div>
+                    </div>
 
                     <hr>
 
@@ -75,6 +69,14 @@
                         {{desc}}
                     </p>
                     <p class="card=text">Last Updated: {{date}}</p>
+                    <div class="viewcounts text-right mt-4">
+                        <form class="d-flex" method="post" action="/services/fav/{{id}}"></form>
+                        <button class="favs btn btn-sm btn-red material-tooltip-sm" type="submit">
+                            <span class="font-weight-bold">{{favourites}}</span>
+                            <i class="fas fa-heart fa-fw"></i>
+                        </button>
+                        </form>
+                    </div>
                 </div>
 
                 <div class="card-footer deep-purple accent-2 white-text text-center mt-4">
@@ -82,6 +84,7 @@
                         ${{price}}
                     </h5>
                 </div>
+
             </div>
         </div>
         {{/each}}

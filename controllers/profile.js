@@ -1,11 +1,13 @@
 Project = require('../models/portfolio')
 User = require('../models/users')
 Services = require('../models/services')
+Servicefavs = require('../models/servicesfav')
 
 fs = require('fs')
 countries = require('countries-list')
+fontList = require('font-list')
 moment = require('moment');
-
+Op = require('sequelize').Op
 
 
 function removeEmpty(array, item, length) {
@@ -46,14 +48,45 @@ module.exports = {
                         uid: req.user.id
                     }
                 }).then((services) => {
+                    Servicefavs.findAll({
+                        where: {
+                            uid: req.user.id
+                        }
+                    }).then((datas) => {
+                        let serviceIds = [];
 
-                    res.render('profile/index', {
-                        projects: projects,
-                        user: user,
-                        services: services,
-                        skills: skills
+                        for (const data of datas) {
+                            serviceIds.push(data['sid']);
+                        }
+                        if (datas) {
+                            Services.findAll({
+                                where: {
+                                    id: {[Op.in]: serviceIds},
+                                    uid: req.user.id
+                                }
+                            }).then((favs) => {
+                                res.render('profile/index', {
+                                    projects: projects,
+                                    user: user,
+                                    services: services,
+                                    skills: skills,
+                                    favs: favs
+                                });
+                            })
+                        }
+                        else {
+                            res.render('profile/index', {
+                                projects: projects,
+                                user: user,
+                                services: services,
+                                skills: skills
+                            });
 
-                    });
+                        }
+
+
+                    })
+
                 })
 
             })
@@ -123,7 +156,7 @@ module.exports = {
                 }
 
                 //Changes Base64 to PNG
-                fs.writeFile('./public/uploads/profile/' + req.user.id + '/profilePic.png', base64Image, {encoding: 'base64'}, function(err) {
+                fs.writeFile('./public/uploads/profile/' + req.user.id + '/profilePic.png', base64Image, { encoding: 'base64' }, function (err) {
                 });
                 res.redirect('/profile/')
             })
@@ -169,7 +202,7 @@ module.exports = {
                     if (!fs.existsSync('./public/uploads/profile/' + req.user.id)) {
                         fs.mkdirSync('./public/uploads/profile/' + req.user.id);
                     }
-                    
+
                     // Creates user id directory for upload if not exist
                     if (!fs.existsSync('./public/uploads/profile/' + req.user.id + '/projects/')) {
                         fs.mkdirSync('./public/uploads/profile/' + req.user.id + '/projects/');
