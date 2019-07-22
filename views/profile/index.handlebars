@@ -192,6 +192,12 @@
                                 aria-selected="false"> Status </a>
                         </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link waves-light" id="status-tab-classic-shadow" data-toggle="tab"
+                                href="#favs-classic-shadow" role="tab" aria-controls="favs-classic-shadow"
+                                aria-selected="false"> Favourites </a>
+                        </li>
+
                         {{!-- <ul class="ml-auto nav tabs-white">
                             <li class="mt-n1">
                                 <a href="http://twitter.com/"><i class="fab fa-twitter fa-2x"></i></a>
@@ -231,7 +237,12 @@
 
 
                         </div>
+                        {{!-- =============================== Favourites =============================== --}}
+                        <div class="tab-pane fade active profile-content" id="favs-classic-shadow" role="tabpanel"
+                            aria-labelledby="favs-tab-classic-shadow">
+                            {{> profile/_favItem}}
 
+                        </div>
                     </div>
 
                 </div>

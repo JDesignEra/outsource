@@ -1,0 +1,86 @@
+<div class="accordion md-accordion" id="accordionServices1" role="tablist" aria-multiselectable="true">
+
+    <div class="card">
+
+        <!-- Card header -->
+        <div class="card-header" role="tab" id="headingServices1">
+
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordionServices1" href="#collapseServices1"
+                aria-expanded="true" aria-controls="collapseServices1">
+
+                <h2 class="mb-0 text-dark">
+                    Favourites <i class="fas fa-angle-down rotate-icon"></i>
+                </h2>
+            </a>
+        </div>
+
+        <!-- Card body -->
+        <div id="collapseServices1" class="collapse show row justify-content-around" role="tabpanel"
+            aria-labelledby="headingPortfolio1" data-parent="#accordionServices1">
+
+            <div class="row justify-content-around">
+                {{#if favs}}
+                {{#each favs}}
+                <div class="z-depth-2 card col-12 col-md-4 col-lg-6 p-4 mt-4">
+                    <div class="view overlay">
+                        <img onerror='this.src = "/img/services/default.jpg"' class="card-img-top"
+                            src="/uploads/services/{{uid}}/{{id}}.png">
+                    </div>
+
+                    <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm"
+                        data-tooltip="tooltip" data-placement="top" title="View More Details"
+                        href="/services/view/{{uid}}/{{id}}">
+                        <i class="far fa-eye"></i>
+                    </a>
+
+                    <div class="card-body">
+                        <div class="d-flex mt-3">
+                            <div class="flex-fill">
+                                <h4 class="card-title mb-0" data-names="{{name}}">
+                                    {{name}}</h4>
+                            </div>
+                            <div class="flex-fill text-right">
+                                <span class="font-weight-bold">{{views}}</span>
+                                <i class="far fa-eye fa-fw ml-1"></i>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <p class="card-text">
+                            {{desc}}
+                        </p>
+                        <p class="card-text">Last Updated: {{date}}</p>
+                        <div class="viewcounts text-right mt-4">
+                            <form class="d-flex" method="post" action="/services/fav/{{id}}"></form>
+                            <button class="favs btn btn-sm btn-red material-tooltip-sm" type="submit">
+                                <span class="font-weight-bold">{{favourites}}</span>
+                                <i class="fas fa-heart fa-fw"></i>
+                            </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card-footer deep-purple accent-2 white-text text-center mt-4">
+                        <h5 class="m-0">
+                            ${{price}}
+                        </h5>
+                    </div>
+
+                </div>
+                {{/each}}
+                {{else}}
+                <h1>No Favourites</h1>
+                {{/if}}
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+</div>

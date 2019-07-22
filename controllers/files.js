@@ -232,6 +232,7 @@ module.exports = {
 
             if (Object.keys(errors).length > 0) {
                 req.flash('forms', {
+                    errors: errors,
                     shareUser: shareUser,
                     select: fid
                 });
