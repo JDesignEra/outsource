@@ -36,16 +36,17 @@ module.exports = {
             .catch(err => console.log(err));
     },
     view: function (req, res) {
-        Users.findOne({
+
+        Services.findOne({
             where: {
-                id: req.user.id
+                id: req.params.id
             }
-        }).then((user) => {
-            Services.findOne({
+        }).then((services) => {
+            Users.findOne({
                 where: {
-                    id: req.params.id
+                    id: services.uid
                 }
-            }).then((services) => {
+            }).then((user) => {
                 Services.update({
                     views: services.views + 1
                 }, {
@@ -63,7 +64,7 @@ module.exports = {
 
     },
 
-    management: function(req,res){
+    management: function (req, res) {
         Services.findAll({
             where: {
                 uid: req.user.id
@@ -437,9 +438,9 @@ module.exports = {
 
     },
 
-    transactions: function (req, res){
+    transactions: function (req, res) {
         Transactions.findAll({
-            where:{
+            where: {
                 uid: req.user.id
             }
         }).then((transactions) => {
@@ -449,9 +450,9 @@ module.exports = {
         })
     },
 
-    viewPaymentDetails: function (req, res){
+    viewPaymentDetails: function (req, res) {
         Transactions.findOne({
-            where:{
+            where: {
                 id: req.params.id
             }
         }).then((transaction) => {
