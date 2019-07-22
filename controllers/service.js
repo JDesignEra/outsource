@@ -182,28 +182,60 @@ module.exports = {
     },
 
     fav: function (req, res) {
-        Services.findOne({
+        Servicefavs.findOne({
             where: {
-                id: req.params.id
+                sid: req.params.id
             }
-        }).then((services) => {
-            Services.update({
-                favourites: services.favourites + 1
-            }, {
+        }).then((servicefavs) => {
+            if (servicefavs == null) {
+                Servicefavs.create({
+                    uid: req.user.id,
+                    sid: req.params.id
+                }).then(() => {
+                    Services.findOne({
+                        where: {
+                            id: req.params.id
+                        }
+                    }).then((services) => {
+                        Services.update({
+                            favourites: services.favourites + 1
+                        }, {
+                                where: {
+                                    id: req.params.id
+                                }
+                            }).then(() => {
+                                res.redirect('back')
+                            })
+                    }).catch(err => console.log(err));
+                })
+
+            }
+            else if (req.params.id == servicefavs.sid) {
+                Servicefavs.destroy({
                     where: {
-                        id: req.params.id
+                        sid: req.params.id
                     }
                 }).then(() => {
-                    Servicefavs.create({
-                        uid: req.user.id,
-                        sid: req.params.id
-                    })
-                }).then((services) => {
-                    res.render('services/list', {
-                        services
-                    })
+                    Services.findOne({
+                        where: {
+                            id: req.params.id
+                        }
+                    }).then((services) => {
+                        Services.update({
+                            favourites: services.favourites - 1
+                        }, {
+                                where: {
+                                    id: req.params.id
+                                }
+                            }).then(() => {
+                                res.redirect('back')
+                            })
+                    }).catch(err => console.log(err));
                 })
-        }).catch(err => console.log(err));
+
+            }
+        })
+
     },
 
     //Lemuel
