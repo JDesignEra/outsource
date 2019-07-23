@@ -61,7 +61,7 @@ module.exports = {
                         if (datas) {
                             Services.findAll({
                                 where: {
-                                    id: {[Op.in]: serviceIds},
+                                    id: { [Op.in]: serviceIds },
                                     uid: req.user.id
                                 }
                             }).then((favs) => {
@@ -94,6 +94,86 @@ module.exports = {
 
 
     },
+
+    viewProfile: function (req, res) {
+        if (req.user.id = req.params.id) {
+            res.redirect('/profile/')
+        }
+        else {
+            User.findOne({
+                where: {
+                    id: req.params.id
+                }
+            }).then((viewuser) => {
+
+
+                console.log(`Skills ${viewuser.skills}`)
+                if (viewuser.skills != null) {
+                    skills = viewuser.skills.split(',')
+                    removeEmpty(skills, '', skills.length)
+                    removeEmpty(skills, ' ', skills.length)
+                }
+                else {
+                    skills = []
+                }
+                Project.findAll({
+                    where: {
+                        uid: viewuser.id
+                    },
+                }).then((projects) => {
+                    Services.findAll({
+                        where: {
+                            uid: viewuser.id
+                        }
+                    }).then((services) => {
+                        Servicefavs.findAll({
+                            where: {
+                                uid: viewuser.id
+                            }
+                        }).then((datas) => {
+                            let serviceIds = [];
+
+                            for (const data of datas) {
+                                serviceIds.push(data['sid']);
+                            }
+                            if (datas) {
+                                Services.findAll({
+                                    where: {
+                                        id: { [Op.in]: serviceIds },
+                                        uid: viewuser.id
+                                    }
+                                }).then((favs) => {
+                                    res.render('profile/viewProfile', {
+                                        projects: projects,
+                                        viewuser: viewuser,
+                                        services: services,
+                                        skills: skills,
+                                        favs: favs
+                                    });
+                                })
+                            }
+                            else {
+                                res.render('profile/viewProfile', {
+                                    projects: projects,
+                                    user: user,
+                                    services: services,
+                                    skills: skills
+                                });
+
+                            }
+
+
+                        })
+
+                    })
+
+                })
+            })
+        }
+
+    },
+
+
     editProfile: function (req, res) {
         countryList = countries.countries
 
@@ -158,90 +238,17 @@ module.exports = {
                 }
 
                 //Changes Base64 to PNG
-                if(base64Image !== ""){
-                    fs.writeFile('./public/uploads/profile/' + req.user.id + '/profilePic.png', base64Image, {encoding: 'base64'}, function(err) {
+                if (base64Image !== "") {
+                    fs.writeFile('./public/uploads/profile/' + req.user.id + '/profilePic.png', base64Image, { encoding: 'base64' }, function (err) {
                     });
                 }
-                if(base64Banner !== ""){
-                    fs.writeFile('./public/uploads/profile/' + req.user.id + '/banner.png', base64Banner, {encoding: 'base64'}, function(err) {
+                if (base64Banner !== "") {
+                    fs.writeFile('./public/uploads/profile/' + req.user.id + '/banner.png', base64Banner, { encoding: 'base64' }, function (err) {
                     });
                 }
 
                 res.redirect('/profile/')
             })
-
-    },
-    viewProfile: function (req, res) {
-        User.findOne({
-            where: {
-                id: req.params.id
-            }
-        }).then((viewuser) => {
-            console.log(`Skills ${viewuser.skills}`)
-            if (viewuser.skills != null) {
-                skills = viewuser.skills.split(',')
-                removeEmpty(skills, '', skills.length)
-                removeEmpty(skills, ' ', skills.length)
-            }
-            else {
-                skills = []
-            }
-
-            Project.findAll({
-                where: {
-                    uid: viewuser.id
-                },
-            }).then((projects) => {
-
-                Services.findAll({
-                    where: {
-                        uid: viewuser.id
-                    }
-                }).then((services) => {
-                    Servicefavs.findAll({
-                        where: {
-                            uid: viewuser.id
-                        }
-                    }).then((datas) => {
-                        let serviceIds = [];
-
-                        for (const data of datas) {
-                            serviceIds.push(data['sid']);
-                        }
-                        if (datas) {
-                            Services.findAll({
-                                where: {
-                                    id: {[Op.in]: serviceIds},
-                                    uid: viewuser.id
-                                }
-                            }).then((favs) => {
-                                res.render('profile/viewProfile', {
-                                    projects: projects,
-                                    viewuser: viewuser,
-                                    services: services,
-                                    skills: skills,
-                                    favs: favs
-                                });
-                            })
-                        }
-                        else {
-                            res.render('profile/viewProfile', {
-                                projects: projects,
-                                user: user,
-                                services: services,
-                                skills: skills
-                            });
-
-                        }
-
-
-                    })
-
-                })
-
-            })
-        })
-
 
     },
 
@@ -257,6 +264,7 @@ module.exports = {
             fonts: fonts
         })
     },
+
     submitProject: function (req, res) {
         uid = req.user.id
         title = req.body.title

@@ -139,7 +139,7 @@ $(document).ready(function () {
     $('.crop_banner').click(function (e) {
         newimg = $banner_crop.croppie('result', {
             type: 'base64',
-            size: 'viewport'
+            size: 'original'
         })
             .then((image) => {
                 console.log(image)
