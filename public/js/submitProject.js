@@ -1,7 +1,7 @@
+
+
 test = document.querySelector("#projectContent");
 test1 = test.contentDocument
-
-
 
 function execFunc(func, uiDisplay = false, value = null) {
     console.log(this)
@@ -209,3 +209,4 @@ $('#moreMedia').on('hide.bs.collapse', function () {
     $('#moreMediaButton').removeClass('active')
 
 })
+

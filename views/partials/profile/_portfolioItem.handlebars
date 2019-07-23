@@ -22,8 +22,10 @@
                 {{#if projects}}
                 <div class="row justify-content-start">
                     {{#each projects}}
+                    <div class="col-sm-5 col-lg-4 py-0 px-1">
 
-                    <div class="portoflio-img-sm col-sm-5 col-lg-4 view overlay mb-1 rounded border-depth-2 p-0"
+                    
+                    <div class="portoflio-img-sm view overlay mb-1 rounded border-depth-2 p-0"
                         data-toggle="modal" data-target="#project{{id}}">
 
                         <img src="/uploads/profile/{{uid}}/projects/{{id}}.png" class="h-100 lozad mx-auto d-block"
@@ -53,6 +55,7 @@
                             </div>
 
                         </div>
+                    </div>
                     </div>
                     {{/each}}
                 </div>

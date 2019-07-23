@@ -15,19 +15,31 @@
 {{/extend}}
 <section class="edit-profile">
     <!-- Button trigger modal -->
+    <div class="col-12 card p-2 rounded-bottom-0 mb-4">
+        <h1 class="col-12 text-center"> Edit Profile </h1>
+    </div>
+
     <form method="POST" class="row justify-content-around">
+        {{!-- Banner --}}
         <div class="col-12">
-            <div class="card testimonial-card z-depth-2 pt-2 mb-2 jarallax view overlay">
-                <img id="bannerePic" class="img-fluid jarallax-img lozad h-100"
-                    onerror='this.src="/img/profile/banner.png"' src="/uploads/profile/{{user.id}}/banner.png" alt="">
-                <div id="inputBorder" class="mask flex-center waves-effect waves-light rgba-black-strong">
-                    <h3 class="text-white"> Change Banner</h3>
+
+            <div class="card testimonial-card z-depth-2 py-0 mb-5">
+                <h3 class="card-title text-center">Banner</h3>
+                <div class="card testimonial-card z-depth-2 pt-2 jarallax view overlay rounded-bottom">
+                    <img id="bannerePic" class="img-fluid jarallax-img lozad h-100"
+                        onerror='this.src="/img/profile/banner.png"' src="/uploads/profile/{{user.id}}/banner.png"
+                        alt="">
+                    <div id="inputBorder" class="mask flex-center waves-effect waves-light rgba-black-strong">
+                        <h3 class="text-white"> Change Banner</h3>
+                    </div>
+                    <input type="file" class="d-none" name="upload_banner" id="upload_banner">
+                    <input type="hidden" name="bannerString" id="bannerString">
                 </div>
-                <input type="file" class="d-none" name="upload_banner" id="upload_banner">
-                <input type="hidden" name="bannerString" id="bannerString">
             </div>
         </div>
-        <div class="col-md-12 col-lg-6">
+
+        {{!-- Profile Details --}}
+        <div class="col-md-12 col-lg-4">
             <!-- Card -->
             <div class="card testimonial-card z-depth-2 pt-2 mb-5">
                 <!-- Avatar -->
@@ -73,8 +85,7 @@
                         <input placeholder="Selected date" type="text" id="dob" name="dob"
                             class="form-control datepicker" value="{{formatDate user.dob 'DD/MM/YYYY'}}">
                         {{else}}
-                        <input type="text" id="dob" name="dob"
-                            class="form-control datepicker">
+                        <input type="text" id="dob" name="dob" class="form-control datepicker">
                         {{/if}}
                     </div>
 
@@ -88,7 +99,7 @@
                             {{else}}
                             <option value="Not Set" selected>Not Set</option>}
                             {{/if}}
-                            
+
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Others">Others</option>
@@ -127,7 +138,66 @@
 
 
         </div>
-        <div class="col-md-12 col-lg-6">
+        {{!-- Social Medias --}}
+        <div class="col-md-12 col-lg-4">
+            <!-- Card -->
+            <div class="card testimonial-card z-depth-2 pt-2 mb-5">
+
+                <div class="card-body">
+                    <h3 class="card-title">Paypal</h3>
+                    <div class="form-group row mx-auto">
+                        <label for="paypal" class="text-left"> Paypal Email </label>
+                        <input type="text" class="form-control" name="paypal" id="paypal" aria-describedby="helpId"
+                            placeholder="e.g. {{user.email}}" value="{{user.paypal}}">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card testimonial-card z-depth-2 pt-2 mb-5">
+                <div class="card-body">
+                    <!-- Name -->
+                    <h3 class="card-title">Social Medias</h3>
+
+                    <div class="form-group row mx-auto">
+                        <label for="twitter" class="text-left"> Twitter </label>
+                        <input type="url" class="form-control" name="twitter" id="twitter" aria-describedby="helpId"
+                            placeholder="e.g. https:///www.twitter.com/{{user.username}}123" value="{{user.twitter}}">
+                    </div>
+
+                    <div class="form-group row mx-auto">
+                        <label for="instagram" class="text-left"> Instagram </label>
+                        <input type="url" class="form-control" name="instagram" id="instagram"
+                            aria-describedby="helpId" placeholder="e.g. https:///www.instagram.com/{{user.username}}123"
+                            value="{{user.instagram}}">
+                    </div>
+
+                    <div class="form-group row mx-auto">
+                        <label for="facebook" class="text-left"> Facebook </label>
+                        <input type="url" class="form-control" name="facebook" id="facebook" aria-describedby="helpId"
+                            placeholder="e.g. https:///www.facebook.com/{{user.username}}123" value="{{user.facebook}}">
+                    </div>
+
+                    <div class="form-group row mx-auto">
+                        <label for="youtube" class="text-left"> YouTube </label>
+                        <input type="url" class="form-control" name="youtube" id="youtube" aria-describedby="helpId"
+                            placeholder="e.g. https:///www.youtube.com/channel/UCFKDEp9si4RmHFWJW1vYsMA"
+                            value="{{user.youtube}}">
+                    </div>
+
+                    <div class="form-group row mx-auto">
+                        <label for="deviantart" class="text-left"> Deviantart </label>
+                        <input type="url" class="form-control" name="deviantart" id="deviantart"
+                            aria-describedby="helpId" placeholder="e.g. https://www.deviantart.com/{{user.username}}123"
+                            value="{{user.deviantart}}">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        {{!-- Miscellaneous --}}
+        <div class="col-md-12 col-lg-4">
             <div class="z-depth-2 card">
                 <!-- Content -->
                 <div class="card-body">

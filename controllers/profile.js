@@ -35,6 +35,15 @@ module.exports = {
                 skills = []
             }
 
+            if(user.social_media != null){
+                socialmedias = user.social_media.split(',')
+                // removeEmpty(socialmedias , "", socialmedias.length)
+            }
+            else{
+                socialmedias = []
+            }
+            console.log(socialmedias)
+
             Project.findAll({
                 where: {
                     uid: req.user.id
@@ -68,6 +77,7 @@ module.exports = {
                                     user: user,
                                     services: services,
                                     skills: skills,
+                                    social_medias: socialmedias,
                                     favs: favs
                                 });
                             })
@@ -77,7 +87,8 @@ module.exports = {
                                 projects: projects,
                                 user: user,
                                 services: services,
-                                skills: skills
+                                skills: skills,
+                                social_medias: socialmedias
                             });
 
                         }
@@ -94,7 +105,7 @@ module.exports = {
     },
 
     viewProfile: function (req, res) {
-        if (req.user.id = req.params.id) {
+        if (req.user.id == req.params.id) {
             res.redirect('/profile/')
         }
         else {
@@ -209,6 +220,10 @@ module.exports = {
         gender = req.body.gender
         location = req.body.location
         occupation = req.body.occupation
+
+        paypal = req.body.paypal
+        socialmedias = "" + req.body.twitter + "," + req.body.instagram + "," + req.body.facebook + "," + req.body.youtube + "," + req.body.deviantart
+
         skill1 = req.body.skill1
         skill2 = req.body.skill2
         skill3 = req.body.skill3
@@ -225,6 +240,8 @@ module.exports = {
             occupation: occupation,
             skills: skills,
             bio: bio,
+            paypal: paypal,
+            social_media: socialmedias
         },
             {
                 where: {
@@ -252,6 +269,8 @@ module.exports = {
 
 
     submit: function (req, res) {
+        
+
         fonts = [
             "Arial", "Calibri", "Impact", "Courier", "Helvetica", "Times New Roman", "Verdana",
             //"Segoe UI", "Helvetica Neue", "Noto Sans", "Courier New", "Garamond", "Roboto",
@@ -271,8 +290,6 @@ module.exports = {
         datePosted = new Date()
         views = 0
         likes = 0
-
-
 
         Project.create({
             uid: uid,

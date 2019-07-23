@@ -83,8 +83,15 @@ module.exports = {
     },
 
     add: function (req, res) {
+
         if (req.user.accType === 'service') {
-            res.render('services/add')
+            if(req.user.paypal === null || req.user.paypal === ""){
+                req.flash('warning', ['You need to set up your PayPal account to make a service'])
+                res.redirect('/profile/edit')
+            }
+            else{
+                res.render('services/add')
+            }
         }
         else {
             req.flash('warning', 'You need a service provider account to add a service');
