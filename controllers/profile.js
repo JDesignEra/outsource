@@ -35,11 +35,11 @@ module.exports = {
                 skills = []
             }
 
-            if(user.social_media != null){
+            if (user.social_media != null) {
                 socialmedias = user.social_media.split(',')
                 // removeEmpty(socialmedias , "", socialmedias.length)
             }
-            else{
+            else {
                 socialmedias = []
             }
             console.log(socialmedias)
@@ -72,15 +72,37 @@ module.exports = {
                                     uid: req.user.id
                                 }
                             }).then((favs) => {
-                                res.render('profile/', {
-                                    projects: projects,
-                                    user: user,
-                                    services: services,
-                                    skills: skills,
-                                    social_medias: socialmedias,
-                                    favs: favs
-                                });
+                                let services = [];
+
+                                for (const [i, service] of favs.entries()) {
+                                    let temp = service;
+
+                                    User.findOne({
+                                        where: {
+                                            id: service.uid
+                                        },
+                                        attributes: ['username']
+                                    }).then(user => {
+                                        temp['username'] = user['username'];
+                                        services.push(temp);
+
+                                        if (i == favs.length - 1) {
+                                            setTimeout(() => {
+                                                res.render('profile/', {
+                                                    projects: projects,
+                                                    user: user,
+                                                    services: services,
+                                                    skills: skills,
+                                                    social_medias: socialmedias,
+                                                    favs: favs
+                                                });
+                                            }, 50);
+                                        }
+                                    })
+                                }
+
                             })
+
                         }
                         else {
                             res.render('profile/', {
@@ -269,7 +291,7 @@ module.exports = {
 
 
     submit: function (req, res) {
-        
+
 
         fonts = [
             "Arial", "Calibri", "Impact", "Courier", "Helvetica", "Times New Roman", "Verdana",

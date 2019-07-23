@@ -361,6 +361,16 @@ section.files #folders-card .treeview-animated-list > li {
     height: auto;
 }
 
+.profile .sellerav{
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+}
+
+.profile .seller{
+    padding: 5px;
+}
+
 .profile .skill-button {
     padding: .4rem 1.5rem;
 }
@@ -497,10 +507,14 @@ body.modal-open {
     clear: both;
 }
 
-.viewservice .avatar {
-    vertical-align: middle;
-    width: 100px;
-    height: 100px;
+.services .card .avatar {
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+}
+
+.services .seller {
+    padding: 5px;
 }
 
 .viewservice .service-overview .card .card-img-top {

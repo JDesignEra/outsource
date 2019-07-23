@@ -27,11 +27,30 @@ module.exports = {
                 ['name', 'ASC']
             ],
             raw: true
-        })
-            .then((services) => {
-                res.render('services/list', {
-                    services: services,
-                });
+        }).then(serviceDatas => {
+                let services = [];
+
+                for (const [i, service] of serviceDatas.entries()) {
+                    let temp = service;
+                    
+                    Users.findOne({
+                        where: {
+                            id: service.uid
+                        },
+                        attributes: ['username']
+                    }).then(user => {
+                        temp['username'] = user['username'];
+                        services.push(temp);
+                        
+                        if (i == serviceDatas.length - 1) {
+                            setTimeout(() => {
+                                res.render('services/list', {
+                                    services: services
+                                });
+                            }, 50);
+                        }
+                    })
+                }
             })
             .catch(err => console.log(err));
     },
@@ -85,11 +104,11 @@ module.exports = {
     add: function (req, res) {
 
         if (req.user.accType === 'service') {
-            if(req.user.paypal === null || req.user.paypal === ""){
+            if (req.user.paypal === null || req.user.paypal === "") {
                 req.flash('warning', ['You need to set up your PayPal account to make a service'])
                 res.redirect('/profile/edit')
             }
-            else{
+            else {
                 res.render('services/add')
             }
         }
@@ -240,7 +259,8 @@ module.exports = {
             else if (req.params.id == servicefavs.sid) {
                 Servicefavs.destroy({
                     where: {
-                        sid: req.params.id
+                        sid: req.params.id,
+                        uid: req.user.id
                     }
                 }).then(() => {
                     Services.findOne({

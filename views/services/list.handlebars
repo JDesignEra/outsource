@@ -50,6 +50,14 @@
                         <i class="far fa-eye"></i>
                     </a>
                 </div>
+                <div class="text-left mx-auto white mt-4">
+                    <span class="seller-img">
+                        <img onerror='this.src = "/img/profile/default.png"' src="/uploads/profile/{{this.uid}}/profilePic.png" class="avatar rounded-circle lozad img-fluid border" alt="">
+                    </span>
+                    <span>
+                        <a href="/profile/view/{{this.uid}}" class="seller">{{this.username}}</a>
+                    </span>
+                </div>
                 <div class="card-body pb-2">
                     <div class="d-flex mt-3">
                         <div class="flex-fill">
@@ -66,7 +74,7 @@
 
                     <p class="card-text">
                         {{desc}}<br>
-                            Last Updated: {{date}}
+                        Last Updated: {{date}}
                     </p>
                     <div class="viewcounts text-right mt-4 text-right">
                         <form method="post" action="/services/fav/{{id}}">
@@ -79,7 +87,7 @@
                     </div>
                 </div>
 
-                <div class="card-footer deep-purple accent-3 white-text text-center">
+                <div class="card-footer deep-purple accent-2 white-text text-center mt-4">
                     <h5 class="m-0">
                         ${{price}}
                     </h5>
