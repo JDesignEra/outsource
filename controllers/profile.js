@@ -176,10 +176,10 @@ module.exports = {
             where: {
                 id: req.params.id
             }
-        }).then((user) => {
-
-            if (user.skills != null) {
-                skills = user.skills.split(',')
+        }).then((viewuser) => {
+            console.log(`Skills ${viewuser.skills}`)
+            if (viewuser.skills != null) {
+                skills = viewuser.skills.split(',')
                 removeEmpty(skills, '', skills.length)
                 removeEmpty(skills, ' ', skills.length)
             }
@@ -189,18 +189,18 @@ module.exports = {
 
             Project.findAll({
                 where: {
-                    uid: user.id
+                    uid: viewuser.id
                 },
             }).then((projects) => {
 
                 Services.findAll({
                     where: {
-                        uid: user.id
+                        uid: viewuser.id
                     }
                 }).then((services) => {
                     Servicefavs.findAll({
                         where: {
-                            uid: user.id
+                            uid: viewuser.id
                         }
                     }).then((datas) => {
                         let serviceIds = [];
@@ -212,12 +212,12 @@ module.exports = {
                             Services.findAll({
                                 where: {
                                     id: {[Op.in]: serviceIds},
-                                    uid: user.id
+                                    uid: viewuser.id
                                 }
                             }).then((favs) => {
                                 res.render('profile/viewProfile', {
                                     projects: projects,
-                                    viewuser: user,
+                                    viewuser: viewuser,
                                     services: services,
                                     skills: skills,
                                     favs: favs
@@ -244,7 +244,6 @@ module.exports = {
 
 
     },
-
 
 
     submit: function (req, res) {
