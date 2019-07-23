@@ -11,7 +11,7 @@
 			<li class="nav-item{{#ifCond 'url === "/"'}} active{{/ifCond}}">
 				<a class="nav-link" href="/">Home</a>
 			</li>
-			<li class="nav-item{{#ifStringContain url '/services'}} active{{/ifStringContain}}">
+			<li class="nav-item{{#ifCond 'url === "/services"'}} active{{/ifCond}}">
 				<a class="nav-link" href="/services">Marketplace</a>
 			</li>
 		</ul>
