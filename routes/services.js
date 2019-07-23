@@ -9,7 +9,7 @@ router.get('/', servicesController.index)
 
 router.get('/view/:uid/:id', servicesController.view)
 
-router.get('/manage', servicesController.management)
+router.get('/manage', isAuth, servicesController.management)
 
 router.get('/add', isAuth, servicesController.add)
 
@@ -29,6 +29,9 @@ router.get('/payment/:id', isAuth, servicesController.payment)
 router.post('/payment/:id', isAuth, servicesController.sendPayment)
 
 router.get('/payment/:id/success/', isAuth, servicesController.PaymentSuccess)
+
 router.get('/receipt/', isAuth, servicesController.transactions)
+
 router.get('/receipt/:id/', isAuth, servicesController.viewPaymentDetails)
+
 module.exports = router;
