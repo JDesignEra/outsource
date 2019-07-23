@@ -21,10 +21,10 @@
 			<li class="nav-item dropdown d-none d-md-block">
 				<a class="nav-link chip primary-reverse-light-gradient dropdown-toggle m-0 z-depth-1-half"
 					data-toggle="dropdown">
-					{{#ifFile (concat './public/uploads/profile/' user.id '.png') }}
-					<img class="deep-purple lighten-5 z-depth-1-half" src="/uploads/profile/{{user.id}}.png">
+					{{#ifFile (concat './public/uploads/profile/' user.id '/profilePic.png') }}
+						<img class="deep-purple lighten-5 z-depth-1-half" src="/uploads/profile/{{user.id}}/profilePic.png">
 					{{else}}
-					<i class="fas fa-user animated faster"></i>
+						<i class="fas fa-user animated faster"></i>
 					{{/ifFile}} {{user.username}}
 				</a>
 
@@ -42,11 +42,8 @@
 						<i class="far fa-briefcase mr-1"></i> Job Management
 					</a>
 					<a class="dropdown-item" href="/services/receipt">
-						<i class="fas fa-exchange-alt"></i> Transaction History
+						<i class="far fa-file-invoice-dollar mr-1"></i> Transaction History
 					</a>
-					{{!-- <a class="dropdown-item" href="/profile/submit">
-						<i class="far fa-plus mr-1"></i> New Portfolio
-					</a> --}}
 					<hr class="mt-0 mb-3">
 					<a class="dropdown-item text-danger" href="/logout">
 						<i class="far fa-power-off mr-1"></i> Sign Out
@@ -78,7 +75,7 @@
 			</li>
 			<li class="nav-item d-block d-md-none{{#ifStringContain url '/services/receipt'}} active{{/ifStringContain}}">
 				<a class="nav-link" href="/services/receipt">
-					<i class="far fa-briefcase mr-1"></i> Transaction History
+					<i class="far fa-file-invoice-dollar mr-1"></i> Transaction History
 				</a>
 			</li>
 
