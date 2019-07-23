@@ -30,9 +30,8 @@
                         </div>
                     </div>
 
-                    <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm"
-                        data-tooltip="tooltip" data-placement="top" title="View More Details"
-                        href="/services/view/{{uid}}/{{id}}">
+                    <a class="btn-floating btn-primary m-0 material-tooltip-sm" data-tooltip="tooltip"
+                        data-placement="top" title="View More Details" href="/services/view/{{uid}}/{{id}}">
                         <i class="far fa-eye"></i>
                     </a>
 
@@ -43,12 +42,21 @@
                         <hr>
 
                         <p class="card-text">
-                            {{desc}}
+                            {{desc}}<br>
+                            Last Updated: {{date}}
                         </p>
-                        <p class="card-text">Last Updated: {{date}}</p>
+                    </div>
+                    <div class="viewcounts text-right mt-4 text-right">
+                        <form method="post" action="/services/fav/{{id}}">
+                            <button class="favs btn btn-sm btn-red material-tooltip-sm" data-tooltip="tooltip"
+                                data-placement="top" title="Favourite/Unfavourite" type="submit">
+                                <span class="font-weight-bold">{{favourites}}</span>
+                                <i class="fas fa-heart fa-fw"></i>
+                            </button>
+                        </form>
                     </div>
 
-                    <div class="card-footer deep-purple accent-2 white-text text-center mt-4">
+                    <div class="card-footer deep-purple accent-3 white-text text-center">
                         <h5 class="m-0">
                             ${{price}}
                         </h5>

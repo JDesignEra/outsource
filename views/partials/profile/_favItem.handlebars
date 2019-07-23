@@ -26,14 +26,13 @@
                         <img onerror='this.src = "/img/services/default.jpg"' class="card-img-top"
                             src="/uploads/services/{{uid}}/{{id}}.png">
                     </div>
-
-                    <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm"
-                        data-tooltip="tooltip" data-placement="top" title="View More Details"
-                        href="/services/view/{{uid}}/{{id}}">
-                        <i class="far fa-eye"></i>
-                    </a>
-
-                    <div class="card-body">
+                    <div class="btn-action ml-auto mr-3">
+                        <a class="btn-floating btn-primary m-0 material-tooltip-sm" data-tooltip="tooltip"
+                            data-placement="top" title="View More Details" href="/services/view/{{uid}}/{{id}}">
+                            <i class="far fa-eye"></i>
+                        </a>
+                    </div>
+                    <div class="card-body pb-2">
                         <div class="d-flex mt-3">
                             <div class="flex-fill">
                                 <h4 class="card-title mb-0" data-names="{{name}}">
@@ -49,8 +48,9 @@
 
                         <p class="card-text">
                             {{desc}}
+                            <br>
+                            Last Updated: {{date}}
                         </p>
-                        <p class="card-text">Last Updated: {{date}}</p>
                         <div class="viewcounts text-right mt-4 text-right">
                             <form method="post" action="/services/fav/{{id}}">
                                 <button class="favs btn btn-sm btn-red material-tooltip-sm" data-tooltip="tooltip"
@@ -62,7 +62,7 @@
                         </div>
                     </div>
 
-                    <div class="card-footer deep-purple accent-2 white-text text-center mt-4">
+                    <div class="card-footer deep-purple accent-3 white-text text-center">
                         <h5 class="m-0">
                             ${{price}}
                         </h5>
