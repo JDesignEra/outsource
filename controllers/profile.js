@@ -5,10 +5,8 @@ Servicefavs = require('../models/servicesfav')
 
 fs = require('fs')
 countries = require('countries-list')
-fontList = require('font-list')
 moment = require('moment');
 Op = require('sequelize').Op
-
 
 function removeEmpty(array, item, length) {
     index = array.indexOf(item);
