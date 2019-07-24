@@ -29,27 +29,33 @@ module.exports = {
             raw: true
         }).then(serviceDatas => {
                 let services = [];
-
-                for (const [i, service] of serviceDatas.entries()) {
-                    let temp = service;
-                    
-                    Users.findOne({
-                        where: {
-                            id: service.uid
-                        },
-                        attributes: ['username']
-                    }).then(user => {
-                        temp['username'] = user['username'];
-                        services.push(temp);
+                if (serviceDatas.length > 0){
+                    for (const [i, service] of serviceDatas.entries()) {
+                        let temp = service;
                         
-                        if (i == serviceDatas.length - 1) {
-                            setTimeout(() => {
-                                res.render('services/list', {
-                                    services: services
-                                });
-                            }, 50);
-                        }
-                    })
+                        Users.findOne({
+                            where: {
+                                id: service.uid
+                            },
+                            attributes: ['username']
+                        }).then(user => {
+                            temp['username'] = user['username'];
+                            services.push(temp);
+                            
+                            if (i == serviceDatas.length - 1) {
+                                setTimeout(() => {
+                                    res.render('services/list', {
+                                        services: services
+                                    });
+                                }, 50);
+                            }
+                        })
+                    }
+                }
+                else{
+                    res.render('services/list', {
+                        services: serviceDatas
+                    });
                 }
             })
             .catch(err => console.log(err));
