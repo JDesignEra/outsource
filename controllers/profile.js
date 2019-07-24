@@ -193,14 +193,17 @@ module.exports = {
                                         uid: viewuser.id
                                     }
                                 }).then((favs) => {
-                                    let services = [];
-                                    console.log(favs)
-
-
+                                    res.render('profile/viewProfile', {
+                                        projects: projects,
+                                        viewuser: viewuser,
+                                        services: services,
+                                        skills: skills,
+                                        favs: favs
+                                    });
                                 })
                             }
                             else {
-                                res.render('profile/index', {
+                                res.render('profile/viewProfile', {
                                     projects: projects,
                                     user: user,
                                     services: services,
