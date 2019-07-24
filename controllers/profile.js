@@ -81,50 +81,44 @@ module.exports = {
                                     id: { [Op.in]: serviceIds },
                                     uid: req.user.id
                                 }
-                            }).then((favs) => {
-                                let services = [];
-                                console.log("faves")
-                                // res.render('profile/', {
-                                //     projects: projects,
-                                //     user: user,
-                                //     services: services,
-                                //     skills: skills,
-                                //     social_medias: socialmedias,
-                                //     favs: favs
-                                // });
+                            }).then(favs => {
+                                if (favs.length > 0) {
+                                    for (const [i, service] of favs.entries()) {
+                                        let temp = service;
 
-                                for (const [i, service] of favs.entries()) {
-                                    console.log("Inside const for loop")
-                                    temp = service;
+                                        User.findOne({
+                                            where: {
+                                                id: service.uid
+                                            },
+                                            attributes: ['username']
+                                        }).then(curr => {
+                                            temp['username'] = curr['username'];
+                                            services.push(temp);
 
-                                    User.findOne({
-                                        where: {
-                                            id: service.uid
-                                        },
-                                        attributes: ['username']
-
-                                    }).then(curr => {
-                                        console.log("curr")
-                                        temp['username'] = curr['username'];
-                                        services.push(temp);
-
-                                        if (i == favs.length - 1) {
-                                            setTimeout(() => {
-                                                res.render('profile/', {
-                                                    projects: projects,
-                                                    user: user,
-                                                    services: services,
-                                                    skills: skills,
-                                                    social_medias: socialmedias,
-                                                    favs: favs
-                                                });
-                                            }, 50);
-                                        }
-                                    })
+                                            if (i == favs.length - 1) {
+                                                setTimeout(() => {
+                                                    res.render('profile/', {
+                                                        projects: projects,
+                                                        user: user,
+                                                        services: services,
+                                                        skills: skills,
+                                                        social_medias: socialmedias,
+                                                        favs: favs
+                                                    });
+                                                }, 50);
+                                            }
+                                        })
+                                    }
                                 }
-
-
-                                console.log("Out")
+                                else {
+                                    res.render('profile/', {
+                                        projects: projects,
+                                        user: user,
+                                        services: services,
+                                        skills: skills,
+                                        social_medias: socialmedias
+                                    });
+                                }
                             })
 
                         }
@@ -190,11 +184,9 @@ module.exports = {
                             let serviceIds = [];
 
                             for (const data of datas) {
-                                console.log("for")
                                 serviceIds.push(data['sid']);
                             }
                             if (datas) {
-                                console.log("if")
                                 Services.findAll({
                                     where: {
                                         id: { [Op.in]: serviceIds },
@@ -202,59 +194,19 @@ module.exports = {
                                     }
                                 }).then((favs) => {
                                     let services = [];
-                                    console.log(favs.entries().length);
-                                    if (favs.entries().length != undefined) {
-                                        for (const [i, service] of favs.entries()) {
-                                            let temp = service;
-                                            console.log("FIRE");
-                                            User.findOne({
-                                                where: {
-                                                    id: service.uid
-                                                },
-                                                attributes: ['username']
-                                            }).then(curr => {
-                                                temp['username'] = curr['username'];
-                                                services.push(temp);
+                                    console.log(favs)
 
-                                                if (i == favs.length - 1) {
-                                                    setTimeout(() => {
-                                                        res.render('profile/', {
-                                                            projects: projects,
-                                                            user: user,
-                                                            services: services,
-                                                            skills: skills,
-                                                            social_medias: socialmedias,
-                                                            favs: favs
-                                                        });
-                                                    }, 50);
-                                                }
-                                            })
-                                        }
-                                    }
-                                    else {
-                                        res.render('profile/', {
-                                            projects: projects,
-                                            user: user,
-                                            services: services,
-                                            skills: skills,
-                                            social_medias: socialmedias
-                                        });
 
-                                    }
                                 })
                             }
                             else {
-                                console.log("render else")
-                                res.render('profile/viewProfile', {
+                                res.render('profile/index', {
                                     projects: projects,
                                     user: user,
                                     services: services,
                                     skills: skills
                                 });
-
                             }
-
-
                         }).catch(err => console.log(err))
 
                     })
