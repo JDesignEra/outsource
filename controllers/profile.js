@@ -7,6 +7,7 @@ fs = require('fs')
 countries = require('countries-list')
 moment = require('moment');
 Op = require('sequelize').Op
+// sequelize = require('sequelize')
 
 function removeEmpty(array, item, length) {
     index = array.indexOf(item);
@@ -48,6 +49,7 @@ module.exports = {
                 where: {
                     uid: req.user.id
                 },
+                order: [['datePosted', 'DESC']]
             }).then((projects) => {
 
                 Services.findAll({
@@ -60,12 +62,20 @@ module.exports = {
                             uid: req.user.id
                         }
                     }).then((datas) => {
+                        console.log("1")
                         let serviceIds = [];
 
+
                         for (const data of datas) {
+
                             serviceIds.push(data['sid']);
+                            console.log('for')
                         }
+
+                        // res.send(datas)
+
                         if (datas) {
+                            console.log("if")
                             Services.findAll({
                                 where: {
                                     id: { [Op.in]: serviceIds },
@@ -73,16 +83,28 @@ module.exports = {
                                 }
                             }).then((favs) => {
                                 let services = [];
+                                console.log("faves")
+                                // res.render('profile/', {
+                                //     projects: projects,
+                                //     user: user,
+                                //     services: services,
+                                //     skills: skills,
+                                //     social_medias: socialmedias,
+                                //     favs: favs
+                                // });
 
                                 for (const [i, service] of favs.entries()) {
-                                    let temp = service;
+                                    console.log("Inside const for loop")
+                                    temp = service;
 
                                     User.findOne({
                                         where: {
                                             id: service.uid
                                         },
                                         attributes: ['username']
+
                                     }).then(curr => {
+                                        console.log("curr")
                                         temp['username'] = curr['username'];
                                         services.push(temp);
 
@@ -101,10 +123,13 @@ module.exports = {
                                     })
                                 }
 
+
+                                console.log("Out")
                             })
 
                         }
                         else {
+                            console.log("else")
                             res.render('profile/', {
                                 projects: projects,
                                 user: user,
@@ -165,15 +190,18 @@ module.exports = {
                             let serviceIds = [];
 
                             for (const data of datas) {
+                                console.log("for")
                                 serviceIds.push(data['sid']);
                             }
                             if (datas) {
+                                console.log("if")
                                 Services.findAll({
                                     where: {
                                         id: { [Op.in]: serviceIds },
                                         uid: viewuser.id
                                     }
                                 }).then((favs) => {
+                                    console.log("render if")
                                     res.render('profile/viewProfile', {
                                         projects: projects,
                                         viewuser: viewuser,
@@ -184,6 +212,7 @@ module.exports = {
                                 })
                             }
                             else {
+                                console.log("render else")
                                 res.render('profile/viewProfile', {
                                     projects: projects,
                                     user: user,
@@ -194,7 +223,7 @@ module.exports = {
                             }
 
 
-                        })
+                        }).catch(err => console.log(err))
 
                     })
 

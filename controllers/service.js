@@ -234,6 +234,7 @@ module.exports = {
                 uid: req.user.id
             }
         }).then((servicefavs) => {
+            
             if (servicefavs == null) {
                 Servicefavs.create({
                     uid: req.user.id,

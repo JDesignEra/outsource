@@ -1,6 +1,26 @@
 // ================================================
 
+$(document).change(function(){
+    categories = document.getElementsByName('projectCategory')
+    category_counter = 0
 
+    for(i = 0; i < categories.length; i++){
+        if(categories[i].checked){
+            category_counter++
+        }
+    }
+    console.log(category_counter)
+
+    if($('#title').val() != "" && $('#coverPicture').val() != "" && category_counter > 0){
+        $('#portfolio-tab-classic-shadow').removeClass("disabled muted")
+        $('#portfolio-tab-classic-shadow').addClass("text-secondary")
+    }
+    else{
+        $('#portfolio-tab-classic-shadow').addClass("disabled muted")
+        $('#portfolio-tab-classic-shadow').removeClass("text-secondary")
+    }
+    
+})
 
 test = document.querySelector("#projectContent");
 test1 = test.contentDocument
@@ -153,7 +173,10 @@ function getHTML() {
 function updateTextArea() {
     area = document.getElementById("content")
     area.value = test.contentWindow.document.body.innerHTML
-    console.log(area.value)
+    if(area.value == ""){
+        $("#contentEmpty").modal('show')
+        // alert("Please fill in your content")
+    }
 }
 
 //Enable iframe to be edited

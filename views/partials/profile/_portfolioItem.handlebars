@@ -21,41 +21,66 @@
             <div class="card-body">
                 {{#if projects}}
                 <div class="row justify-content-start">
-                    {{#each projects}}
+                    {{#if ../viewuser.id}}
+                    {{else}}
                     <div class="col-sm-5 col-lg-4 py-0 px-1">
 
-                    
-                    <div class="portoflio-img-sm view overlay mb-1 rounded border-depth-2 p-0"
-                        data-toggle="modal" data-target="#project{{id}}">
 
-                        <img src="/uploads/profile/{{uid}}/projects/{{id}}.png" class="h-100 lozad mx-auto d-block"
-                            alt="">
+                        <div class="portoflio-img-sm view overlay mb-1 rounded border border-depth-2 p-0">
 
-                        <div class="mask flex-center waves-effect waves-light rgba-black-strong">
-                            <div
-                                class="row col-12 align-items-end justify-content-end justify-content-around p-0 h-100">
 
-                                <div class="row col-12 justify-content-between p-0">
-                                    <h5 class="col-12 text-white text-left font-weight-bold">
-                                        {{title}}
-                                    </h5>
-                                    <h6 style="font-size:2vh;" class="col-5 white-text text-left font-weight-bold">
-                                        John Doe
-                                    </h6>
+                            <div class="h-100 row mx-auto">
+                                <div class="col align-self-center">
+                                    <i class="fa fa-plus fa-7x" aria-hidden="true"></i>
 
-                                    <h6 class="white-text text-right col-5">
-                                        <i class="far fa-heart"></i>
-                                        {{likes}} &nbsp;
+                                </div>
+                            </div>
+                            <a href="/profile/submit">
+                                <div class="mask flex-center waves-effect waves-light rgba-black-light">
+                                    <h2 class="text-white">Add Project</h2>
 
-                                        <i class="fas fa-comment"></i>
-                                        20
-                                    </h6>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#each projects}}
+                    <div class="col-sm-5 col-lg-4 py-0 px-1">
+                        <div class="portoflio-img-sm view overlay mb-1 rounded border-depth-2 p-0" data-toggle="modal"
+                            data-target="#project{{id}}">
+
+                            <img src="/uploads/profile/{{uid}}/projects/{{id}}.png" class="h-100 lozad mx-auto d-block"
+                                alt="">
+
+                            <div class="mask flex-center waves-effect waves-light rgba-black-strong">
+                                <div
+                                    class="row col-12 align-items-end justify-content-end justify-content-around p-0 h-100">
+
+                                    <div class="row col-12 justify-content-between p-0">
+                                        <h5 class="col-12 text-white text-left font-weight-bold">
+                                            {{title}}
+                                        </h5>
+                                        <h6 style="font-size:2vh;" class="col-5 white-text text-left font-weight-bold">
+                                            {{#if ../viewuser.id}}
+                                            {{../viewuser.username}}
+                                            {{else}}
+                                            {{../user.username}}
+                                            {{/if}}
+                                        </h6>
+
+                                        <h6 class="white-text text-right col-5">
+                                            <i class="far fa-heart"></i>
+                                            {{likes}} &nbsp;
+
+                                            <i class="fas fa-comment"></i>
+                                            20
+                                        </h6>
+                                    </div>
+
                                 </div>
 
                             </div>
-
                         </div>
-                    </div>
                     </div>
                     {{/each}}
                 </div>
@@ -66,7 +91,39 @@
 
                 {{/extend}}
                 {{else}}
-                <h1>No Projects</h1>
+
+                <div class="row justify-content-center">
+                    <h1>{{#if viewuser.id}}
+                        This user has no Projects
+                        {{else}}
+                        
+                        {{/if}}</h1>
+                </div>
+
+                {{#if viewuser.id}}
+                {{else}}
+                <div class="row justify-content-start">
+
+
+                    <div class="col-sm-5 col-lg-4 py-0 px-1">
+                        <div class="portoflio-img-sm view overlay mb-1 rounded border border-depth-2 p-0">
+                            <div class="h-100 row mx-auto">
+                                <div class="col align-self-center">
+                                    <i class="fa fa-plus fa-7x" aria-hidden="true"></i>
+
+                                </div>
+                            </div>
+                            <a href="/profile/submit">
+                                <div class="mask flex-center waves-effect waves-light rgba-black-light">
+                                    <h2 class="text-white">Add Project</h2>
+
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+
                 {{/if}}
             </div>
         </div>
@@ -83,7 +140,7 @@
     <div class="modal fade project" id="project{{id}}" tabindex="-1" role="dialog" aria-labelledby="project{{id}}Label"
         aria-hidden="true">
 
-        
+
         <button type="button" class="close m-2" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true" class="text-white">&times;</span>
         </button>
