@@ -1,27 +1,4 @@
 // ================================================
-
-$(document).change(function(){
-    categories = document.getElementsByName('projectCategory')
-    category_counter = 0
-
-    for(i = 0; i < categories.length; i++){
-        if(categories[i].checked){
-            category_counter++
-        }
-    }
-    console.log(category_counter)
-
-    if($('#title').val() != "" && $('#coverPicture').val() != "" && category_counter > 0){
-        $('#portfolio-tab-classic-shadow').removeClass("disabled muted")
-        $('#portfolio-tab-classic-shadow').addClass("text-secondary")
-    }
-    else{
-        $('#portfolio-tab-classic-shadow').addClass("disabled muted")
-        $('#portfolio-tab-classic-shadow').removeClass("text-secondary")
-    }
-    
-})
-
 test = document.querySelector("#projectContent");
 test1 = test.contentDocument
 
@@ -114,11 +91,11 @@ function uploadVideo() {
     event.preventDefault()
     var id = "rand" + Math.random();
     mp4 =
-        "<div class='embed-responsive embed-responsive-16by9'>" 
+        "<div class='embed-responsive embed-responsive-16by9'>"
         + "<video controls"
         + " width='" + width + "%'"
         + " height='" + height + "%'"
-        +">"
+        + ">"
         + "<source src='" + video + "' id='" + id + "' > "
         + "Your browser does not support the video element."
         + "</video>"
@@ -173,21 +150,93 @@ function getHTML() {
 function updateTextArea() {
     area = document.getElementById("content")
     area.value = test.contentWindow.document.body.innerHTML
-    if(area.value == ""){
+    if (area.value == "") {
         $("#contentEmpty").modal('show')
         // alert("Please fill in your content")
-    }
+    }   
 }
 
-//Enable iframe to be edited
+
 $(window).ready(function () {
+
+})
+
+$(function () {
+    //Enable iframe to be edited
     test1.body.contentEditable = true
+    //Enable iframe to be edited
+    // console.log($("#content").val())
+    test.contentWindow.document.body.innerHTML = $("#content").val();
+    // console.log(test.contentWindow.document.body.innerHTML)
+
+
+    //Image
+    if (typeof img !== 'undefined') {
+        let focus = $('.preview', '.file-upload');
+
+        focus.addClass('d-block');
+        focus.find('.renderer').html(`<img id="imageRender" src="${img}">`);
+
+        img = undefined
+        $('script#img-script').remove();
+
+        console.log($('#imageRender').attr('src'))
+    }
+
+    //Categories
+    categories = document.getElementsByName('projectCategory')
+    category_counter = 0
+
+    for (i = 0; i < categories.length; i++) {
+        if (categories[i].checked) {
+            console.log(categories[i].value)
+            category_counter++
+        }
+    }
+
+    if ($('#title').val() != "" && ($('#coverPicture').val() != "" || $('#imageRender').attr('src') != "") && category_counter > 0) {
+        $('#portfolio-tab-classic-shadow').removeClass("disabled muted")
+        $('#portfolio-tab-classic-shadow').addClass("text-secondary")
+    }
+    else {
+        $('#portfolio-tab-classic-shadow').addClass("disabled muted")
+        $('#portfolio-tab-classic-shadow').removeClass("text-secondary")
+    }
+
+
+});
+
+$(document).change(function () {
+    categories = document.getElementsByName('projectCategory')
+    category_counter = 0
+
+    for (i = 0; i < categories.length; i++) {
+        if (categories[i].checked) {
+            category_counter++
+        }
+    }
+
+
+    if ($('#title').val() != "" && ($('#coverPicture').val() != "" || $('#imageRender').attr('src') != "") && category_counter > 0) {
+        $('#portfolio-tab-classic-shadow').removeClass("disabled muted")
+        $('#portfolio-tab-classic-shadow').addClass("text-secondary")
+    }
+    else {
+        $('#portfolio-tab-classic-shadow').addClass("disabled muted")
+        $('#portfolio-tab-classic-shadow').removeClass("text-secondary")
+    }
+
 })
 
 
 
+// ============================================================================================
+// ============================================================================================
+// ============================================================================================
+// ============================================================================================
 
-// =======================
+
+
 
 $('#moreTextEdit').on('show.bs.collapse', function () {
     $('#moreTextEditButton').addClass('active')

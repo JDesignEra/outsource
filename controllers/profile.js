@@ -9,6 +9,13 @@ moment = require('moment');
 Op = require('sequelize').Op
 // sequelize = require('sequelize')
 
+
+fonts = [
+    "Arial", "Calibri", "Impact", "Courier", "Helvetica", "Times New Roman", "Verdana",
+]
+fonts.sort()
+
+
 function removeEmpty(array, item, length) {
     index = array.indexOf(item);
     for (i = 0; i < length; i++) {
@@ -247,6 +254,7 @@ module.exports = {
         })
 
     },
+
     editProfilePost: function (req, res) {
         base64StringImg = req.body.imgString
         let base64Image = base64StringImg.split(';base64,').pop();
@@ -307,27 +315,19 @@ module.exports = {
 
 
     submit: function (req, res) {
-
-
-        fonts = [
-            "Arial", "Calibri", "Impact", "Courier", "Helvetica", "Times New Roman", "Verdana",
-            //"Segoe UI", "Helvetica Neue", "Noto Sans", "Courier New", "Garamond", "Roboto",
-        ]
-        fonts.sort()
-
         res.render('profile/submitProjects', {
             fonts: fonts
         })
     },
 
     submitProject: function (req, res) {
-        uid = req.user.id
-        title = req.body.title
-        category = req.body.projectCategory.toString()
-        content = req.body.content
-        datePosted = new Date()
-        views = 0
-        likes = 0
+        let uid = req.user.id
+        let title = req.body.title
+        let category = req.body.projectCategory.toString()
+        let content = req.body.content
+        let datePosted = new Date()
+        let views = 0
+        let likes = 0
 
         Project.create({
             uid: uid,
@@ -362,6 +362,76 @@ module.exports = {
             .catch(err => console.log(err))
 
     },
+
+    editProject: function (req, res) {
+        Project.findOne({
+            where: {
+                id: req.params.id,
+            }
+        }).then((project) => {
+            if (project.uid != req.user.id) {
+                req.flash('error', `You can't edit this project`)
+                res.redirect("/")
+            }
+            else {
+                let imgPath = `/uploads/profile/${req.user.id}/projects/${project.id}.png`;
+
+                res.render('profile/editProject', {
+                    fonts: fonts,
+                    project,
+                    img: imgPath
+                })
+            }
+        })
+
+    },
+    
+    editProjectPost: function (req, res) {
+
+        let uid = req.user.id
+        let title = req.body.title
+        let category = req.body.projectCategory.toString()
+        let content = req.body.content
+        let datePosted = new Date()
+
+        Project.update(
+            {
+                uid: uid,
+                title: title,
+                category: category,
+                content: content,
+                datePosted: datePosted,
+
+            },
+            {
+                where: { id: req.params.id }
+            })
+
+            .then((projects) => {
+                if (req.file !== undefined) {
+                    if (!fs.existsSync('./public/uploads/profile/' + req.user.id)) {
+                        fs.mkdirSync('./public/uploads/profile/' + req.user.id);
+                    }
+
+                    // Creates user id directory for upload if not exist
+                    if (!fs.existsSync('./public/uploads/profile/' + req.user.id + '/projects/')) {
+                        fs.mkdirSync('./public/uploads/profile/' + req.user.id + '/projects/');
+                    }
+
+                    // Move file
+                    let projectsId = projects.id;
+                    fs.renameSync(req.file['path'], './public/uploads/profile/' + req.user.id + '/projects/' + projectsId + '.png');
+                }
+
+
+
+                res.redirect('/profile/');
+            })
+            .catch(err => console.log(err))
+
+
+    },
+
     viewProject: function (req, res) {
         Project.findOne({
             where: {
@@ -396,6 +466,7 @@ module.exports = {
             })
 
     },
+
     deleteProject: function (req, res) {
         Project.findOne({
             id: req.params.id,
