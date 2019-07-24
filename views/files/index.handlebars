@@ -94,7 +94,7 @@
                 </div>
 
                 <div class="card-body card-body-cascade p-0">
-                    <div id="action-search" class="input-group px-3 mt-2 mb-0">
+                    <div id="action-search" class="input-group px-3 mt-2 mb-3">
                         <div class="md-form md-outline">
                             <input id="action-search-input" class="form-control mdb-autocomplete" type="text" name="search">
                             <button class="mdb-autocomplete-clear deep-purple-text">
@@ -131,10 +131,12 @@
                                     <label class="custom-control-label cursor-pointer" for="filter-type">Type</label>
                                 </div>
 
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input filter-shared" checked>
-                                    <label class="custom-control-label cursor-pointer" for="filter-shared">Shared</label>
-                                </div>
+                                {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input filter-shared" checked>
+                                        <label class="custom-control-label cursor-pointer" for="filter-shared">Shared</label>
+                                    </div>
+                                {{/ifCond}}
 
                                 <div class="custom-control custom-checkbox mb-3">
                                     <input type="checkbox" class="custom-control-input filter-modified" checked>
@@ -144,17 +146,19 @@
                         </div>
                     </div>
 
-                    <div class="list-group list-group-flush mt-3">
-                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#upload-modal">
-                            <i class="far fa-cloud-upload-alt mr-1"></i>Upload File(s)
-                        </button>
-                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newfile-modal">
-                            <i class="far fa-file-plus mr-1"></i>New File
-                        </button>
-                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newfolder-modal">
-                            <i class="far fa-folder-plus mr-1"></i>New Folder
-                        </button>
-                    </div>
+                    {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
+                        <div class="list-group list-group-flush">
+                            <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#upload-modal">
+                                <i class="far fa-cloud-upload-alt mr-1"></i>Upload File(s)
+                            </button>
+                            <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newfile-modal">
+                                <i class="far fa-file-plus mr-1"></i>New File
+                            </button>
+                            <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newfolder-modal">
+                                <i class="far fa-folder-plus mr-1"></i>New Folder
+                            </button>
+                        </div>
+                    {{/ifCond}}
 
                     <hr class="my-0">
 
@@ -168,23 +172,27 @@
                                 <a class="download list-group-item list-group-item-action" href="{{ postRoot }}">
                                     <i class="far fa-cloud-download-alt mr-1"></i>Download
                                 </a>
-                                <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#share-modal">
-                                    <i class="far fa-share-alt mr-1"></i>Share
-                                </button>
-                                <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#rename-modal">
-                                    <i class="far fa-i-cursor mr-1"></i>Rename
-                                </button>
+                                {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
+                                    <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#share-modal">
+                                        <i class="far fa-share-alt mr-1"></i>Share
+                                    </button>
+                                    <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#rename-modal">
+                                        <i class="far fa-i-cursor mr-1"></i>Rename
+                                    </button>
+                                {{/ifCond}}
                             </div>
                             
-                            <button class="list-group-item list-group-item-action move-action" data-toggle="modal" data-target="#move-modal">
-                                <i class="fas fa-exchange-alt mr-1"></i>Move
-                            </button>
-                            <button class="list-group-item list-group-item-action copy-action" data-toggle="modal" data-target="#copy-modal">
-                                <i class="far fa-copy mr-1"></i>Copy
-                            </button>
-                            <button class="list-group-item list-group-item-action delete-action">
-                                <i class="far fa-trash-alt mr-1"></i>Delete
-                            </button>
+                            {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
+                                <button class="list-group-item list-group-item-action move-action" data-toggle="modal" data-target="#move-modal">
+                                    <i class="fas fa-exchange-alt mr-1"></i>Move
+                                </button>
+                                <button class="list-group-item list-group-item-action copy-action" data-toggle="modal" data-target="#copy-modal">
+                                    <i class="far fa-copy mr-1"></i>Copy
+                                </button>
+                                <button class="list-group-item list-group-item-action delete-action">
+                                    <i class="far fa-trash-alt mr-1"></i>Delete
+                                </button>
+                            {{/ifCond}}
 
                             <div class="single-select animated faster">
                                 <!-- ToDo: Comment Function -->
@@ -611,10 +619,12 @@
                             <label class="custom-control-label cursor-pointer" for="filter-type">Type</label>
                         </div>
 
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input filter-shared" checked>
-                            <label class="custom-control-label cursor-pointer" for="filter-shared">Shared</label>
-                        </div>
+                        {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input filter-shared" checked>
+                                <label class="custom-control-label cursor-pointer" for="filter-shared">Shared</label>
+                            </div>
+                        {{/ifCond}}
 
                         <div class="custom-control custom-checkbox mb-3">
                             <input type="checkbox" class="custom-control-input filter-modified" checked>
@@ -625,17 +635,19 @@
             </div>
         </div>
 
-        <hr class="mt-3 mb-2">
+        {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
+            <hr class="mt-3 mb-2">
 
-        <button class="dropdown-item" data-toggle="modal" data-target="#upload-modal">
-            <i class="far fa-cloud-upload-alt mr-1"></i>Upload File(s)
-        </button>
-        <button class="dropdown-item" data-toggle="modal" data-target="#newfile-modal">
-            <i class="far fa-file-plus mr-1"></i>New File
-        </button>
-        <button class="dropdown-item" data-toggle="modal" data-target="#newfolder-modal">
-            <i class="far fa-folder-plus mr-1"></i>New Folder
-        </button>
+            <button class="dropdown-item" data-toggle="modal" data-target="#upload-modal">
+                <i class="far fa-cloud-upload-alt mr-1"></i>Upload File(s)
+            </button>
+            <button class="dropdown-item" data-toggle="modal" data-target="#newfile-modal">
+                <i class="far fa-file-plus mr-1"></i>New File
+            </button>
+            <button class="dropdown-item" data-toggle="modal" data-target="#newfolder-modal">
+                <i class="far fa-folder-plus mr-1"></i>New Folder
+            </button>
+        {{/ifCond}}
 
         <div class="d-none select-actions">
             <hr class="my-2">
@@ -645,26 +657,32 @@
             <hr class="my-2">
 
             <div class="single-select">
-                <button class="dropdown-item" data-toggle="modal" data-target="#share-modal">
-                    <i class="far fa-share-alt mr-1"></i>Share
-                </button>
+                {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
+                    <button class="dropdown-item" data-toggle="modal" data-target="#share-modal">
+                        <i class="far fa-share-alt mr-1"></i>Share
+                    </button>
+                {{/ifCond}}
                 <a class="download dropdown-item" href="{{ postRoot }}">
                     <i class="far fa-cloud-download-alt mr-1"></i>Download
                 </a>
-                <button class="dropdown-item" data-toggle="modal" data-target="#rename-modal">
-                    <i class="far fa-i-cursor mr-1"></i>Rename
-                </button>
+                {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
+                    <button class="dropdown-item" data-toggle="modal" data-target="#rename-modal">
+                        <i class="far fa-i-cursor mr-1"></i>Rename
+                    </button>
+                {{/ifCond}}
             </div>
             
-            <button class="dropdown-item move-action" data-toggle="modal" data-target="#move-modal">
-                <i class="fas fa-exchange-alt mr-1"></i>Move
-            </button>
-            <button class="dropdown-item copy-action" data-toggle="modal" data-target="#copy-modal">
-                <i class="far fa-copy mr-1"></i>Copy
-            </button>
-            <button class="dropdown-item delete-action">
-                <i class="far fa-trash-alt mr-1"></i>Delete
-            </button>
+            {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
+                <button class="dropdown-item move-action" data-toggle="modal" data-target="#move-modal">
+                    <i class="fas fa-exchange-alt mr-1"></i>Move
+                </button>
+                <button class="dropdown-item copy-action" data-toggle="modal" data-target="#copy-modal">
+                    <i class="far fa-copy mr-1"></i>Copy
+                </button>
+                <button class="dropdown-item delete-action">
+                    <i class="far fa-trash-alt mr-1"></i>Delete
+                </button>
+            {{/ifCond}}
             
             <div class="single-select">
                 <!-- ToDo: Comment and info function -->

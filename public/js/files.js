@@ -22,7 +22,7 @@ $(function() {
 
         insert.prepend(
             `<li class="text-capitalize">
-                <a class="treeview-animated-element d-flex align-items-center" href="/files">
+                <a class="treeview-animated-element d-flex align-items-center open" href="/files/my-drive">
                     <i class="far fa-hdd mr-2"></i>View My Drive
                 </a>
             </li>`
@@ -57,7 +57,13 @@ $(function() {
                             <i class="fas fa-angle-right mr-2 ml-2"></i>
                             <i class="far fa-folder mr-2"></i>${parentName}
                         </a>
-                        <ul class="nested"></ul>
+                        <ul class="nested">
+                            <li class="text-capitalize">
+                                <a class="treeview-animated-element teal white-text d-flex align-items-center parent-folder" href="${parentLink}">
+                                    <i class="far fa-folder-open mr-2"></i>Open This Folder
+                                </a>
+                            </li>
+                        </ul>
                     `);
                 }
                 
@@ -67,12 +73,6 @@ $(function() {
                     <li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">
                         <a class="treeview-animated-element d-flex align-items-center" href="${val.link}">
                             <i class="far fa-folder mr-2"></i>${val.name}
-                        </a>
-                    </li>
-
-                    <li class="text-capitalize">
-                        <a class="treeview-animated-element d-flex align-items-center parent-folder" href="${parentLink}">
-                            <i class="far fa-folder-open mr-2"></i>Open This Folder
                         </a>
                     </li>
                 `);
@@ -86,7 +86,7 @@ $(function() {
         $('script#tree-script').remove();
 
         let path = '';
-
+        
         decodeURI(window.location.pathname).split('/').forEach(val => {
             let target = insert.find('a[href]:not(.parent-folder)');
             path += val;
@@ -115,9 +115,10 @@ $(function() {
         let elements = $('.treeview-animated-element', '#folders-tree');
         
         $('.closed', '#folders-tree').click(function () {
-            _this = $(this);
-            target = _this.siblings('.treeview-animated .nested');
-            pointer = _this.children('.treeview-animated .fa-angle-right');
+            let _this = $(this);
+            let target = _this.siblings('.treeview-animated .nested');
+            let pointer = _this.children('.treeview-animated .fa-angle-right');
+
             _this.toggleClass('open');
             pointer.toggleClass('down');
             !target.hasClass('active') ? target.addClass('active').slideDown() : target.removeClass('active').slideUp();
@@ -125,23 +126,30 @@ $(function() {
         });
 
         elements.click(function () {
-            _this = $(this);
-            _this.hasClass('opened') ? _this.removeClass('opened') : (elements.removeClass('opened'), _this.addClass('opened'));
+            let _this = $(this);
+
+            if (_this.hasClass('opened')) {
+                _this.removeClass('opened');
+            }
+            else {
+                elements.removeClass('opened');
+                _this.addClass('opened');
+            }
         });
     }
 
-    // Shared-Tree
+    // Share-Tree
     if (typeof shareTree !== 'undefined') {
         let insert = $('<ul class="treeview-animated-list mt-2"></ul>');
 
         insert.prepend(
             `<li class="text-capitalize">
-                <a class="treeview-animated-element d-flex align-items-center" href="/files">
+                <a class="treeview-animated-element d-flex align-items-center open" href="/files/share-drive">
                     <i class="far fa-users mr-2"></i>View Share Drive
                 </a>
             </li>`
         );
-
+        
         shareTree.forEach((val) => {
             // Build Share Tree UI
             let li = insert.find(`[data-child="${val.parent}"]`);
@@ -168,7 +176,13 @@ $(function() {
                             <i class="fas fa-angle-right mr-2 ml-2"></i>
                             <i class="far fa-folder mr-2"></i>${parentName}
                         </a>
-                        <ul class="nested"></ul>
+                        <ul class="nested">
+                            <li class="text-capitalize">
+                                <a class="treeview-animated-element teal white-text d-flex align-items-center parent-folder" href="${parentLink}">
+                                    <i class="far fa-folder-open mr-2"></i>Open This Folder
+                                </a>
+                            </li>
+                        </ul>
                     `);
                 }
                 
@@ -178,12 +192,6 @@ $(function() {
                     <li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">
                         <a class="treeview-animated-element d-flex align-items-center" href="${val.link}">
                             <i class="far fa-folder mr-2"></i>${val.name}
-                        </a>
-                    </li>
-
-                    <li class="text-capitalize">
-                        <a class="treeview-animated-element d-flex align-items-center parent-folder" href="${parentLink}">
-                            <i class="far fa-folder-open mr-2"></i>Open This Folder
                         </a>
                     </li>
                 `);
@@ -244,6 +252,14 @@ $(function() {
     function filesTableInit(tableId) {
         let focus = $(tableId);
 
+        let path = window.location.pathname.slice(1);
+        path = path.slice(path.indexOf('/') + 1);
+
+        if (path === 'share-drive') {
+            focus.find('th#shared').remove();
+            focus.find('td[headers="shared"').remove();
+        }
+
         focus.DataTable({
             ordering: true,
             order: [[1, 'asc']],
@@ -256,7 +272,7 @@ $(function() {
                 targets: 0
             }],
         });
-        
+
         if (focus.find('.dataTables_empty').length > 0) {
             focus.find('#check-all').prop('disabled', true);
         }
@@ -798,7 +814,9 @@ $(function() {
 
             if (share['uids'] && share['usernames'] && share['emails']) {
                 let table = $('#share-users-table', '#share-modal');
-                let tbody = table.find('tbody');
+                let tbody = $('<tbody></tbody>');
+
+                table.find('tbody').remove();
 
                 share['uids']  = share['uids'].split(',');
                 share['usernames'] = share['usernames'].split(',');
@@ -807,7 +825,6 @@ $(function() {
                 $('.share-users', '#share-modal').removeClass('d-none');
                 
                 for (let i = 0, n = share['uids'].length; i < n; i++) {
-                    // ToDo: profile picture
                     let uid = share['uids'][i];
                     let username = share['usernames'][i];
                     let email = share['emails'][i];
@@ -829,6 +846,8 @@ $(function() {
                         </tr>
                     `);
                 }
+
+                table.append(tbody);
                 
                 // Init or Re-init DataTable
                 table.DataTable().destroy();
