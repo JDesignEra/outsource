@@ -201,14 +201,46 @@ module.exports = {
                                         uid: viewuser.id
                                     }
                                 }).then((favs) => {
-                                    console.log("render if")
-                                    res.render('profile/viewProfile', {
-                                        projects: projects,
-                                        viewuser: viewuser,
-                                        services: services,
-                                        skills: skills,
-                                        favs: favs
-                                    });
+                                    let services = [];
+                                    console.log(favs.entries().length);
+                                    if (favs.entries().length != undefined) {
+                                        for (const [i, service] of favs.entries()) {
+                                            let temp = service;
+                                            console.log("FIRE");
+                                            User.findOne({
+                                                where: {
+                                                    id: service.uid
+                                                },
+                                                attributes: ['username']
+                                            }).then(curr => {
+                                                temp['username'] = curr['username'];
+                                                services.push(temp);
+
+                                                if (i == favs.length - 1) {
+                                                    setTimeout(() => {
+                                                        res.render('profile/', {
+                                                            projects: projects,
+                                                            user: user,
+                                                            services: services,
+                                                            skills: skills,
+                                                            social_medias: socialmedias,
+                                                            favs: favs
+                                                        });
+                                                    }, 50);
+                                                }
+                                            })
+                                        }
+                                    }
+                                    else {
+                                        res.render('profile/', {
+                                            projects: projects,
+                                            user: user,
+                                            services: services,
+                                            skills: skills,
+                                            social_medias: socialmedias
+                                        });
+
+                                    }
                                 })
                             }
                             else {
