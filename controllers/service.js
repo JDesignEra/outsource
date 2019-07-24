@@ -230,7 +230,8 @@ module.exports = {
     fav: function (req, res) {
         Servicefavs.findOne({
             where: {
-                sid: req.params.id
+                sid: req.params.id,
+                uid: req.user.id
             }
         }).then((servicefavs) => {
             if (servicefavs == null) {
@@ -256,7 +257,7 @@ module.exports = {
                 })
 
             }
-            else if (req.params.id == servicefavs.sid) {
+            else if (req.params.id == servicefavs.sid && req.user.id == servicefavs.uid) {
                 Servicefavs.destroy({
                     where: {
                         sid: req.params.id,
