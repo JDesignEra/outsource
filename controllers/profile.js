@@ -328,7 +328,7 @@ module.exports = {
         let datePosted = new Date()
         let views = 0
         let likes = 0
-
+        let imgfile = req.file
         Project.create({
             uid: uid,
             title: title,
@@ -340,7 +340,7 @@ module.exports = {
 
         })
             .then((projects) => {
-                if (req.file !== undefined) {
+                if (imgfile !== undefined) {
                     if (!fs.existsSync('./public/uploads/profile/' + req.user.id)) {
                         fs.mkdirSync('./public/uploads/profile/' + req.user.id);
                     }
@@ -352,7 +352,7 @@ module.exports = {
 
                     // Move file
                     let projectsId = projects.id;
-                    fs.renameSync(req.file['path'], './public/uploads/profile/' + req.user.id + '/projects/' + projectsId + '.png');
+                    fs.renameSync(imgfile['path'], './public/uploads/profile/' + req.user.id + '/projects/' + projectsId + '.png');
                 }
 
 
@@ -393,7 +393,7 @@ module.exports = {
         let category = req.body.projectCategory.toString()
         let content = req.body.content
         let datePosted = new Date()
-
+        let coverimg = req.file
         Project.update(
             {
                 uid: uid,
@@ -404,25 +404,32 @@ module.exports = {
 
             },
             {
-                where: { id: req.params.id }
+                where: { 
+                    id: req.params.id 
+                }
             })
 
-            .then((projects) => {
-                if (req.file !== undefined) {
+            .then((updateProject) => {
+                // console.log(req.user.id)
+                // res.send("hi")
+                // res.send(updateProject)
+                if (coverimg !== undefined) {
+
+                    // Creates user id directory for upload if not exist
                     if (!fs.existsSync('./public/uploads/profile/' + req.user.id)) {
                         fs.mkdirSync('./public/uploads/profile/' + req.user.id);
                     }
-
-                    // Creates user id directory for upload if not exist
                     if (!fs.existsSync('./public/uploads/profile/' + req.user.id + '/projects/')) {
                         fs.mkdirSync('./public/uploads/profile/' + req.user.id + '/projects/');
                     }
-
-                    // Move file
-                    let projectsId = projects.id;
-                    fs.renameSync(req.file['path'], './public/uploads/profile/' + req.user.id + '/projects/' + projectsId + '.png');
+                  
+                    // Move/Replace file
+                    // let projectId = project.id;
+                    let newPath = `./public/uploads/profile/${req.user.id}/projects/${req.params.id}.png`
+                    console.log(newPath)
+                    fs.renameSync(coverimg['path'], newPath);
                 }
-
+       
 
 
                 res.redirect('/profile/');

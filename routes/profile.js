@@ -17,7 +17,7 @@ router.get('/submit', isAuth, profileController.submit)
 router.post('/submit', upload.single('coverPicture'), profileController.submitProject)
 
 router.get('/editProject/:id', isAuth, profileController.editProject)
-router.post('/editProject/:id', isAuth, profileController.editProjectPost)
+router.post('/editProject/:id', upload.single('coverPicture'), isAuth, profileController.editProjectPost)
 
 
 router.get('/view/:id', profileController.viewProject)

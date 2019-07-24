@@ -203,6 +203,7 @@ module.exports = {
                     let serviceId = req.params.id;
                     fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
                 }
+                
                 req.flash('success', 'Changes saved successfully!');
                 res.redirect('/profile');
             }).catch(err => console.log(err));

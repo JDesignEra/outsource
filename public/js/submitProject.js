@@ -164,10 +164,10 @@ $(window).ready(function () {
 $(function () {
     //Enable iframe to be edited
     test1.body.contentEditable = true
+
+
     //Enable iframe to be edited
-    // console.log($("#content").val())
     test.contentWindow.document.body.innerHTML = $("#content").val();
-    // console.log(test.contentWindow.document.body.innerHTML)
 
 
     //Image
