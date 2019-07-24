@@ -82,8 +82,8 @@ module.exports = {
                                             id: service.uid
                                         },
                                         attributes: ['username']
-                                    }).then(user => {
-                                        temp['username'] = user['username'];
+                                    }).then(curr => {
+                                        temp['username'] = curr['username'];
                                         services.push(temp);
 
                                         if (i == favs.length - 1) {
