@@ -1,3 +1,14 @@
+/*!
+ * # Semantic UI 2.4.2 - Flag
+ * http://github.com/semantic-org/semantic-ui/
+ *
+ *
+ * Released under the MIT license
+ * http://opensource.org/licenses/MIT
+ *
+ */
+
+
 /*******************************
              Flag
 *******************************/
@@ -8,12 +19,11 @@ i.flag:not(.icon) {
   height: 11px;
   line-height: 11px;
   vertical-align: baseline;
-  margin: 0em 0.5em 0em 0em;
+  margin: 0 0.5em 0 0;
   text-decoration: inherit;
   speak: none;
-  font-smoothing: antialiased;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
+  font-smooth: antialiased;
+  backface-visibility: hidden;
 }
 
 /* Sprite */
@@ -24,6 +34,8 @@ i.flag:not(.icon):before {
   width: 16px;
   height: 11px;
 }
+
+/* Flag Sprite Based On http://www.famfamfam.com/lab/icons/flags/ */
 
 
 /*******************************

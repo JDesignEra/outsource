@@ -1,6 +1,11 @@
 /* ==========================================================================
    $BASE-TIME-PICKER
    ========================================================================== */
+
+// stylelint-disable selector-max-class
+// stylelint-disable selector-max-combinators
+// stylelint-disable selector-max-compound-selectors
+
 /**
  * The list of times.
  */
@@ -122,6 +127,18 @@
 
 }
 
+/*!
+ * ClockPicker v0.0.7 for jQuery (http://weareoutman.github.io/clockpicker/)
+ * Copyright 2014 Wang Shenwei.
+ * Licensed under MIT (https://github.com/weareoutman/clockpicker/blob/gh-pages/LICENSE)
+ *
+ * Further modified
+ * Copyright 2015 Ching Yaw Hao.
+ *
+ * Bootstrap v3.1.1 (http://getbootstrap.com)
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
 .picker__date-display {
   text-align: center;
   background-color: $datepicker-date-bg;
@@ -231,7 +248,7 @@
   position: relative;
   margin: auto;
   margin-top: $timepicker-clockpicker-plate-margin-top;
-  
+  /* Disable text selection highlighting. Thanks to Hermanya */
   user-select: none;
   .clockpicker-canvas,
   .clockpicker-dial {

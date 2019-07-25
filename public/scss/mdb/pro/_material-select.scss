@@ -205,6 +205,20 @@
       }
     }
   }
+
+  .select-add-option {
+    display: none;
+    position: absolute;
+    right: 1rem;
+    top: 1.5rem;
+    cursor: pointer;
+    color: #4285f4;
+  }
+
+  ~ .invalid-feedback,
+  ~ .valid-feedback {
+    margin-top: -1rem;
+  }
 }
 
 select {

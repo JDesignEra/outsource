@@ -13,13 +13,13 @@
     left: 0;
   }
   .percent {
+    z-index: 2;
     display: inline-block;
     line-height: $min-chart-line-height;
-    z-index: 2;
-    &:after {
-      content: "%";
+    &::after {
       margin-left: $min-chart-percent-margin;
       font-size: $min-chart-percent-font-size;
+      content: "%";
     }
   }
 }
