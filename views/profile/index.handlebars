@@ -71,8 +71,11 @@
                                 </h5>
 
                                 <br>
-                                <p class="text-left"> <b>Followers:</b> {{user.followers}} </p>
-                                <p class="text-left"> <b>Following:</b> {{user.following}}</p>
+                                <p class="text-left"> <a href="#" class="font-weight-bold" data-toggle="modal"
+                                        data-target="#followersModal">Followers:</a> {{followers.length}} </p>
+
+                                <p class="text-left"> <a href="#" class="font-weight-bold" data-toggle="modal"
+                                        data-target="#followingModal">Following:</a> {{following.length}}</p>
                                 <hr class="hr-primary">
 
 
@@ -232,15 +235,111 @@
             </div>
 
         </div>
+        {{!-- <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#followersModal">
+            Launch
+        </button> --}}
+
+
+
 
 </section>
 
+{{#extend 'modals'}}
+<!-- Followers Modal -->
+<div class="modal fade" id="followersModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Followers of {{user.username}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{#ifCond 'followers.length == 0'}}
+                <p class="text-center">You have no followers ;-;</p>
+                {{else}}
+                {{#each followers}}
+                <a href="/profile/view/{{id}}">
+                    <div class="row justify-content-start">
+                        <div class="col-2">
+                            <img onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{id}}/profilePic.png" class="rounded-circle border w-100" alt="">
+                        </div>
+                        <div class="col-5">
+
+                            {{username}}
+
+                            <br>
+                            <p>
+                                {{accType}}
+                            </p>
+                        </div>
+
+                    </div>
+                </a>
+                {{/each}}
+                {{/ifCond}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Following Modal -->
+<div class="modal fade" id="followingModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{user.username}}'s Following</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{#ifCond 'following.length == 0'}}
+                <p class="text-center"> Wow very empty. Much following.</p>
+                {{else}}
+                {{#each following}}
+                <a href="/profile/view/{{id}}">
+                    <div class="row justify-content-start">
+                        <div class="col-2">
+                            <img onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{id}}/profilePic.png" class="rounded-circle w-100 border" alt="">
+                        </div>
+                        <div class="col-5">
+
+                            <b>{{username}}</b>
+
+                            <br>
+                            <p>
+                                {{accType}}
+                            </p>
+                        </div>
+
+                    </div>
+                </a>
+                {{/each}}
+                {{/ifCond}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{/extend}}
 
 {{#extend 'scripts'}}
-<script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+{{!-- <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 <script>
     const observer = lozad();
     observer.observe();
-</script>
+</script> --}}
 
 {{/extend}}

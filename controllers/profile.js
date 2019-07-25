@@ -33,6 +33,20 @@ module.exports = {
                 id: req.user.id
             }
         }).then((user) => {
+            if (user.followers != null) {
+                followers = user.followers.split(',')
+            }
+            else {
+                followers = []
+            }
+
+            if (user.following != null) {
+                following = user.following.split(',')
+            }
+            else {
+                following = []
+            }
+
 
             if (user.skills != null) {
                 skills = user.skills.split(',')
@@ -64,87 +78,112 @@ module.exports = {
                         uid: req.user.id
                     }
                 }).then((services) => {
-                    Servicefavs.findAll({
+                    User.findAll({
                         where: {
-                            uid: req.user.id
+                            id: {
+                                [Op.in]: followers
+                            }
                         }
-                    }).then((datas) => {
-                        console.log("1")
-                        let serviceIds = [];
+                    }).then(followers => {
+                        User.findAll({
+                            where: {
+                                id: {
+                                    [Op.in]: following
+                                }
+                            }
+                        }).then(following => {
 
 
-                        for (const data of datas) {
-
-                            serviceIds.push(data['sid']);
-                            console.log('for')
-                        }
-
-                        // res.send(datas)
-
-                        if (datas) {
-                            console.log("if")
-                            Services.findAll({
+                            Servicefavs.findAll({
                                 where: {
-                                    id: { [Op.in]: serviceIds },
                                     uid: req.user.id
                                 }
-                            }).then(favs => {
-                                
-                                if (favs.length > 0) {
-                                    for (const [i, service] of favs.entries()) {
-                                        let temp = service;
+                            }).then((datas) => {
+                                console.log("1")
+                                let serviceIds = [];
 
-                                        User.findOne({
-                                            where: {
-                                                id: service.uid
-                                            },
-                                            attributes: ['username']
-                                        }).then(curr => {
-                                            temp['username'] = curr['username'];
-                                            services.push(temp);
 
-                                            if (i == favs.length - 1) {
-                                                setTimeout(() => {
-                                                    res.render('profile/', {
-                                                        projects: projects,
-                                                        user: user,
-                                                        services: services,
-                                                        skills: skills,
-                                                        social_medias: socialmedias,
-                                                        favs: favs
-                                                    });
-                                                }, 50);
+                                for (const data of datas) {
+
+                                    serviceIds.push(data['sid']);
+                                    console.log('for')
+                                }
+
+                                // res.send(datas)
+
+                                if (datas) {
+                                    console.log("if")
+                                    Services.findAll({
+                                        where: {
+                                            id: { [Op.in]: serviceIds },
+                                            uid: req.user.id
+                                        }
+                                    }).then(favs => {
+
+                                        if (favs.length > 0) {
+                                            for (const [i, service] of favs.entries()) {
+                                                let temp = service;
+
+                                                User.findOne({
+                                                    where: {
+                                                        id: service.uid
+                                                    },
+                                                    attributes: ['username']
+                                                }).then(curr => {
+                                                    temp['username'] = curr['username'];
+                                                    services.push(temp);
+
+                                                    if (i == favs.length - 1) {
+                                                        setTimeout(() => {
+                                                            res.render('profile/', {
+                                                                projects: projects,
+                                                                user: user,
+                                                                followers: followers,
+                                                                following: following,
+                                                                services: services,
+                                                                skills: skills,
+                                                                social_medias: socialmedias,
+                                                                favs: favs
+                                                            });
+                                                        }, 50);
+                                                    }
+                                                })
                                             }
-                                        })
-                                    }
+                                        }
+                                        else {
+
+                                            res.render('profile/', {
+                                                projects: projects,
+                                                user: user,
+                                                followers: followers,
+                                                following: following,
+                                                services: services,
+                                                skills: skills,
+                                                social_medias: socialmedias
+                                            });
+                                        }
+                                    })
+
                                 }
                                 else {
-
+                                    console.log("else")
                                     res.render('profile/', {
                                         projects: projects,
                                         user: user,
+                                        followers: followers,
+                                        following: following,
                                         services: services,
                                         skills: skills,
                                         social_medias: socialmedias
                                     });
+
                                 }
+
+
                             })
-
-                        }
-                        else {
-                            console.log("else")
-                            res.render('profile/', {
-                                projects: projects,
-                                user: user,
-                                services: services,
-                                skills: skills,
-                                social_medias: socialmedias
-                            });
-
-                        }
-
-
+                        })
                     })
+
 
                 })
 
@@ -155,7 +194,7 @@ module.exports = {
     },
 
     viewProfile: function (req, res) {
-        if (req.user.id == req.params.id) {
+        if (req.user && req.user.id == req.params.id) {
             res.redirect('/profile/')
         }
         else {
@@ -164,84 +203,143 @@ module.exports = {
                     id: req.params.id
                 }
             }).then((viewuser) => {
+                if (viewuser !== null) {
 
+                    //Checks if user is followed
+                    if (req.user.following != null) {
+                        viewUserFollowers = req.user.following.split(',')
+                    }
+                    else {
+                        viewUserFollowers = []
+                    }
 
-                console.log(`Skills ${viewuser.skills}`)
-                if (viewuser.skills != null) {
-                    skills = viewuser.skills.split(',')
-                    removeEmpty(skills, '', skills.length)
-                    removeEmpty(skills, ' ', skills.length)
-                }
-                else {
-                    skills = []
-                }
+                    followedUser = false
+                    if (viewUserFollowers.includes(viewuser.id.toString())) {
+                        followedUser = true
+                    }
 
-                if (viewuser.social_media != null) {
-                    socialmedias = viewuser.social_media.split(',')
-                    // removeEmpty(socialmedias , "", socialmedias.length)
-                }
-                else {
-                    socialmedias = []
-                }
+                    //Checks if user skill is null
+                    if (viewuser.skills != null) {
+                        skills = viewuser.skills.split(',')
+                        removeEmpty(skills, '', skills.length)
+                        removeEmpty(skills, ' ', skills.length)
+                    }
+                    else {
+                        skills = []
+                    }
 
-                Project.findAll({
-                    where: {
-                        uid: viewuser.id
-                    },
-                    order: [['datePosted', 'DESC']]
-                }).then((projects) => {
-                    Services.findAll({
+                    //Checks if user social media is null
+                    if (viewuser.social_media != null) {
+                        socialmedias = viewuser.social_media.split(',')
+                        // removeEmpty(socialmedias , "", socialmedias.length)
+                    }
+                    else {
+                        socialmedias = []
+                    }
+
+                    //Gets the viewed user followers and following
+                    if (viewuser.followers != null) {
+                        followers = viewuser.followers.split(',')
+                    }
+                    else {
+                        followers = []
+                    }
+        
+                    if (viewuser.following != null) {
+                        following = viewuser.following.split(',')
+                    }
+                    else {
+                        following = []
+                    }
+
+                    Project.findAll({
                         where: {
                             uid: viewuser.id
-                        }
-                    }).then((services) => {
-                        Servicefavs.findAll({
+                        },
+                        order: [['datePosted', 'DESC']]
+                    }).then((projects) => {
+                        Services.findAll({
                             where: {
                                 uid: viewuser.id
                             }
-                        }).then((datas) => {
-                            let serviceIds = [];
-
-                            for (const data of datas) {
-                                serviceIds.push(data['sid']);
-                            }
-                            if (datas) {
-                                Services.findAll({
-                                    where: {
-                                        id: { [Op.in]: serviceIds },
-                                        uid: viewuser.id
+                        }).then((services) => {
+                            User.findAll({
+                                where: {
+                                    id: {
+                                        [Op.in]: followers
                                     }
-                                }).then((favs) => {
-                                    res.render('profile/viewProfile', {
-                                        projects: projects,
-                                        viewuser: viewuser,
-                                        social_medias: socialmedias,
-                                        services: services,
-                                        skills: skills,
-                                        favs: favs
-                                    });
-                                })
-                            }
-                            else {
-                                res.render('profile/viewProfile', {
-                                    projects: projects,
-                                    user: user,
-                                    services: services,
-                                    skills: skills,
-                                    social_medias: socialmedias
+                                }
+                            }).then(followers => {
+                                User.findAll({
+                                    where: {
+                                        id: {
+                                            [Op.in]: following
+                                        }
+                                    }
+                                }).then(following => {
+                                    Servicefavs.findAll({
+                                        where: {
+                                            uid: viewuser.id
+                                        }
+                                    }).then((datas) => {
+                                        let serviceIds = [];
 
-                                });
-                            }
-                        }).catch(err => console.log(err))
+                                        for (const data of datas) {
+                                            serviceIds.push(data['sid']);
+                                        }
+                                        if (datas) {
+                                            Services.findAll({
+                                                where: {
+                                                    id: { [Op.in]: serviceIds },
+                                                    uid: viewuser.id
+                                                }
+                                            }).then((favs) => {
+
+                                                res.render('profile/viewProfile', {
+                                                    followedUser: followedUser,
+                                                    projects: projects,
+                                                    viewuser: viewuser,
+                                                    followers: followers,
+                                                    following: following,
+                                                    social_medias: socialmedias,
+                                                    services: services,
+                                                    skills: skills,
+                                                    favs: favs,
+
+                                                });
+                                            })
+                                        }
+                                        else {
+                                            res.render('profile/viewProfile', {
+                                                followedUser: followedUser,
+                                                projects: projects,
+                                                user: user,
+                                                followers: followers,
+                                                following: following,
+                                                services: services,
+                                                skills: skills,
+                                                social_medias: socialmedias
+
+                                            });
+                                        }
+                                    }).catch(err => console.log(err))
+
+                                })
+
+                            })
+                        })
 
                     })
+                }
 
-                })
+                else {
+                    req.flash('error', "This user does not exist.")
+                    res.redirect('/')
+                }
             })
         }
 
     },
-
 
     editProfile: function (req, res) {
         countryList = countries.countries
@@ -271,39 +369,61 @@ module.exports = {
     },
 
     editProfilePost: function (req, res) {
-        base64StringImg = req.body.imgString
+        let base64StringImg = req.body.imgString
         let base64Image = base64StringImg.split(';base64,').pop();
 
-        base64StringBanner = req.body.bannerString
+        let base64StringBanner = req.body.bannerString
         let base64Banner = base64StringBanner.split(';base64,').pop();
-        website = req.body.website
-        dob = moment(req.body.dob, 'DD/MM/YYYY')
-        gender = req.body.gender
-        location = req.body.location
-        occupation = req.body.occupation
+        let website = req.body.website
+        let dob = req.body.dob
+        let gender = req.body.gender
+        let location = req.body.location
+        let occupation = req.body.occupation
 
-        paypal = req.body.paypal
-        socialmedias = "" + req.body.twitter + "," + req.body.instagram + "," + req.body.facebook + "," + req.body.youtube + "," + req.body.deviantart
+        let paypal = req.body.paypal
+        let socialmedias = "" + req.body.twitter + "," + req.body.instagram + "," + req.body.facebook + "," + req.body.youtube + "," + req.body.deviantart
 
-        skill1 = req.body.skill1
-        skill2 = req.body.skill2
-        skill3 = req.body.skill3
-        skill4 = req.body.skill4
-        skill5 = req.body.skill5
-        skills = "" + skill1 + "," + skill2 + "," + skill3 + "," + skill4 + "," + skill5
-        bio = req.body.bio
+        let skill1 = req.body.skill1
+        let skill2 = req.body.skill2
+        let skill3 = req.body.skill3
+        let skill4 = req.body.skill4
+        let skill5 = req.body.skill5
+        let skills = "" + skill1 + "," + skill2 + "," + skill3 + "," + skill4 + "," + skill5
+        let bio = req.body.bio
+        // res.send(dob)
+        if (dob == "") {
+            console.log("if")
 
-        User.update({
-            website: website,
-            dob: dob,
-            gender: gender,
-            location: location,
-            occupation: occupation,
-            skills: skills,
-            bio: bio,
-            paypal: paypal,
-            social_media: socialmedias
-        },
+            updates = {
+                website: website,
+                gender: gender,
+                location: location,
+                occupation: occupation,
+                skills: skills,
+                bio: bio,
+                paypal: paypal,
+                social_media: socialmedias
+            }
+        }
+        else {
+            console.log("else")
+            updates = {
+                website: website,
+                dob: moment(dob, 'DD/MM/YYYY'),
+                gender: gender,
+                location: location,
+                occupation: occupation,
+                skills: skills,
+                bio: bio,
+                paypal: paypal,
+                social_media: socialmedias
+            }
+        }
+
+        // res.send(updates)
+        User.update(
+            updates
+            ,
             {
                 where: {
                     id: req.user.id
@@ -312,7 +432,6 @@ module.exports = {
                 if (!fs.existsSync('./public/uploads/profile/' + req.user.id)) {
                     fs.mkdirSync('./public/uploads/profile/' + req.user.id);
                 }
-
                 //Changes Base64 to PNG
                 if (base64Image !== "") {
                     fs.writeFile('./public/uploads/profile/' + req.user.id + '/profilePic.png', base64Image, { encoding: 'base64' }, function (err) {
@@ -326,6 +445,96 @@ module.exports = {
                 res.redirect('/profile/')
             })
 
+    },
+
+    follow: function (req, res) {
+        User.findOne({
+            where: {
+                id: req.params.id
+            }
+        }).then(followUser => {
+            followers = []
+            if (followUser.followers != null) {
+                followers = followUser.followers.split(',')
+            }
+            followers.push(req.user.id)
+
+            following = []
+            if (followUser.following != null) {
+                following = user.following.split(',')
+            }
+            following.push(followUser.id)
+
+
+            User.update({
+                followers: followers.toString()
+            },
+                {
+                    where: {
+                        id: followUser.id
+                    }
+                }).then(followedUser => {
+                    User.update({
+                        following: following.toString()
+                    }, {
+                            where:
+                            {
+                                id: req.user.id
+                            }
+                        }).then(selfUser => {
+                            res.redirect('back')
+                        })
+
+                })
+
+        })
+    },
+    unfollow: function (req, res) {
+        selfUserFollowing = req.user.following.split(',')
+        if (selfUserFollowing.length > 0) {
+
+            //Deletes User from Following
+            followedUserIndex = selfUserFollowing.indexOf(req.params.id.toString())
+            if (followedUserIndex > -1) {
+                selfUserFollowing.splice(followedUserIndex, 1)
+            }
+
+            User.update({
+                following: selfUserFollowing.toString()
+            }, { where: { id: req.user.id } })
+                .then(selfUser => {
+                    User.findOne({
+                        where: {
+                            id: req.params.id
+                        }
+                    }).then(followedUser => {
+
+
+                        followedUserFollowers = followedUser.followers.split(",")
+                        // res.send(followedUserFollowers)
+                        selfUserIndex = followedUserFollowers.indexOf(req.user.id.toString())
+                        if (selfUserIndex > -1) {
+                            followedUserFollowers.splice(selfUserIndex, 1)
+                        }
+
+                        User.update({
+                            followers: followedUserFollowers.toString()
+                        },
+                            {
+                                where: { id: followedUser.id }
+                            }).then(unfollowedUser => {
+                                res.redirect('back')
+                            })
+                    })
+                })
+
+
+
+        }
+        else {
+            req.flash('error', "You are not following anyone.")
+            res.redirect('/')
+        }
     },
 
 
@@ -400,7 +609,7 @@ module.exports = {
         })
 
     },
-    
+
     editProjectPost: function (req, res) {
 
         let uid = req.user.id
@@ -419,8 +628,8 @@ module.exports = {
 
             },
             {
-                where: { 
-                    id: req.params.id 
+                where: {
+                    id: req.params.id
                 }
             })
 
@@ -437,14 +646,14 @@ module.exports = {
                     if (!fs.existsSync('./public/uploads/profile/' + req.user.id + '/projects/')) {
                         fs.mkdirSync('./public/uploads/profile/' + req.user.id + '/projects/');
                     }
-                  
+
                     // Move/Replace file
                     // let projectId = project.id;
                     let newPath = `./public/uploads/profile/${req.user.id}/projects/${req.params.id}.png`
                     console.log(newPath)
                     fs.renameSync(coverimg['path'], newPath);
                 }
-       
+
 
 
                 res.redirect('/profile/');

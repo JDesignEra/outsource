@@ -104,8 +104,8 @@ module.exports = {
                                                     email: email,
                                                     password: hash,
                                                     accType: accType,
-                                                    followers: 0,
-                                                    following: 0,
+                                                    // followers: 0,
+                                                    // following: 0,
 
                                                 }).then(user => {
                                                     req.flash('success', user.username + ' register successfully. You may login now.');

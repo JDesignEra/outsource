@@ -40,10 +40,10 @@ const users = db.define('user', {
     },  
     //Follow Info
     followers: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.TEXT('long'),
     },
     following: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.TEXT('long'),
     },
 
     //Info

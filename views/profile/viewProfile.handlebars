@@ -50,12 +50,14 @@
                             {{!-- <a href="/profile/edit" class="m-2 ml-auto text-secondary"><i
                                     class="fas fa-edit fa-lg"></i></a> --}}
                             <!-- Avatar -->
+
                             <div class="avatar mx-auto white mt-4">
 
                                 <img onerror='this.src = "/img/profile/default.png"'
                                     src="/uploads/profile/{{viewuser.id}}/profilePic.png"
                                     class="rounded-circle lozad border" alt="">
                             </div>
+
                             <!-- Content -->
                             <div class="card-body">
                                 <!-- Name -->
@@ -68,10 +70,19 @@
                                     None
                                     {{/if}}
                                 </h5>
+                                <div class="">
+                                    {{#ifCond 'followedUser == true'}}
+                                    <a href="/profile/unfollow/{{viewuser.id}}" class="btn btn-secondary btn-rounded"> Unfollow </a>
+                                    {{else}}
+                                    <a href="/profile/follow/{{viewuser.id}}" class="btn btn-secondary btn-rounded"> Follow </a>
+                                    {{/ifCond}}
+                                </div>
 
                                 <br>
-                                <p class="text-left"> <b>Followers:</b> {{viewuser.followers}} </p>
-                                <p class="text-left"> <b>Following:</b> {{viewuser.following}}</p>
+                                <p class="text-left"> <a href="#" class="font-weight-bold" data-toggle="modal"
+                                        data-target="#followersModal">Followers:</a> {{followers.length}} </p>
+                                 <p class="text-left"> <a href="#" class="font-weight-bold" data-toggle="modal"
+                                        data-target="#followingModal">Following:</a> {{following.length}}</p>
                                 <hr class="hr-primary">
 
 
@@ -252,6 +263,95 @@
 
 </section>
 
+{{#extend 'modals'}}
+<!-- Followers Modal -->
+<div class="modal fade" id="followersModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Followers of {{viewuser.username}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{#ifCond 'followers.length == 0'}}
+                <p class="text-center">{{viewuser.username}}have no followers ;-;</p>
+                {{else}}
+                {{#each followers}}
+                <a href="/profile/view/{{id}}">
+                    <div class="row justify-content-start">
+                        <div class="col-2">
+                            <img onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{id}}/profilePic.png" class="rounded-circle border w-100" alt="">
+                        </div>
+                        <div class="col-5">
+
+                            {{username}}
+
+                            <br>
+                            <p>
+                                {{accType}}
+                            </p>
+                        </div>
+
+                    </div>
+                </a>
+                {{/each}}
+                {{/ifCond}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Following Modal -->
+<div class="modal fade" id="followingModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{viewuser.username}}'s Following</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{#ifCond 'following.length == 0'}}
+                <p class="text-center"> Wow very empty. Much following.<br>{{viewuser.username}} Didn't following anyone</p>
+                {{else}}
+                {{#each following}}
+                <a href="/profile/view/{{id}}">
+                    <div class="row justify-content-start">
+                        <div class="col-2">
+                            <img onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{id}}/profilePic.png" class="rounded-circle w-100 border" alt="">
+                        </div>
+                        <div class="col-5">
+
+                            <b>{{username}}</b>
+
+                            <br>
+                            <p>
+                                {{accType}}
+                            </p>
+                        </div>
+
+                    </div>
+                </a>
+                {{/each}}
+                {{/ifCond}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{/extend}}
 
 {{#extend 'scripts'}}
 <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
