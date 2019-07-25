@@ -50,7 +50,7 @@ module.exports = {
             else {
                 socialmedias = []
             }
-            console.log(socialmedias)
+            // console.log(socialmedias)
 
             Project.findAll({
                 where: {
@@ -89,6 +89,7 @@ module.exports = {
                                     uid: req.user.id
                                 }
                             }).then(favs => {
+                                
                                 if (favs.length > 0) {
                                     for (const [i, service] of favs.entries()) {
                                         let temp = service;
@@ -118,6 +119,7 @@ module.exports = {
                                     }
                                 }
                                 else {
+
                                     res.render('profile/', {
                                         projects: projects,
                                         user: user,
@@ -173,10 +175,20 @@ module.exports = {
                 else {
                     skills = []
                 }
+
+                if (viewuser.social_media != null) {
+                    socialmedias = viewuser.social_media.split(',')
+                    // removeEmpty(socialmedias , "", socialmedias.length)
+                }
+                else {
+                    socialmedias = []
+                }
+
                 Project.findAll({
                     where: {
                         uid: viewuser.id
                     },
+                    order: [['datePosted', 'DESC']]
                 }).then((projects) => {
                     Services.findAll({
                         where: {
@@ -203,6 +215,7 @@ module.exports = {
                                     res.render('profile/viewProfile', {
                                         projects: projects,
                                         viewuser: viewuser,
+                                        social_medias: socialmedias,
                                         services: services,
                                         skills: skills,
                                         favs: favs
@@ -214,7 +227,9 @@ module.exports = {
                                     projects: projects,
                                     user: user,
                                     services: services,
-                                    skills: skills
+                                    skills: skills,
+                                    social_medias: socialmedias
+
                                 });
                             }
                         }).catch(err => console.log(err))

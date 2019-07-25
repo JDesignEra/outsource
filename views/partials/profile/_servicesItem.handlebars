@@ -1,8 +1,7 @@
 <div class="accordion md-accordion" id="accordionServices1" role="tablist" aria-multiselectable="true">
+    <div class="card">
 
-<div class="card">
-
-{{!-- <!-- Card header -->
+        {{!-- <!-- Card header -->
         <div class="card-header" role="tab" id="headingServices1">
 
             <a class="collapsed" data-toggle="collapse" data-parent="#accordionServices1" href="#collapseServices1"
@@ -14,71 +13,84 @@
             </a>
         </div> --}}
 
-<!-- Card body -->
-<div id="collapseServices1" class="collapse show row justify-content-around" role="tabpanel"
-    aria-labelledby="headingPortfolio1" data-parent="#accordionServices1">
+        <!-- Card body -->
+        <div id="collapseServices1" class="collapse show" role="tabpanel"
+            aria-labelledby="headingPortfolio1" data-parent="#accordionServices1">
 
-    <div class="row justify-content-start">
-        {{#each services}}
-        <div class="z-depth-2 card col-12 col-md-4 col-lg-4 p-4 mt-4">
-            <div class="view overlay">
-                <img onerror='this.src = "/img/services/default.jpg"' class="card-img-top"
-                    src="/uploads/services/{{uid}}/{{id}}.png">
-            </div>
-            <div class="btn-action ml-auto mr-3">
-                <a class="btn-floating btn-primary m-0 material-tooltip-sm" data-tooltip="tooltip" data-placement="top"
-                    title="View More Details" href="/services/view/{{uid}}/{{id}}">
-                    <i class="far fa-eye"></i>
-                </a>
-            </div>
-            
-            <div class="card-body pb-2">
-                <div class="d-flex mt-3">
-                    <div class="flex-fill">
-                        <h4 class="card-title mb-0" data-names="{{name}}">
-                            {{name}}</h4>
+            <div class="card-body">
+                {{#if services}}
+                <div class="row justify-content-start">
+                {{#each services}}
+                <div class="col-12 col-md-4 col-lg-4">
+                <div class="z-depth-2 card">
+                    <div class="view overlay">
+                        <img onerror='this.src = "/img/services/default.jpg"' class="card-img-top"
+                            src="/uploads/services/{{uid}}/{{id}}.png">
                     </div>
-                    <div class="flex-fill text-right">
-                        <span class="font-weight-bold">{{views}}</span>
-                        <i class="far fa-eye fa-fw ml-1"></i>
+
+                    <div class="btn-action ml-auto mr-3">
+                        <a class="btn-floating btn-primary m-0 material-tooltip-sm" data-tooltip="tooltip"
+                            data-placement="top" title="View More Details" href="/services/view/{{uid}}/{{id}}">
+                            <i class="far fa-eye"></i>
+                        </a>
                     </div>
-                </div>
 
-                <hr>
+                    <div class="card-body pb-2">
+                        <div class="d-flex mt-3">
+                            <div class="flex-fill">
+                                <h4 class="card-title mb-0" data-names="{{name}}">
+                                    {{name}}</h4>
+                            </div>
+                            <div class="flex-fill text-right">
+                                <span class="font-weight-bold">{{views}}</span>
+                                <i class="far fa-eye fa-fw ml-1"></i>
+                            </div>
+                        </div>
 
-                <p class="card-text">
-                    {{desc}}
-                    <br>
-                    Last Updated: {{date}}
-                </p>
-                <div class="viewcounts text-right mt-4 text-right">
-                    <form method="post" action="/services/fav/{{id}}">
-                        <button class="favs btn btn-sm btn-red material-tooltip-sm" data-tooltip="tooltip"
-                            data-placement="top" title="Favourite/Unfavourite" type="submit">
-                            <span class="font-weight-bold">{{favourites}}</span>
-                            <i class="fas fa-heart fa-fw"></i>
-                        </button>
-                    </form>
+                        <hr>
+
+                        <p class="card-text">
+                            {{desc}}
+                            <br>
+                            Last Updated: {{date}}
+                        </p>
+                        <div class="viewcounts text-right mt-4 text-right">
+                            <form method="post" action="/services/fav/{{id}}">
+                                <button class="favs btn btn-sm btn-red material-tooltip-sm" data-tooltip="tooltip"
+                                    data-placement="top" title="Favourite/Unfavourite" type="submit">
+                                    <span class="font-weight-bold">{{favourites}}</span>
+                                    <i class="fas fa-heart fa-fw"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card-footer deep-purple accent-3 white-text text-center">
+                        <h5 class="m-0">
+                            ${{price}}
+                        </h5>
+                    </div>
+
                 </div>
+                </div>
+                {{/each}}
+                </div>
+                {{else}}
+                <div class="row justify-content-center">
+                    <h1>{{#if ../viewuser.id}}
+                        This user has no Services
+                        {{else}}
+                        You have no Services
+
+                        {{/if}}</h1>
+                </div>
+                {{/if}}
             </div>
 
-            <div class="card-footer deep-purple accent-3 white-text text-center">
-                <h5 class="m-0">
-                    ${{price}}
-                </h5>
-            </div>
+
 
         </div>
-        {{/each}}
+
+
     </div>
-
-
-
-</div>
-
-
-</div>
-
-
-
 </div>
