@@ -550,6 +550,21 @@ module.exports = {
         }
     },
 
+    viewProjectUpdate: function (req, res){
+        Project.findOne({
+            where: { id: req.params.id }
+        }).then(viewedProject => {
+            views = viewedProject.views
+            Project.update({
+                views: (views+1)
+            }, {
+                    where: { id: viewedProject.id }
+                }).then(viewedProject => {
+                    res.redirect('back')
+                })
+        })
+    },
+
     likeProject: function (req, res) {
         Project.findOne({
             where: { id: req.params.id }

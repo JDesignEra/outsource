@@ -14,7 +14,7 @@ router.get('/unfollow/:id', profileController.unfollow)
 
 router.get('/like/:id', profileController.likeProject)
 router.get('/unlike/:id', profileController.unlikeProject)
-
+router.get('/viewProject/:id', profileController.viewProjectUpdate)
 
 router.get('/edit', isAuth, profileController.editProfile);
 router.post('/edit', isAuth, profileController.editProfilePost);

@@ -51,7 +51,7 @@
                             <img src="/uploads/profile/{{uid}}/projects/{{id}}.png" class="h-100 lozad mx-auto d-block"
                                 alt="">
 
-                            <div class="mask flex-center waves-effect waves-light rgba-black-strong">
+                            <div id="viewproject{{id}}" onclick="viewProject({{id}})" class="mask flex-center waves-effect waves-light rgba-black-strong">
                                 <div
                                     class="row col-12 align-items-end justify-content-end justify-content-around p-0 h-100">
 
@@ -67,7 +67,8 @@
                                             {{/if}}
                                         </h6>
 
-                                        <h6 class="white-text text-right col-5">
+                                        <h6 class="white-text text-right col-6">
+                                            
                                             <i class="far fa-heart"></i>
                                             {{#if likes}}
                                             {{getNum likes}}
@@ -453,6 +454,20 @@
 </script>
 
 <script>
+    function viewProject(id) {
+        url = '/profile/viewProject/' + id
+        $.ajax({
+            url: url,
+            //data: data,
+            method: 'GET'
+        }).then(function (response) {
+
+            $('#viewproject'+id).attr('onclick', ``)
+
+        }).catch(function (err) {
+            console.error(err);
+        });
+    }
     function likeProject(id) {
         url = '/profile/like/' + id
         $.ajax({
