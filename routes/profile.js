@@ -13,6 +13,7 @@ router.get('/follow/:id', profileController.follow)
 router.get('/unfollow/:id', profileController.unfollow)
 
 router.get('/like/:id', profileController.likeProject)
+router.get('/unlike/:id', profileController.unlikeProject)
 
 
 router.get('/edit', isAuth, profileController.editProfile);

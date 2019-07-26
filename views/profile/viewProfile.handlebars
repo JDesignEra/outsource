@@ -74,13 +74,24 @@
                                     None
                                     {{/if}}
                                 </h5>
+
+
                                 <div class="">
                                     {{#ifCond 'followedUser == true'}}
-                                    <a href="/profile/unfollow/{{viewuser.id}}" class="btn btn-secondary btn-rounded">
-                                        Unfollow </a>
+                                    {{!-- <a href="/profile/unfollow/{{viewuser.id}}"
+                                        class="btn btn-secondary btn-rounded active">
+                                        Followed </a> --}}
+
+                                    <p onclick="unfollowUser({{viewuser.id}})" id="followButton"
+                                        class="btn btn-secondary btn-rounded active">
+                                        Followed </p>
                                     {{else}}
-                                    <a href="/profile/follow/{{viewuser.id}}" class="btn btn-secondary btn-rounded">
-                                        Follow </a>
+                                    {{!-- <a href="/profile/follow/{{viewuser.id}}" class="btn btn-secondary btn-rounded">
+                                        Follow </a> --}}
+
+                                    <p onclick="followUser({{viewuser.id}})" id="followButton"
+                                        class="btn btn-secondary btn-rounded">
+                                        Follow </p>
                                     {{/ifCond}}
                                 </div>
 
@@ -99,8 +110,6 @@
                                     <span class="text-muted">None</span>
                                     {{/if}}
                                 </p>
-
-
                                 <p class="text-left"><b>Birthday:</b>
                                     {{#if viewuser.dob}}
                                     {{formatDate viewuser.dob "DD MMM YYYY"}}
@@ -108,8 +117,6 @@
                                     <span class="text-muted">Not Set</span>
                                     {{/if}}
                                 </p>
-
-
                                 <p class="text-left"><b>Gender:</b>
                                     {{#if viewuser.gender}}
                                     {{viewuser.gender}}
@@ -117,8 +124,6 @@
                                     <span class="text-muted">Not Set</span>
                                     {{/if}}
                                 </p>
-
-
                                 <p class="text-left"><b>Location:</b>
                                     {{#if viewuser.location}}
                                     {{viewuser.location}}
@@ -126,8 +131,6 @@
                                     <span class="text-muted">Not Set</span>
                                     {{/if}}
                                 </p>
-
-
                                 <p class="text-left"><b>Occupation:</b>
                                     {{#if viewuser.occupation}}
                                     {{viewuser.occupation}}
@@ -135,12 +138,8 @@
                                     <span class="text-muted">Not Set</span>
                                     {{/if}}
                                 </p>
-
                                 <p class="text-left"><b>Email:</b> {{viewuser.email}}</p>
-
                                 <hr class="hr-primary">
-
-
                             </div>
                         </div>
                     </div>
@@ -367,6 +366,46 @@
 <script>
     const observer = lozad();
     observer.observe();
+</script>
+
+<script>
+    function followUser(id) {
+        console.log(id)
+        url = '/profile/follow/' + id
+        $.ajax({
+            url: url,
+            //data: data,
+            method: 'GET'
+        }).then(function (response) {
+            // Do stuff with the response, like add it to the page dynamically.
+            //$('body').append(response);
+            console.log(id)
+            $('#followButton').addClass('active')
+            $('#followButton').html('Followed')
+            $('#followButton').attr('onclick', `unfollowUser(${id})`)
+        }).catch(function (err) {
+            console.error(err);
+        });
+    }
+    function unfollowUser(id) {
+        console.log(id)
+        url = '/profile/unfollow/' + id
+        $.ajax({
+            url: url,
+            //data: data,
+            method: 'GET'
+        }).then(function (response) {
+            // Do stuff with the response, like add it to the page dynamically.
+            //$('body').append(response);
+            console.log(id)
+            $('#followButton').removeClass('active')
+            $('#followButton').html('Follow')
+            $('#followButton').attr('onclick', `followUser(${id})`)
+
+        }).catch(function (err) {
+            console.error(err);
+        });
+    }
 </script>
 
 {{/extend}}

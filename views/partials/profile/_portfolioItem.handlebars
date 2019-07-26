@@ -21,11 +21,9 @@
             <div class="card-body">
                 {{#if projects}}
                 <div class="row justify-content-start">
-                    {{#if ../viewuser.id}}
+                    {{#if viewuser.id}}
                     {{else}}
                     <div class="col-sm-5 col-lg-4 py-0 px-1">
-
-
                         <div class="portoflio-img-sm view overlay mb-1 rounded border border-depth-2 p-0">
 
 
@@ -44,6 +42,7 @@
                         </div>
                     </div>
                     {{/if}}
+
                     {{#each projects}}
                     <div class="col-sm-5 col-lg-4 py-0 px-1">
                         <div class="portoflio-img-sm view overlay mb-1 rounded border-depth-2 p-0" data-toggle="modal"
@@ -189,17 +188,18 @@
                         <div class="col-lg-2 col-sm-12 row justify-content-end px-0">
                             <div class="col-lg-8 col-sm-12 align-self-center pr-0">
                                 {{#checkLiked likes ../user.id}}
-                                <a href="/profile/unlike/{{id}}" class="">
-                                    <button class="btn btn-danger btn-block btn-rounded">
-                                        <i class="far fa-heart"></i> Unlike
-                                    </button>
-                                </a>
+
+                                <button onclick="unlikeProject({{id}})" id="likeButton"
+                                    class="btn btn-danger btn-block btn-rounded">
+                                    <i class="far fa-heart"></i> Liked
+                                </button>
+
                                 {{else}}
-                                <a href="/profile/like/{{id}}" class="">
-                                    <button class="btn btn-danger btn-block btn-rounded">
-                                        <i class="far fa-heart"></i> Like
-                                    </button>
-                                </a>
+                                <button onclick="likeProject({{id}})" id="likeButton"
+                                    class="btn btn-outline-danger btn-block btn-rounded">
+                                    <i class="far fa-heart"></i> Like
+                                </button>
+
                                 {{/checkLiked}}
                             </div>
                         </div>
@@ -208,15 +208,16 @@
                     </div>
                 </div>
 
-                <div class="modal-body justify-content-center black p-0">
+                <div class="modal-body black p-0">
                     {{!-- ======================= Content ======================= --}}
                     <div id="contentTest" class="col-12 overflow-auto white p-4 min-vh-80">
                         <div id="realcontent" style="display:none">{{content}}</div>
                     </div>
 
-                    {{#if ../services}}
+
                     {{!-- ======================= Services ======================= --}}
                     <div class="container black w-100 row justify-content-center mx-0 py-5">
+
                         <div class="row justify-content-center">
                             <img src="https://picsum.photos/id/659/100/" class="white img-fluid rounded-circle lozad"
                                 alt="">
@@ -229,7 +230,7 @@
                                 {{/if}}
                             </h3>
                         </div>
-
+                        {{#if ../services}}
                         <div class="row col-12 justify-content-around">
                             {{#each ../services}}
                             <div class="card-body border-purple white col-lg-3 col-sm-12 rounded mx-2">
@@ -268,14 +269,18 @@
                             </div>
                             {{/each}}
                         </div>
+                        {{else}}
+                        <div class="row col-12 justify-content-around">
+                            <h4 class="text-white my-5"> This user has no services </h4>
 
+                        </div>
+                        {{/if}}
                     </div>
-                    {{else}}
-                    <h1> Eh </h1>
-                    {{/if}}
+
+
                 </div>
 
-                <div class="modal-footer blue-grey lighten-5 row justify-content-around">
+                <div class="modal-footer blue-grey lighten-5 row mx-auto justify-content-around">
 
                     {{!-- Comments --}}
                     <div class="col-lg-8 col-sm-12 border border-secondary rounded p-4 white">
@@ -445,6 +450,43 @@
         }, 400)
 
     })
+</script>
+
+<script>
+    function likeProject(id) {
+        url = '/profile/like/' + id
+        $.ajax({
+            url: url,
+            //data: data,
+            method: 'GET'
+        }).then(function (response) {
+
+            $('#likeButton').addClass('btn-danger')
+            $('#likeButton').removeClass('btn-outline-danger')
+            $('#likeButton').html('Liked')
+            $('#likeButton').attr('onclick', `unlikeProject(${id})`)
+
+        }).catch(function (err) {
+            console.error(err);
+        });
+    }
+    function unlikeProject(id) {
+        url = '/profile/unlike/' + id
+        $.ajax({
+            url: url,
+            //data: data,
+            method: 'GET'
+        }).then(function (response) {
+
+            $('#likeButton').addClass('btn-outline-danger')
+            $('#likeButton').removeClass('btn-danger')
+            $('#likeButton').html('Like')
+            $('#likeButton').attr('onclick', `likeProject(${id})`)
+
+        }).catch(function (err) {
+            console.error(err);
+        });
+    }
 </script>
 {{/extend}}
 {{/if}}

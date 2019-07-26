@@ -42,6 +42,7 @@ module.exports = {
 
             if (user.following != null) {
                 following = user.following.split(',')
+
             }
             else {
                 following = []
@@ -59,6 +60,8 @@ module.exports = {
 
             if (user.social_media != null) {
                 socialmedias = user.social_media.split(',')
+                removeEmpty(socialmedias, '', socialmedias.length)
+                removeEmpty(socialmedias, ' ', socialmedias.length)
                 // removeEmpty(socialmedias , "", socialmedias.length)
             }
             else {
@@ -207,6 +210,8 @@ module.exports = {
                     //Checks if user is followed
                     if (req.user.following != null) {
                         viewUserFollowers = req.user.following.split(',')
+                        removeEmpty(viewUserFollowers, '', viewUserFollowers.length)
+                        removeEmpty(viewUserFollowers, ' ', viewUserFollowers.length)
                     }
                     else {
                         viewUserFollowers = []
@@ -230,7 +235,8 @@ module.exports = {
                     //Checks if user social media is null
                     if (viewuser.social_media != null) {
                         socialmedias = viewuser.social_media.split(',')
-                        // removeEmpty(socialmedias , "", socialmedias.length)
+                        removeEmpty(socialmedias, '', socialmedias.length)
+                        removeEmpty(socialmedias, ' ', socialmedias.length)
                     }
                     else {
                         socialmedias = []
@@ -239,13 +245,17 @@ module.exports = {
                     //Gets the viewed user followers and following
                     if (viewuser.followers != null) {
                         followers = viewuser.followers.split(',')
+                        removeEmpty(followers, '', followers.length)
+                        removeEmpty(followers, ' ', followers.length)
                     }
                     else {
                         followers = []
                     }
-        
+
                     if (viewuser.following != null) {
                         following = viewuser.following.split(',')
+                        removeEmpty(following, '', following.length)
+                        removeEmpty(following, ' ', following.length)
                     }
                     else {
                         following = []
@@ -447,6 +457,7 @@ module.exports = {
     },
 
     follow: function (req, res) {
+        console.log(req.params)
         User.findOne({
             where: {
                 id: req.params.id
@@ -455,12 +466,16 @@ module.exports = {
             followers = []
             if (followUser.followers != null) {
                 followers = followUser.followers.split(',')
+                removeEmpty(followers, '', followers.length)
+                removeEmpty(followers, ' ', followers.length)
             }
             followers.push(req.user.id)
 
             following = []
             if (followUser.following != null) {
                 following = followUser.following.split(',')
+                removeEmpty(following, '', following.length)
+                removeEmpty(following, ' ', following.length)
             }
             following.push(followUser.id)
 
@@ -491,7 +506,6 @@ module.exports = {
     unfollow: function (req, res) {
         selfUserFollowing = req.user.following.split(',')
         if (selfUserFollowing.length > 0) {
-
             //Deletes User from Following
             followedUserIndex = selfUserFollowing.indexOf(req.params.id.toString())
             if (followedUserIndex > -1) {
@@ -536,28 +550,57 @@ module.exports = {
         }
     },
 
-    likeProject: function (req, res){
+    likeProject: function (req, res) {
         Project.findOne({
-            where: {id: req.params.id}
+            where: { id: req.params.id }
         }).then(likedProject => {
             likers = []
-            if(likedProject.likes.split(',') != null){
+            if (likedProject.likes.split(',') != null) {
                 likers = likedProject.likes.split(',')
+                removeEmpty(likers, '', likers.length)
+                removeEmpty(likers, ' ', likers.length)
             }
             likers.push(req.user.id)
 
             Project.update({
                 likes: likers.toString()
             }, {
-                where: {id: likedProject.id}
-            }).then(likedProject => {
-                res.redirect('back')
-            })
+                    where: { id: likedProject.id }
+                }).then(likedProject => {
+                    res.redirect('back')
+                })
         })
     },
 
-    unlikeProject: function(req, res){
+    unlikeProject: function (req, res) {
+        Project.findOne({
+            where: { id: req.params.id }
+        }).then(likedProject => {
 
+            //Retrieves likes as array
+            if (likedProject.likes != null) {
+                likers = likedProject.likes.split(',')
+                removeEmpty(likers, '', likers.length)
+                removeEmpty(likers, ' ', likers.length)
+            }
+            else {
+                likers = []
+            }
+            console.log(likers)
+
+            likerIndex = likers.indexOf(req.user.id.toString())
+            if (likerIndex > -1) {
+                likers.splice(likerIndex, 1)
+            }
+
+            Project.update({
+                likes: likers.toString()
+            }, {
+                    where: { id: likedProject.id }
+                }).then(likedProject => {
+                    res.redirect('back')
+                })
+        })
     },
 
     submit: function (req, res) {
