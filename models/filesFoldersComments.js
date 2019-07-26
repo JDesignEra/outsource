@@ -16,12 +16,12 @@ const filesFoldersComment = db.define('files_folders_comment', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    uid: {
+    fromUid: {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    fromUid: {
-        type: Sequelize.INTEGER,
+    dateTime: {
+        type: Sequelize.DATE,
         allowNull: false
     }
 });

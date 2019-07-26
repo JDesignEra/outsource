@@ -7,10 +7,12 @@ const moment = require('moment');
 const mime = require('mime');
 const walk = require('klaw');
 const Op = require('sequelize').Op;
+const literal = require('sequelize').literal;
 
 const bytesToSize = require('../helpers/bytesToSize');
 const email = require('../helpers/email');
 const filesFolders = require('../models/filesFolders');
+const filesFoldersComments = require('../models/filesFoldersComments');
 const users = require('../models/users');
 
 module.exports = {
@@ -22,7 +24,7 @@ module.exports = {
         dir = dir ? dir : '/';
         dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
         dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
-
+        
         let doneCount = 0;
         let breadcrumbs = [{name: (rootUrl === '/files/my-drive' || rootUrl === '/files' ? 'My Drive' : 'Share Drive')}];
         let files = [];
@@ -32,211 +34,212 @@ module.exports = {
         
         fs.ensureDirSync(root);
         
-        if (!fs.exists(path.join(root, dir))) {
+        if (!fs.existsSync(path.join(root, dir))) {
             req.flash('error', 'Directory does not exist.');
             res.redirect(rootUrl);
         }
-
-        filesFolders.findAll({ where: {uid: uid} }).then(datas => {
-            if (dir !== '/') {
-                breadcrumbs = [(rootUrl === '/files/my-drive' || rootUrl === '/files' ? 'My Drive' : 'Share Drive')].concat(dir.split('/')).map((v, i, arr) => {
-                    let link = rootUrl;
-
-                    for (let x = 1, n = arr.length; x < n && x <= i && i < n - 1; x++) {
-                        link += '/' + arr[x];
-                    }
-                    
-                    return i < arr.length - 1 ? { name: v, link: link } : { name: v };
-                 });
-            }
-
-            users.findAll({ attributes: ['id', 'username', 'email'] }).then(userDatas => {
-                usersAutocomplete = userDatas ? [] : null;
-
-                if (userDatas) {
-                    for (const user of userDatas) {
-                        if (user['id'] !== uid) {
-                            usersAutocomplete.push(`${user['username']} (${user['email']})`);
+        else {
+            filesFolders.findAll({ where: {uid: uid} }).then(datas => {
+                if (dir !== '/') {
+                    breadcrumbs = [(rootUrl === '/files/my-drive' || rootUrl === '/files' ? 'My Drive' : 'Share Drive')].concat(dir.split('/')).map((v, i, arr) => {
+                        let link = rootUrl;
+    
+                        for (let x = 1, n = arr.length; x < n && x <= i && i < n - 1; x++) {
+                            link += '/' + arr[x];
+                        }
+                        
+                        return i < arr.length - 1 ? { name: v, link: link } : { name: v };
+                     });
+                }
+    
+                users.findAll({ attributes: ['id', 'username', 'email'] }).then(userDatas => {
+                    usersAutocomplete = userDatas ? [] : null;
+    
+                    if (userDatas) {
+                        for (const user of userDatas) {
+                            if (user['id'] !== uid) {
+                                usersAutocomplete.push(`${user['username']} (${user['email']})`);
+                            }
                         }
                     }
-                }
-                
-                walk(path.join(root)).on('data', item => {
-                    let folderDir = item['path'].replace(/\\/g, '/');
-                    folderDir = folderDir.slice(folderDir.indexOf(root) + root.length + 1);
-    
-                    let name = folderDir.slice(folderDir.lastIndexOf('/') + 1);
-                    folderDir = folderDir.length !== name.length ? folderDir.slice(0, folderDir.length - name.length - 1) : '/';
                     
-                    if (name) {
-                        let data = datas.find(v => v.name === name && v.directory === (folderDir[0] !== '/' ? `/${folderDir}` : folderDir));
+                    walk(path.join(root)).on('data', item => {
+                        let folderDir = item['path'].replace(/\\/g, '/');
+                        folderDir = folderDir.slice(folderDir.indexOf(root) + root.length + 1);
+        
+                        let name = folderDir.slice(folderDir.lastIndexOf('/') + 1);
+                        folderDir = folderDir.length !== name.length ? folderDir.slice(0, folderDir.length - name.length - 1) : '/';
                         
-                        if (data) {
-                            let shareUid = data['shareUid'] ? data['shareUid'].split(',').map(Number).sort((a, b) => {return a - b}) : null;
-                            let share = shareUid ? {uids: [], usernames: [], emails: []} : null;
+                        if (name) {
+                            let data = datas.find(v => v.name === name && v.directory === (folderDir[0] !== '/' ? `/${folderDir}` : folderDir));
                             
-                            if (shareUid) {
-                                for (const uid of shareUid) {
-                                    let user = userDatas.find(v => v.id === uid);
-
-                                    if (user) {
-                                        share['uids'].push(user['id']);
-                                        share['usernames'].push(user['username']);
-                                        share['emails'].push(user['email']);
+                            if (data) {
+                                let shareUid = data['shareUid'] ? data['shareUid'].split(',').map(Number).sort((a, b) => {return a - b}) : null;
+                                let share = shareUid ? {uids: [], usernames: [], emails: []} : null;
+                                
+                                if (shareUid) {
+                                    for (const uid of shareUid) {
+                                        let user = userDatas.find(v => v.id === uid);
+    
+                                        if (user) {
+                                            share['uids'].push(user['id']);
+                                            share['usernames'].push(user['username']);
+                                            share['emails'].push(user['email']);
+                                        }
                                     }
                                 }
-                            }
-    
-                            let stats = item['stats'];
-    
-                            let modified = moment.duration(moment(new Date).diff(stats['mtime']));
-                            modified = modified / (1000 * 60 * 60 * 24) < 1 ? `${modified.humanize()} ago` : moment(stats.mtime).format('DD/MM/YYYY hh:mm a');
-                            
-                            let size = bytesToSize.convert(stats['size']);
-                            size = size === '0 Bytes' ? '--' : size;
-                            
-                            if ((rootUrl === '/files/my-drive' || rootUrl === '/files') && stats.isFile() && folderDir.toLowerCase() === dir.toLowerCase()) {
-                                let type = mime.getType(name);
-                                type = type ? type.slice(0, type.indexOf('/')) : data['type'];
-            
-                                files.push({
-                                    id: data['id'],
-                                    name: name,
-                                    size: size,
-                                    type: type,
-                                    modified: modified,
-                                    link: `${(folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name)}/~preview`,
-                                    shareCode: data['shareCode'],
-                                    share: share
-                                });
-                            }
-                            else if (stats.isDirectory()) {
-                                let link = '/files/my-drive' + (folderDir !== '/' ? `/${folderDir}/${name}` : `/${name}`);
-            
-                                if ((rootUrl === '/files/my-drive' || rootUrl === '/files') && folderDir.toLowerCase() === dir.toLowerCase()) {
+        
+                                let stats = item['stats'];
+        
+                                let modified = moment.duration(moment(new Date).diff(stats['mtime']));
+                                modified = modified / (1000 * 60 * 60 * 24) < 1 ? `${modified.humanize()} ago` : moment(stats.mtime).format('DD/MM/YYYY hh:mm a');
+                                
+                                let size = bytesToSize.convert(stats['size']);
+                                size = size === '0 Bytes' ? '--' : size;
+                                
+                                if ((rootUrl === '/files/my-drive' || rootUrl === '/files') && stats.isFile() && folderDir.toLowerCase() === dir.toLowerCase()) {
+                                    let type = mime.getType(name);
+                                    type = type ? type.slice(0, type.indexOf('/')) : data['type'];
+                
                                     files.push({
                                         id: data['id'],
                                         name: name,
                                         size: size,
-                                        type: 'folder',
+                                        type: type,
                                         modified: modified,
-                                        link: link,
+                                        link: folderDir !== '/' ? `${rootUrl}/${folderDir}/${data['id']}/~preview` : `${rootUrl}/${data['id']}/~preview`,
                                         shareCode: data['shareCode'],
                                         share: share
                                     });
                                 }
-                                
-                                tree.push({
-                                    id: data['id'],
-                                    name: name,
-                                    link: link,
-                                    child: folderDir !== '/' ? `/${folderDir}/${name}` : `/${name}`,
-                                    parent: folderDir !== '/' ? `/${folderDir}` : '/'
-                                });
+                                else if (stats.isDirectory()) {
+                                    let link = '/files/my-drive' + (folderDir !== '/' ? `/${folderDir}/${name}` : `/${name}`);
+                
+                                    if ((rootUrl === '/files/my-drive' || rootUrl === '/files') && folderDir.toLowerCase() === dir.toLowerCase()) {
+                                        files.push({
+                                            id: data['id'],
+                                            name: name,
+                                            size: size,
+                                            type: 'folder',
+                                            modified: modified,
+                                            link: link,
+                                            shareCode: data['shareCode'],
+                                            share: share
+                                        });
+                                    }
+                                    
+                                    tree.push({
+                                        id: data['id'],
+                                        name: name,
+                                        link: link,
+                                        child: folderDir !== '/' ? `/${folderDir}/${name}` : `/${name}`,
+                                        parent: folderDir !== '/' ? `/${folderDir}` : '/'
+                                    });
+                                }
                             }
                         }
-                    }
-                }).on('end', () => {
-                    doneCount += 1;
+                    }).on('end', () => {
+                        doneCount += 1;
+                    });
                 });
             });
-        });
-
-        // shareTree
-        filesFolders.findAll({
-            where: {
-                shareUid: { [Op.like]: `${uid}` }
-            },
-        }).then(datas => {
-            if (datas.length > 0) {
-                for (const [i, data] of datas.entries()) {
-                    let root = `public/uploads/files/${data['uid']}`;
-                    let directory = path.join(root, data['fullPath']);
-                    let shareUid = data['shareUid'] ? data['shareUid'].split(',').map(Number).sort((a, b) => {return a - b}) : null;
-
-                    if (shareUid && shareUid.indexOf(uid) !== -1) {
-                        fs.lstat(directory).then(stats => {
-                            let folderDir = directory.replace(/\\/g, '/');
-                            folderDir = folderDir.slice(folderDir.indexOf(root) + root.length + 1);
     
-                            let name = folderDir.slice(folderDir.lastIndexOf('/') + 1);
-                            folderDir = folderDir.length !== name.length ? folderDir.slice(0, folderDir.length - name.length - 1) : '/';
+            // shareTree
+            filesFolders.findAll({
+                where: {
+                    shareUid: { [Op.like]: `${uid}` }
+                },
+            }).then(datas => {
+                if (datas.length > 0) {
+                    for (const [i, data] of datas.entries()) {
+                        let root = `public/uploads/files/${data['uid']}`;
+                        let directory = path.join(root, data['fullPath']);
+                        let shareUid = data['shareUid'] ? data['shareUid'].split(',').map(Number).sort((a, b) => {return a - b}) : null;
     
-                            let modified = moment.duration(moment(new Date).diff(stats['mtime']));
-                            modified = modified / (1000 * 60 * 60 * 24) < 1 ? `${modified.humanize()} ago` : moment(stats.mtime).format('DD/MM/YYYY hh:mm a');
-                            
-                            let size = bytesToSize.convert(stats['size']);
-                            size = size === '0 Bytes' ? '--' : size;
-    
-                            if (rootUrl === '/files/share-drive' && stats.isFile() && folderDir.toLowerCase() === dir.toLowerCase()) {
-                                let type = mime.getType(name);
-                                type = type ? type.slice(0, type.indexOf('/')) : data['type'];
-            
-                                files.push({
-                                    id: data['id'],
-                                    name: name,
-                                    size: size,
-                                    type: type,
-                                    modified: modified,
-                                    link: `${(folderDir !== '/' ? '/' + folderDir + '/' + name : '/' + name)}/~preview`
-                                });
-                            }
-                            else if (stats.isDirectory()) {
-                                let link = '/files/share-drive' + (folderDir !== '/' ? `/${folderDir}/${name}` : `/${name}`);
-            
-                                if (rootUrl === '/files/share-drive' && folderDir.toLowerCase() === dir.toLowerCase()) {
+                        if (shareUid && shareUid.indexOf(uid) !== -1) {
+                            fs.lstat(directory).then(stats => {
+                                let folderDir = directory.replace(/\\/g, '/');
+                                folderDir = folderDir.slice(folderDir.indexOf(root) + root.length + 1);
+        
+                                let name = folderDir.slice(folderDir.lastIndexOf('/') + 1);
+                                folderDir = folderDir.length !== name.length ? folderDir.slice(0, folderDir.length - name.length - 1) : '/';
+        
+                                let modified = moment.duration(moment(new Date).diff(stats['mtime']));
+                                modified = modified / (1000 * 60 * 60 * 24) < 1 ? `${modified.humanize()} ago` : moment(stats.mtime).format('DD/MM/YYYY hh:mm a');
+                                
+                                let size = bytesToSize.convert(stats['size']);
+                                size = size === '0 Bytes' ? '--' : size;
+        
+                                if (rootUrl === '/files/share-drive' && stats.isFile() && folderDir.toLowerCase() === dir.toLowerCase()) {
+                                    let type = mime.getType(name);
+                                    type = type ? type.slice(0, type.indexOf('/')) : data['type'];
+                
                                     files.push({
                                         id: data['id'],
                                         name: name,
                                         size: size,
-                                        type: 'folder',
+                                        type: type,
                                         modified: modified,
-                                        link: link
+                                        link: folderDir !== '/' ? `${rootUrl}/${folderDir}/${data['id']}/~preview` : `${rootUrl}/${data['id']}/~preview`,
                                     });
                                 }
-                                
-                                shareTree.push({
-                                    id: data['id'],
-                                    name: name,
-                                    link: link,
-                                    child: folderDir !== '/' ? `/${folderDir}/${name}` : `/${name}`,
-                                    parent: folderDir !== '/' ? `/${folderDir}` : '/'
-                                });
-                            }
-                        }).then(() => {
-                            shareTree = shareTree.sort((a, b) => {return a.parent.length - b.parent.length});
-                            doneCount += i >= datas.length - 1 ? 1 : 0;
-                        });
-                    }
-                    else if (i >= datas.length - 1) {
-                        doneCount += 1;
+                                else if (stats.isDirectory()) {
+                                    let link = '/files/share-drive' + (folderDir !== '/' ? `/${folderDir}/${name}` : `/${name}`);
+                
+                                    if (rootUrl === '/files/share-drive' && folderDir.toLowerCase() === dir.toLowerCase()) {
+                                        files.push({
+                                            id: data['id'],
+                                            name: name,
+                                            size: size,
+                                            type: 'folder',
+                                            modified: modified,
+                                            link: link
+                                        });
+                                    }
+                                    
+                                    shareTree.push({
+                                        id: data['id'],
+                                        name: name,
+                                        link: link,
+                                        child: folderDir !== '/' ? `/${folderDir}/${name}` : `/${name}`,
+                                        parent: folderDir !== '/' ? `/${folderDir}` : '/'
+                                    });
+                                }
+                            }).then(() => {
+                                shareTree = shareTree.sort((a, b) => {return a.parent.length - b.parent.length});
+                                doneCount += i >= datas.length - 1 ? 1 : 0;
+                            });
+                        }
+                        else if (i >= datas.length - 1) {
+                            doneCount += 1;
+                        }
                     }
                 }
-            }
-            else {
-                doneCount += 1;
-            }
-        });
-
-        setTimeout(() => {
-            setInterval(function() {
-                if (doneCount >= 2) {
-                    res.render('files/index', {
-                        title: 'File Management',
-                        files: files,
-                        folders: tree,
-                        shareFolders: shareTree,
-                        breadcrumbs: breadcrumbs,
-                        types: Object.keys(mime._types),
-                        users: usersAutocomplete,
-                        urlRoot: rootUrl,
-                        postRoot: req.originalUrl.replace(/\/~addshareuser|\/~copy|\/~delshareuser|~download|\/~move|\/~newfile|\/~newfolder|\/~rename|\/~sharecode|\/~upload/gi, ''),
-                    });
-
-                    clearInterval(this);
+                else {
+                    doneCount += 1;
                 }
             });
-        }, 50);
+    
+            setTimeout(() => {
+                setInterval(function() {
+                    if (doneCount >= 2) {
+                        res.render('files/index', {
+                            title: 'File Management',
+                            files: files,
+                            folders: tree,
+                            shareFolders: shareTree,
+                            breadcrumbs: breadcrumbs,
+                            types: Object.keys(mime._types),
+                            users: usersAutocomplete,
+                            urlRoot: rootUrl,
+                            postRoot: req.originalUrl.replace(/\/~addshareuser|\/~copy|\/~delshareuser|~download|\/~move|\/~newfile|\/~newfolder|\/~rename|\/~sharecode|\/~upload/gi, ''),
+                        });
+    
+                        clearInterval(this);
+                    }
+                });
+            }, 50);
+        }
     },
     addShareUser: function(req, res) {
         let uid = req.user.id;
@@ -412,6 +415,60 @@ module.exports = {
             res.redirect(dir === '/' ? rootUrl : `${rootUrl}/${dir}`);
         }
     },
+    comment: function(req, res) {
+        let uid = req.user.id;
+        let rootUrl = req.params[0] ? `/files${req.params[0]}` : `/files`;
+        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~preview|~comments/gi, '') : '/';
+        dir = dir ? dir : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
+
+        let fid = req.body.fid;
+        let comment = req.body.comment;
+        let errors = {};
+
+        if (!fid) {
+            req.flash('error', 'File can\'t be found.');
+            res.redirect(dir === '/' ? `${rootUrl}` : `${rootUrl}/${dir}`);
+        }
+        else {
+            if (!comment) {
+                errors['comment'] = 'Comment can\'t be empty.';
+            }
+            else if (comment.length > 500) {
+                errors['comment'] = 'Comment must be less than 500 characters';
+            }
+
+            if (Object.keys(errors).length > 0) {
+                req.flash('forms', {
+                    comment: comment,
+                    errors: errors
+                });
+    
+                req.flash('error', errors['comment']);
+                res.redirect(dir === '/' ? `${rootUrl}/~preview/~comments` : `${rootUrl}/${dir}/~preview/~comments`);
+            }
+            else {
+                filesFolders.findByPk(fid).then(data => {
+                    if (data) {
+                        filesFoldersComments.create({
+                            comment: comment,
+                            fid: fid,
+                            fromUid: uid,
+                            dateTime: literal('CURRENT_TIMESTAMP')
+                        }).then(() => {
+                            req.flash('success', 'Comment posted sucessfully.');
+                            res.redirect(dir === '/' ? `${rootUrl}/~preview` : `${rootUrl}/${dir}/~preview`);
+                        });
+                    }
+                    else {
+                        req.flash('error', 'File can\'t be found.');
+                        res.redirect(dir === '/' ? `${rootUrl}/~preview/~comments` : `${rootUrl}/${dir}/~preview/~comments`);
+                    }
+                });
+            }
+        }
+    },
     copy: function(req, res) {
         let uid = req.user.id;
         let root = `public/uploads/files/${uid}/`;
@@ -429,7 +486,7 @@ module.exports = {
             let regex = /[!@#$%^&*+\=\[\]{}()~;':"\\|,.<>?]/;
 
             if (regex.test(copyDir)) {
-                errors['copyDir'] = 'Directory path only allow alphanumeric, underscore, dash and forward slash.';
+                errors['copyDir'] = 'Directory path only allow alphanumeric, space, underscore, dash and forward slash.';
             }
             else if (!fs.pathExistsSync(path.join(root, copyDir))) {
                 errors['copyDir'] = 'Directory path does not exist.';
@@ -619,7 +676,7 @@ module.exports = {
                                         }
                                     }).then(datas => {
                                         for (const [i, data] of datas.entries()) {
-                                            let shareUid = data['shareUid'].split(',').map(Number);
+                                            let shareUid = data['shareUid'] ? data['shareUid'].split(',').map(Number) : [];
 
                                             for (const [x, uid] of delUids.entries()) {
                                                 let z = shareUid.indexOf(parseInt(uid));
@@ -694,7 +751,7 @@ module.exports = {
         }
     },
     download: function(req, res) {
-        let uid = req.user.id;
+        let uid = req.user ? req.user.id: null;
         let rootUrl = req.params[0] ? `/files${req.params[0]}` : `/files`;
         let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~delshareuser/gi, '') : '/';
         dir = dir ? dir : '/';
@@ -704,7 +761,7 @@ module.exports = {
         let fid = req.params.fid;
         let shareCode = req.params.code;
 
-        if (fid || shareCode) {
+        if ((fid && uid) || shareCode) {
             let where = { where: {id: null} };
 
             if (fid) {
@@ -726,10 +783,11 @@ module.exports = {
                         let root = `public/uploads/files/${data['uid']}`;
     
                         if (data['type'] === 'folder') {
+                            let regex = /((^[0-9]+[a-z]+)|(^[a-z]+[0-9]+))+[0-9a-z]+$/i;
                             let code = crypto.randomBytes(5).toString('hex');
                             let directory = `public/uploads/temp/${code}`;
     
-                            while(fs.existsSync(directory)) {
+                            while(fs.existsSync(directory) || !regex.test(code)) {
                                 code = crypto.randomBytes(5).toString('hex');
                                 directory = `public/uploads/temp/${code}`;
                             }
@@ -785,7 +843,7 @@ module.exports = {
             let regex = /[!@#$%^&*+\=\[\]{}()~;':"\\|,.<>?]/;
 
             if (regex.test(moveDir)) {
-                errors['moveDir'] = 'Directory path only allow alphanumeric, underscore, dash and forward slash.';
+                errors['moveDir'] = 'Directory path only allow alphanumeric, space, underscore, dash and forward slash.';
             }
             else if (!fs.pathExistsSync(path.join(root, moveDir))) {
                 errors['moveDir'] = 'Directory path does not exist.';
@@ -892,7 +950,7 @@ module.exports = {
             errors['filename'] = 'File name can\'t be empty.';
         }
         else if (nameRegex.test(name)) {
-            errors['filename'] = 'File name only allow alphanumeric, underscore and dash.';
+            errors['filename'] = 'File name only allow alphanumeric, space, underscore and dash.';
         }
         
         if (!ext) {
@@ -986,6 +1044,9 @@ module.exports = {
         else if (regex.test(name)) {
             errors['foldername'] = 'Folder name can only contain alphanumeric, underscore and dash.';
         }
+        else if (dir === '/' && (name.toLowerCase() === 'my-drive' || name.toLowerCase() === 'share-drive')) {
+            errors['foldername'] = `${name} folder name is a reserved name in the root directory.`;
+        }
 
         if (Object.keys(errors).length > 0) {
             req.flash('forms', {
@@ -1059,7 +1120,7 @@ module.exports = {
                 errors['rename'] = 'File or folder name can\'t be empty.';
             }
             else if (regex.test(name)) {
-                errors['rename'] = 'File or folder name only allow alphanumeric, underscore and dash.';
+                errors['rename'] = 'File or folder name only allow alphanumeric, space, underscore and dash.';
             }
     
             if (Object.keys(errors).length > 0) {
@@ -1123,6 +1184,88 @@ module.exports = {
             res.redirect(dir === '/' ? rootUrl : `${rootUrl}/${dir}`);
         }
     },
+    preview: function(req, res) {
+        let uid = req.user.id;
+        let rootUrl = req.params[0] ? `/files${req.params[0]}` : `/files`;
+        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~comments|~preview/gi, '') : '/';
+        dir = dir ? dir : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
+
+        let fid = req.params.fid;
+
+        if (fid && uid) {
+            filesFolders.findOne({ where: {id: fid} }).then(data => {
+                let file = null;
+                let comments = [];
+
+                if (data) {
+                    let root = `public/uploads/files/${data['uid']}/`;
+                    let name = data['name'];
+                    let ext = name.lastIndexOf('.') > -1 ? name.slice(name.lastIndexOf('.') + 1) : null;
+
+                    file = {
+                        id: data['id'],
+                        name: data['name'],
+                        ext: ext,
+                        type: data['type'],
+                        link: `/uploads/files/${data['uid']}${data['fullPath']}`
+                    };
+
+                    if (data['type'] === 'code' || data['type'] === 'text') {
+                        file['content'] = fs.readFileSync(path.join(root, data['fullPath']), 'utf-8');
+                    }
+                    else if (data['type'] === 'video') {
+                        file['mime'] = mime.getType(ext);
+                    }
+
+                    filesFoldersComments.findAll({where: { fid: fid }}).then(datas => {
+                        if (datas.length > 0) {
+                            for (const [i, data] of datas.entries()) {
+                                users.findByPk(data['fromUid']).then(user => {
+                                    let dateTime = moment.duration(moment(new Date).diff(data['dateTime']));
+                                    dateTime = dateTime / (1000 * 60 * 60 * 24) < 1 ? `${dateTime.humanize()} ago` : moment(dateTime).format('DD/MM/YYYY hh:mm a');
+    
+                                    comments.push({
+                                        uid: data['fromUid'],
+                                        username: user['username'],
+                                        comment: data['comment'],
+                                        dateTime: dateTime
+                                    });
+        
+                                    if (i >= datas.length - 1) {
+                                        setTimeout(() => {
+                                            res.render('files/preview', {
+                                                file: file,
+                                                comments: comments,
+                                                postRoot: req.originalUrl.replace(/\/~comments|\/~preview/gi, ''),
+                                                prevUrl: `${rootUrl}${dir !== '/' ? dir : ''}`
+                                            });
+                                        }, 50);
+                                    }
+                                });
+                            }
+                        }
+                        else {
+                            res.render('files/preview', {
+                                file: file,
+                                postRoot: req.originalUrl.replace(/\/~comments|\/~preview/gi, ''),
+                                prevUrl: `${rootUrl}${dir !== '/' ? dir : ''}`
+                            });
+                        }
+                    });
+                }
+                else {
+                    req.flash('error', 'File can\'t be found.');
+                    res.redirect(dir === '/' ? rootUrl : `${rootUrl}/${dir}`);
+                }
+            });
+        }
+        else {
+            req.flash('error', 'You do not have permission to view this file.');
+            res.redirect(dir === '/' ? rootUrl : `${rootUrl}/${dir}`);
+        }
+    },
     sharecode: function(req, res) {
         let uid = req.user.id;
         let rootUrl = req.params[0] ? `/files${req.params[0]}` : `/files`;
@@ -1146,7 +1289,9 @@ module.exports = {
                     }
                     else {
                         filesFolders.findAll({ attributes: ['shareCode'] }).then(shareCodes => {
-                            while (!code || shareCodes.indexOf(code) > -1) {
+                            let regex = /((^[0-9]+[a-z]+)|(^[a-z]+[0-9]+))+[0-9a-z]+$/i;
+
+                            while (!code || !regex.test(code) || shareCodes.indexOf(code) > -1) {
                                 code = crypto.randomBytes(5).toString('hex');
                             }
     
@@ -1179,7 +1324,7 @@ module.exports = {
         dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
         
         let files = req.files;
-        let flashMsgs = {success: [], warning: []};
+        let flashMsgs = {success: [], warning: [], error: []};
         let uploadsId = [];
 
         for (const [i, file] of files.entries()) {
@@ -1187,7 +1332,7 @@ module.exports = {
             let fullPath = path.join(dir, fileName).replace(/\\/g, '/');
             let type = mime.getType(fileName) || file['mimetype'];
             type = type.slice(0, type.indexOf('/'));
-
+            
             filesFolders.findOne({ where: {name: fileName, directory: dir, fullPath: fullPath, uid: uid} }).then(data => {
                 fs.move(file['path'], path.join(root, dir, fileName), { overwrite: true }).then(() => {
                     if (!data) {

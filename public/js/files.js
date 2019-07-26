@@ -1,11 +1,13 @@
 // files by Joel
 // Folders Card
 $(function() {
-    // My Drive Collapse
-    $('a[data-toggle="collapse"][data-target="#folders-tree"]', '#folders-card').on('click', function() {
-        let focus = $(this).find('i[class*="rotate-icon"]');
+    // My Drive & Share Drive Collapse Arrow Animation
+    $('a[data-toggle="collapse"][data-target="#folders-tree"], a[data-toggle="collapse"][data-target="#share-tree"]', '#folders-card').on('click', function() {
+        let _this = $(this);
+        let focus = _this.find('i[class*="rotate-icon"]');
+        let id = _this.attr('data-target');
 
-        if ($('#folders-tree').hasClass('show')) {
+        if ($(id).hasClass('show')) {
             focus.removeClass('fa-angle-up');
             focus.addClass('fa-angle-down');
         }
@@ -16,17 +18,21 @@ $(function() {
     });
 
     // Folders Tree
-    if (typeof tree !== 'undefined') {
-        let insert = $('<ul class="treeview-animated-list mt-2"></ul>');
-        let dirData = [];
+    let insert = $('<ul class="treeview-animated-list mt-2"></ul>');
+    
+    insert.prepend(
+        `<li class="text-capitalize">
+            <a class="treeview-animated-element d-flex align-items-center open" href="/files/my-drive">
+                <i class="far fa-hdd mr-2"></i>View My Drive
+            </a>
+        </li>`
+    );
 
-        insert.prepend(
-            `<li class="text-capitalize">
-                <a class="treeview-animated-element d-flex align-items-center open" href="/files/my-drive">
-                    <i class="far fa-hdd mr-2"></i>View My Drive
-                </a>
-            </li>`
-        );
+    $('#folders-tree', '#folders-card').html(insert);
+
+    if (typeof tree !== 'undefined') {
+        
+        let dirData = [];
 
         tree.forEach((val) => {
             // Build move-modal and copy-modal directory input autocomplete data
@@ -139,17 +145,19 @@ $(function() {
     }
 
     // Share-Tree
-    if (typeof shareTree !== 'undefined') {
-        let insert = $('<ul class="treeview-animated-list mt-2"></ul>');
+    insert = $('<ul class="treeview-animated-list mt-2"></ul>');
 
-        insert.prepend(
-            `<li class="text-capitalize">
-                <a class="treeview-animated-element d-flex align-items-center open" href="/files/share-drive">
-                    <i class="far fa-users mr-2"></i>View Share Drive
-                </a>
-            </li>`
-        );
-        
+    insert.prepend(
+        `<li class="text-capitalize">
+            <a class="treeview-animated-element d-flex align-items-center open" href="/files/share-drive">
+                <i class="far fa-users mr-2"></i>View Share Drive
+            </a>
+        </li>`
+    );
+
+    $('#share-tree', '#folders-card').html(insert);
+    
+    if (typeof shareTree !== 'undefined') {
         shareTree.forEach((val) => {
             // Build Share Tree UI
             let li = insert.find(`[data-child="${val.parent}"]`);
@@ -249,138 +257,190 @@ $(function() {
 
 // Files-Table DataTable
 $(function() {
-    function filesTableInit(tableId) {
-        let focus = $(tableId);
+    if ($('#files-table').length > 0) {
+        function filesTableInit(tableId) {
+            let focus = $(tableId);
 
-        let path = window.location.pathname.slice(1);
-        path = path.slice(path.indexOf('/') + 1);
+            let path = window.location.pathname.slice(1);
+            path = path.slice(path.indexOf('/') + 1);
 
-        if (path === 'share-drive') {
-            focus.find('th#shared').remove();
-            focus.find('td[headers="shared"').remove();
-        }
+            if (path === 'share-drive') {
+                focus.find('th#shared').remove();
+                focus.find('td[headers="shared"').remove();
+            }
 
-        focus.DataTable({
-            ordering: true,
-            order: [[1, 'asc']],
-            paging: false,
-            info: false,
-            searching: false,
-            language: { emptyTable: 'No files or folders to display' },
-            columnDefs: [{
-                orderable: false,
-                targets: 0
-            }],
-        });
-
-        if (focus.find('.dataTables_empty').length > 0) {
-            focus.find('#check-all').prop('disabled', true);
-        }
-        else {
-            focus.find('#check-all').prop('disabled', false);
-        }
-    }
-
-    filesTableInit("#files-table");
-
-    let rows = $('tbody tr', '#files-table');
-    let i = 1;
-
-    $(rows[0]).removeClass('d-none');
-    $(rows[0]).addClass('flipInX').one(animationEnd, function() {
-        $(this).removeClass('flipInX');
-        $(this).removeClass('d-none');
-    });
-
-    setInterval(function() {
-        $(rows[i]).removeClass('d-none');
-        $(rows[i]).addClass('flipInX').one(animationEnd, function() {
-            $(this).removeClass('flipInX');
-        });
-
-        i++;
-
-        if (i === rows.length) {
-            clearInterval(this);
-        }
-    }, 250);
-
-    $(window).on('resize', function () {
-        $('#files-table').DataTable().destroy();
-        filesTableInit('#files-table');
-    });
-
-    // Checkboxes
-    let focuses = $('input[type="checkbox"][name="fid"]', '#files-table');
-    let checked = focuses.filter(':checked');
-
-    if (checked.length > 0) {
-        setTimeout(function() {
-            $(focuses[0]).trigger('change');
-            
-            clearTimeout(this);
-        }, 250);
-    }
-
-    $('input#check-all', '#files-table').on('change', function() {
-        if ($(this).prop('checked') === true) {
-            focuses.prop('checked', true);
-        }
-        else {
-            focuses.prop('checked', false);
-        }
-
-        $(focuses[0]).trigger('change');
-    });
-
-    focuses.on('change', function() {
-        let checkboxAll = $('#check-all', '#files-table').last();
-        let focus = $('.select-actions', '#mobile-action-menu, #action-card');
-        let singleActions = focus.find('.single-select');
-        let selectCount = focus.find('.select-count');
-        let checked = focuses.filter(':checked');
-        let count = checked.length;
-
-        if (count >= focuses.length) {
-            checkboxAll.prop('checked', true);
-        }
-        else {
-            checkboxAll.prop('checked', false);
-        }
-
-        if (count < 1) {
-            selectCount.html(`${count} Item Selected`);
-        }
-        
-        if (count > 0) {
-            focus.each(function() {
-                _this = $(this);
-
-                if (_this.hasClass('d-none')) {
-                    if (_this.hasClass('animated')) {
-                        _this.removeClass('d-none');
-    
-                        _this.addClass('flipInX').one(animationEnd, function() {
-                            $(this).removeClass('flipInX');
-                        });
-                    }
-                    else {
-                        _this.removeClass('d-none');
-                    }
-                }
+            focus.DataTable({
+                ordering: true,
+                order: [[1, 'asc']],
+                paging: false,
+                info: false,
+                searching: false,
+                language: { emptyTable: 'No files or folders to display' },
+                columnDefs: [{
+                    orderable: false,
+                    targets: 0
+                }],
             });
 
-            selectCount.html(`${count} Item Selected<i class="far fa-check ml-2"></i>`);
-            
-            // Download link
-            if (count === 1) {
-                let downloadAction = singleActions.find('a.download');
+            if (focus.find('.dataTables_empty').length > 0) {
+                focus.find('#check-all').prop('disabled', true);
+            }
+            else {
+                focus.find('#check-all').prop('disabled', false);
+            }
+        }
+
+        filesTableInit("#files-table");
+
+        let rows = $('tbody tr', '#files-table');
+        let i = 1;
+
+        $(rows[0]).removeClass('d-none');
+        $(rows[0]).addClass('flipInX').one(animationEnd, function() {
+            $(this).removeClass('flipInX');
+            $(this).removeClass('d-none');
+        });
+
+        setInterval(function() {
+            $(rows[i]).removeClass('d-none');
+            $(rows[i]).addClass('flipInX').one(animationEnd, function() {
+                $(this).removeClass('flipInX');
+            });
+
+            i++;
+
+            if (i === rows.length) {
+                clearInterval(this);
+            }
+        }, 250);
+
+        $(window).on('resize', function () {
+            $('#files-table').DataTable().destroy();
+            filesTableInit('#files-table');
+        });
+
+        // Checkboxes
+        let focuses = $('input[type="checkbox"][name="fid"]', '#files-table');
+        let checked = focuses.filter(':checked');
+
+        if (checked.length > 0) {
+            setTimeout(function() {
+                $(focuses[0]).trigger('change');
                 
-                downloadAction.attr('href', `${window.location.pathname}/${checked.last().attr('data-id')}/~download`);
+                clearTimeout(this);
+            }, 250);
+        }
+
+        $('input#check-all', '#files-table').on('change', function() {
+            if ($(this).prop('checked') === true) {
+                focuses.prop('checked', true);
+            }
+            else {
+                focuses.prop('checked', false);
+            }
+
+            $(focuses[0]).trigger('change');
+        });
+
+        focuses.on('change', function() {
+            let checkboxAll = $('#check-all', '#files-table').last();
+            let focus = $('.select-actions', '#mobile-action-menu, #action-card');
+            let singleActions = focus.find('.single-select');
+            let selectCount = focus.find('.select-count');
+            let checked = focuses.filter(':checked');
+            let count = checked.length;
+
+            if (count >= focuses.length) {
+                checkboxAll.prop('checked', true);
+            }
+            else {
+                checkboxAll.prop('checked', false);
+            }
+
+            if (count < 1) {
+                selectCount.html(`${count} Item Selected`);
             }
             
-            if (count > 1) {
-                selectCount.html(`${count} Items Selected<i class="far fa-check ml-2"></i>`);
+            if (count > 0) {
+                focus.each(function() {
+                    _this = $(this);
+
+                    if (_this.hasClass('d-none')) {
+                        if (_this.hasClass('animated')) {
+                            _this.removeClass('d-none');
+        
+                            _this.addClass('flipInX').one(animationEnd, function() {
+                                $(this).removeClass('flipInX');
+                            });
+                        }
+                        else {
+                            _this.removeClass('d-none');
+                        }
+                    }
+                });
+
+                selectCount.html(`${count} Item Selected<i class="far fa-check ml-2"></i>`);
+                
+                // Download link
+                if (count === 1) {
+                    let downloadAction = singleActions.find('a.download');
+                    downloadAction.attr('href', `${window.location.pathname}/${checked.last().attr('data-id')}/~download`);
+                }
+                
+                if (count > 1) {
+                    selectCount.html(`${count} Items Selected<i class="far fa-check ml-2"></i>`);
+
+                    singleActions.each(function() {
+                        _this = $(this);
+
+                        if (!_this.hasClass('d-none')) {
+                            if (_this.hasClass('animated')) {
+                                _this.addClass('flipOutX').one(animationEnd, function() {
+                                    $(this).addClass('d-none');
+                                    $(this).removeClass('flipOutX');
+                                });
+                            }
+                            else {
+                                _this.addClass('d-none');
+                            }
+                        }
+                    });
+                }
+                else {
+                    singleActions.each(function() {
+                        _this = $(this);
+
+                        if (_this.hasClass('d-none')) {
+                            if (_this.hasClass('animated')) {
+                                _this.removeClass('d-none');
+
+                                _this.addClass('flipInX').one(animationEnd, function() {
+                                    $(this).removeClass('flipInX');
+                                });
+                            }
+                            else {
+                                _this.removeClass('d-none');
+                            }
+                        }
+                    });
+                }
+            }
+            else {
+                focus.each(function() {
+                    _this = $(this);
+
+                    if (!_this.hasClass('d-none')) {
+                        if (_this.hasClass('animated')) {
+                            _this.addClass('flipOutX').one(animationEnd, function() {
+                                $(this).addClass('d-none');
+                                $(this).removeClass('flipOutX');
+                            });
+                        }
+                        else {
+                            _this.addClass('d-none');
+                        }
+                    }
+                });
 
                 singleActions.each(function() {
                     _this = $(this);
@@ -398,59 +458,8 @@ $(function() {
                     }
                 });
             }
-            else {
-                singleActions.each(function() {
-                    _this = $(this);
-
-                    if (_this.hasClass('d-none')) {
-                        if (_this.hasClass('animated')) {
-                            _this.removeClass('d-none');
-
-                            _this.addClass('flipInX').one(animationEnd, function() {
-                                $(this).removeClass('flipInX');
-                            });
-                        }
-                        else {
-                            _this.removeClass('d-none');
-                        }
-                    }
-                });
-            }
-        }
-        else {
-            focus.each(function() {
-                _this = $(this);
-
-                if (!_this.hasClass('d-none')) {
-                    if (_this.hasClass('animated')) {
-                        _this.addClass('flipOutX').one(animationEnd, function() {
-                            $(this).addClass('d-none');
-                            $(this).removeClass('flipOutX');
-                        });
-                    }
-                    else {
-                        _this.addClass('d-none');
-                    }
-                }
-            });
-
-            singleActions.each(function() {
-                _this = $(this);
-
-                if (!_this.hasClass('d-none')) {
-                    if (_this.hasClass('animated')) {
-                        _this.addClass('flipOutX').one(animationEnd, function() {
-                            $(this).addClass('d-none');
-                            $(this).removeClass('flipOutX');
-                        });
-                    }
-                    else {
-                        _this.addClass('d-none');
-                    }
-                }
-            });
-        }
-    });
+        });
+    }
 });
 
 // Search
@@ -667,6 +676,11 @@ $(function() {
         }
     });
 
+    searchInput.next('.mdb-autocomplete-wrap').on('click', function() {
+        $(this).prev('.mdb-autocomplete').trigger('keyup');
+        $(this).html('');
+    });
+
     searchInput.next().next('.mdb-autocomplete-clear').on('click', function() {
         $(this).prev().prev('.mdb-autocomplete').trigger('keyup');
     });
@@ -711,32 +725,83 @@ $(function() {
 
 // Mobile-Action
 $(function() {
-    let toTopAction = $('#to-top-action');
     let focus = $('#mobile-action');
 
-    $(window).on('resize', function() {
-        if ($(window).width() < 768) {
-            if (!toTopAction.hasClass('invisible')) {
-                toTopAction.addClass('invisible');
+    if (focus.length > 0) {
+        let toTopAction = $('#to-top-action');
+
+        $(window).on('resize', function() {
+            if ($(window).width() < 768) {
+                if (!toTopAction.hasClass('invisible')) {
+                    toTopAction.addClass('invisible');
+                }
             }
+            else {
+                if (toTopAction.hasClass('invisible')) {
+                    toTopAction.removeClass('invisible');
+                }
+            }
+        });
+    
+        $(window).scroll(function() {
+            if (focus.offset().top - 47 > $('main').height()) {
+                focus.css('bottom', '40px');
+            }
+            else {
+                focus.css('bottom', '5px');
+            }
+        });
+    
+        $(window).trigger('resize');
+    }
+
+    $('#info-modal').on('show.bs.modal', function() {
+        let _this = $(this);
+        let tr = $('td[headers="select"] input:checked', '#files-table').last().parentsUntil('tr').parent('tr');
+
+        let name = tr.find('td[headers="name"]').text();
+        let size = tr.find('td[headers="size"]').text();
+        let type = tr.find('td[headers="type"]').text();
+        let shared = tr.find('td[headers="shared"]').html();
+        let modified = tr.find('td[headers="modified"]').text();
+
+        let focus = _this.find('.modal-body .row');
+
+        if (name) {
+            focus.filter('.name').find('.col-9').text(name);
         }
         else {
-            if (toTopAction.hasClass('invisible')) {
-                toTopAction.removeClass('invisible');
-            }
+            focus.filter('.name').addClass('d-none');
         }
-    });
 
-    $(window).scroll(function() {
-        if (focus.offset().top - 47 > $('main').height()) {
-            focus.css('bottom', '40px');
+        if (size) {
+            focus.filter('.size').find('.col-9').text(size);
         }
         else {
-            focus.css('bottom', '5px');
+            focus.filter('.size').addClass('d-none');
+        }
+
+        if (type) {
+            focus.filter('.type').find('.col-9').text(type);
+        }
+        else {
+            focus.filter('.type').addClass('d-none');
+        }
+
+        if (shared) {
+            focus.filter('.shared').find('.col-9').html(shared);
+        }
+        else {
+            focus.filter('.shared').addClass('d-none');
+        }
+
+        if (modified) {
+            focus.filter('.modified').find('.col-9').text(modified);
+        }
+        else {
+            focus.filter('.modified').addClass('d-none');
         }
     });
-
-    $(window).trigger('resize');
 });
 
 // New File Extension Autocomplete
@@ -980,7 +1045,7 @@ $(function() {
     })
 });
 
-// Show Modal if url contains modal id
+// Show Modal & Replace URL Without Reloading
 $(function() {
     let url = window.location.href;
     param = url.slice(url.lastIndexOf('/'));

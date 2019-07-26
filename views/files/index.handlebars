@@ -169,7 +169,7 @@
 
                         <div class="list-group list-group-flush">
                             <div class="single-select animated faster">
-                                <a class="download list-group-item list-group-item-action" href="{{ postRoot }}">
+                                <a class="download list-group-item list-group-item-action" href="{{ postRoot }}" download>
                                     <i class="far fa-cloud-download-alt mr-1"></i>Download
                                 </a>
                                 {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
@@ -193,13 +193,6 @@
                                     <i class="far fa-trash-alt mr-1"></i>Delete
                                 </button>
                             {{/ifCond}}
-
-                            <div class="single-select animated faster">
-                                <!-- ToDo: Comment Function -->
-                                {{!-- <button class="comments list-group-item list-group-item-action">
-                                    <i class="far fa-comments mr-1"></i>Comments
-                                </button> --}}
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -250,7 +243,7 @@
                     </div>
                     
                     <small class="form-text text-muted">
-                        If directory path is empty, it will be copied to root directory. Directory path only allow alphanumeric, underscore, dash and forward slash.
+                        If directory path is empty, it will be copied to root directory. Directory path only allow alphanumeric, space, underscore, dash and forward slash.
                     </small>
 
                     <input type="hidden" name="fid" value="">
@@ -301,7 +294,7 @@
                     </div>
                     
                     <small class="form-text text-muted">
-                        If directory path is empty, it will be moved to root directory. Directory path only allow alphanumeric, underscore, dash and forward slash.
+                        If directory path is empty, it will be moved to root directory. Directory path only allow alphanumeric, space, underscore, dash and forward slash.
                     </small>
 
                     <input type="hidden" name="fid" value="">
@@ -356,7 +349,7 @@
                     </div>
                     
                     <small class="form-text text-muted">
-                        File name only allow alphanumeric, underscore and dash. Extension only allow alphanumeric and dash.
+                        File name only allow alphanumeric, space, underscore and dash. Extension only allow alphanumeric and dash.
                     </small>
                 </form>
             </div>
@@ -397,7 +390,7 @@
                         </div>
                     </div>
 
-                    <small class="form-text text-muted">Folder name only allow alphanumeric, underscore and dash.</small>
+                    <small class="form-text text-muted">Folder name only allow alphanumeric, space, underscore and dash.</small>
                 </form>
             </div>
         </div>
@@ -438,7 +431,7 @@
                     </div>
 
                     <small class="form-text text-muted">
-                        File name should exclude file extension. And file or folder name only allow alphanumeric, underscore and dash.
+                        File name should exclude file extension. And file or folder name only allow alphanumeric, space, underscore and dash.
                     </small>
 
                     <input type="hidden" name="fid" value="">
@@ -571,6 +564,70 @@
         </div>
     </div>
 </div>
+
+<!-- Info Modal (For Mobile) -->
+<div id="info-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header deep-purple accent-2 white-text">
+                <h4 class="modal-title">
+                    <i class="far fa-info mr-1"></i> INFO
+                </h4>
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row name m-0">
+                    <div class="col-3 mr-0 deep-purple accent-3 white-text">
+                        Name
+                    </div>
+                    <div class="col-9 ml-0">
+
+                    </div>
+                </div>
+
+                <div class="row size m-0">
+                    <div class="col-3 mr-0 deep-purple accent-3 white-text">
+                        Size
+                    </div>
+                    <div class="col-9 ml-0">
+
+                    </div>
+                </div>
+
+                <div class="row type m-0">
+                    <div class="col-3 mr-0 deep-purple accent-3 white-text">
+                        Type
+                    </div>
+                    <div class="col-9 ml-0 text-capitalize">
+
+                    </div>
+                </div>
+
+                <div class="row shared m-0">
+                    <div class="col-3 mr-0 deep-purple accent-3 white-text">
+                        Shared
+                    </div>
+                    <div class="col-9 ml-0">
+
+                    </div>
+                </div>
+
+                <div class="row modified m-0">
+                    <div class="col-3 mr-0 deep-purple accent-3 white-text">
+                        Modified
+                    </div>
+                    <div class="col-9 ml-0">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {{/extend}}
 
 {{#extend "fixedAction"}}
@@ -662,7 +719,7 @@
                         <i class="far fa-share-alt mr-1"></i>Share
                     </button>
                 {{/ifCond}}
-                <a class="download dropdown-item" href="{{ postRoot }}">
+                <a class="download dropdown-item" href="{{ postRoot }}" download>
                     <i class="far fa-cloud-download-alt mr-1"></i>Download
                 </a>
                 {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
@@ -685,13 +742,10 @@
             {{/ifCond}}
             
             <div class="single-select">
-                <!-- ToDo: Comment and info function -->
-                {{!-- <button class="comments dropdown-item">
-                    <i class="far fa-comments mr-1"></i>Comments
+                <!-- info function -->
+                <button class="dropdown-item" data-toggle="modal" data-target="#info-modal">
+                    <i class="far fa-info mr-1"></i>More Info
                 </button>
-                <button class="dropdown-item">
-                    <i class="far fa-info"></i> Info
-                </button> --}}
             </div>
         </div>
 

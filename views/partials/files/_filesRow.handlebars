@@ -32,10 +32,17 @@
                 {{ this.size }}
             </td>
             <td headers="type" class="d-none d-md-table-cell text-capitalize">{{ this.type }}</td>
-            <td headers="shared" class="d-none d-md-table-cell"><!-- ToDo: <i class="far fa-link mr-1"></i> -->
-                {{#if this.shareUsername}}
-                    <span class="material-tooltip-sm" data-tooltip="tooltip" title="{{ joinSeperator ', ' this.shareUsername }}">
-                        {{ this.shareUsername.length }} member(s)
+            <td headers="shared" class="cursor-default d-none d-md-table-cell"><!-- ToDo: <i class="far fa-link mr-1"></i> -->
+                {{#if this.shareCode}}
+                    <i class="far fa-link mr-1 material-tooltip-sm" data-tooltip="tooltip" title="Share Link Created"></i>
+                {{/if}}
+                {{#if this.share}}
+                    <span class="material-tooltip-sm" data-tooltip="tooltip" title="{{ joinSeperator ', ' this.share.usernames }}">
+                        {{#ifCond 'this.share.usernames.length > 1'}}
+                            {{ this.share.usernames.length }} users
+                        {{else}}
+                            {{ this.share.usernames.length }} user
+                        {{/ifCond}}
                     </span>
                 {{else}}
                     Only you

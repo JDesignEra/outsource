@@ -246,12 +246,13 @@ section.home-hero .carousel-caption {
     height: 100%;
 }
 
-/* Files */
+/* Files & File-Preview */
 section.files .breadcrumb-item + .breadcrumb-item::before {
     color: #ffffff;
 }
 
-section.files #action-card .list-group-item i {
+section.files #action-card .list-group-item i,
+section.file-preview #action-card .list-group-item i {
     min-width: 20px;
 }
 
@@ -281,9 +282,26 @@ section.files #folders-card .treeview-animated-list > li {
     padding-left: 1em;
 }
 
+section.files .breadcrumb a:hover {
+    color: #ffffff;
+}
+
+section.file-preview #action-card .list-group-item.close-preview:hover,
+#mobile-action .dropdown-item.close-preview:active,
+#mobile-action .dropdown-item.close-preview:hover {
+    background-color: #dc3545;
+}
+
+section.file-preview #content pre > code {
+    -webkit-transition: all .15s linear;
+    -o-transition: all .15s linear;
+    transition: all .15s linear;
+}
+
 @media (min-width: 767px) {
     section.files #folders-card,
-    section.files #action-card {
+    section.files #action-card,
+    section.file-preview #action-card {
         position: sticky;
         top: 7rem;
     }

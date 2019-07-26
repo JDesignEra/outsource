@@ -114,11 +114,10 @@ $(function () {
     });
 });
 
-dateneeded = new Date();
-dateneeded.setFullYear(dateneeded.getFullYear() - 13)
-console.log(dateneeded)
 // Data Picker Initialization
 $(function () {
+    dateneeded = new Date();
+    dateneeded.setFullYear(dateneeded.getFullYear() - 13)
 
     $('.datepicker').pickadate({
         format: 'dd/mm/yyyy',

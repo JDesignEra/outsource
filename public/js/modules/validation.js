@@ -25,10 +25,10 @@ let validation = (function() {
                     flag = true;
 
                     if (_this.hasClass('invalid-tooltip') || _this.hasClass('invalid-feedback')) {
-                        $(_this.prevAll('input')[0]).addClass('is-invalid');
+                        $(_this.prevAll('input, textarea')[0]).addClass('is-invalid');
                     }
                     else if (_this.hasClass('valid-tooltip') || _this.hasClass('valid-feedback')) {
-                        $(_this.prevAll('input')[0]).addClass('is-valid')
+                        $(_this.prevAll('input, textarea')[0]).addClass('is-valid')
                     }
 
                     let find = _this.nextAll('.form-text');

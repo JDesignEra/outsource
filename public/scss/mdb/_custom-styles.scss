@@ -242,6 +242,26 @@ a:not([href]):not([tabindex]).link {
         > label:not(.active) {
             transform: translateY(8px);
         }
+
+        .is-valid {
+            border-color: map-get($material-colors, "success-color") !important;
+            box-shadow: inset 0px 0px 0px 1px map-get($material-colors, "success-color") !important;
+            background-position: center right 0.375em!important;
+
+            + label.active {
+                color: map-get($material-colors, "success-color");
+            }
+        }
+
+        .is-invalid {
+            border-color: map-get($material-colors, "danger-color") !important;
+            box-shadow: inset 0px 0px 0px 1px map-get($material-colors, "danger-color") !important;
+            background-position: center right 0.375em!important;
+
+            + label.active {
+                color: map-get($material-colors, "danger-color");
+            }
+        }
     }
 }
 

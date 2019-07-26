@@ -20,12 +20,10 @@ const setUpDB = (drop) => {
             filesFolders.belongsTo(users, { foreignKey: 'uid', targetKey: 'id' });
 
             // filesFoldersComments
-            users.hasMany(filesFoldersComments, { foreignKey: 'uid', sourceKey: 'id' });
             users.hasMany(filesFoldersComments, { foreignKey: 'fromUid', sourceKey: 'id' });
 
             filesFolders.hasMany(filesFoldersComments, { foreignKey: 'fid', sourceKey: 'id' });
 
-            filesFoldersComments.belongsTo(users, { foreignKey: 'uid', targetKey: 'id' });
             filesFoldersComments.belongsTo(users, { foreignKey: 'fromUid', targetKey: 'id' });
             filesFoldersComments.belongsTo(filesFolders, { foreignKey: 'fid', targetKey: 'id' });
 
