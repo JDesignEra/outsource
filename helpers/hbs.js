@@ -51,6 +51,7 @@ module.exports = {
         with(context) {
             result = (function() {
                 try {
+                    console.log(expression)
                     return eval(expression);
                 }
                 catch (e) {
@@ -195,5 +196,13 @@ module.exports = {
         else {
             return components.charAt(0).toUpperCase() + components.slice(1);
         }
-    }
+    },
+    getNum: function(index){
+        return index.split(',').length
+    },
+    checkLiked: function(var1, var2, ops) {
+        var1 = var1.split(',')
+
+        return var1.find(v => v == var2) ? ops.fn(this) : ops.inverse(this);
+    },
 }

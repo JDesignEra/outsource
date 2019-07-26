@@ -72,7 +72,6 @@ module.exports = {
                 },
                 order: [['datePosted', 'DESC']]
             }).then((projects) => {
-
                 Services.findAll({
                     where: {
                         uid: req.user.id
@@ -461,7 +460,7 @@ module.exports = {
 
             following = []
             if (followUser.following != null) {
-                following = user.following.split(',')
+                following = followUser.following.split(',')
             }
             following.push(followUser.id)
 
@@ -537,6 +536,29 @@ module.exports = {
         }
     },
 
+    likeProject: function (req, res){
+        Project.findOne({
+            where: {id: req.params.id}
+        }).then(likedProject => {
+            likers = []
+            if(likedProject.likes.split(',') != null){
+                likers = likedProject.likes.split(',')
+            }
+            likers.push(req.user.id)
+
+            Project.update({
+                likes: likers.toString()
+            }, {
+                where: {id: likedProject.id}
+            }).then(likedProject => {
+                res.redirect('back')
+            })
+        })
+    },
+
+    unlikeProject: function(req, res){
+
+    },
 
     submit: function (req, res) {
         res.render('profile/submitProjects', {
@@ -551,7 +573,7 @@ module.exports = {
         let content = req.body.content
         let datePosted = new Date()
         let views = 0
-        let likes = 0
+        // let likes = 0
         let imgfile = req.file
         Project.create({
             uid: uid,
@@ -560,7 +582,7 @@ module.exports = {
             content: content,
             datePosted: datePosted,
             views: views,
-            likes: likes
+            // likes: likes
 
         })
             .then((projects) => {

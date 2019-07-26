@@ -12,6 +12,9 @@ router.get('/view/:id', profileController.viewProfile);
 router.get('/follow/:id', profileController.follow)
 router.get('/unfollow/:id', profileController.unfollow)
 
+router.get('/like/:id', profileController.likeProject)
+
+
 router.get('/edit', isAuth, profileController.editProfile);
 router.post('/edit', isAuth, profileController.editProfilePost);
 

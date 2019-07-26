@@ -10,25 +10,29 @@
                 <div class="h-100 w-100 col-12 align-items-end row justify-content-end p-0">
                     <div id="socialmedias" class="row col-3 justify-content-center p-1 mr-2">
 
+                        {{#if social_medias.[0]}}
                         <a href="{{social_medias.[0]}}" class="col text-center "><i
                                 class="fab fa-twitter fa-2x text-white text-center"></i></a>
-
-
+                        {{/if}}
+                        {{#if social_medias.[1]}}
                         <a href="{{social_medias.[1]}}" class="col text-center "><i
                                 class="fab fa-instagram fa-2x text-white text-center"></i></a>
+                        {{/if}}
 
-
+                        {{#if social_medias.[2]}}
                         <a href="{{social_medias.[2]}}" class="col text-center "><i
                                 class="fab fa-facebook fa-2x text-white text-center"></i></a>
+                        {{/if}}
 
-
+                        {{#if social_medias.[3]}}
                         <a href="{{social_medias.[3]}}" class="col text-center "><i
                                 class="fab fa-youtube fa-2x text-white text-center"></i></a>
+                        {{/if}}
 
-
+                        {{#if social_medias.[4]}}
                         <a href="{{social_medias.[4]}}" class="col text-center "><i
                                 class="fab fa-deviantart fa-2x text-white text-center"></i></a>
-
+                        {{/if}}
                     </div>
                 </div>
             </div>
@@ -72,16 +76,18 @@
                                 </h5>
                                 <div class="">
                                     {{#ifCond 'followedUser == true'}}
-                                    <a href="/profile/unfollow/{{viewuser.id}}" class="btn btn-secondary btn-rounded"> Unfollow </a>
+                                    <a href="/profile/unfollow/{{viewuser.id}}" class="btn btn-secondary btn-rounded">
+                                        Unfollow </a>
                                     {{else}}
-                                    <a href="/profile/follow/{{viewuser.id}}" class="btn btn-secondary btn-rounded"> Follow </a>
+                                    <a href="/profile/follow/{{viewuser.id}}" class="btn btn-secondary btn-rounded">
+                                        Follow </a>
                                     {{/ifCond}}
                                 </div>
 
                                 <br>
                                 <p class="text-left"> <a href="#" class="font-weight-bold" data-toggle="modal"
                                         data-target="#followersModal">Followers:</a> {{followers.length}} </p>
-                                 <p class="text-left"> <a href="#" class="font-weight-bold" data-toggle="modal"
+                                <p class="text-left"> <a href="#" class="font-weight-bold" data-toggle="modal"
                                         data-target="#followingModal">Following:</a> {{following.length}}</p>
                                 <hr class="hr-primary">
 
@@ -298,6 +304,7 @@
 
                     </div>
                 </a>
+                <hr class="hr-primary">
                 {{/each}}
                 {{/ifCond}}
             </div>
@@ -321,7 +328,8 @@
             </div>
             <div class="modal-body">
                 {{#ifCond 'following.length == 0'}}
-                <p class="text-center"> Wow very empty. Much following.<br>{{viewuser.username}} Didn't following anyone</p>
+                <p class="text-center"> Wow very empty. Much following.<br>{{viewuser.username}} Didn't following anyone
+                </p>
                 {{else}}
                 {{#each following}}
                 <a href="/profile/view/{{id}}">
@@ -342,6 +350,7 @@
 
                     </div>
                 </a>
+                <hr class="hr-primary">
                 {{/each}}
                 {{/ifCond}}
             </div>

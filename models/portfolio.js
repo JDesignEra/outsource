@@ -36,8 +36,8 @@ const portfolio = db.define('portfolio', {
     },
 
     likes:{
-        type: Sequelize.INTEGER,
-        allowNull:false,
+        type: Sequelize.TEXT('long'),
+        allowNull:true,
     }
 
 });

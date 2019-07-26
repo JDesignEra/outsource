@@ -70,10 +70,14 @@
 
                                         <h6 class="white-text text-right col-5">
                                             <i class="far fa-heart"></i>
-                                            {{likes}} &nbsp;
+                                            {{#if likes}}
+                                            {{getNum likes}}
+                                            {{else}}
+                                            0
+                                            {{/if}}&nbsp;
 
                                             <i class="fas fa-comment"></i>
-                                            20
+                                            2
                                         </h6>
                                     </div>
 
@@ -149,7 +153,7 @@
 
                 <div class="modal-header">
                     <div class="col-12 row justify-content-between">
-                        <div class="col-3 row justify-content-start">
+                        <div class="col-lg-3 col-sm-12 row justify-content-start pl-4">
 
                             <div class="col-2 align-self-center p-0 h-100">
                                 <img onerror='this.src = "/img/profile/default.png"'
@@ -179,14 +183,34 @@
                                 </div>
 
                             </div>
-                        </div>
 
+                        </div>
+                        {{#if ../viewuser}}
+                        <div class="col-lg-2 col-sm-12 row justify-content-end px-0">
+                            <div class="col-lg-8 col-sm-12 align-self-center pr-0">
+                                {{#checkLiked likes ../user.id}}
+                                <a href="/profile/unlike/{{id}}" class="">
+                                    <button class="btn btn-danger btn-block btn-rounded">
+                                        <i class="far fa-heart"></i> Unlike
+                                    </button>
+                                </a>
+                                {{else}}
+                                <a href="/profile/like/{{id}}" class="">
+                                    <button class="btn btn-danger btn-block btn-rounded">
+                                        <i class="far fa-heart"></i> Like
+                                    </button>
+                                </a>
+                                {{/checkLiked}}
+                            </div>
+                        </div>
+                        {{else}}
+                        {{/if}}
                     </div>
                 </div>
 
                 <div class="modal-body justify-content-center black p-0">
                     {{!-- ======================= Content ======================= --}}
-                    <div id="contentTest" class="col-12 overflow-auto white p-4">
+                    <div id="contentTest" class="col-12 overflow-auto white p-4 min-vh-80">
                         <div id="realcontent" style="display:none">{{content}}</div>
                     </div>
 
@@ -208,7 +232,7 @@
 
                         <div class="row col-12 justify-content-around">
                             {{#each ../services}}
-                            <div class="card-body border-purple white col-3 rounded mx-2">
+                            <div class="card-body border-purple white col-lg-3 col-sm-12 rounded mx-2">
                                 <div class="row justify-content-around">
 
                                     <div class="card">
@@ -218,8 +242,8 @@
                                         </div>
 
                                         <a class="btn-floating btn-action btn-deep-purple ml-auto mr-4 material-tooltip-sm"
-                                            data-tooltip="tooltip" data-placement="top" title="View More Details" 
-                                                href="/services/view/{{uid}}/{{id}}">
+                                            data-tooltip="tooltip" data-placement="top" title="View More Details"
+                                            href="/services/view/{{uid}}/{{id}}">
                                             <i class="far fa-eye"></i>
                                         </a>
 
@@ -251,101 +275,107 @@
                     {{/if}}
                 </div>
 
-                <div class="modal-footer blue-grey lighten-5 ">
-                    <div class="row col-12 justify-content-around mx-0">
-                        {{!-- Comments --}}
-                        <div class="col-8 border-purple rounded p-4 white">
-                            <h4 class="text-center"> Comments </h4>
-                            <hr class="hr-purple w-100">
+                <div class="modal-footer blue-grey lighten-5 row justify-content-around">
 
-                            <div class="row my-3 mx-auto">
-                                <div class="col-1 p-0">
-                                    <img src="https://picsum.photos/100/"
-                                        class="white w-100 img-fluid rounded-circle lozad " alt="">
-                                </div>
-                                <div class="col-10 ">
-                                    <h5 class="text-left h5-responsive"> John Smith &nbsp;
-                                        <small class="text-muted"> 21
-                                            May 2019 </small>
-                                    </h5>
+                    {{!-- Comments --}}
+                    <div class="col-lg-8 col-sm-12 border border-secondary rounded p-4 white">
+                        <h4 class="text-center"> Comments </h4>
+                        <hr class="hr-primary w-100">
 
-                                    <p class="text-left"> Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing
-                                        elit, sed do eiusmod
-                                        tempor incididunt ut
-                                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud
-                                        exercitation ullamco
-                                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                        dolor in reprehenderit in
-                                        voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                        Excepteur sint occaecat
-                                        cupidatat non proident, sunt in culpa qui officia deserunt
-                                        mollit
-                                        anim id est laborum.</p>
-                                </div>
+                        <div class="row my-3 mx-auto">
+                            <div class="col-1 p-0">
+                                <img src="https://picsum.photos/100/"
+                                    class="white w-100 img-fluid rounded-circle lozad " alt="">
                             </div>
+                            <div class="col-10 ">
+                                <h5 class="text-left h5-responsive"> John Smith &nbsp;
+                                    <small class="text-muted"> 21
+                                        May 2019 </small>
+                                </h5>
 
-                            <div class="row my-3 mx-auto">
-                                <div class="col-1 p-0">
-                                    <img src="https://picsum.photos/110/"
-                                        class="white w-100 img-fluid rounded-circle lozad " alt="">
-                                </div>
-                                <div class="col-10 ">
-                                    <h5 class="text-left h5-responsive"> Albert Einstein &nbsp;
-                                        <small class="text-muted"> 22
-                                            May 2019 </small>
-                                    </h5>
-
-                                    <p class="text-left"> Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing
-                                        elit, sed do eiusmod
-                                        tempor incididunt ut
-                                    </p>
-                                </div>
+                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing
+                                    elit, sed do eiusmod
+                                    tempor incididunt ut
+                                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                    nostrud
+                                    exercitation ullamco
+                                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                                    dolor in reprehenderit in
+                                    voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                    Excepteur sint occaecat
+                                    cupidatat non proident, sunt in culpa qui officia deserunt
+                                    mollit
+                                    anim id est laborum.</p>
                             </div>
-
                         </div>
 
-                        <div class="col-3 border-purple rounded p-3 white row justify-content-center">
-                            <h4 class="text-center"> Details </h4>
-                            <hr class="hr-purple w-100">
-                            <div class="col-12 row justify-content-between border">
-                                <div class="col-6">
-                                    <p class="text-right font-weight-bold"> Posted on:</p>
-                                    <p class="text-right font-weight-bold"> Views: </p>
-                                    <p class="text-right font-weight-bold"> Likes: </p>
-                                    <p class="text-right font-weight-bold"> Comments: </p>
-                                </div>
-                                <div class="col-6">
-                                    <p class="text-left"> {{formatDate datePosted "DD/MM/YYYY"}}</p>
-                                    <p class="text-left"> {{views}}</p>
-                                    <p class="text-left"> {{likes}}</p>
-                                    <p class="text-left"> 2</p>
-                                </div>
+                        <div class="row my-3 mx-auto">
+                            <div class="col-1 p-0">
+                                <img src="https://picsum.photos/110/"
+                                    class="white w-100 img-fluid rounded-circle lozad " alt="">
                             </div>
+                            <div class="col-10 ">
+                                <h5 class="text-left h5-responsive"> Albert Einstein &nbsp;
+                                    <small class="text-muted"> 22
+                                        May 2019 </small>
+                                </h5>
 
-                            <div id="deleteButton" class="row justify-content-center col-12 align-self-end px-0 border">
-                                <a data-toggle="modal" data-target="#confirmDelete{{id}}">
-                                    <button type="button"
-                                        class="btn btn-danger d-flex flex-fill justify-content-center">
-                                        <i class="fas fa-trash-alt fa-lg"></i> &nbsp; Delete
-
-                                    </button>
-                                </a>
-
-                                <a href="/profile/editProject/{{id}}">
-                                    <button type="button"
-                                        class="btn btn-success d-flex flex-fill justify-content-center">
-                                        <i class="fas fa-edit fa-lg"></i> &nbsp; Edit
-
-                                    </button>
-                                </a>
+                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing
+                                    elit, sed do eiusmod
+                                    tempor incididunt ut
+                                </p>
                             </div>
                         </div>
 
                     </div>
+
+                    {{!-- Details --}}
+
+                    <div class="col-lg-3 col-sm-12 border border-secondary rounded p-4 white align-self-start">
+                        <h4 class="text-center"> Details </h4>
+                        <hr class="hr-primary w-100">
+
+                        <div class="row justify-content-between">
+                            <div class="col-6">
+                                <p class="text-right font-weight-bold"> Last Update:</p>
+                                <p class="text-right font-weight-bold"> Views: </p>
+                                <p class="text-right font-weight-bold"> Likes: </p>
+                                <p class="text-right font-weight-bold"> Comments: </p>
+                            </div>
+                            <div class="col-6">
+                                <p class="text-left"> {{formatDate datePosted "DD/MM/YYYY"}}</p>
+                                <p class="text-left"> {{views}}</p>
+                                <p class="text-left">
+                                    {{#if likes}}
+                                    {{getNum likes}}
+                                    {{else}}
+                                    0
+                                    {{/if}}</p>
+                                <p class="text-left"> 2</p>
+                            </div>
+                        </div>
+                        {{#if ../viewuser}}
+                        {{else}}
+                        <div id="deleteButton" class="row justify-content-between">
+                            <a data-toggle="modal" data-target="#confirmDelete{{id}}">
+                                <button type="button" class="btn btn-danger justify-content-center">
+                                    <i class="fas fa-trash-alt fa-lg"></i> &nbsp; Delete
+                                </button>
+                            </a>
+
+                            <a href="/profile/editProject/{{id}}">
+                                <button type="button" class="btn btn-success justify-content-center">
+                                    <i class="fas fa-edit fa-lg"></i> &nbsp; Edit
+                                </button>
+                            </a>
+                        </div>
+                        {{/if}}
+                    </div>
+
                 </div>
+
             </div>
         </div>
 
