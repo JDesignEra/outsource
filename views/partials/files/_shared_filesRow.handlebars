@@ -1,0 +1,19 @@
+{{#if files}}
+{{setVar 'selectId' forms.select}}
+    {{#each files}}
+        <tr class="animated faster d-none">
+            <td headers="name">
+                {{#if this.link}}
+                    <a class="d-flex flex-fill justify-content-center" href="{{ this.link }}">{{ this.name }}</a>
+                {{else}}
+                    {{ this.name }}
+                {{/if}}
+            </td>
+            <td headers="size" class="d-none d-md-table-cell">
+                {{ this.size }}
+            </td>
+            <td headers="type" class="d-none d-md-table-cell text-capitalize">{{ this.type }}</td>
+            <td headers="modified" class="d-none d-md-table-cell">{{ this.modified }}</td>
+        </tr>
+    {{/each}}
+{{/if}}

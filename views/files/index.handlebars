@@ -761,7 +761,6 @@
 {{/extend}}
 
 {{#extend 'scripts'}}
-<script src="/js/vendor/mdb/modules/datatables.min.js" type="text/javascript"></script>
 {{#if folders}}
     <script id="tree-script" type="text/javascript">
         let tree = {{{ json folders }}};
@@ -781,7 +780,6 @@
     <script id="users-script" type="text/javascript">
         let users = {{{ json users }}};
     </script>
-{{/if
-}}
+{{/if}}
 <script src="/js/files.js" type="text/javascript"></script>
 {{/extend}}

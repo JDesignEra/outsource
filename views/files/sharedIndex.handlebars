@@ -1,0 +1,221 @@
+{{#extend 'stylesheets'}}
+<link id="editor-style" type="text/css" href="/css/vendor/highlightJs/atom-one-dark.css" rel="stylesheet">
+{{/extend}}
+
+<section class="file-preview">
+    <div class="row">
+        <div class="col-12 col-lg-9">
+            <div class="card card-cascade narrower">
+                <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center text-center">
+                    <span class="white-text mx-3">Files</span>
+                </div>
+                
+                <div class="card-body p-0">
+                    <div class="mt-2 mb-3">
+                        <form id="action-form" action="{{ postRoot }}/" method="post">
+                            <div class="table-fixed table-hover w-100">
+                                <table id="files-table" class="table table-striped text-center mb-0">
+                                    <thead class="deep-purple accent-3 white-text">
+                                        <th id="name" class="th-lg">Name</th>
+                                        <th id="sizes" class="d-none d-md-table-cell">Size</th>
+                                        <th id="type" class="d-none d-md-table-cell">Type</th>
+                                        <th id="modified" class="d-none d-md-table-cell">Modified</th>
+                                    </thead>
+                                    <tbody>
+                                        {{> _shared_filesRow }}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+
+                    {{#if files}}
+                        <p class="text-center grey-text small font-weight-bold">End of contents</p>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="d-none d-lg-block col-3">
+            <div id="action-card" class="card card-cascade narrower">
+                <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center text-center">
+                    <span class="white-text mx-3">Actions</span>
+                </div>
+
+                <div class="card-body card-body-cascade p-0">
+                    <div id="action-search" class="input-group px-3 mt-2 mb-3">
+                        <div class="md-form md-outline">
+                            <input id="action-search-input" class="form-control mdb-autocomplete" type="text" name="search">
+                            <button class="mdb-autocomplete-clear deep-purple-text">
+                                <i class="far fa-times"></i>
+                            </button>
+                            <label for="action-search-input">Search</label>
+                        </div>
+
+                        <div class="dropdown input-group-prepend">
+                            <button class="btn btn-primary btn-md dropdown-toggle m-0" data-toggle="dropdown">
+                                <i class="far fa-filter"></i>
+                            </button>
+
+                            <div id="action-filters" class="search-filters dropdown-menu dropdown-menu-right px-3">
+                                <h6 class="dropdown-header px-0 pb-3">Search Filters</h6>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input filter-all" checked>
+                                    <label class="custom-control-label cursor-pointer" for="filter-all">All</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input filter-name" checked>
+                                    <label class="custom-control-label cursor-pointer" for="filter-name">Name</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input filter-size" checked>
+                                    <label class="custom-control-label cursor-pointer" for="filter-size">Size</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input filter-type" checked>
+                                    <label class="custom-control-label cursor-pointer" for="filter-type">Type</label>
+                                </div>
+
+                                <div class="custom-control custom-checkbox mb-3">
+                                    <input type="checkbox" class="custom-control-input filter-modified" checked>
+                                    <label class="custom-control-label cursor-pointer" for="filter-modified">Modified</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-0">
+
+                    <div class="list-group list-group-flush">
+                        {{#ifCond 'files.length > 1'}}
+                            <a class="download list-group-item list-group-item-action" href="/files/{{ shareCode}}/~download" download>
+                                <i class="far fa-cloud-download-alt mr-1"></i>Download Folder
+                            </a>
+                        {{else}}
+                            <a class="download list-group-item list-group-item-action" href="/files/{{ shareCode}}/~download" download>
+                                <i class="far fa-cloud-download-alt mr-1"></i>Download File
+                            </a>
+                        {{/ifCond}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{#extend 'modals'}}
+<div id="comments-modal" class="modal fade right" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-full-height modal-right" role="document">
+        <div class="modal-content">
+            <div class="modal-header deep-purple accent-2 white-text">
+                <h4 class="modal-title">
+                    <i class="far fa-comments mr-1"></i> COMMENTS
+                </h4>
+
+                <button class="close" data-dismiss="modal" type="button">
+                    <span class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body text-right">
+                <form class="needs-validation flex-fill" action="{{ postRoot }}/~comment" method="post">
+                    <div class="md-form md-outline">
+                        <textarea id="comment-input" class="form-control md-textarea rounded" length="500" maxlength="500"{{#if forms.comment}} value="{{ forms.comment }}"{{/if}} name="comment"></textarea>
+                        <label for="comment-input">Comment</label>
+
+                        <div class="invalid-tooltip">
+                            {{ forms.errors.comment }}
+                        </div>
+                    </div>
+
+                    <button class="btn btn-md btn-success btn-rounded btn-block" type="submit">
+                        <i class="far fa-comment-plus mr-2"></i> Post
+                    </button>
+
+                    <input type="hidden" value="{{ file.id }}" name="fid">
+                </form>
+
+                <hr class="my-4">
+
+                {{> _fileComments }}
+            </div>
+        </div>
+    </div>
+</div>
+{{/extend}}
+
+{{#extend "fixedAction"}}
+<!-- Mobile FAB Action -->
+<div id="mobile-action" class="dropdown fixed-bottom text-right d-block d-lg-none">
+    <button class="btn btn-floating primary-gradient dropdown-toggle" type="button" data-toggle="dropdown">
+        <i class="fas fa-ellipsis-h"></i>
+    </button>
+
+    <div id="mobile-action-menu" class="dropdown-menu mb-2">
+        <div id="mobile-search" class="px-2">
+            <div class="input-group mt-2 mb-3">
+                <div class="md-form md-outline">
+                    <input id="mobile-search-input" class="form-control mdb-autocomplete" type="text" name="search">
+                    <button class="mdb-autocomplete-clear deep-purple-text">
+                        <i class="far fa-times"></i>
+                    </button>
+                    <label for="mobile-search-input">Search</label>
+                </div>
+
+                <div class="input-group-prepend">
+                    <button class="btn btn-md btn-primary m-0 px-3 py-2 dropdown-toggle" data-toggle="dropdown">
+                        <i class="far fa-filter"></i>
+                    </button>
+
+                    <div id="mobile-filters" class="dropdown-menu dropdown-menu-right search-filters">
+                        <h6 class="dropdown-header px-0 pb-2">Search Filters</h6>
+
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input filter-all" checked>
+                            <label class="custom-control-label cursor-pointer" for="filter-all">All</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input filter-name" checked>
+                            <label class="custom-control-label cursor-pointer" for="filter-name">Name</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input filter-size" checked>
+                            <label class="custom-control-label cursor-pointer" for="filter-size">Size</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input filter-type" checked>
+                            <label class="custom-control-label cursor-pointer" for="filter-type">Type</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox mb-3">
+                            <input type="checkbox" class="custom-control-input filter-modified" checked>
+                            <label class="custom-control-label cursor-pointer" for="filter-modified">Modified</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{#ifCond 'files.length > 1'}}
+            <a class="download dropdown-item" href="/files/{{ shareCode}}/~download" download>
+                <i class="far fa-cloud-download-alt mr-1"></i>Download Folder
+            </a>
+        {{else}}
+            <a class="download dropdown-item" href="/files/{{ shareCode}}/~download" download>
+                <i class="far fa-cloud-download-alt mr-1"></i>Download File
+            </a>
+        {{/ifCond}}
+    </div>
+</div>
+{{/extend}}
+
+{{#extend 'scripts'}}
+<script src="/js/sharedFiles.js" type="text/javascript"></script>
+{{/extend}}

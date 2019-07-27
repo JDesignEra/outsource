@@ -3,10 +3,6 @@
 $(function() {
     let focus = $('.list-group, #mobile-action-menu', '#action-card, #mobile-action');
 
-    // Download Link
-    let downloadAction = focus.find('.download');
-    downloadAction.attr('href', `${window.location.pathname.replace(/\/~preview/gi, '')}/~download`);
-
     // Editor Theme Mode
     let editorModeAction = focus.find('.editor-mode');
 

@@ -51,7 +51,6 @@ module.exports = {
         with(context) {
             result = (function() {
                 try {
-                    console.log(expression)
                     return eval(expression);
                 }
                 catch (e) {

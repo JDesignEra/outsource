@@ -991,8 +991,7 @@ $(function() {
                 let left = footer.find('.text-left:not(.text-md-right)', '.row');
                 let right = footer.find('.text-md-right', '.row');
 
-                let fid = footer.find('input[name="fid"]').last().val();
-                let url = `${window.location.host}/${fid}/${code}/~shared`;
+                let url = `${window.location.host}/files/${code}/~shared`;
 
                 // Left-Col
                 let icon = left.find('i').clone();

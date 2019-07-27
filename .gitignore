@@ -2,5 +2,5 @@
 \*.DS_Store
 \.__*
 \.vscode
-\public/uploads/**/*.*
-\public/uploads/temp/**/*
+\public/uploads/**/*
+\public/uploads/**/!placeholder

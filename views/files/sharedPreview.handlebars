@@ -48,11 +48,6 @@
                         <i class="far fa-window-close mr-1"></i>Close Preview
                     </a>
 
-                    <!-- ToDo Edit Function -->
-                    {{!-- <button class="list-group-item list-group-item-action">
-                        <i class="far fa-edit mr-1"></i>Edit
-                    </button> --}}
-
                     {{#ifCond 'file.type === "code" || file.type === "text"'}}
                         <button class="editor-mode list-group-item list-group-item-action" data-mode="dark">
                             <i class="far fa-adjust mr-1"></i>Light Mode
@@ -62,10 +57,6 @@
                     <button class="list-group-item list-group-item-action" data-mode="light" data-toggle="modal" data-target="#comments-modal">
                         <i class="far fa-comments mr-1"></i>Comments
                     </button>
-
-                    <a class="download list-group-item list-group-item-action" href="" download>
-                        <i class="far fa-cloud-download-alt mr-1"></i>Download
-                    </a>
                 </div>
             </div>
         </div>
@@ -87,25 +78,6 @@
             </div>
 
             <div class="modal-body text-right">
-                <form class="needs-validation flex-fill" action="{{ postRoot }}/~comment" method="post">
-                    <div class="md-form md-outline">
-                        <textarea id="comment-input" class="form-control md-textarea rounded" length="500" maxlength="500"{{#if forms.comment}} value="{{ forms.comment }}"{{/if}} name="comment"></textarea>
-                        <label for="comment-input">Comment</label>
-
-                        <div class="invalid-tooltip">
-                            {{ forms.errors.comment }}
-                        </div>
-                    </div>
-
-                    <button class="btn btn-md btn-success btn-rounded btn-block" type="submit">
-                        <i class="far fa-comment-plus mr-2"></i> Post
-                    </button>
-
-                    <input type="hidden" value="{{ file.id }}" name="fid">
-                </form>
-
-                <hr class="my-4">
-
                 {{> _fileComments }}
             </div>
         </div>
@@ -135,10 +107,6 @@
             <i class="far fa-comments mr-1"></i>Comments
         </button>
 
-        <a class="download dropdown-item" href="" download>
-            <i class="far fa-cloud-download-alt mr-1"></i>Download
-        </a>
-
         <hr class="my-2">
 
         <div class="smooth-scroll">
@@ -152,5 +120,5 @@
 
 {{#extend 'scripts'}}
 <script src="/js/vendor/highlight.pack.js" type="text/javascript"></script>
-<script src="/js/filePreview.js" type="text/javascript"></script>
+<script src="/js/sharedPreview.js" type="text/javascript"></script>
 {{/extend}}
