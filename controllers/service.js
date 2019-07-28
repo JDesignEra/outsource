@@ -81,7 +81,7 @@ module.exports = {
                     }).then(() => {
                         res.render('services/index', {
                             services,
-                            user
+                            serviceuser: user
                         });
                     })
             }).catch(err => console.log(err));

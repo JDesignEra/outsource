@@ -197,7 +197,10 @@ module.exports = {
         }
     },
     getNum: function(index){
-        return index.split(',').length
+        if(index != null){
+            return index.split(',').length
+        }
+        return 0
     },
     checkLiked: function(var1, var2, ops) {
         var1 = var1.split(',')

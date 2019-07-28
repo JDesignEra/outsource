@@ -38,7 +38,7 @@
                         <div style="height:auto;" class="card-up indigo view lighten-1 rounded-0">
 
                             <img class="img-fluid jarallax-img lozad" onerror='this.src="/img/profile/banner.png"'
-                                src="/uploads/profile/{{user.id}}/banner.png" alt="">
+                                src="/uploads/profile/{{serviceuser.id}}/banner.png" alt="">
 
                             <div class="mask flex-center waves-effect waves-light">
 
@@ -48,49 +48,24 @@
                         <!-- Avatar -->
                         <div class="avatar mx-auto white mt-4">
                             <img onerror='this.src = "/img/profile/default.png"'
-                                src="/uploads/profile/{{user.id}}/profilePic.png" class="rounded-circle lozad" alt="">
+                                src="/uploads/profile/{{serviceuser.id}}/profilePic.png" class="rounded-circle lozad" alt="">
                         </div>
 
                         <!-- Content -->
                         <div class="card-body">
                             <!-- Name -->
-                            <a href="/profile/view/{{user.id}}"><h3 class="card-title">{{user.username}}</h3></a>
-                            <h5 class="card-title text-muted">{{#if user.jobTitle}}
-                                {{user.jobTitle}}
+                            <a href="/profile/view/{{serviceuser.id}}"><h3 class="card-title">{{serviceuser.username}}</h3></a>
+                            <h5 class="card-title text-muted">{{#if serviceuser.jobTitle}}
+                                {{serviceuser.jobTitle}}
                                 {{else}}
                                 Service Provider
                                 {{/if}}</h5>
                             <br>
-                            <p class="text-left"> <b>Followers:</b> {{user.followers}} </p>
-                            <p class="text-left"> <b>Following:</b> {{user.following}}</p>
+                            <p class="text-left"> <b>Followers:</b> {{getNum serviceuser.followers}} </p>
+                            <p class="text-left"> <b>Following:</b> {{getNum serviceuser.following}}</p>
                             <hr class="hr-primary">
 
-                            <p class="text-left"><b>Website:</b> {{#if user.website}}
-                                {{user.website}}
-                                {{else}}
-                                <span class="text-muted">None</span>
-                                {{/if}}</p>
-                            <p class="text-left"><b>Birthday:</b> {{#if user.dob}}
-                                {{formatDate user.dob "DD MMM YYYY"}}
-                                {{else}}
-                                <span class="text-muted">Not Set</span>
-                                {{/if}}</p>
-                            <p class="text-left"><b>Gender:</b> {{#if user.gender}}
-                                {{user.gender}}
-                                {{else}}
-                                <span class="text-muted">Not Set</span>
-                                {{/if}}</p>
-                            <p class="text-left"><b>Location:</b> {{#if user.location}}
-                                {{user.location}}
-                                {{else}}
-                                <span class="text-muted">Not Set</span>
-                                {{/if}}</p>
-                            <p class="text-left"><b>Occupation:</b> {{#if user.occupation}}
-                                {{user.occupation}}
-                                {{else}}
-                                <span class="text-muted">Not Set</span>
-                                {{/if}}</p>
-                            <p class="text-left"><b>Email:</b> {{user.email}}</p>
+                            <p class="text-left"><b>Email:</b> {{serviceuser.email}}</p>
 
                             <hr class="hr-primary">
 
