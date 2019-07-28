@@ -1,66 +1,105 @@
 <section class="view-notification">
     <h1 class="col-12 text-center">Notifications</h1>
-    <div class="row justify-content-center mx-auto p-2 col-10">
-        {{#if project_notifications}}
-        {{#each project_notifications}}
-        <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
-            <div class="col-8 row mx-auto my-3">
-                <img class="lozad border rounded-circle" style="width:50px; height:50px;"
-                    onerror='this.src = "/img/profile/default.png"' src="/uploads/profile/{{uid}}/profilePic.png"
-                    alt="">
+    <div class="classic-tabs border-top border-primary col-lg-10 col-sm-12 mx-auto">
 
-                <div class="pl-2 align-self-center pt-1">
-                    <h5 class="">
-                        <a href="/profile/view/{{uid}}">{{username}}</a> has posted a new project, 
-                                                 <a href="/profile/view/{{uid}}/{{pid}}">{{title}}</a>
+        <ul class="nav tabs-white rounded-0" id="myClassicTabShadow" role="tablist">
 
-                    </h5>
+            <li class="nav-item m-0">
+                <a class="nav-link waves-light active show" id="portfolio-tab-classic-shadow" data-toggle="tab"
+                    href="#portfolio-classic-shadow" role="tab" aria-controls="portfolio-classic-shadow"
+                    aria-selected="true">Portfolio</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link waves-light" id="likes-tab-classic-shadow" data-toggle="tab"
+                    href="#likes-classic-shadow" role="tab" aria-controls="likes-classic-shadow" aria-selected="false">
+                    Likes </a>
+            </li>
+
+        </ul>
+
+        <div class="tab-content min-vh-0 p-0" id="myClassicTabContentShadow">
+            {{!-- =============================== Portfolio =============================== --}}
+            <div class="tab-pane fade active show profile-content" id="portfolio-classic-shadow" role="tabpanel"
+                aria-labelledby="portfolio-tab-classic-shadow">
+                <div class="row justify-content-center mx-auto p-2 col-12">
+                    {{#if project_notifications}}
+                    {{#each project_notifications}}
+                    <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
+                        <div class="col-8 row mx-auto my-3">
+                            <img class="lozad border rounded-circle" style="width:50px; height:50px;"
+                                onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{uid}}/profilePic.png" alt="">
+
+                            <div class="pl-2 align-self-center pt-1">
+                                <h5 class="">
+                                    <a href="/profile/view/{{uid}}">{{username}}</a> has posted a new project,
+                                    <a href="/profile/view/{{uid}}/{{pid}}">{{title}}</a>
+
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
+                            <h6 class="text-muted text-right">
+                                {{formatDate date 'DD MMM YYYY'}}
+                            </h6>
+
+                        </div>
+                        <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    <h1 class="col-12 text-center"> You have no notifications</h1>
+                    {{/if}}
                 </div>
             </div>
-            <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
-                <h6 class="text-muted text-right">
-                    {{formatDate date 'DD MMM YYYY'}}
-                </h6>
 
-            </div>
-            <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            {{!-- =============================== Likes =============================== --}}
+            <div class="tab-pane fade active profile-content" id="likes-classic-shadow" role="tabpanel"
+                aria-labelledby="likes-tab-classic-shadow">
+                <div class="row justify-content-center mx-auto p-2 col-12">
+                    {{#if like_notifications}}
+                    {{#each project_notifications}}
+                    <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
+                        <div class="col-8 row mx-auto my-3">
+                            <img class="lozad border rounded-circle" style="width:50px; height:50px;"
+                                onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{uid}}/profilePic.png" alt="">
 
-        </div>
-        {{/each}}
-        {{else}}
-        <h1 class="col-12 text-center"> You have no notifications</h1>
-        {{/if}}
-    </div>
-        <div class="row justify-content-center mx-auto p-2 col-10">
-        {{#each like_notifications}}
-        <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
-            <div class="col-8 row mx-auto my-3">
-                <img class="lozad border rounded-circle" style="width:50px; height:50px;"
-                    onerror='this.src = "/img/profile/default.png"' src="/uploads/profile/{{uid}}/profilePic.png"
-                    alt="">
+                            <div class="pl-2 align-self-center pt-1">
+                                <h5 class="">
+                                    <a href="/profile/view/{{uid}}">{{username}}</a> has posted a new project,
+                                    <a href="/profile/view/{{uid}}/{{pid}}">{{title}}</a>
 
-                <div class="pl-2 align-self-center pt-1">
-                    <h5 class="">
-                        <a href="/profile/view/{{uid}}">{{username}}</a> has posted a new project,
-                         <a href="/profile/view/{{uid}}/{{pid}}">{{title}}</a>
-                    </h5>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
+                            <h6 class="text-muted text-right">
+                                {{formatDate date 'DD MMM YYYY'}}
+                            </h6>
+
+                        </div>
+                        <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    <h1 class="col-12 text-center"> You have no notifications</h1>
+                    {{/if}}
                 </div>
             </div>
-            <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
-                <h6 class="text-muted text-right">
-                    {{formatDate date 'DD MMM YYYY'}}
-                </h6>
-
-            </div>
-            <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
-                <span aria-hidden="true">&times;</span>
-            </button>
 
         </div>
-        {{/each}}
+
     </div>
+
+
 </section>
 
 {{#extend 'scripts'}}

@@ -421,7 +421,9 @@ section.file-edit #action-card .list-group-item.save:hover,
     z-index: -1;
 }
 
-.profile .classic-tabs .nav li a {
+.profile .classic-tabs .nav li a,
+.submit-projects .classic-tabs .nav li a,
+.view-notification .classic-tabs .nav li a{
     display: block;
     padding: 20px 24px;
     font-size: 13px;
@@ -432,11 +434,15 @@ section.file-edit #action-card .list-group-item.save:hover,
     font-weight: 500;
 }
 
-.profile .classic-tabs .nav li a:not(.active) {
+.profile .classic-tabs .nav li a:not(.active),
+.submit-projects .classic-tabs .nav li a:not(.active),
+.view-notification .classic-tabs .nav li a:not(.active) {
     margin-bottom: 3px
 }
 
-.profile .classic-tabs .nav li a.active {
+.profile .classic-tabs .nav li a.active,
+.submit-projects .classic-tabs .nav li a.active,
+.view-notification .classic-tabs .nav li a.active {
     border-bottom: 3px solid;
     color: #000;
 }
@@ -488,25 +494,7 @@ section.file-edit #action-card .list-group-item.save:hover,
 }
 
 /* Submit Projects */
-section.submit-projects .classic-tabs .nav li a {
-    display: block;
-    padding: 20px 24px;
-    font-size: 13px;
-    text-transform: uppercase;
-    color: rgba(92, 92, 92, 0.7);
-    text-align: center;
-    border-radius: 0;
-    font-weight: 500;
-}
 
-section.submit-projects .classic-tabs .nav li a:not(.active) {
-    margin-bottom: 3px
-}
-
-section.submit-projects .classic-tabs .nav li a.active {
-    border-bottom: 3px solid;
-    color: #000;
-}
 
 section.submit-projects .files-upload,
 section.submit-projects .file-upload {
