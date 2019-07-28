@@ -33,20 +33,11 @@ module.exports = {
                 id: req.user.id
             }
         }).then((user) => {
-            if (user.followers != null) {
-                followers = user.followers.split(',')
-            }
-            else {
-                followers = []
-            }
+            console.log(typeof user);
+            console.log(typeof user.followers);
+            followers = user && typeof user.followers !== 'undefined' ? user.followers.toString().split(',') : [];
 
-            if (user.following != null) {
-                following = user.following.split(',')
-
-            }
-            else {
-                following = []
-            }
+            following = user && typeof user.following !== 'undefined' ? user.following.toString().split(',') : [];
 
 
             if (user.skills != null) {
@@ -133,7 +124,6 @@ module.exports = {
                                                     attributes: ['username']
                                                 }).then(curr => {
                                                     temp['username'] = curr['username'];
-                                                    services.push(temp);
 
                                                     if (i == favs.length - 1) {
                                                         setTimeout(() => {
@@ -550,13 +540,13 @@ module.exports = {
         }
     },
 
-    viewProjectUpdate: function (req, res){
+    viewProjectUpdate: function (req, res) {
         Project.findOne({
             where: { id: req.params.id }
         }).then(viewedProject => {
             views = viewedProject.views
             Project.update({
-                views: (views+1)
+                views: (views + 1)
             }, {
                     where: { id: viewedProject.id }
                 }).then(viewedProject => {
