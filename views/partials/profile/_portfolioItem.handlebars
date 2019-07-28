@@ -419,7 +419,7 @@
                 </div>
                 <div class="modal-body">
                     <p class="my-3 text-center">
-                    Are you sure you want to delete <br>{{title}}?
+                        Are you sure you want to delete <br>{{title}}?
                     </p>
                 </div>
                 <div class="modal-footer py-1">
@@ -440,6 +440,32 @@
 
     {{/each}}
 </section>
+
+{{#if open}}
+<p id="openEvent">{{open}}</p>
+{{#extend 'scripts'}}
+<script>
+    $(function () {
+        id = $('#openEvent').html()
+        $('#project' + id).modal('show')
+
+        
+        url = '/profile/viewProject/' + id
+        $.ajax({
+            url: url,
+            //data: data,
+            method: 'GET'
+        }).then(function (response) {
+
+            $('#viewproject' + id).attr('onclick', ``)
+
+        }).catch(function (err) {
+            console.error(err);
+        });
+    })
+</script>
+{{/extend}}
+{{/if}}
 
 {{#extend 'scripts'}}
 <script>

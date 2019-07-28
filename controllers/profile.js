@@ -35,10 +35,10 @@ module.exports = {
             }
         }).then((user) => {
             console.log(typeof user);
-            console.log(typeof user.followers);
-            followers = user && typeof user.followers !== 'undefined' ? user.followers.toString().split(',') : [];
+            console.log(user.followers);
+            followers = user && user.followers !== null ? user.followers.split(',') : [];
 
-            following = user && typeof user.following !== 'undefined' ? user.following.toString().split(',') : [];
+            following = user && user.following !== null ? user.following.split(',') : [];
 
 
             if (user.skills != null) {
@@ -299,6 +299,7 @@ module.exports = {
                                                     services: services,
                                                     skills: skills,
                                                     favs: favs,
+                                                    open: req.params.open
 
                                                 });
                                             })
@@ -312,7 +313,8 @@ module.exports = {
                                                 following: following,
                                                 services: services,
                                                 skills: skills,
-                                                social_medias: socialmedias
+                                                social_medias: socialmedias,
+                                                open: req.params.open
 
                                             });
                                         }
@@ -533,24 +535,33 @@ module.exports = {
         }
     },
 
-    sendNotification: function (req, res) {
-
-    },
-
     viewNotification: function (req, res) {
         Notification.findAll({
-            where: { user: req.user.id,
-            category: "Projects" }
-        }).then(notifications => {
-            res.render('profile/viewNotifications', {
-                notifications
+            where: {
+                user: req.user.id,
+                category: "Projects"
+            },
+            order: [['date', 'DESC']]
+        }).then(project_notifications => {
+            Notification.findAll({
+                where: {
+                    user: req.user.id,
+                    category: "Likes"
+                },
+                order: [['date', 'DESC']]
+            }).then(like_notifications => {
+                // res.send(project_notifications.toString())
+                res.render('profile/viewNotifications', {
+                    project_notifications,
+                    like_notifications
+                })
             })
         })
     },
 
-    deleteNotification: function (req, res){
+    deleteNotification: function (req, res) {
         Notification.destroy({
-            where: {id: req.params.id}
+            where: { id: req.params.id }
         }).then(deleted => {
             res.redirect('back')
         })
@@ -579,12 +590,12 @@ module.exports = {
         }).then(likedProject => {
             likers = []
 
-            if (likedProject.likes.split(',') != null) {
+            if (likedProject.likes != null) {
                 likers = likedProject.likes.split(',')
                 removeEmpty(likers, '', likers.length)
                 removeEmpty(likers, ' ', likers.length)
             }
-            else{
+            else {
                 likers = []
             }
             likers.push(req.user.id)
@@ -593,8 +604,28 @@ module.exports = {
                 likes: likers.toString()
             }, {
                     where: { id: likedProject.id }
-                }).then(likedProject => {
-                    res.redirect('back')
+                }).then(likedProjectSaved => {
+                    Notification.findOne({
+                        where: {uid: req.user.id,
+                        pid: likedProject.id}
+                    }).then(existNotif => {
+                        if(existNotif != null){
+                            res.redirect('back')
+                        }
+                        else{
+                            Notification.create({
+                                uid: req.user.id,
+                                username: req.user.username,
+                                pid: likedProject.id,
+                                title: likedProject.title,
+                                date: new Date(),
+                                category: "Likes",
+                                user: likedProject.uid
+                            })
+                            res.redirect('back')
+                        }
+                    })
+                    
                 })
         })
     },

@@ -13,6 +13,7 @@ router.get('/deleteNotifications/:id', profileController.deleteNotification)
 //Profile
 router.get('/', isAuth, profileController.index);
 router.get('/view/:id', profileController.viewProfile);
+router.get('/view/:id/:open', profileController.viewProfile)
 router.get('/follow/:id', profileController.follow)
 router.get('/unfollow/:id', profileController.unfollow)
 
@@ -34,7 +35,6 @@ router.get('/editProject/:id', isAuth, profileController.editProject)
 router.post('/editProject/:id', upload.single('coverPicture'), isAuth, profileController.editProjectPost)
 
 //View and delete Project
-// router.get('/view/:id', profileController.viewProject)
 router.get('/delete/:id', profileController.deleteProject)
 
 //Change and Delete Account

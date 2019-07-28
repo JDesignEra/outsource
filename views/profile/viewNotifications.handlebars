@@ -1,7 +1,8 @@
 <section class="view-notification">
     <h1 class="col-12 text-center">Notifications</h1>
     <div class="row justify-content-center mx-auto p-2 col-10">
-        {{#each notifications}}
+        {{#if project_notifications}}
+        {{#each project_notifications}}
         <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
             <div class="col-8 row mx-auto my-3">
                 <img class="lozad border rounded-circle" style="width:50px; height:50px;"
@@ -10,7 +11,40 @@
 
                 <div class="pl-2 align-self-center pt-1">
                     <h5 class="">
-                        <a href="/profile/view/{{uid}}">{{username}}</a> has posted a new project, {{title}}
+                        <a href="/profile/view/{{uid}}">{{username}}</a> has posted a new project, 
+                                                 <a href="/profile/view/{{uid}}/{{pid}}">{{title}}</a>
+
+                    </h5>
+                </div>
+            </div>
+            <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
+                <h6 class="text-muted text-right">
+                    {{formatDate date 'DD MMM YYYY'}}
+                </h6>
+
+            </div>
+            <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+        </div>
+        {{/each}}
+        {{else}}
+        <h1 class="col-12 text-center"> You have no notifications</h1>
+        {{/if}}
+    </div>
+        <div class="row justify-content-center mx-auto p-2 col-10">
+        {{#each like_notifications}}
+        <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
+            <div class="col-8 row mx-auto my-3">
+                <img class="lozad border rounded-circle" style="width:50px; height:50px;"
+                    onerror='this.src = "/img/profile/default.png"' src="/uploads/profile/{{uid}}/profilePic.png"
+                    alt="">
+
+                <div class="pl-2 align-self-center pt-1">
+                    <h5 class="">
+                        <a href="/profile/view/{{uid}}">{{username}}</a> has posted a new project,
+                         <a href="/profile/view/{{uid}}/{{pid}}">{{title}}</a>
                     </h5>
                 </div>
             </div>
