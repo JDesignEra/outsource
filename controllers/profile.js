@@ -208,7 +208,7 @@ module.exports = {
                 if (viewuser !== null) {
 
                     //Checks if user is followed
-                    if (req.user.following != null) {
+                    if (req.user && req.user.following != null) {
                         viewUserFollowers = req.user.following.split(',')
                         removeEmpty(viewUserFollowers, '', viewUserFollowers.length)
                         removeEmpty(viewUserFollowers, ' ', viewUserFollowers.length)
