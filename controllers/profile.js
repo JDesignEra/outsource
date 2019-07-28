@@ -2,6 +2,7 @@ Project = require('../models/portfolio')
 User = require('../models/users')
 Services = require('../models/services')
 Servicefavs = require('../models/servicesfav')
+Notification = require('../models/notifications')
 
 fs = require('fs')
 countries = require('countries-list')
@@ -53,12 +54,10 @@ module.exports = {
                 socialmedias = user.social_media.split(',')
                 removeEmpty(socialmedias, '', socialmedias.length)
                 removeEmpty(socialmedias, ' ', socialmedias.length)
-                // removeEmpty(socialmedias , "", socialmedias.length)
             }
             else {
                 socialmedias = []
             }
-            // console.log(socialmedias)
 
             Project.findAll({
                 where: {
@@ -92,20 +91,17 @@ module.exports = {
                                     uid: req.user.id
                                 }
                             }).then((datas) => {
-                                console.log("1")
                                 let serviceIds = [];
 
 
                                 for (const data of datas) {
 
                                     serviceIds.push(data['sid']);
-                                    console.log('for')
                                 }
 
                                 // res.send(datas)
 
                                 if (datas) {
-                                    console.log("if")
                                     Services.findAll({
                                         where: {
                                             id: { [Op.in]: serviceIds },
@@ -158,7 +154,6 @@ module.exports = {
 
                                 }
                                 else {
-                                    console.log("else")
                                     res.render('profile/', {
                                         projects: projects,
                                         user: user,
@@ -391,7 +386,6 @@ module.exports = {
         let bio = req.body.bio
         // res.send(dob)
         if (dob == "") {
-            console.log("if")
 
             updates = {
                 website: website,
@@ -405,7 +399,6 @@ module.exports = {
             }
         }
         else {
-            console.log("else")
             updates = {
                 website: website,
                 dob: moment(dob, 'DD/MM/YYYY'),
@@ -446,8 +439,8 @@ module.exports = {
 
     },
 
+
     follow: function (req, res) {
-        console.log(req.params)
         User.findOne({
             where: {
                 id: req.params.id
@@ -540,6 +533,31 @@ module.exports = {
         }
     },
 
+    sendNotification: function (req, res) {
+
+    },
+
+    viewNotification: function (req, res) {
+        Notification.findAll({
+            where: { user: req.user.id,
+            category: "Projects" }
+        }).then(notifications => {
+            res.render('profile/viewNotifications', {
+                notifications
+            })
+        })
+    },
+
+    deleteNotification: function (req, res){
+        Notification.destroy({
+            where: {id: req.params.id}
+        }).then(deleted => {
+            res.redirect('back')
+        })
+    },
+
+    //View Projects
+
     viewProjectUpdate: function (req, res) {
         Project.findOne({
             where: { id: req.params.id }
@@ -560,10 +578,14 @@ module.exports = {
             where: { id: req.params.id }
         }).then(likedProject => {
             likers = []
+
             if (likedProject.likes.split(',') != null) {
                 likers = likedProject.likes.split(',')
                 removeEmpty(likers, '', likers.length)
                 removeEmpty(likers, ' ', likers.length)
+            }
+            else{
+                likers = []
             }
             likers.push(req.user.id)
 
@@ -591,7 +613,6 @@ module.exports = {
             else {
                 likers = []
             }
-            console.log(likers)
 
             likerIndex = likers.indexOf(req.user.id.toString())
             if (likerIndex > -1) {
@@ -608,6 +629,13 @@ module.exports = {
         })
     },
 
+
+
+
+
+
+    //Projects
+
     submit: function (req, res) {
         res.render('profile/submitProjects', {
             fonts: fonts
@@ -621,8 +649,8 @@ module.exports = {
         let content = req.body.content
         let datePosted = new Date()
         let views = 0
-        // let likes = 0
         let imgfile = req.file
+
         Project.create({
             uid: uid,
             title: title,
@@ -630,10 +658,10 @@ module.exports = {
             content: content,
             datePosted: datePosted,
             views: views,
-            // likes: likes
-
         })
             .then((projects) => {
+
+                //Saves image file to folder
                 if (imgfile !== undefined) {
                     if (!fs.existsSync('./public/uploads/profile/' + req.user.id)) {
                         fs.mkdirSync('./public/uploads/profile/' + req.user.id);
@@ -650,8 +678,37 @@ module.exports = {
                 }
 
 
+                //Notifies users
+                if (req.user.followers != null && req.user.followers.split(',').length > 0) {
+                    follower = req.user.followers.split(',')
+                    for (i = 0; i < follower.length; i++) {
+                        follower[i] = parseInt(follower[i])
+                    }
+                    User.findAll({
+                        where: {
+                            id: { [Op.in]: follower }
+                        }
+                    }).then(followerUser => {
+                        for (i = 0; i < follower.length; i++) {
+                            Notification.create({
+                                uid: req.user.id,
+                                username: req.user.username,
+                                pid: projects.id,
+                                title: projects.title,
+                                date: projects.datePosted,
+                                category: "Projects",
+                                user: followerUser[i].id
+                            })
+                        }
+                        res.redirect('/profile/');
+                    })
+                }
+                else {
+                    res.redirect('/profile/');
+                }
 
-                res.redirect('/profile/');
+
+
             })
             .catch(err => console.log(err))
 
@@ -704,9 +761,6 @@ module.exports = {
             })
 
             .then((updateProject) => {
-                // console.log(req.user.id)
-                // res.send("hi")
-                // res.send(updateProject)
                 if (coverimg !== undefined) {
 
                     // Creates user id directory for upload if not exist
@@ -718,9 +772,7 @@ module.exports = {
                     }
 
                     // Move/Replace file
-                    // let projectId = project.id;
                     let newPath = `./public/uploads/profile/${req.user.id}/projects/${req.params.id}.png`
-                    console.log(newPath)
                     fs.renameSync(coverimg['path'], newPath);
                 }
 

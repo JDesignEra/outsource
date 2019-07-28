@@ -70,6 +70,7 @@ const users = db.define('user', {
         type: Sequelize.STRING
     },
 
+
     //Social Medias and Paypal
     paypal: {
         type: Sequelize.STRING,
@@ -77,5 +78,10 @@ const users = db.define('user', {
     social_media: {
         type: Sequelize.STRING
     },
+
+    //Notification
+    // notifications: {
+    //     type: Sequelize.TEXT('long')
+    // }
 });
 module.exports = users;

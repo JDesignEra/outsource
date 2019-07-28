@@ -1,0 +1,49 @@
+<section class="view-notification">
+    <h1 class="col-12 text-center">Notifications</h1>
+    <div class="row justify-content-center mx-auto p-2 col-10">
+        {{#each notifications}}
+        <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
+            <div class="col-8 row mx-auto my-3">
+                <img class="lozad border rounded-circle" style="width:50px; height:50px;"
+                    onerror='this.src = "/img/profile/default.png"' src="/uploads/profile/{{uid}}/profilePic.png"
+                    alt="">
+
+                <div class="pl-2 align-self-center pt-1">
+                    <h5 class="">
+                        <a href="/profile/view/{{uid}}">{{username}}</a> has posted a new project, {{title}}
+                    </h5>
+                </div>
+            </div>
+            <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
+                <h6 class="text-muted text-right">
+                    {{formatDate date 'DD MMM YYYY'}}
+                </h6>
+
+            </div>
+            <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+        </div>
+        {{/each}}
+    </div>
+</section>
+
+{{#extend 'scripts'}}
+<script>
+    function deleteNotif(id) {
+        url = '/profile/deleteNotifications/' + id
+        $.ajax({
+            url: url,
+            //data: data,
+            method: 'GET'
+        }).then(function (response) {
+            $('#notif' + id).hide(1000)
+
+        }).catch(function (err) {
+            console.error(err);
+        });
+
+    }
+</script>
+{{/extend}}

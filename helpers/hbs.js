@@ -203,8 +203,12 @@ module.exports = {
         return 0
     },
     checkLiked: function(var1, var2, ops) {
-        var1 = var1.split(',')
-
+        if(var1 != null){
+            var1 = var1.split(',')
+        }
+        else{
+            var1 = []
+        }
         return var1.find(v => v == var2) ? ops.fn(this) : ops.inverse(this);
     },
 }

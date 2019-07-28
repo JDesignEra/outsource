@@ -51,7 +51,8 @@
                             <img src="/uploads/profile/{{uid}}/projects/{{id}}.png" class="h-100 lozad mx-auto d-block"
                                 alt="">
 
-                            <div id="viewproject{{id}}" onclick="viewProject({{id}})" class="mask flex-center waves-effect waves-light rgba-black-strong">
+                            <div id="viewproject{{id}}" onclick="viewProject({{id}})"
+                                class="mask flex-center waves-effect waves-light rgba-black-strong">
                                 <div
                                     class="row col-12 align-items-end justify-content-end justify-content-around p-0 h-100">
 
@@ -68,7 +69,7 @@
                                         </h6>
 
                                         <h6 class="white-text text-right col-6">
-                                            
+
                                             <i class="far fa-heart"></i>
                                             {{#if likes}}
                                             {{getNum likes}}
@@ -97,14 +98,14 @@
                 {{else}}
 
                 <div class="row justify-content-center">
-                    <h1>{{#if ../viewuser.id}}
-                        This user has no Projects
-                        {{else}}
-
-                        {{/if}}</h1>
+                    {{#if viewuser.id}}
+                    <h1 class="my-5 py-5">This user has no Projects</h1>
+                    {{else}}
+                    <h1></h1>
+                    {{/if}}
                 </div>
 
-                {{#if ../viewuser.id}}
+                {{#if viewuser.id}}
                 {{else}}
                 <div class="row justify-content-start">
                     <div class="col-sm-5 col-lg-4 py-0 px-1">
@@ -205,6 +206,21 @@
                             </div>
                         </div>
                         {{else}}
+                        <div class="col-lg-3 col-sm-12 row justify-content-end px-0">
+                            <div id="deleteButton" class="row justify-content-between">
+                                <a href="/profile/editProject/{{id}}">
+                                    <button type="button" class="btn btn-success justify-content-center">
+                                        <i class="fas fa-edit fa-lg"></i> &nbsp; Edit
+                                    </button>
+                                </a>
+
+                                <a data-toggle="modal" data-target="#confirmDelete{{id}}">
+                                    <button type="button" class="btn btn-danger justify-content-center">
+                                        <i class="fas fa-trash-alt fa-lg"></i> &nbsp; Delete
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
                         {{/if}}
                     </div>
                 </div>
@@ -364,7 +380,7 @@
                         </div>
                         {{#if ../viewuser}}
                         {{else}}
-                        <div id="deleteButton" class="row justify-content-between">
+                        {{!-- <div id="deleteButton" class="row justify-content-between">
                             <a data-toggle="modal" data-target="#confirmDelete{{id}}">
                                 <button type="button" class="btn btn-danger justify-content-center">
                                     <i class="fas fa-trash-alt fa-lg"></i> &nbsp; Delete
@@ -376,7 +392,7 @@
                                     <i class="fas fa-edit fa-lg"></i> &nbsp; Edit
                                 </button>
                             </a>
-                        </div>
+                        </div> --}}
                         {{/if}}
                     </div>
 
@@ -396,23 +412,28 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title">Confirm Delete?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title text-center col-12">Confirmation</h5>
+                    {{!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>
+                    </button> --}}
                 </div>
-
-                <div class="my-2 row justify-content-around mx-auto col-12">
-                    <a href="/profile/delete/{{id}}">
-                        <button type="button" class="btn btn-danger">
-                            Yes
-
-                        </button>
-                    </a>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-
+                <div class="modal-body">
+                    <p class="my-3 text-center">
+                    Are you sure you want to delete <br>{{title}}?
+                    </p>
                 </div>
+                <div class="modal-footer py-1">
+                    <div class="row justify-content-between mx-auto w-100">
+                        <a href="/profile/delete/{{id}}">
+                            <button type="button" class="btn btn-danger">
+                                Yes
 
+                            </button>
+                        </a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -462,7 +483,7 @@
             method: 'GET'
         }).then(function (response) {
 
-            $('#viewproject'+id).attr('onclick', ``)
+            $('#viewproject' + id).attr('onclick', ``)
 
         }).catch(function (err) {
             console.error(err);
