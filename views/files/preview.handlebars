@@ -1,5 +1,6 @@
 {{#extend 'stylesheets'}}
-<link id="editor-style" type="text/css" href="/css/vendor/highlightJs/atom-one-dark.css" rel="stylesheet">
+<link type="text/css" href="/css/vendor/codemirror/codemirror.css" rel="stylesheet">
+<link id="editor-style" type="text/css" href="/css/vendor/codemirror/one-dark.css" rel="stylesheet">
 {{/extend}}
 
 <section class="file-preview">
@@ -10,19 +11,20 @@
                     <span class="white-text mx-3">{{file.name}}</span>
                 </div>
                 
-                <div id="content" class="m-3"{{#if file.id}} data-id="{{file.id}}"{{/if}}>
+                <div id="content" class="card-body" data-id="{{ file.id }}" data-type="{{ file.type }}">
                     {{#ifCond 'file.type === "image"'}}
                         <img class="img-fluid w-100" src="{{ file.link }}">
 
                     {{else}}
                         {{#ifCond 'file.type === "code" || file.type === "text"'}}
-                            <pre class="rounded"><code class="p-3{{#if file.ext}} {{ file.ext }}" data-ext="{{ file.ext }}"{{/if}}>{{ file.content }}</code></pre>
+                            <div id="editor" data-name="{{ file.name }}"></div>
+
+                            {{!-- <pre class="rounded"><code class="p-3{{#if file.ext}} {{ file.ext }}" data-ext="{{ file.ext }}"{{/if}}>{{ file.content }}</code></pre> --}}
                         {{else}}
                             {{#ifCond 'file.type === "video"'}}
                                 <video class="video-fluid z-depth-1" controls loop>
                                     <source src="{{ file.link }}" type="{{ file.mime }}">
                                 </video>
-
                             {{else}}
                                 <div class="text-center">
                                     <p class="mb-5 text-danger">
@@ -48,10 +50,11 @@
                         <i class="far fa-window-close mr-1"></i>Close Preview
                     </a>
 
-                    <!-- ToDo Edit Function -->
-                    {{!-- <button class="list-group-item list-group-item-action">
-                        <i class="far fa-edit mr-1"></i>Edit
-                    </button> --}}
+                    {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
+                        <a class="edit list-group-item list-group-item-action" href="">
+                            <i class="far fa-edit mr-1"></i>Edit
+                        </a>
+                    {{/ifCond}}
 
                     {{#ifCond 'file.type === "code" || file.type === "text"'}}
                         <button class="editor-mode list-group-item list-group-item-action" data-mode="dark">
@@ -151,6 +154,17 @@
 {{/extend}}
 
 {{#extend 'scripts'}}
-<script src="/js/vendor/highlight.pack.js" type="text/javascript"></script>
+    {{#ifCond 'file.type === "code"'}}
+        <script src="/js/vendor/codemirror/codemirror.js" type="text/javascript"></script>
+        <script src="/js/vendor/codemirror/mode/meta.js" type="text/javascript"></script>
+        <script src="/js/vendor/codemirror/addon/mode/loadmode.js" type="text/javascript"></script>
+        <script src="/js/vendor/codemirror/addon/edit/matchbrackets.js" type="text/javascript"></script>
+        <script src="/js/vendor/codemirror/addon/edit/matchtags.js" type="text/javascript"></script>
+
+        <script id="data" type="text/javascript">
+            let content = {{{json file.content}}};
+        </script>
+    {{/ifCond}}
+
 <script src="/js/filePreview.js" type="text/javascript"></script>
 {{/extend}}

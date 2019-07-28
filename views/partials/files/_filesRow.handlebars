@@ -12,6 +12,7 @@
                         {{#if this.share.usernames}}data-share-usernames="{{ joinSeperator ',' this.share.usernames }}"{{/if}}
                         {{#if this.share.emails}}data-share-emails="{{ joinSeperator ',' this.share.emails }}"{{/if}}
                         {{#if this.shareCode}}data-share-code="{{ this.shareCode }}"{{/if}}
+                        {{#if this.type}}data-type="{{ this.type }}"{{/if}}
                         name="fid"
                         {{#if this.id}} value="{{ this.id }}"{{/if}}
                         {{#ifVar 'selectId'}}

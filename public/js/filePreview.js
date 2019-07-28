@@ -7,6 +7,10 @@ $(function() {
     let downloadAction = focus.find('.download');
     downloadAction.attr('href', `${window.location.pathname.replace(/\/~preview/gi, '')}/~download`);
 
+    // Edit Link
+    let editAction = focus.find('.edit');
+    editAction.attr('href', `${window.location.pathname}/~edit`);
+
     // Editor Theme Mode
     let editorModeAction = focus.find('.editor-mode');
 
@@ -17,35 +21,20 @@ $(function() {
         let stylesheetHref = stylesheet.attr('href');
         
         if (mode === 'light') {
-            stylesheetHref = stylesheetHref.replace(/\/atom-one-light.css/gi, '/atom-one-dark.css');
+            stylesheetHref = stylesheetHref.replace(/\/one-light.css/gi, '/one-dark.css');
             stylesheet.attr('href', stylesheetHref);
 
             _this.attr('data-mode', 'dark');
             _this.html('<i class="far fa-adjust mr-1"></i>Light Mode');
         }
         else {
-            stylesheetHref = stylesheetHref.replace(/\/atom-one-dark.css/gi, '/atom-one-light.css');
+            stylesheetHref = stylesheetHref.replace(/\/one-dark.css/gi, '/one-light.css');
             stylesheet.attr('href', stylesheetHref);
 
             _this.attr('data-mode', 'light');
             _this.html('<i class="far fa-adjust mr-1"></i>Dark Mode');
         }
     });
-});
-
-// Code Syntax Highlight
-$(function() {
-    let focus = $('#content');
-
-    // Code Block
-    let codeBlock = focus.find('pre code');
-    let ext = codeBlock.attr('data-ext');
-    
-    if (hljs.getLanguage(ext) === undefined) {
-        codeBlock.addClass('code plaintext');
-    }
-
-    hljs.initHighlighting();
 });
 
 // Mobile-Action
@@ -78,6 +67,45 @@ $(function() {
         });
     
         $(window).trigger('resize');
+    }
+});
+
+// Code Syntax Highlight
+$(function() {
+    let type = $('#content').attr('data-type');
+
+    if (type === 'code') {
+        CodeMirror.modeURL = '/js/vendor/codemirror/mode/%N/%N.js';
+
+        let mode = CodeMirror.findModeByFileName($('#editor', '#content').attr('data-name')).mode;
+        let editor = CodeMirror($('#editor', '#content')[0], {
+            value: content,
+            mode: mode,
+            theme: 'one-dark one-light',
+            lineNumbers: true,
+            readOnly: true,
+            scrollbarStyle: null,
+            maxHighlightLength: Infinity,
+            viewportMargin: Infinity,
+            spellcheck: true,
+            matchBrackets: true,
+        });
+
+        CodeMirror.autoLoadMode(editor, mode);
+
+        setTimeout(function() {
+            $('.CodeMirror').each(function(i, el) {
+                el.CodeMirror.refresh();
+            });
+            
+            clearTimeout(this);
+        }, 500);
+
+        let cm = $('#editor', '#content').find('.CodeMirror');
+        cm.addClass('rounded');
+
+        data = undefined;
+        $('script#data').remove();
     }
 });
 

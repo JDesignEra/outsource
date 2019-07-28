@@ -16,9 +16,11 @@ router.post('(/my-drive)?/:dir([/%-_a-z0-9]+)?/~newfile', isAuth, filesControlle
 router.post('(/my-drive)?/:dir([/%-_a-z0-9]+)?/~newfolder', isAuth, filesController.newfolder);
 router.post('(/my-drive)?/:dir([/%-_a-z0-9]+)?/~rename', isAuth, filesController.rename);
 router.post('(/my-drive)?/:dir([/%-_a-z0-9]+)?/~sharecode', isAuth, filesController.sharecode);
+router.post('(/my-drive)?/:dir([/%-_a-z0-9]+)(/~preview/~edit|/~preview|/~edit)?/~save', isAuth, filesController.save);
 router.post('(/my-drive)?/:dir([/%-_a-z0-9]+)?/~upload', isAuth, upload.array('files'), filesController.upload); 
 
 router.get('(/my-drive|/share-drive)?/:dir([/%-_a-z0-9]+)?/:fid([0-9]+)/:code?/~download', filesController.download);
+router.get('(/my-drive|/share-drive)?/:dir([/%-_a-z0-9]+)?/:fid([0-9]+)(/~preview)?/~edit', isAuth, filesController.edit);
 router.get('(/my-drive|/share-drive)?/:dir([/%-_a-z0-9]+)?/:fid([0-9]+)/~preview(/~comments)?', isAuth, filesController.preview);
 router.get('/:sharecode([a-z0-9]+)/:dir([/%-_a-z0-9]+)?/~shared', filesController.sharedIndex);
 router.get('/:sharecode([a-z0-9]+)/:fid([0-9]+)/:dir([/%-_a-z0-9]+)?/~spreview', filesController.sharedPreview);

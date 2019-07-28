@@ -240,19 +240,83 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     height: 2px;
 }
 
+/* Froala Editor */
+/* .fr-toolbar,
+.fr-toolbar .fr-newline {
+    background: #651fff;
+}
+
+.fr-toolbar .fr-more-toolbar {
+    background: #b388ff;
+}
+
+.fr-toolbar .fr-command.fr-btn.fr-open:not(:hover):not(:focus):not(:active) {
+    background: #b388ff;
+}
+
+.fr-toolbar.fr-top,
+.fr-box.fr-basic .fr-wrapper,
+.second-toolbar {
+    border-color: #651fff;
+}
+
+.fr-toolbar .fr-command.fr-btn i,
+.fr-toolbar .fr-command.fr-btn svg path,
+.fr-popup .fr-command.fr-btn svg path,
+.fr-modal .fr-command.fr-btn svg path {
+    color: #ffffff;
+    fill: #ffffff;
+}
+
+.fr-desktop .fr-command:hover:not(.fr-table-cell),
+.fr-desktop .fr-command:focus:not(.fr-table-cell),
+.fr-desktop .fr-command.fr-btn-hover:not(.fr-table-cell),
+.fr-desktop .fr-command.fr-expanded:not(.fr-table-cell) {
+    background: #b388ff;
+}
+
+.fr-toolbar .fr-btn-grp .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
+.fr-toolbar .fr-more-toolbar .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
+.fr-toolbar .fr-buttons:not(.fr-tabs) .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
+.fr-popup .fr-btn-grp .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
+.fr-popup .fr-more-toolbar .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
+.fr-popup .fr-buttons:not(.fr-tabs) .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
+.fr-modal .fr-btn-grp .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
+.fr-modal .fr-more-toolbar .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
+.fr-modal .fr-buttons:not(.fr-tabs) .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path {
+    fill: #009688;
+}
+
+.fr-wrapper::after {
+    display: none;
+} */
+
+/* CodeMirror */
+.CodeMirror {
+    height: auto;
+    -webkit-transition: all .15s linear;
+    -o-transition: all .15s linear;
+    transition: all .15s linear;
+}
+
+.CodeMirror-linenumber {
+   padding-right: 1rem !important;
+}
+
 /* Home */
 section.home-hero .carousel-caption {
     bottom: 0;
     height: 100%;
 }
 
-/* Files & File-Preview */
+/* Files, File-Preview & File-Edit */
 section.files .breadcrumb-item + .breadcrumb-item::before {
     color: #ffffff;
 }
 
 section.files #action-card .list-group-item i,
-section.file-preview #action-card .list-group-item i {
+section.file-preview #action-card .list-group-item i,
+section.file-edit #action-card .list-group-item i {
     min-width: 20px;
 }
 
@@ -287,15 +351,18 @@ section.files .breadcrumb a:hover {
 }
 
 section.file-preview #action-card .list-group-item.close-preview:hover,
+section.file-edit #action-card .list-group-item.close-edit:hover,
 #mobile-action .dropdown-item.close-preview:active,
-#mobile-action .dropdown-item.close-preview:hover {
+#mobile-action .dropdown-item.close-preview:hover,
+#mobile-action .dropdown-item.close-edit:active,
+#mobile-action .dropdown-item.close-edit:hover {
     background-color: #dc3545;
 }
 
-section.file-preview #content pre > code {
-    -webkit-transition: all .15s linear;
-    -o-transition: all .15s linear;
-    transition: all .15s linear;
+section.file-edit #action-card .list-group-item.save:hover,
+#mobile-action .dropdown-item.save:active,
+#mobile-action .dropdown-item.save:hover {
+    background-color: #009688;
 }
 
 @media (min-width: 767px) {
@@ -500,7 +567,6 @@ section.submit-projects .file-upload > .wrapper > .preview {
 .edit-profile .jarallax {
     min-height: 300px
 }
-
 
 .edit-profile .testimonial-card .avatar > img {
     width: 100%;

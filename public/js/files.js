@@ -381,10 +381,22 @@ $(function() {
 
                 selectCount.html(`${count} Item Selected<i class="far fa-check ml-2"></i>`);
                 
-                // Download link
+                // Download link and Edit Link
                 if (count === 1) {
                     let downloadAction = singleActions.find('a.download');
                     downloadAction.attr('href', `${window.location.pathname}/${checked.last().attr('data-id')}/~download`);
+
+                    let type = checked.last().attr('data-type');
+                    let editAction = singleActions.find('a.edit');
+
+                    if (type === 'code') {
+                        editAction.attr('href', `${window.location.pathname}/${checked.last().attr('data-id')}/~edit`);
+
+                        editAction.removeClass('d-none');
+                    }
+                    else {
+                        editAction.addClass('d-none');
+                    }
                 }
                 
                 if (count > 1) {
