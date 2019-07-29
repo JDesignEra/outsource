@@ -73,8 +73,6 @@ app.set('view engine', 'handlebars');
 // Connect Flash
 app.use(flash());
 
-
-
 // Render Engine Global Variable
 app.use(function(req, res, next) {
 	res.locals.user = req.user || null;
