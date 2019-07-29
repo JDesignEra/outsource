@@ -9,18 +9,18 @@
 	<div id="nav" class="collapse navbar-collapse">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item{{#ifCond 'url === "/"'}} active{{/ifCond}}">
-				<a class="nav-link" href="/">Home</a>
+				<a class="nav-link rounded" href="/">Home</a>
 			</li>
 			<li class="nav-item{{#ifCond 'url === "/services"'}} active{{/ifCond}}">
-				<a class="nav-link" href="/services">Marketplace</a>
+				<a class="nav-link rounded" href="/services">Marketplace</a>
 			</li>
 		</ul>
 
 		<ul class="navbar-nav ml-auto">
 			{{#if user}}
 			<!-- Desktop -->
-			<li class="nav-item mr-2 d-none d-md-block">
-				<a class="nav-link" href="/profile/notifications" >
+			<li class="nav-item{{#ifCond 'url === "/profile/notifications"'}} active{{/ifCond}} mr-2 d-none d-md-block">
+				<a class="nav-link rounded" href="/profile/notifications">
 					<i class="fas fa-bell"></i>
 				</a>
 			</li>
@@ -60,41 +60,34 @@
 			<!-- Mobile -->
 			<li class="nav-item d-block d-md-none{{#ifCond 'url !== "/profile/notifications"'}}{{#ifStringContain url '/profile'}} active{{/ifStringContain}}{{/ifCond}}">
 				<hr class="hr-light my-2">
-				<a class="nav-link" href="/profile">
+				<a class="nav-link rounded" href="/profile">
 					<i class="far fa-id-card mr-1"></i> My Profile
 				</a>
 			</li>
 			<li class="nav-item d-block d-md-none{{#ifStringContain url '/files'}} active{{/ifStringContain}}">
-				<a class="nav-link" href="/files">
+				<a class="nav-link rounded" href="/files">
 					<i class="far fa-folders mr-1"></i> Files Management
 				</a>
 			</li>
 			<li
 				class="nav-item d-block d-md-none{{#ifStringContain url '/services/manage'}} active{{/ifStringContain}}">
-				<a class="nav-link" href="/services/manage">
+				<a class="nav-link rounded" href="/services/manage">
 					<i class="far fa-user-tie mr-1"></i> Services Management
 				</a>
 			</li>
 			<li class="nav-item d-block d-md-none{{#ifStringContain url '/jos'}} active{{/ifStringContain}}">
-				<a class="nav-link" href="/jobs">
+				<a class="nav-link rounded" href="/jobs">
 					<i class="far fa-briefcase mr-1"></i> Jobs Management
 				</a>
 			</li>
-			<li
-				class="nav-item d-block d-md-none{{#ifStringContain url '/services/receipt'}} active{{/ifStringContain}}">
-				<a class="nav-link" href="/services/receipt">
-					<i class="far fa-file-invoice-dollar mr-1"></i> Transaction Histories
-				</a>
-			</li>
-			<li
-				class="nav-item d-block d-md-none{{#ifStringContain url '/services/receipt'}} active{{/ifStringContain}}">
-				<a class="nav-link" href="/services/receipt">
+			<li class="nav-item d-block d-md-none{{#ifStringContain url '/services/receipt'}} active{{/ifStringContain}}">
+				<a class="nav-link rounded" href="/services/receipt">
 					<i class="far fa-file-invoice-dollar mr-1"></i> Transaction Histories
 				</a>
 			</li>
 			<li
 				class="nav-item d-block d-md-none{{#ifStringContain url '/profile/notifications'}} active{{/ifStringContain}}">
-				<a class="nav-link" href="/profile/notifications">
+				<a class="nav-link rounded" href="/profile/notifications">
 					<i class="far fa-bell mr-1"></i> Notifications
 				</a>
 			</li>
