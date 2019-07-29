@@ -7,6 +7,7 @@
                 <th class="th-sm">Description</th>
                 <th class="th-sm">Category</th>
                 <th class="th-sm">Payment</th>
+                <th class="th-sm"></th>
             </tr>
         </thead>
         <tbody>
@@ -18,6 +19,7 @@
                 <td>{{desc}}</td>
                 <td>{{category}}</td>
                 <td>${{salary}}</td>
+                <td class="text-right"><a href="/job/delete/{{id}}" class="btn btn-danger">Reject<i class="far fa-trash-alt ml-1"></i></a></td>
             </tr>
             {{/each}}
             {{/if}}

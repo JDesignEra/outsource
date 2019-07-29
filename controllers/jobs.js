@@ -37,5 +37,27 @@ module.exports = {
             }
 
         })
+    },
+    delete: function(req, res){
+        Jobs.findOne({
+            where: {
+                id: req.params.id
+            }
+        }).then(job => {
+            if (job == null) {
+                req.flash('warning', 'You do not have any jobs to reject');
+                res.redirect('/job');
+            }
+            else {
+                Jobs.destroy({
+                    where: {
+                        id: req.params.id
+                    }
+                }).then(() => {
+                    req.flash('success', 'Job rejected');
+                    res.redirect('/job');
+                })
+            }
+        })
     }
 }
