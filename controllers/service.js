@@ -28,17 +28,9 @@ module.exports = {
             ],
             raw: true
         }).then(serviceDatas => {
-            let services = [];
-            if (serviceDatas.length > 0) {
-                res.render('services/list', {
-                    services: services
-                });
-            }
-            else {
-                res.render('services/list', {
-                    services: serviceDatas
-                });
-            }
+            res.render('services/list', {
+                services: serviceDatas
+            });
         })
             .catch(err => console.log(err));
     },
@@ -229,8 +221,7 @@ module.exports = {
             if (servicefavs == null) {
                 Servicefavs.create({
                     uid: req.user.id,
-                    sid: req.params.id,
-                    username: req.user.username
+                    sid: req.params.id
                 }).then(() => {
                     Services.findOne({
                         where: {
