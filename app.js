@@ -123,7 +123,7 @@ app.use('/', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
 app.use('/services', require('./routes/services'));
 app.use('/files', require('./routes/files'));
-app.use('/jobs', require('./routes/jobs'));
+app.use('/job', require('./routes/jobs'));
 app.use(function(req, res) {
 	req.flash('error', 'Page not found.');
 	res.redirect('/');

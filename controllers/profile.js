@@ -119,35 +119,17 @@ module.exports = {
                                                 uid: req.user.id
                                             }
                                         }).then(favs => {
-                                            if (favs.length > 0) {
-                                                res.render('profile/', {
-                                                    projects: projects,
-                                                    user: user,
-                                                    followers: followers,
-                                                    following: following,
-                                                    services: services,
-                                                    skills: skills,
-                                                    social_medias: socialmedias,
-                                                    favs: favs
-                                                });
-                                            }
-
-                                            else {
-
-                                                res.render('profile/', {
-                                                    projects: projects,
-                                                    user: user,
-                                                    followers: followers,
-                                                    following: following,
-                                                    services: services,
-                                                    skills: skills,
-                                                    social_medias: socialmedias,
-                                                    open: req.params.open,
-                                                    liked
-                                                });
-                                            }
+                                            res.render('profile/', {
+                                                projects: projects,
+                                                user: user,
+                                                followers: followers,
+                                                following: following,
+                                                services: services,
+                                                skills: skills,
+                                                social_medias: socialmedias,
+                                                favs: favs
+                                            });
                                         })
-
                                     }
                                     else {
                                         res.render('profile/', {
