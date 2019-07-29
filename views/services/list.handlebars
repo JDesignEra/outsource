@@ -1,6 +1,6 @@
 <section class="services container mx-auto">
     <div class="row">
-        <div class="col-12 col-md-6 order-2 order-md-1 mt-3 mt-md-0">
+        <div class="col-12 col-md-4 order-2 order-md-1 mt-2 mt-md-0">
             <div id="filters" class="select-outline">
                 <select class="mdb-select md-form md-outline colorful-select dropdown-primary">
                     <option selected>Show All</option>
@@ -11,16 +11,10 @@
                     <option>Programming &amp; Tech</option>
                 </select>
                 <label>Filter</label>
-                
-                {{!-- <select class="browser-default custom-select category-select">
-                    <option selected>Show All</option>
-                    <option>Graphics & Design</option>
-                    <option>Writing & Translation</option>
-                    <option>Video & Animation</option>
-                    <option>Music & Audio</option>
-                    <option>Programming & Tech</option>
-                </select> --}}
             </div>
+        </div>
+
+        <div class="col-12 col-md-4 order-3 order-md-2">
             <div id="sort" class="select-outline">
                 <select class="mdb-select md-form md-outline colorful-select dropdown-primary">
                     <option selected disabled>None</option>
@@ -29,13 +23,42 @@
                     <option>Most viewed</option>
                 </select>
                 <label>Sort By</label>
+            </div>
+        </div>
 
-                {{!-- <select class="browser-default custom-select sort-select">
+        <div class="col-12 col-md-4 order-1 order-md-3 mt-2 mt-md-0">
+            <div class="input-group">
+                <div class="md-form md-outline">
+                    <input id="search" class="form-control mdb-autocomplete" type="text" name="search">
+                    <label for="search">Search By Title</label>
+                </div>
+                
+                <div class="input-group-append">
+                    <button class="btn btn-md primary-gradient m-0 px-3 py-2 waves-effect" type="button" id="searchbut">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        {{!-- <div class="col-12 col-md-6 order-2 order-md-1 mt-3 mt-md-0">
+            <div id="filters">
+                <select class="browser-default custom-select category-select">
+                    <option selected>Show All</option>
+                    <option>Graphics & Design</option>
+                    <option>Writing & Translation</option>
+                    <option>Video & Animation</option>
+                    <option>Music & Audio</option>
+                    <option>Programming & Tech</option>
+                </select>
+            </div>
+            <div id="sort">
+                <select class="browser-default custom-select sort-select">
                     <option selected disabled>Sort by...</option>
                     <option>Oldest first</option>
                     <option>Newest first</option>
                     <option>Most viewed</option>
-                </select> --}}
+                </select>
             </div>
         </div>
 
@@ -52,7 +75,7 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
     <!-- services cards -->

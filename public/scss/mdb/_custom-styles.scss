@@ -284,6 +284,8 @@ input.is-invalid::-webkit-inner-spin-button {
     margin: 0 !important;
 
     input {
+        margin: 0 !important;
+
         &.active {
             box-shadow: map-get($material-colors, "primary-color") !important;
             border-bottom: 1px solid map-get($material-colors, "primary-color") !important;
@@ -325,12 +327,12 @@ input.is-invalid::-webkit-inner-spin-button {
 
             &+label {
                 position: relative;
-                top: -5.6em !important;
+                top: -4.5em !important;
                 left: 8px !important;
 
                 &.active {
                     position: relative;
-                    top: -5.6em !important;
+                    top: -4.5em !important;
                     left: 8px !important;
                     color: map-get($material-colors, "primary-color");
                 }
