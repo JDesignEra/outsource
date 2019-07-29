@@ -119,38 +119,19 @@ module.exports = {
                                                 uid: req.user.id
                                             }
                                         }).then(favs => {
-
                                             if (favs.length > 0) {
-                                                for (const [i, service] of favs.entries()) {
-                                                    let temp = service;
-
-                                                    User.findOne({
-                                                        where: {
-                                                            id: service.uid
-                                                        },
-                                                        attributes: ['username']
-                                                    }).then(curr => {
-                                                        temp['username'] = curr['username'];
-
-                                                        if (i == favs.length - 1) {
-                                                            setTimeout(() => {
-                                                                res.render('profile/', {
-                                                                    projects: projects,
-                                                                    user: user,
-                                                                    followers: followers,
-                                                                    following: following,
-                                                                    services: services,
-                                                                    skills: skills,
-                                                                    social_medias: socialmedias,
-                                                                    favs: favs,
-                                                                    open: req.params.open,
-                                                                    liked
-                                                                });
-                                                            }, 50);
-                                                        }
-                                                    })
-                                                }
+                                                res.render('profile/', {
+                                                    projects: projects,
+                                                    user: user,
+                                                    followers: followers,
+                                                    following: following,
+                                                    services: services,
+                                                    skills: skills,
+                                                    social_medias: socialmedias,
+                                                    favs: favs
+                                                });
                                             }
+
                                             else {
 
                                                 res.render('profile/', {

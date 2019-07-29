@@ -16,6 +16,9 @@ const services = db.define('service', {
         //     key: "id"
         // }
     },
+    username: {
+        type: Sequelize.STRING
+    },
     name: {
         type: Sequelize.STRING,
         allowNull: false

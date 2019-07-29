@@ -28,36 +28,18 @@ module.exports = {
             ],
             raw: true
         }).then(serviceDatas => {
-                let services = [];
-                if (serviceDatas.length > 0){
-                    for (const [i, service] of serviceDatas.entries()) {
-                        let temp = service;
-                        
-                        Users.findOne({
-                            where: {
-                                id: service.uid
-                            },
-                            attributes: ['username']
-                        }).then(user => {
-                            temp['username'] = user['username'];
-                            services.push(temp);
-                            
-                            if (i == serviceDatas.length - 1) {
-                                setTimeout(() => {
-                                    res.render('services/list', {
-                                        services: services
-                                    });
-                                }, 50);
-                            }
-                        })
-                    }
-                }
-                else{
-                    res.render('services/list', {
-                        services: serviceDatas
-                    });
-                }
-            })
+            let services = [];
+            if (serviceDatas.length > 0) {
+                res.render('services/list', {
+                    services: services
+                });
+            }
+            else {
+                res.render('services/list', {
+                    services: serviceDatas
+                });
+            }
+        })
             .catch(err => console.log(err));
     },
     view: function (req, res) {
@@ -127,6 +109,7 @@ module.exports = {
         let name = req.body.name;
         let desc = req.body.desc === undefined ? '' : req.body.desc.slice(0, 1999);
         let userId = req.user.id;
+        let username = req.user.username;
         let price = req.body.price;
         let category = req.body.categories.toString();
         Services.create({
@@ -134,6 +117,7 @@ module.exports = {
             desc,
             price,
             uid: userId,
+            username,
             category,
             views: 0,
             date: today,
@@ -203,7 +187,7 @@ module.exports = {
                     let serviceId = req.params.id;
                     fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
                 }
-                
+
                 req.flash('success', 'Changes saved successfully!');
                 res.redirect('/profile');
             }).catch(err => console.log(err));
@@ -241,11 +225,12 @@ module.exports = {
                 uid: req.user.id
             }
         }).then((servicefavs) => {
-            
+
             if (servicefavs == null) {
                 Servicefavs.create({
                     uid: req.user.id,
-                    sid: req.params.id
+                    sid: req.params.id,
+                    username: req.user.username
                 }).then(() => {
                     Services.findOne({
                         where: {
