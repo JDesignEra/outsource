@@ -279,6 +279,70 @@ input.is-invalid::-webkit-inner-spin-button {
     margin-right: 1rem;;
 }
 
+// MATERIAL SELECT
+.select-wrapper {
+    margin: 0 !important;
+
+    input {
+        &.active {
+            box-shadow: map-get($material-colors, "primary-color") !important;
+            border-bottom: 1px solid map-get($material-colors, "primary-color") !important;
+        }
+    }
+
+    &+label {
+        &.active-check {
+            color: map-get($material-colors, "primary-color");
+        }
+    }
+
+    &.md-form {
+        > ul {
+            li {
+                label {
+                    color: map-get($material-colors, "primary-color");
+                }
+            }
+        }
+        
+        &.md-outline {
+            span {
+                &.caret {
+                    &.active {
+                        color: map-get($material-colors, "primary-color") !important;
+                    }
+                }
+            }
+
+            input {
+                &.select-dropdown {
+                    &:focus {
+                        border-color: map-get($material-colors, "primary-color");
+                        box-shadow: inset 0px 0px 0px 1px map-get($material-colors, "primary-color");
+                    }
+                }
+            }
+
+            &+label {
+                position: relative;
+                top: -5.6em !important;
+                left: 8px !important;
+
+                &.active {
+                    position: relative;
+                    top: -5.6em !important;
+                    left: 8px !important;
+                    color: map-get($material-colors, "primary-color");
+                }
+            }
+        }
+    }
+
+    .select-add-option {
+        color: map-get($material-colors, "primary-color");
+    }
+}
+
 // FOOTERS
 footer {
     &.page-footer {

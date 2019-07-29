@@ -103,6 +103,12 @@ $(function () {
 // Material Select
 $(function () {
     $('.mdb-select').material_select();
+
+    $('.select-wrapper.md-form.md-outline input.select-dropdown').bind('focus blur', function () {
+        let _this = $(this);
+        _this.closest('.select-outline').find('label').toggleClass('active');
+        _this.closest('.select-outline').find('.caret').toggleClass('active');
+    });
 });
 
 /* Lemuel */
