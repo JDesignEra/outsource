@@ -10,11 +10,11 @@ const jobs = db.define('job', {
         allowNull: false
     },
     uid: {
-        type: Sequelize.INTEGER,
-        // references: {
-        //     model: users,
-        //     key: "id"
-        // }
+        type: Sequelize.INTEGER
+    },
+    name: {
+        type: Sequelize.STRING,
+        allowNull: false
     },
     desc: {
         type: Sequelize.STRING(2000)

@@ -2,24 +2,25 @@
     <table id="dtMaterialDesignExample" class="table table-striped" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th class="th-sm">Job ID</th>
+                <th class="th-sm">Job No.</th>
                 <th class="th-sm">Name</th>
                 <th class="th-sm">Description</th>
                 <th class="th-sm">Category</th>
-                <th class="th-sm">Salary</th>
-                <th class="th-sm"></th>
-
+                <th class="th-sm">Payment</th>
             </tr>
         </thead>
         <tbody>
+            {{#if job}}
+            {{#each job}}
             <tr>
-                <td>hello</td>
-                <td>hello</td>
-                <td>hello</td>
-                <td>hello</td>
-                <td>hello</td>
-                <td>hello</td>
+                <td>{{id}}</td>
+                <td>{{name}}</td>
+                <td>{{desc}}</td>
+                <td>{{category}}</td>
+                <td>${{salary}}</td>
             </tr>
+            {{/each}}
+            {{/if}}
         </tbody>
         <tfoot>
         </tfoot>
