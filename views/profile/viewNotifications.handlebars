@@ -1,8 +1,10 @@
 <section class="view-notification">
     <h1 class="col-12 text-center">Notifications</h1>
-    <div class="classic-tabs border-top border-primary col-lg-10 col-sm-12 mx-auto">
+    <div class="classic-tabs col-lg-10 col-sm-12 mx-auto">
 
-        <ul class="nav tabs-white rounded-0" id="myClassicTabShadow" role="tablist">
+        <ul class="nav tabs-white rounded-0 
+        {{!-- border-bottom border-top border-primary  --}}
+        " id="myClassicTabShadow" role="tablist">
 
             <li class="nav-item m-0">
                 <a class="nav-link waves-light active show" id="portfolio-tab-classic-shadow" data-toggle="tab"
@@ -52,7 +54,7 @@
                     </div>
                     {{/each}}
                     {{else}}
-                    <h1 class="col-12 text-center"> You have no notifications</h1>
+                    <h4 class="col-12 text-center text-muted my-5"> You have no notifications</h4>
                     {{/if}}
                 </div>
             </div>
@@ -62,7 +64,7 @@
                 aria-labelledby="likes-tab-classic-shadow">
                 <div class="row justify-content-center mx-auto p-2 col-12">
                     {{#if like_notifications}}
-                    {{#each project_notifications}}
+                    {{#each like_notifications}}
                     <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
                         <div class="col-8 row mx-auto my-3">
                             <img class="lozad border rounded-circle" style="width:50px; height:50px;"
@@ -72,7 +74,7 @@
                             <div class="pl-2 align-self-center pt-1">
                                 <h5 class="">
                                     <a href="/profile/view/{{uid}}">{{username}}</a> has posted a new project,
-                                    <a href="/profile/view/{{uid}}/{{pid}}">{{title}}</a>
+                                    <a href="/profile/viewSelf/{{pid}}">{{title}}</a>
 
                                 </h5>
                             </div>
@@ -90,7 +92,7 @@
                     </div>
                     {{/each}}
                     {{else}}
-                    <h1 class="col-12 text-center"> You have no notifications</h1>
+                    <h4 class="col-12 text-center text-muted my-5"> You have no notifications</h4>
                     {{/if}}
                 </div>
             </div>

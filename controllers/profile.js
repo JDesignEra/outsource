@@ -85,89 +85,108 @@ module.exports = {
                             }
                         }).then(following => {
 
+                            Project.findAll().then(likedProject => {
 
-                            Servicefavs.findAll({
-                                where: {
-                                    uid: req.user.id
+                                liked = []
+                                for (i = 0; i < likedProject.length; i++) {
+                                    if (likedProject[i].likes != null) {
+                                        likes = likedProject[i].likes.split(',')
+                                    }
+                                    else {
+                                        likes = []
+                                    }
+                                    if (likes.includes(req.user.id.toString())) {
+                                        liked.push(likedProject[i])
+                                    }
                                 }
-                            }).then((datas) => {
-                                let serviceIds = [];
+                                Servicefavs.findAll({
+                                    where: {
+                                        uid: req.user.id
+                                    }
+                                }).then((datas) => {
+                                    let serviceIds = [];
 
+                                    for (const data of datas) {
 
-                                for (const data of datas) {
+                                        serviceIds.push(data['sid']);
+                                    }
 
-                                    serviceIds.push(data['sid']);
-                                }
-
-                                // res.send(datas)
-
-                                if (datas) {
-                                    Services.findAll({
-                                        where: {
-                                            id: { [Op.in]: serviceIds },
-                                            uid: req.user.id
-                                        }
-                                    }).then(favs => {
-
-                                        if (favs.length > 0) {
-                                            for (const [i, service] of favs.entries()) {
-                                                let temp = service;
-
-                                                User.findOne({
-                                                    where: {
-                                                        id: service.uid
-                                                    },
-                                                    attributes: ['username']
-                                                }).then(curr => {
-                                                    temp['username'] = curr['username'];
-
-                                                    if (i == favs.length - 1) {
-                                                        setTimeout(() => {
-                                                            res.render('profile/', {
-                                                                projects: projects,
-                                                                user: user,
-                                                                followers: followers,
-                                                                following: following,
-                                                                services: services,
-                                                                skills: skills,
-                                                                social_medias: socialmedias,
-                                                                favs: favs
-                                                            });
-                                                        }, 50);
-                                                    }
-                                                })
+                                    // res.send(datas)
+                                    if (datas) {
+                                        Services.findAll({
+                                            where: {
+                                                id: { [Op.in]: serviceIds },
+                                                uid: req.user.id
                                             }
-                                        }
-                                        else {
+                                        }).then(favs => {
 
-                                            res.render('profile/', {
-                                                projects: projects,
-                                                user: user,
-                                                followers: followers,
-                                                following: following,
-                                                services: services,
-                                                skills: skills,
-                                                social_medias: socialmedias
-                                            });
-                                        }
-                                    })
+                                            if (favs.length > 0) {
+                                                for (const [i, service] of favs.entries()) {
+                                                    let temp = service;
 
-                                }
-                                else {
-                                    res.render('profile/', {
-                                        projects: projects,
-                                        user: user,
-                                        followers: followers,
-                                        following: following,
-                                        services: services,
-                                        skills: skills,
-                                        social_medias: socialmedias
-                                    });
+                                                    User.findOne({
+                                                        where: {
+                                                            id: service.uid
+                                                        },
+                                                        attributes: ['username']
+                                                    }).then(curr => {
+                                                        temp['username'] = curr['username'];
 
-                                }
+                                                        if (i == favs.length - 1) {
+                                                            setTimeout(() => {
+                                                                res.render('profile/', {
+                                                                    projects: projects,
+                                                                    user: user,
+                                                                    followers: followers,
+                                                                    following: following,
+                                                                    services: services,
+                                                                    skills: skills,
+                                                                    social_medias: socialmedias,
+                                                                    favs: favs,
+                                                                    open: req.params.open,
+                                                                    liked
+                                                                });
+                                                            }, 50);
+                                                        }
+                                                    })
+                                                }
+                                            }
+                                            else {
+
+                                                res.render('profile/', {
+                                                    projects: projects,
+                                                    user: user,
+                                                    followers: followers,
+                                                    following: following,
+                                                    services: services,
+                                                    skills: skills,
+                                                    social_medias: socialmedias,
+                                                    open: req.params.open,
+                                                    liked
+                                                });
+                                            }
+                                        })
+
+                                    }
+                                    else {
+                                        res.render('profile/', {
+                                            projects: projects,
+                                            user: user,
+                                            followers: followers,
+                                            following: following,
+                                            services: services,
+                                            skills: skills,
+                                            social_medias: socialmedias,
+                                            open: req.params.open,
+                                            liked
+                                        });
+
+                                    }
 
 
+                                })
                             })
+
                         })
                     })
 
@@ -606,13 +625,15 @@ module.exports = {
                     where: { id: likedProject.id }
                 }).then(likedProjectSaved => {
                     Notification.findOne({
-                        where: {uid: req.user.id,
-                        pid: likedProject.id}
+                        where: {
+                            uid: req.user.id,
+                            pid: likedProject.id
+                        }
                     }).then(existNotif => {
-                        if(existNotif != null){
+                        if (existNotif != null) {
                             res.redirect('back')
                         }
-                        else{
+                        else {
                             Notification.create({
                                 uid: req.user.id,
                                 username: req.user.username,
@@ -625,7 +646,7 @@ module.exports = {
                             res.redirect('back')
                         }
                     })
-                    
+
                 })
         })
     },

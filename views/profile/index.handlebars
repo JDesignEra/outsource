@@ -193,16 +193,22 @@
                                 aria-selected="false"> Services </a>
                         </li>
 
-                        {{!-- <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link waves-light" id="status-tab-classic-shadow" data-toggle="tab"
                                 href="#status-classic-shadow" role="tab" aria-controls="status-classic-shadow"
                                 aria-selected="false"> Status </a>
-                        </li> --}}
+                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link waves-light" id="favs-tab-classic-shadow" data-toggle="tab"
                                 href="#favs-classic-shadow" role="tab" aria-controls="favs-classic-shadow"
                                 aria-selected="false"> Favourites </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link waves-light" id="likes-tab-classic-shadow" data-toggle="tab"
+                                href="#likes-classic-shadow" role="tab" aria-controls="likes-classic-shadow"
+                                aria-selected="false"> likes </a>
                         </li>
 
                     </ul>
@@ -221,16 +227,21 @@
 
                         </div>
                         {{!-- =============================== Status =============================== --}}
-                        {{!-- <div class="tab-pane fade active profile-content" id="status-classic-shadow" role="tabpanel"
+                        <div class="tab-pane fade active profile-content" id="status-classic-shadow" role="tabpanel"
                             aria-labelledby="status-tab-classic-shadow">
 
 
-                        </div> --}}
+                        </div>
                         {{!-- =============================== Favourites =============================== --}}
                         <div class="tab-pane fade active profile-content" id="favs-classic-shadow" role="tabpanel"
                             aria-labelledby="favs-tab-classic-shadow">
                             {{> profile/_favItem}}
+                        </div>
 
+                        {{!-- =============================== Likes =============================== --}}
+                        <div class="tab-pane fade active profile-content" id="likes-classic-shadow" role="tabpanel"
+                            aria-labelledby="likes-tab-classic-shadow">
+                            {{> profile/_likeItem}}
                         </div>
                     </div>
 

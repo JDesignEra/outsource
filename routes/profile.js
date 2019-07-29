@@ -12,6 +12,8 @@ router.get('/deleteNotifications/:id', profileController.deleteNotification)
 
 //Profile
 router.get('/', isAuth, profileController.index);
+router.get('/viewSelf/:open', profileController.index)
+
 router.get('/view/:id', profileController.viewProfile);
 router.get('/view/:id/:open', profileController.viewProfile)
 router.get('/follow/:id', profileController.follow)
