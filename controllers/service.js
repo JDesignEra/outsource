@@ -126,7 +126,7 @@ module.exports = {
                 fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
             }
             req.flash('success', 'Service added successfully!')
-            res.redirect('/profile');
+            res.redirect('/services/manage');
         })
             .catch(err => console.log(err))
     },
@@ -181,7 +181,7 @@ module.exports = {
                 }
 
                 req.flash('success', 'Changes saved successfully!');
-                res.redirect('/profile');
+                res.redirect('/services/manage');
             }).catch(err => console.log(err));
     },
     delete: function (req, res) {
@@ -194,7 +194,7 @@ module.exports = {
 
             if (services == null) {
                 req.flash('warning', 'You do not have any services to delete');
-                res.redirect('/profile');
+                res.redirect('/services/manage');
             }
 
             else {
@@ -204,7 +204,7 @@ module.exports = {
                     }
                 }).then((services) => {
                     req.flash('success', 'Service successfully deleted!');
-                    res.redirect('/profile');
+                    res.redirect('/services/manage');
                 })
             }
         })
