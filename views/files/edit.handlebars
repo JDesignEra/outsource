@@ -12,7 +12,7 @@
                 </div>
                 
                 <div id="content" class="card-body" data-type="{{ file.type }}" data-name="{{ file.name }}">
-                    {{#ifCond 'file.type === "code"'}}
+                    {{#ifCond 'file.type === "code" || file.type === "text"'}}
                         <div id="editor"></div>
                         <form action="{{ postRoot }}/~save" method="post">
                             <input type="hidden" name="fid" value="{{ file.id }}">
@@ -66,7 +66,7 @@
 
 {{#extend 'scripts'}}
 {{!-- <script src="/js/vendor/froala_editor.pkgd.min.js" type="text/javascript"></script> --}}
-    {{#ifCond 'file.type === "code"'}}
+    {{#ifCond 'file.type === "code" || file.type === "text"'}}
         <script src="/js/vendor/codemirror/codemirror.js" type="text/javascript"></script>
         <script src="/js/vendor/codemirror/mode/meta.js" type="text/javascript"></script>
         <script src="/js/vendor/codemirror/addon/mode/loadmode.js" type="text/javascript"></script>

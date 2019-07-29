@@ -247,9 +247,15 @@ a:not([href]):not([tabindex]).link {
             border-color: map-get($material-colors, "success-color") !important;
             box-shadow: inset 0px 0px 0px 1px map-get($material-colors, "success-color") !important;
             background-position: center right 0.375em!important;
+            padding: .375rem .75rem;
 
             + label.active {
                 color: map-get($material-colors, "success-color");
+            }
+
+            :-webkit-inner-spin-button,
+            :-webkit-outer-spin-button {
+                margin-right: 1rem;
             }
         }
 
@@ -257,12 +263,20 @@ a:not([href]):not([tabindex]).link {
             border-color: map-get($material-colors, "danger-color") !important;
             box-shadow: inset 0px 0px 0px 1px map-get($material-colors, "danger-color") !important;
             background-position: center right 0.375em!important;
+            padding: .375rem .75rem;
 
             + label.active {
                 color: map-get($material-colors, "danger-color");
             }
         }
     }
+}
+
+input.is-valid::-webkit-outer-spin-button, 
+input.is-valid::-webkit-inner-spin-button,
+input.is-invalid::-webkit-outer-spin-button, 
+input.is-invalid::-webkit-inner-spin-button {
+    margin-right: 1rem;;
 }
 
 // FOOTERS

@@ -350,10 +350,38 @@
                             </button>
                         </div>
                     </div>
-                    
                     <small class="form-text text-muted">
                         File name only allow alphanumeric, space, underscore and dash. Extension only allow alphanumeric and dash.
                     </small>
+
+                    <div class="width-height animated faster d-none">
+                        <div class="input-group mt-4 mb-0">
+                            <div class="md-form md-outline">
+                                <input id="new-file-width" class="form-control" type="number" name="width"{{#if forms.width}} value="{{ forms.width }}"{{/if}}>
+                                <label for="new-file-width">Width (px)</label>
+
+                                <div class="invalid-tooltip">
+                                    {{ forms.errors.width }}
+                                </div>
+                            </div>
+
+                            <span class="input-group-text border-left-0 border-right-0 rounded-0">
+                                <i class="far fa-times"></i>
+                            </span>
+
+                            <div class="md-form md-outline">
+                                <input id="new-file-height" class="form-control mdb-autocomplete" type="number" name="height"{{#if forms.height}} value="{{ forms.height }}"{{/if}}>
+                                <label for="new-file-height">Height (px)</label>
+
+                                <div class="invalid-tooltip">
+                                    {{ forms.errors.height }}
+                                </div>
+                            </div>
+                        </div>
+                        <small class="form-text text-muted">
+                            Width and Height has to be greater then zero.
+                        </small>
+                    </div>
                 </form>
             </div>
         </div>

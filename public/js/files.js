@@ -20,13 +20,13 @@ $(function() {
     // Folders Tree
     let insert = $('<ul class="treeview-animated-list mt-2"></ul>');
     
-    insert.prepend(
-        `<li class="text-capitalize">
+    insert.prepend(`
+        <li class="text-capitalize">
             <a class="treeview-animated-element d-flex align-items-center open" href="/files/my-drive">
                 <i class="far fa-hdd mr-2"></i>View My Drive
             </a>
-        </li>`
-    );
+        </li>
+    `);
 
     $('#folders-tree', '#folders-card').html(insert);
 
@@ -42,13 +42,13 @@ $(function() {
             let li = insert.find(`[data-child="${val.parent}"]`);
 
             if (li.length < 1) {
-                insert.append(
-                    `<li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">
+                insert.append(`
+                    <li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">
                         <a class="treeview-animated-element d-flex align-items-center" href="${val.link}">
                             <i class="far fa-folder mr-2"></i>${val.name}
                         </a>
-                    </li>`
-                );
+                    </li>
+                `);
             }
             else {
                 li = li.last();
@@ -147,13 +147,13 @@ $(function() {
     // Share-Tree
     insert = $('<ul class="treeview-animated-list mt-2"></ul>');
 
-    insert.prepend(
-        `<li class="text-capitalize">
+    insert.prepend(`
+        <li class="text-capitalize">
             <a class="treeview-animated-element d-flex align-items-center open" href="/files/share-drive">
                 <i class="far fa-users mr-2"></i>View Share Drive
             </a>
-        </li>`
-    );
+        </li>
+    `);
 
     $('#share-tree', '#folders-card').html(insert);
     
@@ -163,13 +163,13 @@ $(function() {
             let li = insert.find(`[data-child="${val.parent}"]`);
 
             if (li.length < 1) {
-                insert.append(
-                    `<li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">
+                insert.append(`
+                    <li class="text-capitalize" data-name="${val.name}" data-link="${val.link}" data-child="${val.child}" data-parent="${val.parent}">
                         <a class="treeview-animated-element d-flex align-items-center" href="${val.link}">
                             <i class="far fa-folder mr-2"></i>${val.name}
                         </a>
-                    </li>`
-                );
+                    </li>
+                `);
             }
             else {
                 li = li.last();
@@ -816,13 +816,59 @@ $(function() {
     });
 });
 
-// New File Extension Autocomplete
+// New File
 $(function() {
+    let input = $('input[name="ext"]', '#newfile-modal');
+
+    // Extension Autocomplete
     if (typeof types !== 'undefined') {
-        $('input[name="ext"]', '#newfile-modal').mdbAutocomplete({ data: types });
+        input.mdbAutocomplete({ data: types });
         types = undefined;
         $('script#types-script').remove();
     }
+
+    // Show or Hide width & height input
+    let imageExt = ['jpg', 'jpeg', 'png', 'bmp', 'tiff', 'gif'];
+    let inputGroup = $('.width-height', '#newfile-modal');
+    let value = input.val();
+
+    if (imageExt.indexOf(value) > -1 && inputGroup.hasClass('d-none')) {
+        inputGroup.removeClass('d-none');
+        inputGroup.addClass('fadeIn').one(animationEnd, function() {
+            $(this).removeClass('fadeIn');
+        });
+    }
+    else if (imageExt.indexOf(value) < 0 && !inputGroup.hasClass('d-none')) {
+        inputGroup.addClass('fadeOut').one(animationEnd, function() {
+            let _this = $(this);
+            _this.addClass('d-none');
+            _this.removeClass('fadeOut');
+        });
+    }
+
+    input.on('change keyup', function() {
+        let _this = $(this);
+        
+        setTimeout(function() {
+            let value = _this.val();
+
+            if (imageExt.indexOf(value) > -1 && inputGroup.hasClass('d-none')) {
+                inputGroup.removeClass('d-none');
+                inputGroup.addClass('fadeIn').one(animationEnd, function() {
+                    $(this).removeClass('fadeIn');
+                });
+            }
+            else if (imageExt.indexOf(value) < 0 && !inputGroup.hasClass('d-none')) {
+                inputGroup.addClass('fadeOut').one(animationEnd, function() {
+                    let _this = $(this);
+                    _this.addClass('d-none');
+                    _this.removeClass('fadeOut');
+                });
+            }
+
+            clearTimeout(this);
+        }, 150);
+    });
 });
 
 // Action Buttons

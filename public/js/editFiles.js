@@ -4,7 +4,7 @@ $(function() {
     let contentDiv = $('#content');
     let type = contentDiv.attr('data-type');
 
-    if (type === 'code') {
+    if (type === 'code' || type === 'text') {
         let editorDiv = contentDiv.find('#editor');
         let input = contentDiv.find('input[name="content"]');
 

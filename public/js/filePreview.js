@@ -74,7 +74,7 @@ $(function() {
 $(function() {
     let type = $('#content').attr('data-type');
 
-    if (type === 'code') {
+    if (type === 'code' || type === 'text') {
         CodeMirror.modeURL = '/js/vendor/codemirror/mode/%N/%N.js';
 
         let mode = CodeMirror.findModeByFileName($('#editor', '#content').attr('data-name')).mode;
@@ -106,6 +106,24 @@ $(function() {
 
         data = undefined;
         $('script#data').remove();
+    }
+    else if (type === 'document') {
+        let buffer = new ArrayBuffer(content.length);
+        let bufferView = new Uint8Array(buffer);
+
+        for (let i = 0, n = content.length; i < n; i++) {
+            bufferView[i] = content.charCodeAt(i);
+        }
+
+        RTFJS.loggingEnabled(false);
+        WMFJS.loggingEnabled(false);
+        EMFJS.loggingEnabled(false);
+        
+        const doc = new RTFJS.Document(buffer);
+
+        doc.render().then(function(elements) {
+            $('#rtf', '#content').html(elements);
+        });
     }
 });
 

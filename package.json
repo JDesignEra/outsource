@@ -1,6 +1,6 @@
 {
   "name": "outsource",
-  "version": "13.0.0",
+  "version": "14.0.0",
   "description": "This is for OOADP Project",
   "main": "app.js",
   "scripts": {
@@ -24,6 +24,7 @@
     "express-session": "^1.16.2",
     "fs-extra": "^8.1.0",
     "googleapis": "^41.0.1",
+    "jimp": "^0.6.4",
     "klaw": "^3.0.0",
     "lozad": "^1.9.0",
     "mime": "^2.4.4",

@@ -3,6 +3,7 @@ const crypto = require('crypto');
 
 const archiver = require('archiver');
 const fs = require('fs-extra');
+const jimp = require('jimp');
 const moment = require('moment');
 const mime = require('mime');
 const walk = require('klaw');
@@ -992,9 +993,13 @@ module.exports = {
 
         let name = req.body.name;
         let ext = req.body.ext;
+        let width = !req.body.width ? 0 : parseInt(req.body.width);
+        let height = !req.body.height ? 0 :  parseInt(req.body.height);
+
         let errors = {};
         let nameRegex = /[!@#$%^&*+\=\[\]{}()~;':"\\|,.<>\/?]/;
         let extRegex = /[^a-zA-Z0-9-]/;
+        let imageExts = ['jpg', 'jpeg', 'png', 'bmp', 'tiff', 'gif'];
         
         if (!name) {
             errors['filename'] = 'File name can\'t be empty.';
@@ -1010,14 +1015,24 @@ module.exports = {
             errors['ext'] = 'Extension only allow alphanumeric and dash.';
         }
 
+        if (imageExts.indexOf(ext) > -1) {
+            if (!width || width < 1) {
+                errors['width'] = 'Width has to be greater than zero.';
+            }
+
+            if (!height || height < 1) {
+                errors['height'] = 'Height has to be greater than zero.';
+            }
+        }
+
         if (Object.keys(errors).length > 0) {
-            let flashErrors = Object.keys(errors).map(k => {
-                return errors[k];
-            });
+            let flashErrors = Object.keys(errors).map(k => { return errors[k]; });
 
             req.flash('forms', {
                 filename: name,
                 ext: ext,
+                width: width.toString(),
+                height: height.toString(),
                 errors: errors
             });
 
@@ -1051,11 +1066,24 @@ module.exports = {
                         type: type,
                         uid: uid
                     }).then(data => {
-                        fs.ensureFile(path.join(root, dir, filename)).then(() => {
-                            req.flash('success', `${data['name']} file has been created successfully.`);
-                            req.flash('forms', { select: [data['id']] });
-                            res.redirect(dir === '/' ? rootUrl : `${rootUrl}/${dir}`);
-                        });
+                        if (imageExts.indexOf(ext) > -1) {
+                            fs.ensureDir(path.join(root, dir)).then(() => {
+                                new jimp(width, height, (err, image) => {
+                                    image.write(path.join(root, dir, filename), () => {
+                                        req.flash('success', `${data['name']} file has been created successfully.`);
+                                        req.flash('forms', { select: [data['id']] });
+                                        res.redirect(dir === '/' ? rootUrl : `${rootUrl}/${dir}`);
+                                    });
+                                });
+                            });
+                        }
+                        else {
+                            fs.ensureFile(path.join(root, dir, filename)).then(() => {
+                                req.flash('success', `${data['name']} file has been created successfully.`);
+                                req.flash('forms', { select: [data['id']] });
+                                res.redirect(dir === '/' ? rootUrl : `${rootUrl}/${dir}`);
+                            });
+                        }
                     });
                 }
                 else {
@@ -1182,11 +1210,17 @@ module.exports = {
                     if (data['type'] === 'code' || data['type'] === 'text') {
                         file['content'] = fs.readFileSync(path.join(root, data['fullPath']), 'utf-8');
                     }
+                    else if (data['type'] === 'document') {
+                        file['content'] = fs.readFileSync(path.join(root, data['fullPath']), 'utf-8');
+                    }
                     else if (data['type'] === 'video') {
                         file['mime'] = mime.getType(ext);
                     }
 
-                    filesFoldersComments.findAll({where: { fid: fid }}).then(datas => {
+                    filesFoldersComments.findAll({
+                        where: { fid: fid },
+                        order: [['dateTime', 'DESC']]
+                    }).then(datas => {
                         if (datas.length > 0) {
                             for (const [i, data] of datas.entries()) {
                                 users.findByPk(data['fromUid']).then(user => {

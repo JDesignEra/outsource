@@ -19,6 +19,7 @@ module.exports = {
         mime.define({ 'code/twig': ['twig'] }, true);                       // Twig Template
         mime.define({ 'code/xaml': ['xaml'] }, true);                       // XAML Template
 
-        mime.define({ 'document/docx': ['docx'] }, true);                   // Office DocX
+        mime.define({ 'document/rtf': ['rtf'] }, true)                      // Rich Text File
+        // mime.define({ 'document/docx': ['docx'] }, true);                   // Office DocX
     }
 }
