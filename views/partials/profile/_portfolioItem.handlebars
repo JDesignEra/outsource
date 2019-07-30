@@ -305,13 +305,9 @@
                 <div class="modal-footer blue-grey lighten-5 row mx-auto justify-content-around col-12">
 
                     {{!-- Comments --}}
-                    <div class="col-lg-8 col-sm-12 border p-4 white">
+                    <div id="commentSection" class="col-lg-8 col-sm-12 border p-4 white">
                         <h4 class="text-center"> Comments </h4>
                         <hr class="hr-primary">
-
-
-
-
 
                         <form class="chat-message flex-fill" id="commentForm{{id}}" method="POST"
                             action="/profile/commentProject/{{id}}">
@@ -351,7 +347,6 @@
 
                             </ul>
                         </form>
-
 
                         <hr class="hr-primary">
                         {{#if comments}}

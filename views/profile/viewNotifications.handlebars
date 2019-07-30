@@ -12,7 +12,14 @@
                     Likes </a>
             </li>
 
-            <li class="nav-item m-0">
+            <li class="nav-item">
+                <a class="nav-link waves-light" id="comments-tab-classic-shadow" data-toggle="tab"
+                    href="#comments-classic-shadow" role="tab" aria-controls="comments-classic-shadow"
+                    aria-selected="false">
+                    Comments </a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link waves-light" id="portfolio-tab-classic-shadow" data-toggle="tab"
                     href="#portfolio-classic-shadow" role="tab" aria-controls="portfolio-classic-shadow"
                     aria-selected="true">Portfolio</a>
@@ -66,8 +73,46 @@
                 </div>
             </div>
 
+            {{!-- =============================== Comments =============================== --}}
+            <div class="tab-pane fade profile-content" id="comments-classic-shadow" role="tabpanel"
+                aria-labelledby="comments-tab-classic-shadow">
+                <div class="row justify-content-center mx-auto p-2 col-12">
+                    {{#if comment_notifications}}
+                    {{#each comment_notifications}}
+                    <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
+                        <div class="col-8 row mx-auto my-3">
+                            <img class="lozad border rounded-circle" style="width:50px; height:50px;"
+                                onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{uid}}/profilePic.png" alt="">
+
+                            <div class="pl-2 align-self-center pt-1">
+                                <h5 class="">
+                                    <a href="/profile/view/{{uid}}">{{username}}</a> commented on
+                                    <a href="/profile/openProject/{{pid}}/">{{title}}</a>
+
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
+                            <h6 class="text-muted text-right">
+                                {{formatDate date 'DD MMM YYYY'}}
+                            </h6>
+
+                        </div>
+                        <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    <h4 class="col-12 text-center text-muted my-5"> You have no notifications</h4>
+                    {{/if}}
+                </div>
+            </div>
+
             {{!-- =============================== Portfolio =============================== --}}
-            <div class="tab-pane fade active profile-content" id="portfolio-classic-shadow" role="tabpanel"
+            <div class="tab-pane fade profile-content" id="portfolio-classic-shadow" role="tabpanel"
                 aria-labelledby="portfolio-tab-classic-shadow">
                 <div class="row justify-content-center mx-auto p-2 col-12">
                     {{#if project_notifications}}
@@ -105,7 +150,7 @@
             </div>
 
             {{!-- =============================== Services =============================== --}}
-            <div class="tab-pane fade active profile-content" id="service-classic-shadow" role="tabpanel"
+            <div class="tab-pane fade profile-content" id="service-classic-shadow" role="tabpanel"
                 aria-labelledby="service-tab-classic-shadow">
                 <div class="row justify-content-center mx-auto p-2 col-12">
                     {{#if service_notifications}}

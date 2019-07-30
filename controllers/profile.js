@@ -604,12 +604,22 @@ module.exports = {
                     },
                     order: [['date', 'DESC']]
                 }).then(service_notifications => {
-                                    // res.send(project_notifications.toString())
-                res.render('profile/viewNotifications', {
-                    project_notifications,
-                    like_notifications,
-                    service_notifications
-                })
+
+                    Notification.findAll({
+                        where: {
+                            user: req.user.id,
+                            category: "Comments"
+                        },
+                        order: [['date', 'DESC']]
+                    }).then(comment_notifications => {
+
+                        res.render('profile/viewNotifications', {
+                            project_notifications,
+                            like_notifications,
+                            service_notifications,
+                            comment_notifications
+                        })
+                    })
                 })
 
             })
@@ -728,7 +738,25 @@ module.exports = {
             pid: req.params.projectID,
             date: new Date()
         }).then(comment => {
-            res.redirect('back')
+            Project.findOne({
+                where: { id: req.params.projectID }
+            }).then(commentedProject => {
+                if (commentedProject.uid != req.user.id) {
+                    Notification.create({
+                        uid: req.user.id,
+                        username: req.user.username,
+                        pid: req.params.projectID,
+                        title: commentedProject.title,
+                        date: new Date(),
+                        category: "Comments",
+                        user: commentedProject.uid
+                    })
+                }
+
+                res.redirect('back')
+            })
+
+
         })
     },
 
