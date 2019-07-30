@@ -1,0 +1,49 @@
+{{#if comments}}
+    <div class="chat-message flex-fill">
+        <ul class="list-unstyled chat">
+        {{#each comments}}
+            <li class="row mb-4">
+                
+                <div class="col-3 pr-2">
+                    {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png') }}
+                        <img class="avatar img-fluid rounded-circle deep-purple accent-3 z-depth-1" src="/uploads/profile/{{ this.uid }}/profilePic.png">
+                    {{else}}
+                        <div class="deep-purple accent-3 white-text text-center rounded-circle z-depth-1 py-4">
+                            <i class="far fa-user fa-lg"></i>
+                        </div>
+                    {{/ifFile}}
+                </div>
+
+                <div class="col-9 pl-2">
+                    <div class="chat-body rounded white p-3 z-depth-1">
+                        <div class="header d-flex">
+                            <div class="flex-fill text-left">
+                                <strong class="primary-font">{{ this.username }}</strong>
+                            </div>
+                            <div class="flex-fill text-right">
+                                <small class="pull-right text-muted">
+                                    <i class="far fa-clock mr-1"></i>{{ this.dateTime }}
+                                </small>
+                            </div>
+                        </div>
+
+                        <hr class="w-100">
+
+                        <p class="text-left mb-0">
+                            {{ this.comment }}
+                        </p>
+                    </div>
+                </div>
+            </li>
+        {{/each}}
+        </ul>
+    </div>
+{{else}}
+    <h5 class="text-center mb-3 text-muted">
+        <i class="far fa-comment-times fa-3x"></i> 
+    </h5>
+
+    <h5 class="text-center text-muted">
+        No Comments
+    </h5>
+{{/if}}

@@ -167,8 +167,8 @@
 
                     <div class="form-group row mx-auto">
                         <label for="instagram" class="text-left"> Instagram </label>
-                        <input type="url" class="form-control" name="instagram" id="instagram"
-                            aria-describedby="helpId" placeholder="e.g. https:///www.instagram.com/{{user.username}}123"
+                        <input type="url" class="form-control" name="instagram" id="instagram" aria-describedby="helpId"
+                            placeholder="e.g. https:///www.instagram.com/{{user.username}}123"
                             value="{{user.instagram}}">
                     </div>
 
@@ -239,15 +239,19 @@
 
                     </div>
                     <div class="mx-auto row justify-content-between">
-                        <input type="button" value="Add Skill" class="btn btn-secondary" id="addButton">
-                        <input type="button" value="Remove Skill" class="btn btn-secondary" id="removeButton">
+                        <button type="button" class="btn btn-secondary" id="addButton">Add Skill</button>
+                        <button type="button" class="btn btn-secondary" id="removeButton">Remove Skill</button>
                     </div>
 
                     <hr class="hr-primary">
 
                     <div class="mx-auto row justify-content-between">
-                        <a href="/profile"><input type="button" value="Back" class="btn btn-secondary"></a>
-                        <input type="submit" value="Update Changes" class="btn btn-secondary">
+                        <a href="/profile">
+                            <button class="btn btn-secondary">
+                                Back
+                            </button>
+                        </a>
+                        <button type="submit" class="btn btn-secondary">Update Changes</button>
                     </div>
                 </div>
             </div>

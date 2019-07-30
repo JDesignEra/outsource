@@ -3,6 +3,8 @@ User = require('../models/users')
 Services = require('../models/services')
 Servicefavs = require('../models/servicesfav')
 Notification = require('../models/notifications')
+Comments = require('../models/portfolioComments')
+
 
 fs = require('fs')
 countries = require('countries-list')
@@ -29,6 +31,7 @@ function removeEmpty(array, item, length) {
 
 module.exports = {
     index: function (req, res) {
+
         User.findOne({
             where: {
                 id: req.user.id
@@ -99,26 +102,58 @@ module.exports = {
                                         liked.push(likedProject[i])
                                     }
                                 }
-                                Servicefavs.findAll({
-                                    where: {
-                                        uid: req.user.id
-                                    }
-                                }).then((datas) => {
-                                    let serviceIds = [];
+                                projectIDs = []
+                                for (i = 0; i < projects.length; i++) {
+                                    projectIDs.push(projects[i].id)
+                                }
 
-                                    for (const data of datas) {
-
-                                        serviceIds.push(data['sid']);
-                                    }
-
-                                    // res.send(datas)
-                                    if (datas) {
-                                        Services.findAll({
-                                            where: {
-                                                id: { [Op.in]: serviceIds },
-                                                uid: req.user.id
+                                Comments.findAll({
+                                    where: { pid: { [Op.in]: projectIDs } }
+                                }).then(projectComments => {
+                                    for (a = 0; a < projects.length; a++) {
+                                        projects[a].comments = []
+                                        for (c = 0; c < projectComments.length; c++) {
+                                            if (projects[a].id == projectComments[c].pid) {
+                                                projects[a].comments.push(projectComments[c])
                                             }
-                                        }).then(favs => {
+                                        }
+                                        projects[a].comments.reverse()
+
+                                    }
+
+                                    Servicefavs.findAll({
+                                        where: {
+                                            uid: req.user.id
+                                        }
+                                    }).then((datas) => {
+                                        let serviceIds = [];
+
+                                        for (const data of datas) {
+                                            serviceIds.push(data['sid']);
+                                        }
+                                        if (datas) {
+                                            Services.findAll({
+                                                where: {
+                                                    id: { [Op.in]: serviceIds },
+                                                    uid: req.user.id
+                                                }
+                                            }).then(favs => {
+                                                res.render('profile/', {
+                                                    projects: projects,
+                                                    user: user,
+                                                    followers: followers,
+                                                    following: following,
+                                                    services: services,
+                                                    skills: skills,
+                                                    social_medias: socialmedias,
+                                                    favs: favs
+                                                });
+
+                                            })
+
+                                        }
+
+                                        else {
                                             res.render('profile/', {
                                                 projects: projects,
                                                 user: user,
@@ -127,28 +162,19 @@ module.exports = {
                                                 services: services,
                                                 skills: skills,
                                                 social_medias: socialmedias,
-                                                favs: favs
+                                                open: req.params.open,
+                                                liked
                                             });
-                                        })
-                                    }
-                                    else {
-                                        res.render('profile/', {
-                                            projects: projects,
-                                            user: user,
-                                            followers: followers,
-                                            following: following,
-                                            services: services,
-                                            skills: skills,
-                                            social_medias: socialmedias,
-                                            open: req.params.open,
-                                            liked
-                                        });
 
-                                    }
+                                        }
 
 
+                                    })
                                 })
                             })
+
+
+
 
                         })
                     })
@@ -253,54 +279,92 @@ module.exports = {
                                         }
                                     }
                                 }).then(following => {
-                                    Servicefavs.findAll({
-                                        where: {
-                                            uid: viewuser.id
-                                        }
-                                    }).then((datas) => {
-                                        let serviceIds = [];
 
-                                        for (const data of datas) {
-                                            serviceIds.push(data['sid']);
+                                    Project.findAll().then(likedProject => {
+
+                                        liked = []
+                                        for (i = 0; i < likedProject.length; i++) {
+                                            if (likedProject[i].likes != null) {
+                                                likes = likedProject[i].likes.split(',')
+                                            }
+                                            else {
+                                                likes = []
+                                            }
+                                            if (likes.includes(req.user.id.toString())) {
+                                                liked.push(likedProject[i])
+                                            }
                                         }
-                                        if (datas) {
-                                            Services.findAll({
+                                        projectIDs = []
+                                        for (i = 0; i < projects.length; i++) {
+                                            projectIDs.push(projects[i].id)
+                                        }
+
+                                        Comments.findAll({
+                                            where: { pid: { [Op.in]: projectIDs } }
+                                        }).then(projectComments => {
+                                            for (a = 0; a < projects.length; a++) {
+                                                projects[a].comments = []
+                                                for (c = 0; c < projectComments.length; c++) {
+                                                    if (projects[a].id == projectComments[c].pid) {
+                                                        projects[a].comments.push(projectComments[c])
+                                                    }
+                                                }
+                                                projects[a].comments.reverse()
+
+                                            }
+
+                                            Servicefavs.findAll({
                                                 where: {
-                                                    id: { [Op.in]: serviceIds },
                                                     uid: viewuser.id
                                                 }
-                                            }).then((favs) => {
+                                            }).then((datas) => {
+                                                let serviceIds = [];
 
-                                                res.render('profile/viewProfile', {
-                                                    followedUser: followedUser,
-                                                    projects: projects,
-                                                    viewuser: viewuser,
-                                                    followers: followers,
-                                                    following: following,
-                                                    social_medias: socialmedias,
-                                                    services: services,
-                                                    skills: skills,
-                                                    favs: favs,
-                                                    open: req.params.open
+                                                for (const data of datas) {
+                                                    serviceIds.push(data['sid']);
+                                                }
+                                                if (datas) {
+                                                    Services.findAll({
+                                                        where: {
+                                                            id: { [Op.in]: serviceIds },
+                                                            uid: viewuser.id
+                                                        }
+                                                    }).then((favs) => {
 
-                                                });
-                                            })
-                                        }
-                                        else {
-                                            res.render('profile/viewProfile', {
-                                                followedUser: followedUser,
-                                                projects: projects,
-                                                user: user,
-                                                followers: followers,
-                                                following: following,
-                                                services: services,
-                                                skills: skills,
-                                                social_medias: socialmedias,
-                                                open: req.params.open
+                                                        res.render('profile/viewProfile', {
+                                                            followedUser: followedUser,
+                                                            projects: projects,
+                                                            viewuser: viewuser,
+                                                            followers: followers,
+                                                            following: following,
+                                                            social_medias: socialmedias,
+                                                            services: services,
+                                                            skills: skills,
+                                                            favs: favs,
+                                                            open: req.params.open
 
-                                            });
-                                        }
-                                    }).catch(err => console.log(err))
+                                                        });
+                                                    })
+                                                }
+                                                else {
+                                                    res.render('profile/viewProfile', {
+                                                        followedUser: followedUser,
+                                                        projects: projects,
+                                                        user: user,
+                                                        followers: followers,
+                                                        following: following,
+                                                        services: services,
+                                                        skills: skills,
+                                                        social_medias: socialmedias,
+                                                        open: req.params.open
+
+                                                    });
+                                                }
+                                            }).catch(err => console.log(err))
+                                        })
+                                    })
+
+
 
                                 })
 
@@ -644,7 +708,18 @@ module.exports = {
         })
     },
 
-
+    //Comment system
+    postComment: function (req, res) {
+        Comments.create({
+            uid: req.user.id,
+            username: req.user.username,
+            content: req.body.commentContent,
+            pid: req.params.projectID,
+            date: new Date()
+        }).then(comment => {
+            res.redirect('back')
+        })
+    },
 
 
 

@@ -236,8 +236,9 @@
                     <div class="container black w-100 row justify-content-center mx-0 py-5">
 
                         <div class="row justify-content-center">
-                            <img src="https://picsum.photos/id/659/100/" class="white img-fluid rounded-circle lozad"
-                                alt="">
+                            <img onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{#if ../viewuser}}{{../viewuser.id}}{{else}}{{../user.id}}{{/if}}/profilePic.png"
+                                class="white img-fluid rounded-circle lozad w-20" style="">
                             <h3 class="col-12 text-center white-text font-weight-bold my-3">
                                 Services by
                                 {{#if ../viewuser}}
@@ -297,59 +298,106 @@
 
                 </div>
 
-                <div class="modal-footer blue-grey lighten-5 row mx-auto justify-content-around">
+                <div class="modal-footer blue-grey lighten-5 row mx-auto justify-content-around col-12">
 
                     {{!-- Comments --}}
                     <div class="col-lg-8 col-sm-12 border border-secondary rounded p-4 white">
                         <h4 class="text-center"> Comments </h4>
-                        <hr class="hr-primary w-100">
+                        <hr class="hr-primary">
 
-                        <div class="row my-3 mx-auto">
-                            <div class="col-1 p-0">
-                                <img src="https://picsum.photos/100/"
-                                    class="white w-100 img-fluid rounded-circle lozad " alt="">
-                            </div>
-                            <div class="col-10 ">
-                                <h5 class="text-left h5-responsive"> John Smith &nbsp;
-                                    <small class="text-muted"> 21
-                                        May 2019 </small>
-                                </h5>
 
-                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing
-                                    elit, sed do eiusmod
-                                    tempor incididunt ut
-                                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud
-                                    exercitation ullamco
-                                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                    dolor in reprehenderit in
-                                    voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                    Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt
-                                    mollit
-                                    anim id est laborum.</p>
-                            </div>
+
+
+
+                        <form class="chat-message flex-fill" id="commentForm{{id}}" method="POST"
+                            action="/profile/commentProject/{{id}}">
+                            <ul class="list-unstyled chat">
+
+                                <li class="row mb-4">
+
+                                    <div class="col-1 pr-2">
+                                        <img 
+                                            class="avatar img-fluid rounded-circle deep-purple accent-3 z-depth-1"
+                                            id="profileimg" 
+                                            onerror='this.src = "/img/profile/default.png"'
+                                            src="/uploads/profile/{{../user.id}}/profilePic.png"
+                                        >
+                                    </div>
+
+                                    <div class="col-11 pl-2">
+                                        <div class="chat-body rounded white p-3 z-depth-1">
+                                            <div class="header d-flex">
+                                                <div class="flex-fill text-left">
+                                                    <strong class="primary-font" id="formUsername">{{../user.username }}</strong>
+                                                </div>
+                                            </div>
+
+                                            <hr class="w-100">
+
+
+                                            <textarea class="form-control" name="commentContent"
+                                                id="commentContent{{id}}" maxlength="300"></textarea>
+
+
+                                        </div>
+                                        <div class="row justify-content-end mx-auto">
+                                            <button class="btn btn-secondary" onclick="submitComment({{id}})"> Submit
+                                                Comment </button>
+                                        </div>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </form>
+
+
+                        <hr class="hr-primary">
+                        {{#if comments}}
+                        <div class="chat-message flex-fill">
+                            <ul class="list-unstyled chat" id="hrAfter{{id}}" >
+                                {{#each comments}}
+                                <li class="row mb-4">
+
+                                    <div class="col-1 pr-2">
+                                        {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png') }}
+                                        <img class="avatar img-fluid rounded-circle deep-purple accent-3 z-depth-1"
+                                            src="/uploads/profile/{{ uid }}/profilePic.png">
+                                        {{else}}
+                                        <div
+                                            class="deep-purple accent-3 white-text text-center rounded-circle z-depth-1 py-4">
+                                            <i class="far fa-user fa-lg"></i>
+                                        </div>
+                                        {{/ifFile}}
+                                    </div>
+
+                                    <div class="col-11 pl-2">
+                                        <div class="chat-body rounded white p-3 z-depth-1">
+                                            <div class="header d-flex">
+                                                <div class="flex-fill text-left">
+                                                    <strong class="primary-font">{{ username }}</strong>
+                                                </div>
+                                                <div class="flex-fill text-right">
+                                                    <small class="pull-right text-muted">
+                                                        <i class="far fa-clock mr-1"></i>{{ date }}
+                                                    </small>
+                                                </div>
+                                            </div>
+
+                                            <hr class="w-100">
+
+                                            <p class="text-left mb-0">
+                                                {{ content }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                {{/each}}
+                            </ul>
                         </div>
 
-                        <div class="row my-3 mx-auto">
-                            <div class="col-1 p-0">
-                                <img src="https://picsum.photos/110/"
-                                    class="white w-100 img-fluid rounded-circle lozad " alt="">
-                            </div>
-                            <div class="col-10 ">
-                                <h5 class="text-left h5-responsive"> Albert Einstein &nbsp;
-                                    <small class="text-muted"> 22
-                                        May 2019 </small>
-                                </h5>
+                        {{/if}}
 
-                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing
-                                    elit, sed do eiusmod
-                                    tempor incididunt ut
-                                </p>
-                            </div>
-                        </div>
+
 
                     </div>
 
@@ -449,7 +497,7 @@
         id = $('#openEvent').html()
         $('#project' + id).modal('show')
 
-        
+
         url = '/profile/viewProject/' + id
         $.ajax({
             url: url,
@@ -501,6 +549,80 @@
 </script>
 
 <script>
+    function submitComment(id) {
+        function formatDate(date) {
+            var monthNames = [
+                "Jan", "Feb", "Mar",
+                "Apr", "May", "Jun", "Jul",
+                "Aug", "Sep", "Oct",
+                "Nov", "Dec"
+            ];
+
+            var day = date.getDate();
+            var monthIndex = date.getMonth();
+            var year = date.getFullYear();
+            var hours = date.getHours()
+            var minutes = date.getMinutes()
+            return day + ' ' + monthNames[monthIndex] + ' ' + year + ' ' + hours + ":" + minutes;
+        }
+
+        now = formatDate(new Date())
+        $('#commentForm' + id).submit(function (e) {
+            e.preventDefault()
+            e.stopImmediatePropagation()
+            url = '/profile/commentProject/' + id
+            data = $(this).serialize()
+            $.ajax({
+                url: url,
+                data: data,
+                method: 'POST'
+            }).then(function (response) {
+
+
+
+                $('#hrAfter' + id).prepend(`<li class="row mb-4">
+
+                                    <div class="col-1 pr-2">
+                        
+                                        <img class="avatar img-fluid rounded-circle deep-purple accent-3 z-depth-1"
+                                            onerror='this.src = "/img/profile/default.png"'
+                                                src="${$('#profileimg').attr('src')}">
+                                     
+                                    </div>
+
+                                    <div class="col-11 pl-2">
+                                        <div class="chat-body rounded white p-3 z-depth-1">
+                                            <div class="header d-flex">
+                                                <div class="flex-fill text-left">
+                                                    <strong class="primary-font">${$('#formUsername').text()}</strong>
+                                                </div>
+                                                <div class="flex-fill text-right">
+                                                    <small class="pull-right text-muted">
+                                                        <i class="far fa-clock mr-1"></i>${new Date()}
+                                                    </small>
+                                                </div>
+                                            </div>
+
+                                            <hr class="w-100">
+
+                                            <p class="text-left mb-0">
+                                               ${$('#commentContent' + id).val()}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>`
+
+                        )
+
+                $('#commentContent' + id).val('')
+            }).catch(function (err) {
+                console.error(err);
+            });
+            return false;
+        })
+
+
+    }
     function viewProject(id) {
         url = '/profile/viewProject/' + id
         $.ajax({

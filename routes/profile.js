@@ -12,7 +12,7 @@ router.get('/deleteNotifications/:id', profileController.deleteNotification)
 
 //Profile
 router.get('/', isAuth, profileController.index);
-router.get('/viewSelf/:open', profileController.index)
+router.get('/openProject/:open', profileController.index)
 
 router.get('/view/:id', profileController.viewProfile);
 router.get('/view/:id/:open', profileController.viewProfile)
@@ -27,6 +27,9 @@ router.get('/viewProject/:id', profileController.viewProjectUpdate)
 //Edit Profile
 router.get('/edit', isAuth, profileController.editProfile);
 router.post('/edit', isAuth, profileController.editProfilePost);
+
+//Comment Project
+router.post('/commentProject/:projectID', profileController.postComment)
 
 //Submit Project
 router.get('/submit', isAuth, profileController.submit)
