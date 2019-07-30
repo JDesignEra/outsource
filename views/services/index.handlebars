@@ -1,6 +1,6 @@
 <section class="viewservice container mx-auto">
     <div class="row justify-content-between">
-        <div class="col-6">
+        <div class="col-4">
             <div class="service-overview">
                 <div class="card">
                     <div class="view overlay">
@@ -10,8 +10,6 @@
                             <div class="mask rgba-white-slight"></div>
                         </a>
                     </div>
-                    <a class="btn-floating btn-action ml-auto mr-4 mdb-color lighten-3"
-                        href="/services/payment/{{services.id}}"><i class="fas fa-shopping-cart"></i></a>
                     <div class="card-body">
                         <h4 class="card-title">{{services.name}}</h4>
                         <hr>
@@ -26,6 +24,21 @@
                         </h5>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="remarks">
+                <form method="post">
+                    <div class="form-group mb-4">
+                        <label class="font-italic" for="remarks">Remarks:</label>
+                        <textarea class="form-control" id="remarks" name="remarks" rows="7"></textarea>
+                    </div>
+                    <div class="butcon text-right">
+                        <button id="butreq" type="submit" class="btn btn-success" action="/job/add/{{services.id}}">Request
+                            Service
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="col-4">
@@ -48,13 +61,16 @@
                         <!-- Avatar -->
                         <div class="avatar mx-auto white mt-4">
                             <img onerror='this.src = "/img/profile/default.png"'
-                                src="/uploads/profile/{{serviceuser.id}}/profilePic.png" class="rounded-circle lozad" alt="">
+                                src="/uploads/profile/{{serviceuser.id}}/profilePic.png" class="rounded-circle lozad"
+                                alt="">
                         </div>
 
                         <!-- Content -->
                         <div class="card-body">
                             <!-- Name -->
-                            <a href="/profile/view/{{serviceuser.id}}"><h3 class="card-title">{{serviceuser.username}}</h3></a>
+                            <a href="/profile/view/{{serviceuser.id}}">
+                                <h3 class="card-title">{{serviceuser.username}}</h3>
+                            </a>
                             <h5 class="card-title text-muted">{{#if serviceuser.jobTitle}}
                                 {{serviceuser.jobTitle}}
                                 {{else}}
