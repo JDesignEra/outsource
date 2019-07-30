@@ -24,9 +24,10 @@ var paypal = require('paypal-rest-sdk');
 paypal.configure({
 	mode: 'sandbox', // Sandbox or live
 	client_id: 'AU0gOYOjaL87P0T2vYWhfI8H62bKOvPCBxn3fI8kM9VqAueU9-O_0xYWbNVaHXo2FgI6Nmwlb0OPhrAJ',
-	client_secret: 'ECG4YL9F_2UWuT5yGSLKO90SfcMfx6aVb7xRzFX3KD42hNj0yenw8BinuTQ6XK3v8sjutoeFzC9LmOZM'});
+	client_secret: 'ECG4YL9F_2UWuT5yGSLKO90SfcMfx6aVb7xRzFX3KD42hNj0yenw8BinuTQ6XK3v8sjutoeFzC9LmOZM'
+});
 
-const app = express(); 
+const app = express();
 
 // Session
 app.use(session({
@@ -59,7 +60,7 @@ app.get('/auth/facebook', passport.authenticate('facebook'));
 // authentication process by attempting to obtain an access token.  If
 // access was granted, the user will be logged in.  Otherwise,
 // authentication has failed.
-app.get('/auth/facebook/callback', passport.authenticate('facebook', {successRedirect: '/profile', failureRedirect: '/login' }));
+app.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: '/profile', failureRedirect: '/login' }));
 
 // Handlebars
 app.engine('handlebars', exphbs({
@@ -67,14 +68,16 @@ app.engine('handlebars', exphbs({
 	defaultLayout: 'base',
 	layoutsDir: __dirname + '/views/layouts',
 	partialsDir: hbs.partialsDirs(__dirname + '/views/partials')
-})); 
+}));
 app.set('view engine', 'handlebars');
 
 // Connect Flash
 app.use(flash());
 
+
+Notification = require('./models/notifications')
 // Render Engine Global Variable
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
 	res.locals.user = req.user || null;
 	res.locals.url = req.originalUrl;
 	res.locals.forms = req.flash('forms');
@@ -85,14 +88,14 @@ app.use(function(req, res, next) {
 	else {
 		res.locals.forms = res.locals.forms[0];
 	}
-	
+
 	toast = {
 		'info': req.flash('info'),
 		'warning': req.flash('warning'),
 		'success': req.flash('success'),
 		'error': req.flash('error'),
 	}
-	
+
 	Object.keys(toast).forEach(key => {
 		if (toast[key].length < 1) {
 			delete toast[key];
@@ -100,9 +103,33 @@ app.use(function(req, res, next) {
 	});
 
 	res.locals.toast = Object.keys(toast).length > 0 ? toast : null;
+
 	
-	next();
+	if (res.locals.user != null) {
+
+		Notification.findAll({
+			where: { user: res.locals.user.id }
+		}).then(notifications => {
+			res.locals.notifNum = notifications.length
+			console.log(`This is num ${notifications.length}`)
+			next();
+
+		})
+
+	}
+	else{
+		next();
+	}
+
+
+
+
+
+
 });
+
+
+
 
 // Body Parser
 app.use(bodyParser.urlencoded({
@@ -118,13 +145,13 @@ mime.init();
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use('/', require('./routes/root')); 
+app.use('/', require('./routes/root'));
 app.use('/', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
 app.use('/services', require('./routes/services'));
 app.use('/files', require('./routes/files'));
 app.use('/job', require('./routes/jobs'));
-app.use(function(req, res) {
+app.use(function (req, res) {
 	req.flash('error', 'Page not found.');
 	res.redirect('/');
 });
