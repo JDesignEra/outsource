@@ -28,13 +28,13 @@
         </div>
         <div class="col-4">
             <div class="remarks">
-                <form method="post">
+                <form method="post" action="/job/add/{{services.id}}">
                     <div class="form-group mb-4">
                         <label class="font-italic" for="remarks">Remarks:</label>
                         <textarea class="form-control" id="remarks" name="remarks" rows="7"></textarea>
                     </div>
                     <div class="butcon text-right">
-                        <button id="butreq" type="submit" class="btn btn-success" action="/job/add/{{services.id}}">Request
+                        <button id="butreq" type="submit" class="btn btn-success">Request
                             Service
                         </button>
                     </div>
