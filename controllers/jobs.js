@@ -32,11 +32,11 @@ module.exports = {
                 id: req.params.id
             }
         }).then(services => {
-            // if (services.uid == req.user.id) {
-            //     req.flash('warning', 'You cannot buy your own service');
-            //     res.redirect('/services');
-            // }
-            // else {
+            if (services.uid == req.user.id) {
+                req.flash('warning', 'You cannot purchase your own service');
+                res.redirect('/services');
+            }
+            else {
                 let remarks = req.body.remarks == undefined ? "" : req.body.remarks.slice(0, 1999);
                 Jobs.create({
                     uid: services.uid,
@@ -48,7 +48,7 @@ module.exports = {
                     req.flash('success', 'Job request sent successfully!');
                     res.redirect('/services');
                 })
-            //}
+            }
 
         })
     },
