@@ -125,11 +125,48 @@ module.exports = {
                 let serviceId = services.id;
                 fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
             }
-            req.flash('success', 'Service added successfully!')
-            res.redirect('/services/manage');
+
+
+
+            //Notifies users
+            if (req.user.followers != null && req.user.followers.split(',').length > 0) {
+                follower = req.user.followers.split(',')
+                for (i = 0; i < follower.length; i++) {
+                    follower[i] = parseInt(follower[i])
+                }
+                User.findAll({
+                    where: {
+                        id: { [Op.in]: follower }
+                    }
+                }).then(followerUser => {
+                    for (i = 0; i < follower.length; i++) {
+                        Notification.create({
+                            uid: req.user.id,
+                            username: req.user.username,
+                            pid: services.id,
+                            title: services.name,
+                            date: new Date(),
+                            category: "Services",
+                            user: followerUser[i].id
+                        })
+                    }
+                    req.flash('success', 'Service added successfully!')
+                    res.redirect('/services/manage');
+                })
+            }
+            else {
+                req.flash('success', 'Service added successfully!')
+                    res.redirect('/services/manage');
+            }
+
+
+
         })
             .catch(err => console.log(err))
     },
+
+
+
     edit: function (req, res) {
         let uid = req.user.id;
         let sid = req.params.id;

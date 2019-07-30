@@ -146,6 +146,7 @@ module.exports = {
                                                     services: services,
                                                     skills: skills,
                                                     social_medias: socialmedias,
+                                                    open: req.params.open,
                                                     favs: favs
                                                 });
 
@@ -481,7 +482,7 @@ module.exports = {
                     fs.writeFile('./public/uploads/profile/' + req.user.id + '/banner.png', base64Banner, { encoding: 'base64' }, function (err) {
                     });
                 }
-
+                req.flash("success", "Changes successfully saved")
                 res.redirect('/profile/')
             })
 
@@ -596,11 +597,21 @@ module.exports = {
                 },
                 order: [['date', 'DESC']]
             }).then(like_notifications => {
-                // res.send(project_notifications.toString())
+                Notification.findAll({
+                    where: {
+                        user: req.user.id,
+                        category: "Services"
+                    },
+                    order: [['date', 'DESC']]
+                }).then(service_notifications => {
+                                    // res.send(project_notifications.toString())
                 res.render('profile/viewNotifications', {
                     project_notifications,
-                    like_notifications
+                    like_notifications,
+                    service_notifications
                 })
+                })
+
             })
         })
     },

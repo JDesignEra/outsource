@@ -78,7 +78,11 @@
                                             {{/if}}&nbsp;
 
                                             <i class="fas fa-comment"></i>
-                                            2
+                                            {{#if comments}}
+                                    {{comments.length}}
+                                    {{else}}
+                                    0
+                                    {{/if}}
                                         </h6>
                                     </div>
 
@@ -301,7 +305,7 @@
                 <div class="modal-footer blue-grey lighten-5 row mx-auto justify-content-around col-12">
 
                     {{!-- Comments --}}
-                    <div class="col-lg-8 col-sm-12 border border-secondary rounded p-4 white">
+                    <div class="col-lg-8 col-sm-12 border p-4 white">
                         <h4 class="text-center"> Comments </h4>
                         <hr class="hr-primary">
 
@@ -316,19 +320,17 @@
                                 <li class="row mb-4">
 
                                     <div class="col-1 pr-2">
-                                        <img 
-                                            class="avatar img-fluid rounded-circle deep-purple accent-3 z-depth-1"
-                                            id="profileimg" 
-                                            onerror='this.src = "/img/profile/default.png"'
-                                            src="/uploads/profile/{{../user.id}}/profilePic.png"
-                                        >
+                                        <img class="avatar img-fluid rounded-circle deep-purple accent-3 z-depth-1"
+                                            id="profileimg" onerror='this.src = "/img/profile/default.png"'
+                                            src="/uploads/profile/{{../user.id}}/profilePic.png">
                                     </div>
 
                                     <div class="col-11 pl-2">
                                         <div class="chat-body rounded white p-3 z-depth-1">
                                             <div class="header d-flex">
                                                 <div class="flex-fill text-left">
-                                                    <strong class="primary-font" id="formUsername">{{../user.username }}</strong>
+                                                    <strong class="primary-font"
+                                                        id="formUsername">{{../user.username }}</strong>
                                                 </div>
                                             </div>
 
@@ -354,7 +356,7 @@
                         <hr class="hr-primary">
                         {{#if comments}}
                         <div class="chat-message flex-fill">
-                            <ul class="list-unstyled chat" id="hrAfter{{id}}" >
+                            <ul class="list-unstyled chat" id="hrAfter{{id}}">
                                 {{#each comments}}
                                 <li class="row mb-4">
 
@@ -394,7 +396,15 @@
                                 {{/each}}
                             </ul>
                         </div>
+                        {{else}}
+                        <h5 class="text-center mb-3 text-muted">
+                            <i class="far fa-comment-times fa-3x"></i>
+                        </h5>
 
+                        <h5 class="text-center text-muted">
+                            No Comments
+                        </h5>
+       
                         {{/if}}
 
 
@@ -403,7 +413,7 @@
 
                     {{!-- Details --}}
 
-                    <div class="col-lg-3 col-sm-12 border border-secondary rounded p-4 white align-self-start">
+                    <div class="col-lg-3 col-sm-12 border p-4 white align-self-start">
                         <h4 class="text-center"> Details </h4>
                         <hr class="hr-primary w-100">
 
@@ -423,25 +433,16 @@
                                     {{else}}
                                     0
                                     {{/if}}</p>
-                                <p class="text-left"> 2</p>
+                                <p class="text-left"> 
+                                    {{#if comments}}
+                                    {{comments.length}}
+                                    {{else}}
+                                    0
+                                    {{/if}}
+                                </p>
                             </div>
                         </div>
-                        {{#if ../viewuser}}
-                        {{else}}
-                        {{!-- <div id="deleteButton" class="row justify-content-between">
-                            <a data-toggle="modal" data-target="#confirmDelete{{id}}">
-                                <button type="button" class="btn btn-danger justify-content-center">
-                                    <i class="fas fa-trash-alt fa-lg"></i> &nbsp; Delete
-                                </button>
-                            </a>
 
-                            <a href="/profile/editProject/{{id}}">
-                                <button type="button" class="btn btn-success justify-content-center">
-                                    <i class="fas fa-edit fa-lg"></i> &nbsp; Edit
-                                </button>
-                            </a>
-                        </div> --}}
-                        {{/if}}
                     </div>
 
                 </div>
@@ -461,9 +462,6 @@
 
                 <div class="modal-header">
                     <h5 class="modal-title text-center col-12">Confirmation</h5>
-                    {{!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button> --}}
                 </div>
                 <div class="modal-body">
                     <p class="my-3 text-center">
@@ -612,7 +610,7 @@
                                     </div>
                                 </li>`
 
-                        )
+                )
 
                 $('#commentContent' + id).val('')
             }).catch(function (err) {
