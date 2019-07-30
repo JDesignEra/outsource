@@ -2,11 +2,10 @@
     <table id="dtMaterialDesignExample" class="table table-striped" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th class="th-sm">Job No.</th>
+                <th class="th-sm">Date Requested</th>
                 <th class="th-sm">Name</th>
-                <th class="th-sm">Description</th>
-                <th class="th-sm">Category</th>
-                <th class="th-sm">Payment</th>
+                <th class="th-sm">Payment Amount</th>
+                <th class="th-sm">Remarks</th>
                 <th class="th-sm"></th>
             </tr>
         </thead>
@@ -14,12 +13,13 @@
             {{#if job}}
             {{#each job}}
             <tr>
-                <td>{{id}}</td>
+                <td>{{date}}</td>
                 <td>{{name}}</td>
-                <td>{{desc}}</td>
-                <td>{{category}}</td>
                 <td>${{salary}}</td>
-                <td class="text-right"><a href="/job/delete/{{id}}" class="btn btn-danger">Reject<i class="far fa-trash-alt ml-1"></i></a></td>
+                <td>{{remarks}}</td>
+                <td class="row"><a href="#" class="btn btn-success btn-sm col-lg-6">Accept<i class="fa fa-check ml-1"></i></a>
+                <a href="/job/delete/{{id}}" class="btn btn-danger btn-sm col-lg-6">Reject<i class="far fa-trash-alt ml-1"></i></a>
+                </td>
             </tr>
             {{/each}}
             {{/if}}

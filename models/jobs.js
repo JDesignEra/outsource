@@ -12,19 +12,18 @@ const jobs = db.define('job', {
     uid: {
         type: Sequelize.INTEGER
     },
+    date: {
+        type: Sequelize.STRING
+    },
     name: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    desc: {
+    remarks: {
         type: Sequelize.STRING(2000)
     },
     salary: {
         type: Sequelize.DECIMAL,
-        allowNull: false
-    },
-    category: {
-        type: Sequelize.STRING,
         allowNull: false
     },
 });
