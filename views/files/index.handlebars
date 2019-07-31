@@ -585,8 +585,11 @@
             <div class="modal-body">
                 <form class="files-upload" action="{{ postRoot }}/~upload" method="post" enctype="multipart/form-data">
                     <input type="file" name="files" multiple />
-                    <p class="text-danger text-center m-0 mt-3">
-                        <small class="font-weight-500">
+                    <p class="text-center m-0 mt-3">
+                        <small class="form-text text-muted">
+                            You are only allowed to upload a file-size of up to a maximum of 100mb.
+                        </small>
+                        <small class="form-text text-danger font-weight-500">
                             * If uploaded file or files exist in the current directory, that file or files will be overwritten.
                         </small>
                     </p>

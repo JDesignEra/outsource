@@ -10,8 +10,19 @@ let fileInput = (function () {
         focuses.each(function () {
             let _this = $(this);
 
+            console.log(_this);
+            let removeBtn = _this.data('autosubmit') && _this.data('autosubmit') == false ? `
+                <button type="button" class="btn btn-sm btn-danger remove">
+                    <i class="far fa-trash-alt mr-1"></i> Remove
+                </button>
+            ` : '';
+
             _this.prepend(`
                 <div class="wrapper card card-body primary-gradient view overlay text-center z-depth-2">
+                    <div class="progress md-progress secondary-color rounded-0 d-none" style="position: absolute; top: 0; height: .5rem; z-index: 2;">
+                        <div class="indeterminate teal"></div>
+                    </div>
+
                     <div class="mask rgba-black-slight" style=""></div>
 
                     <div class="card-text">
@@ -19,11 +30,9 @@ let fileInput = (function () {
                         <p class="font-weight-bolder">Drag and drop a file here or click</p>
                     </div>
 
-                    <button type="button" class="btn btn-sm btn-danger remove">
-                        <i class="far fa-trash-alt mr-1"></i> Remove
-                    </button>
+                    ${removeBtn}
                     
-                    <div class="preview">
+                    <div class="preview deep-purple accent-3">
                         <span class="renderer"></span>
                         <div class="infos">
                             <div class="infos-inner">
@@ -42,6 +51,7 @@ let fileInput = (function () {
             let wrapper = _this.children('.wrapper');
             let invalid = wrapper.children('.invalid-tooltip');
             let preview = wrapper.children('.preview');
+            let loader = wrapper.children('.progress');
             let renderer = preview.children('.renderer');
 
             // Checks for proper multiple attribute based on class.
@@ -67,9 +77,31 @@ let fileInput = (function () {
                     e.preventDefault();
                     e.originalEvent.dataTransfer.dropEffect = 'copy';
 
-                    let error;
                     let files = e.originalEvent.dataTransfer.files || (event.dataTransfer && event.dataTransfer.files) || e.target.files;
+                        
+                    input.prop('files', files);
+                    input.trigger('change');
+                },
+                'click': function () {
+                    input.trigger('click');
+                }
+            });
 
+            // On file input change
+            input.on('change', function () {
+                let files = this.files;
+                let file = files[0];
+                let size = 0;
+                let error = null;
+
+                for (const file of files) {
+                    size += file.size;
+                }
+
+                if (size > 100000000) {
+                    error = 'You are can only upload up to a maximum of 100mb.'
+                }
+                else {
                     if (_this.hasClass('file-upload') && files.length > 1) {
                         error = 'Only 1 file upload is allow.';
                     }
@@ -78,70 +110,63 @@ let fileInput = (function () {
 
                         for (let x = 0, n = files.length; x < n; x++) {
                             if (!validation.test(files[x].type)) {
-                                error = 'File type is not allow, for ' + files[x].name + '.';
+                                error = `File type is not allowed, for ${files[x].name}.`;
                             }
                         }
                     }
-                    else {
-                        for (let x = 0, n = files.length; x < n; x++) {
-                            if (files[x].size > 5368709120) {
-                                error = 'File size cannot exceed 5GB, for ' + files[x] + '.';
-                            }
-                        }
-                    }
-                    if (error === undefined) {
-                        input.prop('files', files);
-                        input.trigger('change');
-                    }
-                    else {
-                        invalid.text(error);
-                        invalid.addClass('d-block');
-                    }
-                },
-                'click': function (e) {
-                    input.trigger('click');
                 }
-            });
 
-            // On file input change
-            input.on('change', function () {
-                let file = this.files[0];
+                if (error) {
+                    invalid.text(error);
+                    invalid.addClass('d-block');
 
-                // Render image or file extension icon, and overlay text.
-                if (file && file.type.match(/image\//)) {
-                    let reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        renderer.html('<img src="' + e.target.result + '" />');
-                    };
-
-                    reader.readAsDataURL(file);
+                    toastr['error'](error, null, {
+                        closeButton: true,
+                        progressBar: true,
+                        newestOnTop: true,
+                        hideDuration: 300,
+                        timeOut: 3000,
+                        extendedTimeOut: 1500
+                    });
                 }
                 else {
-                    let extension = file.name.slice(file.name.lastIndexOf('.') + 1);
+                    // Render image or file extension icon, and overlay text.
+                    if (file && file.type.match(/image\//)) {
+                        let reader = new FileReader();
 
-                    renderer.html('<i class="fas fa-file"><span class="extension">' + extension + '</span></i>');
-                }
+                        reader.onload = function (e) {
+                            renderer.html(`<img src="${e.target.result}" />`);
+                        };
 
-                let filesName = [];
+                        reader.readAsDataURL(file);
+                    }
+                    else {
+                        let extension = file.name.slice(file.name.lastIndexOf('.') + 1);
 
-                for (let x = 0, n = this.files.length; x < n; x++) {
-                    filesName.push(this.files[x].name);
-                }
-
-                _this.children('.wrapper').addClass('has-preview');
-                preview.find('.filename').html(filesName.join('<br />'));
-                preview.addClass('d-block');
-
-                // Find parent form of current element and submit.
-                let findForm = _this;
-
-                if (_this.data('autosubmit') != false) {
-                    while (!findForm.is('form')) {
-                        findForm = findForm.parent();
+                        renderer.html(`<i class="fas fa-file"><span class="extension">${extension}</span></i>`);
                     }
 
-                    findForm.submit();
+                    let filesName = [];
+
+                    for (let x = 0, n = this.files.length; x < n; x++) {
+                        filesName.push(this.files[x].name);
+                    }
+
+                    _this.children('.wrapper').addClass('has-preview');
+                    preview.find('.filename').html(filesName.join('<br />'));
+                    preview.addClass('d-block');
+
+                    // Find parent form of current element and submit.
+                    let findForm = _this;
+
+                    if (_this.data('autosubmit') != false) {
+                        while (!findForm.is('form')) {
+                            findForm = findForm.parent();
+                        }
+
+                        loader.removeClass('d-none');
+                        findForm.submit();
+                    }
                 }
             });
 
@@ -172,6 +197,7 @@ let fileInput = (function () {
         $(focus).find('.invalid-tooltip').removeClass('d-block');
         $(focus).find('.wrapper').removeClass('has-preview');
         $(focus).find('.preview').removeClass('d-block');
+        $(focus).find('.progress').addClass('d-none');
         $(focus).find('.renderer').empty();
         $(focus).find('filename').empty();
     }

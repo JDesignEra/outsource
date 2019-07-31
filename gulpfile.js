@@ -94,8 +94,8 @@ exports.nodemon = startNodemon;
 exports.browsersync = startBrowserSync;
 
 exports.compile = () => {
-    gulp.watch('./public/scss/**/*', this.scss2css);
-    gulp.watch(['./public/img/**/*', './public/img/**/*'], this.imgmin);
+    gulp.watch('./public/scss/**/*', sass2css);
+    // gulp.watch('./public/img/**/*', imgCompress);
 };
 
 exports.default = gulp.series(this.nodemon, this.browsersync, () => {

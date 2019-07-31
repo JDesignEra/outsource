@@ -1,6 +1,13 @@
 {{#extend 'stylesheets'}}
-<link type="text/css" href="/css/vendor/codemirror/codemirror.css" rel="stylesheet">
-<link id="editor-style" type="text/css" href="/css/vendor/codemirror/one-dark.css" rel="stylesheet">
+    {{#ifCond 'file.type === "code" || file.type === "text"'}}
+        <link type="text/css" href="/css/vendor/codemirror/codemirror.css" rel="stylesheet">
+        <link id="editor-style" type="text/css" href="/css/vendor/codemirror/one-dark.css" rel="stylesheet">
+    {{/ifCond}}
+
+    {{#ifCond 'file.type === "image"'}}
+        <link type="text/css" href="/css/vendor/tui-image-editor/tui-color-picker.min.css" rel="stylesheet">
+        <link type="text/css" href="/css/vendor/tui-image-editor/tui-image-editor.min.css" rel="stylesheet">
+    {{/ifCond}}
 {{/extend}}
 
 <section class="file-edit">
@@ -18,23 +25,14 @@
                             <input type="hidden" name="fid" value="{{ file.id }}">
                             <input type="hidden" name="content">
                         </form>
-                        {{!-- <div id="editor" class="mx-3">
-                            <div class="row rounded-top primary-color">
-                                <div class="col-6 white-text text-left">
-                                    <button class="btn btn-sm btn-primary z-depth-0">
-                                        <i class="far fa-times fa-lg"></i>
-                                    </button>
-                                </div>
-                                <div class="col-6 white-text text-right">
-                                    <button class="btn btn-sm btn-primary z-depth-0">
-                                        <i class="far fa-undo fa-lg"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-primary z-depth-0">
-                                        <i class="far fa-redo fa-lg"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div> --}}
+                    {{else}}
+                        {{#ifCond 'file.type === "image"'}}
+                            <div id="editor" class="rounded" data-link="{{ file.link }}"></div>
+                            <form action="{{ postRoot }}/~save" method="post">
+                                <input type="hidden" name="fid" value="{{ file.id }}">
+                                <input type="hidden" name="content">
+                            </form>
+                        {{/ifCond}}
                     {{/ifCond}}
                 </div>
             </div>
@@ -50,7 +48,7 @@
                         <i class="far fa-window-close mr-1"></i>Close Edit
                     </a>
 
-                    {{#ifCond 'file.type === "code" || file.type === "text"'}}
+                    {{#ifCond 'file.type === "code" || file.type === "text" || file.type === "image"'}}
                         <button class="save list-group-item list-group-item-action" type="button">
                             <i class="far fa-save mr-1"></i>Save
                         </button>
@@ -76,6 +74,15 @@
         <script id="data" type="text/javascript">
             let content = {{{json file.content}}};
         </script>
+    {{/ifCond}}
+
+    {{#ifCond 'file.type === "image"'}}
+        <script src="/js/vendor/tui-image-editor/fabric.min.js" type="text/javascript"></script>
+        <script src="/js/vendor/tui-image-editor/tui-code-snippet.min.js" type="text/javascript"></script>
+        <script src="/js/vendor/tui-image-editor/tui-color-picker.min.js" type="text/javascript"></script>
+        <script src="/js/vendor/tui-image-editor/FileSaver.min.js" type="text/javascript"></script>
+        <script src="/js/vendor/tui-image-editor/tui-image-editor.min.js" type="text/javascript"></script>
+        <script src="/js/vendor/tui-image-editor/black-theme.js" type="text/javascript"></script>
     {{/ifCond}}
 <script src="/js/editFiles.js" type="text/javascript"></script>
 {{/extend}}

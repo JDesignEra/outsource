@@ -13,13 +13,10 @@
                 
                 <div id="content" class="card-body" data-id="{{ file.id }}" data-type="{{ file.type }}">
                     {{#ifCond 'file.type === "image"'}}
-                        <img class="img-fluid w-100" src="{{ file.link }}">
-
+                        <img class="img-preview img-fluid d-block mx-auto w-100" src="{{ file.link }}">
                     {{else}}
                         {{#ifCond 'file.type === "code" || file.type === "text"'}}
                             <div id="editor" data-name="{{ file.name }}"></div>
-
-                            {{!-- <pre class="rounded"><code class="p-3{{#if file.ext}} {{ file.ext }}" data-ext="{{ file.ext }}"{{/if}}>{{ file.content }}</code></pre> --}}
                         {{else}}
                             {{#ifCond 'file.type === "document"'}}
                                 <div id="rtf" class="p-3 rounded"></div>
@@ -56,7 +53,7 @@
                     </a>
 
                     {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
-                        {{#ifCond 'file.type === "code" || file.type === "text"'}}
+                        {{#ifCond 'file.type === "code" || file.type === "text" || file.type === "image"'}}
                             <a class="edit list-group-item list-group-item-action" href="">
                                 <i class="far fa-edit mr-1"></i>Edit
                             </a>
@@ -66,6 +63,12 @@
                     {{#ifCond 'file.type === "code" || file.type === "text"'}}
                         <button class="editor-mode list-group-item list-group-item-action" data-mode="dark">
                             <i class="far fa-adjust mr-1"></i>Light Mode
+                        </button>
+                    {{/ifCond}}
+
+                    {{#ifCond 'file.type === "image"'}}
+                        <button class="image-size list-group-item list-group-item-action d-none">
+                            <i class="far fa-compress-wide mr-1"></i>Original Size
                         </button>
                     {{/ifCond}}
 

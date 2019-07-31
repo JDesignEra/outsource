@@ -1,8 +1,9 @@
 // editFiles by Joel
-// Code Editor
+// Editors
 $(function() {
     let contentDiv = $('#content');
     let type = contentDiv.attr('data-type');
+    let imageEditor = null;
 
     if (type === 'code' || type === 'text') {
         let editorDiv = contentDiv.find('#editor');
@@ -50,6 +51,66 @@ $(function() {
             input.val(cm.getValue());
         });
     }
+    else if (type === 'image') {
+        let focus = $('#editor', '#content');
+        let path = `${focus.attr('data-link')}`;
+        let name = focus.parent('#content').attr('data-name');
+        let height = $(window).width() < 768 ? '600px' : '800px';
+
+        imageEditor = new tui.ImageEditor('#content > #editor', {
+            includeUI: {
+                loadImage: {
+                    path: path,
+                    name: name
+                },
+                theme: blackTheme,
+                initMenu: 'filter',
+                uiSize: {
+                    height: height
+                },
+                menuBarPosition: 'bottom'
+            },
+            selectionStyle: {
+                cornerSize: 20,
+                rotatingPointOffset: 70
+            },
+            usageStatistics: false
+        });
+
+        $(window).on('resize', function() {
+            if ($(window).width() < 768) {
+                imageEditor.ui.resizeEditor({
+                    uiSize: {
+                        height: '600px'
+                    }
+                });
+            }
+            else {
+                imageEditor.ui.resizeEditor({
+                    uiSize: {
+                        height: '800px'
+                    }
+                });
+            }
+        });
+    }
+
+    // Save Action
+    let saveAction = $('.list-group, #mobile-action-menu', '#action-card, #mobile-action').find('.save');
+
+    saveAction.on('click', function() {
+        let contentDiv = $('#content')
+        let type = contentDiv.attr('data-type');
+        let form = contentDiv.find('form');
+        
+        if (type === 'code' || type === 'text') {
+            form.submit();
+        }
+        else if (type === 'image' && imageEditor !== null) {
+            form.find('input[name="content"]').val(imageEditor.toDataURL());
+            form.submit();
+        }
+    });
 });
 
 // Action-Card
@@ -79,14 +140,6 @@ $(function() {
             _this.attr('data-mode', 'light');
             _this.html('<i class="far fa-adjust mr-1"></i>Dark Mode');
         }
-    });
-
-    // Save Action
-    let saveAction = focus.find('.save');
-
-    saveAction.on('click', function() {
-        let form = $('#content').find('form');
-        form.submit();
     });
 });
 

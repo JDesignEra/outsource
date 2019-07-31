@@ -35,6 +35,33 @@ $(function() {
             _this.html('<i class="far fa-adjust mr-1"></i>Dark Mode');
         }
     });
+
+    // Image Size
+    let imageSizeAction = focus.find('.image-size');
+    let img = document.querySelector('#content img');
+    let contentWidth = $('#content').width();
+    let imgWidth = img ? img.naturalWidth : contentWidth + 1;
+
+    if (imgWidth <= contentWidth) {
+        imageSizeAction.removeClass('d-none');
+    }
+
+    imageSizeAction.on('click', function() {
+        let _this = $(this);
+        let img = $('img', '#content');
+
+        if (img.hasClass('w-100')) {
+            let imgWidth = document.querySelector('#content img').naturalWidth;
+
+            img.css('width', imgWidth);
+            img.removeClass('w-100');
+            _this.html('<i class="far fa-expand-wide mr-1"></i>Fluid Size');
+        }
+        else {
+            img.addClass('w-100');
+            _this.html('<i class="far fa-compress-wide mr-1"></i>Original Size');
+        }
+    });
 });
 
 // Mobile-Action

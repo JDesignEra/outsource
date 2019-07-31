@@ -35,7 +35,7 @@ module.exports = {
         
         fs.ensureDirSync(root);
         
-        if (!fs.existsSync(path.join(root, dir))) {
+        if (!fs.existsSync(path.join(root, dir)) && (rootUrl === '/files/my-drive' || rootUrl === '/files')) {
             req.flash('error', 'Directory does not exist.');
             res.redirect(rootUrl);
         }
@@ -855,6 +855,9 @@ module.exports = {
                     if (data['type'] === 'code' || data['type'] === 'text') {
                         file['content'] = fs.readFileSync(path.join(root, data['fullPath']), 'utf-8');
                     }
+                    else if(data['type'] === 'image') {
+                        file['link'] = `/uploads/files/${uid}/${data['fullPath']}`;
+                    }
                     else if (data['type'] === 'video') {
                         file['mime'] = mime.getType(ext);
                     }
@@ -1366,19 +1369,33 @@ module.exports = {
 
         let fid = req.body.fid;
         let content = req.body.content;
-
+        
         if (fid && content) {
             filesFolders.findByPk(fid).then(data => {
-                fs.writeFile(path.join(root, data['fullPath']), content, err => {
-                    if (err) {
-                        req.flash('error', 'File save unsucessful.');
-                        res.redirect(dir === '/' ? `${rootUrl}${paramUrl}` : `${rootUrl}/${dir}${paramUrl}`);
-                    }
-                    else {
-                        req.flash('success', 'File saved sucessfully.');
-                        res.redirect(dir === '/' ? `${rootUrl}${paramUrl}` : `${rootUrl}/${dir}${paramUrl}`);
-                    }
-                });
+                if (data['type'] === 'code' || data['type'] === 'text') {
+                    fs.writeFile(path.join(root, data['fullPath']), content, err => {
+                        if (err) {
+                            req.flash('error', 'File save unsucessful.');
+                            res.redirect(dir === '/' ? `${rootUrl}${paramUrl}` : `${rootUrl}/${dir}${paramUrl}`);
+                        }
+                        else {
+                            req.flash('success', 'File saved sucessfully.');
+                            res.redirect(dir === '/' ? `${rootUrl}${paramUrl}` : `${rootUrl}/${dir}${paramUrl}`);
+                        }
+                    });
+                }
+                else if (data['type'] === 'image') {
+                    fs.writeFile(path.join(root, data['fullPath']), content.replace(/^data:image\/png;base64,/, ""), 'base64', err => {
+                        if (err) {
+                            req.flash('error', 'File save unsucessful.');
+                            res.redirect(dir === '/' ? `${rootUrl}${paramUrl}` : `${rootUrl}/${dir}${paramUrl}`);
+                        }
+                        else {
+                            req.flash('success', 'File saved sucessfully.');
+                            res.redirect(dir === '/' ? `${rootUrl}${paramUrl}` : `${rootUrl}/${dir}${paramUrl}`);
+                        }
+                    });
+                }
             });
         }
         else {
