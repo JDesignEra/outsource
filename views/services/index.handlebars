@@ -33,10 +33,11 @@
                         <label class="font-italic" for="remarks">Remarks:</label>
                         <textarea class="form-control" id="remarks" name="remarks" rows="7"></textarea>
                     </div>
-                    <div class="butcon text-right">
+                    <div class="butcon">
                         <button id="butreq" type="submit" class="btn btn-success">Request
                             Service
                         </button>
+                        {{#if job}}<a href="/job/delete/{{job.id}}" class="btn btn-danger">Cancel Request</a>{{/if}}
                     </div>
                 </form>
             </div>

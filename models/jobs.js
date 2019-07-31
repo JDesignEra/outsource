@@ -12,6 +12,15 @@ const jobs = db.define('job', {
     uid: {
         type: Sequelize.INTEGER
     },
+    sid : {
+        type: Sequelize.INTEGER
+    },
+    cid: {
+        type: Sequelize.INTEGER
+    },
+    cname: {
+        type: Sequelize.STRING
+    },
     date: {
         type: Sequelize.STRING
     },

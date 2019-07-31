@@ -2,6 +2,7 @@ const path = require('path');
 const Services = require('../models/services');
 const Servicefavs = require('../models/servicesfav');
 const Users = require('../models/users');
+const Jobs = require('../models/jobs');
 const Transactions = require('../models/transactions');
 const fs = require('fs');
 var paypal = require('paypal-rest-sdk');
@@ -46,18 +47,26 @@ module.exports = {
                     id: services.uid
                 }
             }).then((user) => {
-                Services.update({
-                    views: services.views + 1
-                }, {
-                        where: {
-                            id: req.params.id
-                        }
-                    }).then(() => {
-                        res.render('services/index', {
-                            services,
-                            serviceuser: user
-                        });
-                    })
+                Jobs.findOne({
+                    where: {
+                        sid: services.id,
+                        cid: req.user.id
+                    }
+                }).then((job) => {
+                    Services.update({
+                        views: services.views + 1
+                    }, {
+                            where: {
+                                id: req.params.id
+                            }
+                        }).then(() => {
+                            res.render('services/index', {
+                                services,
+                                serviceuser: user,
+                                job
+                            });
+                        })
+                })
             }).catch(err => console.log(err));
         })
 
@@ -156,7 +165,7 @@ module.exports = {
             }
             else {
                 req.flash('success', 'Service added successfully!')
-                    res.redirect('/services/manage');
+                res.redirect('/services/manage');
             }
 
 
