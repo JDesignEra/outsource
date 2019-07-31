@@ -77,6 +77,10 @@ $('select.sort-select').on('change', function(e) {
         cards.sort(function(a, b){ return $(a).data("date")-$(b).data("date")});    
         $("#servcon").html(cards);
     }
+    else if (sort == "Most Popular"){
+        cards.sort(function(a, b){ return $(b).data("favs")-$(a).data("favs")});    
+        $("#servcon").html(cards);
+    }
 });
 
 //Edit Service/Add Service

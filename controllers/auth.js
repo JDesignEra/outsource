@@ -262,33 +262,44 @@ module.exports = {
             res.render('auth/changepass');
         }
         else if (req.method === "POST") {
-            User.findOne({
-                where: {
-                    password: req.body.currpass
-                }
-            }).then(user => {
-                if (user) {
-                    req.flash('error', 'Current Password is incorrect.');
-                    res.redirect('back');
-                }
-                else {
-                    if (req.body.newpass === req.body.confirmpass) {
-                        console.log('correct newpass and confirmpass')
-                        let password = req.body.newpass
+            let currPass = req.body.currpass
+            let password = req.body.newpass;
+            let cfmPass = req.body.confirmpass;
 
-                        bcrypt.genSalt(10, (err, salt) => {
-                            bcrypt.hash(password, salt, (err, hash) => {
-                                user.update({
-                                    password: hash,
-                                }).then(() => {
-                                    res.redirect('/');
-                                    req.flash('success', 'Password have been successfully changed!');
+            if (password !== cfmPass) {
+                // Display error password and confirm password does not match
+            }
+            else {
+                User.findOne({
+                    where: {
+                        id: req.user.id
+                    }
+                }).then(user => {
+                    if (user) {
+                        bcrypt.compare(currPass, user['password']).then(check => {
+                            if (check) {
+                                bcrypt.genSalt(10, (err, salt) => {
+                                    bcrypt.hash(password, salt, (err, hash) => {
+                                        user.update({
+                                            password: hash,
+                                        }).then(() => {
+                                            req.flash('success', 'Password have been successfully changed!');
+                                            res.redirect('/');
+                                        });
+                                    });
                                 });
-                            });
+                            }
+                            else {
+                                req.flash('error', 'Current Password is incorrect.');
+                                res.redirect('/changepass');
+                            }
                         });
                     }
-                }
-            });
+                    else {
+                        // Dispaly error user does not exist
+                    }
+                });
+            }
         }
     }
 }
