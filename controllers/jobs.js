@@ -40,7 +40,7 @@ module.exports = {
             }).then((jobs) => {
                 if (services.uid == req.user.id) {
                     req.flash('warning', 'You cannot purchase your own service');
-                    res.redirect('/services');
+                    res.redirect('back');
                 }
 
                 else if (jobs == null) {
@@ -69,13 +69,12 @@ module.exports = {
     delete: function (req, res) {
         Jobs.findOne({
             where: {
-                id: req.params.id,
-                cid: req.user.id
+                id: req.params.id
             }
         }).then(job => {
             if (job == null) {
                 req.flash('warning', 'You do not have any jobs to reject');
-                res.redirect('/job');
+                res.redirect('back');
             }
             else {
                 Jobs.destroy({
@@ -85,7 +84,7 @@ module.exports = {
                 }).then(() => {
                     if (job.cid !== req.user.id){
                         req.flash('success', 'Job rejected');
-                        res.redirect('/job');
+                        res.redirect('back');
                     }
                     else{
                         req.flash('success', 'Request cancelled');
