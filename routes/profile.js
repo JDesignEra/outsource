@@ -6,9 +6,10 @@ const upload = multer({dest: './public/uploads/temp'});
 const authController = require('../controllers/auth');
 const profileController = require('../controllers/profile');
 
-
+//Notifications
 router.get('/notifications/', profileController.viewNotification)
 router.get('/deleteNotifications/:id', profileController.deleteNotification)
+router.get('/deleteAllNotifications/:category', profileController.deleteAllNotification)
 
 //Profile
 router.get('/', isAuth, profileController.index);

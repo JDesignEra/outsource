@@ -665,6 +665,17 @@ module.exports = {
         })
     },
 
+    deleteAllNotification: function (req, res) {
+        Notification.destroy({
+            where: { 
+                user: req.user.id,
+                category: req.params.category.toString()
+             }
+        }).then(deleted => {
+            res.redirect('back')
+        })
+    },
+
     //View Projects
 
     viewProjectUpdate: function (req, res) {
