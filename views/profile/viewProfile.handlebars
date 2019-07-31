@@ -43,6 +43,7 @@
         <div style="" class="card-body p-0 rounded-0">
 
             <div class="row justify-content-around">
+                {{!-- Profile Details --}}
                 <div class="col-lg-3 col-sm-12">
                     <div class="profile-margin">
                         <!-- Card -->
@@ -65,27 +66,20 @@
                                 <h3 class="card-title">{{viewuser.username}}</h3>
 
                                 <h5 class="card-title text-muted">
-                                    {{#if viewuser.accType}}
-                                    {{viewuser.accType}}
+                                    {{#ifCond 'viewuser.accType == "service"'}}
+                                    Service Provider
                                     {{else}}
-                                    None
-                                    {{/if}}
+                                    Client
+                                    {{/ifCond}}
                                 </h5>
 
 
                                 <div class="">
                                     {{#ifCond 'followedUser == true'}}
-                                    {{!-- <a href="/profile/unfollow/{{viewuser.id}}"
-                                        class="btn btn-secondary btn-rounded active">
-                                        Followed </a> --}}
-
                                     <p onclick="unfollowUser({{viewuser.id}})" id="followButton"
                                         class="btn btn-secondary btn-rounded active">
                                         Followed </p>
                                     {{else}}
-                                    {{!-- <a href="/profile/follow/{{viewuser.id}}" class="btn btn-secondary btn-rounded">
-                                        Follow </a> --}}
-
                                     <p onclick="followUser({{viewuser.id}})" id="followButton"
                                         class="btn btn-secondary btn-rounded">
                                         Follow </p>
@@ -182,6 +176,7 @@
                     <br>
                 </div>
 
+                {{!-- Content --}}
                 <div class="classic-tabs col-lg-8 col-sm-12">
 
                     <ul class="nav tabs-white rounded-0" id="myClassicTabShadow" role="tablist">
@@ -192,11 +187,15 @@
                                 aria-controls="portfolio-classic-shadow" aria-selected="true">Portfolio</a>
                         </li>
 
+                        {{#ifCond 'viewuser.accType == "service"'}}
                         <li class="nav-item">
                             <a class="nav-link waves-light" id="services-tab-classic-shadow" data-toggle="tab"
                                 href="#services-classic-shadow" role="tab" aria-controls="services-classic-shadow"
                                 aria-selected="false"> Services </a>
                         </li>
+                        {{else}}
+                        {{/ifCond}}
+
 
                         {{!-- <li class="nav-item">
                             <a class="nav-link waves-light" id="status-tab-classic-shadow" data-toggle="tab"
@@ -210,6 +209,12 @@
                                 aria-selected="false"> Favourites </a>
                         </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link waves-light" id="likes-tab-classic-shadow" data-toggle="tab"
+                                href="#likes-classic-shadow" role="tab" aria-controls="likes-classic-shadow"
+                                aria-selected="false"> Likes </a>
+                        </li>
+
                     </ul>
 
                     <div class="tab-content min-vh-80 p-0" id="myClassicTabContentShadow">
@@ -218,24 +223,26 @@
                             role="tabpanel" aria-labelledby="portfolio-tab-classic-shadow">
                             {{> profile/_portfolioItem}}
                         </div>
-
+                        {{#ifCond 'viewuser.accType == "service"'}}
                         {{!-- =============================== Services =============================== --}}
                         <div class="tab-pane fade profile-content" id="services-classic-shadow" role="tabpanel"
                             aria-labelledby="services-tab-classic-shadow">
                             {{> profile/_servicesItem}}
 
                         </div>
-                        {{!-- =============================== Status =============================== --}}
-                        {{!-- <div class="tab-pane fade profile-content" id="status-classic-shadow" role="tabpanel"
-                            aria-labelledby="status-tab-classic-shadow">
+                        {{else}}
+                        {{/ifCond}}
 
-
-                        </div> --}}
                         {{!-- =============================== Favourites =============================== --}}
                         <div class="tab-pane fade profile-content" id="favs-classic-shadow" role="tabpanel"
                             aria-labelledby="favs-tab-classic-shadow">
                             {{> profile/_favItem}}
+                        </div>
 
+                        {{!-- =============================== Likes =============================== --}}
+                        <div class="tab-pane fade profile-content" id="likes-classic-shadow" role="tabpanel"
+                            aria-labelledby="likes-tab-classic-shadow">
+                            {{> profile/_likeItem}}
                         </div>
                     </div>
 

@@ -1,20 +1,7 @@
 <div class="accordion md-accordion" id="accordionEx4" role="tablist" aria-multiselectable="true">
     <div class="card">
 
-        <!-- Card header -->
-        {{!-- <div class="card-header" role="tab" id="headingPortfolio4">
 
-            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx4" href="#collapsePortfolio4"
-                aria-expanded="true" aria-controls="collapsePortfolio4">
-
-                <h2 class="mb-0 text-dark">
-                    Test Images<i class="fas fa-angle-down rotate-icon"></i>
-                </h2>
-            </a>
-
-        </div> --}}
-
-        <!-- Card body -->
         <div id="collapsePortfolio4" class="collapse show" role="tabpanel" aria-labelledby="headingPortfolio4"
             data-parent="#accordionEx4">
 
@@ -23,7 +10,7 @@
                 <div class="row justify-content-start">
                     {{#each liked}}
                     <div class="col-sm-5 col-lg-4 py-0 px-1">
-                        <div class="portoflio-img-sm view overlay mb-1 rounded border-depth-2 p-0" data-toggle="modal"
+                        <div class="portoflio-img-sm view overlay mb-1 rounded p-0 border" data-toggle="modal"
                             data-target="#likedproject{{id}}">
 
                             <img src="/uploads/profile/{{uid}}/projects/{{id}}.png" class="h-100 lozad mx-auto d-block"
@@ -38,12 +25,8 @@
                                         <h5 class="col-12 text-white text-left font-weight-bold">
                                             {{title}}
                                         </h5>
-                                        <h6 style="font-size:2vh;" class="col-5 white-text text-left font-weight-bold">
-                                            {{#if ../viewuser.id}}
-                                            {{../viewuser.username}}
-                                            {{else}}
-                                            {{../user.username}}
-                                            {{/if}}
+                                        <h6 style="font-size:2vh;" class="col-6 white-text text-left font-weight-bold">
+                                            {{username}}
                                         </h6>
 
                                         <h6 class="white-text text-right col-6">
@@ -56,7 +39,11 @@
                                             {{/if}}&nbsp;
 
                                             <i class="fas fa-comment"></i>
-                                            2
+                                            {{#if comments}}
+                                            {{comments.length}}
+                                            {{else}}
+                                            0
+                                            {{/if}}
                                         </h6>
                                     </div>
 
@@ -74,13 +61,15 @@
 
                 {{/extend}}
                 {{else}}
+
                 <div class="row justify-content-center">
                     {{#if viewuser.id}}
                     <h1 class="my-5 py-5">This user has no liked Projects</h1>
                     {{else}}
-                    <h1></h1>
+                    <h1 class="my-5 py-5">You have no liked Projects</h1>
                     {{/if}}
                 </div>
+
                 {{/if}}
             </div>
 
@@ -120,19 +109,9 @@
                                 <div class="row m-auto h-100 p-0">
                                     <h5 class="col-12 p-0 align-self-start text-left font-weight-bold">
                                         {{title}}</h5>
-                                    <a href="
-                                        {{#if ../viewuser}}
-                                        /profile/view/{{../viewuser.id}}
-                                    {{else}}
-                                    /profile/view/{{../user.id}}
-                                    {{/if}}
-                                    ">
+                                    <a href="/profile/view/{{uid}}">
                                         <h6 class="col-12 p-0 align-self-end text-left">
-                                            {{#if ../viewuser}}
-                                            {{../viewuser.username}}
-                                            {{else}}
-                                            {{../user.username}}
-                                            {{/if}}
+                                            {{username}}
                                         </h6>
                                     </a>
                                 </div>
@@ -140,18 +119,20 @@
                             </div>
 
                         </div>
+                        {{#if ../viewuser}}
 
+                        {{else}}
                         <div class="col-lg-2 col-sm-12 row justify-content-end px-0">
                             <div class="col-lg-8 col-sm-12 align-self-center pr-0">
                                 {{#checkLiked likes ../user.id}}
 
-                                <button onclick="unlikeProject({{id}})" id="likeButton"
+                                <button onclick="unlikeProject({{id}})" id="likeButton{{id}}"
                                     class="btn btn-danger btn-block btn-rounded">
                                     <i class="far fa-heart"></i> Liked
                                 </button>
 
                                 {{else}}
-                                <button onclick="likeProject({{id}})" id="likeButton"
+                                <button onclick="likeProject({{id}})" id="likeButton{{id}}"
                                     class="btn btn-outline-danger btn-block btn-rounded">
                                     <i class="far fa-heart"></i> Like
                                 </button>
@@ -159,7 +140,7 @@
                                 {{/checkLiked}}
                             </div>
                         </div>
-
+                        {{/if}}
                     </div>
                 </div>
 
@@ -173,21 +154,19 @@
                     {{!-- ======================= Services ======================= --}}
                     <div class="container black w-100 row justify-content-center mx-0 py-5">
 
-                        <div class="row justify-content-center">
-                            <img src="https://picsum.photos/id/659/100/" class="white img-fluid rounded-circle lozad"
-                                alt="">
+                        <div class="row justify-content-center mx-auto">
+                            <img onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{uid}}/profilePic.png"
+                                class="white img-fluid rounded-circle lozad" style="height: 80px; width: 80x;">
                             <h3 class="col-12 text-center white-text font-weight-bold my-3">
                                 Services by
-                                {{#if ../viewuser}}
-                                {{../viewuser.username}}
-                                {{else}}
-                                {{../user.username}}
-                                {{/if}}
+                                {{username}}
                             </h3>
                         </div>
-                        {{#if ../services}}
+
+                        {{#if services}}
                         <div class="row col-12 justify-content-around">
-                            {{#each ../services}}
+                            {{#each services}}
                             <div class="card-body border-purple white col-lg-3 col-sm-12 rounded mx-2">
                                 <div class="row justify-content-around">
 
@@ -235,65 +214,109 @@
 
                 </div>
 
-                <div class="modal-footer blue-grey lighten-5 row mx-auto justify-content-around">
+                <div class="modal-footer blue-grey lighten-5 row mx-auto justify-content-around col-12">
 
                     {{!-- Comments --}}
-                    <div class="col-lg-8 col-sm-12 border border-secondary rounded p-4 white">
+                    <div id="commentSection" class="col-lg-8 col-sm-12 border p-4 white">
                         <h4 class="text-center"> Comments </h4>
-                        <hr class="hr-primary w-100">
+                        <hr class="hr-primary">
 
-                        <div class="row my-3 mx-auto">
-                            <div class="col-1 p-0">
-                                <img src="https://picsum.photos/100/"
-                                    class="white w-100 img-fluid rounded-circle lozad " alt="">
-                            </div>
-                            <div class="col-10 ">
-                                <h5 class="text-left h5-responsive"> John Smith &nbsp;
-                                    <small class="text-muted"> 21
-                                        May 2019 </small>
-                                </h5>
+                        <form class="chat-message flex-fill" id="commentForm{{id}}" method="POST"
+                            action="/profile/commentProject/{{id}}">
+                            <ul class="list-unstyled chat">
 
-                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing
-                                    elit, sed do eiusmod
-                                    tempor incididunt ut
-                                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud
-                                    exercitation ullamco
-                                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                    dolor in reprehenderit in
-                                    voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                    Excepteur sint occaecat
-                                    cupidatat non proident, sunt in culpa qui officia deserunt
-                                    mollit
-                                    anim id est laborum.</p>
-                            </div>
+                                <li class="row mb-4">
+
+                                    <div class="col-1 pr-2">
+                                        <img class="avatar img-fluid rounded-circle deep-purple accent-3 z-depth-1"
+                                            id="profileimg" onerror='this.src = "/img/profile/default.png"'
+                                            src="/uploads/profile/{{../user.id}}/profilePic.png">
+                                    </div>
+
+                                    <div class="col-11 pl-2">
+                                        <div class="chat-body rounded white p-3 z-depth-1">
+                                            <div class="header d-flex">
+                                                <div class="flex-fill text-left">
+                                                    <strong class="primary-font"
+                                                        id="formUsername">{{../user.username }}</strong>
+                                                </div>
+                                            </div>
+
+                                            <hr class="w-100">
+
+
+                                            <textarea class="form-control" name="commentContent"
+                                                id="commentContent{{id}}" maxlength="300"></textarea>
+
+
+                                        </div>
+                                        <div class="row justify-content-end mx-auto">
+                                            <button class="btn btn-secondary" onclick="submitComment({{id}})"> Submit
+                                                Comment </button>
+                                        </div>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </form>
+
+                        <hr class="hr-primary">
+                        {{#if comments}}
+                        <div class="chat-message flex-fill">
+                            <ul class="list-unstyled chat" id="likedhrAfter{{id}}">
+                                {{#each comments}}
+                                <li class="row mb-4">
+
+                                    <div class="col-1 pr-2">
+
+                                        <img class="avatar img-fluid rounded-circle deep-purple accent-3 z-depth-1"
+                                            onerror='this.src = "/img/profile/default.png"'
+                                            src="/uploads/profile/{{ uid }}/profilePic.png">
+
+                                    </div>
+
+                                    <div class="col-11 pl-2">
+                                        <div class="chat-body rounded white p-3 z-depth-1">
+                                            <div class="header d-flex">
+                                                <div class="flex-fill text-left">
+                                                    <strong class="primary-font">{{ username }}</strong>
+                                                </div>
+                                                <div class="flex-fill text-right">
+                                                    <small class="pull-right text-muted">
+                                                        <i class="far fa-clock mr-1"></i>{{ date }}
+                                                    </small>
+                                                </div>
+                                            </div>
+
+                                            <hr class="w-100">
+
+                                            <p class="text-left mb-0">
+                                                {{ content }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                {{/each}}
+                            </ul>
                         </div>
+                        {{else}}
+                        <h5 class="text-center mb-3 text-muted">
+                            <i class="far fa-comment-times fa-3x"></i>
+                        </h5>
 
-                        <div class="row my-3 mx-auto">
-                            <div class="col-1 p-0">
-                                <img src="https://picsum.photos/110/"
-                                    class="white w-100 img-fluid rounded-circle lozad " alt="">
-                            </div>
-                            <div class="col-10 ">
-                                <h5 class="text-left h5-responsive"> Albert Einstein &nbsp;
-                                    <small class="text-muted"> 22
-                                        May 2019 </small>
-                                </h5>
+                        <h5 class="text-center text-muted">
+                            No Comments
+                        </h5>
 
-                                <p class="text-left"> Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing
-                                    elit, sed do eiusmod
-                                    tempor incididunt ut
-                                </p>
-                            </div>
-                        </div>
+                        {{/if}}
+
+
 
                     </div>
 
                     {{!-- Details --}}
 
-                    <div class="col-lg-3 col-sm-12 border border-secondary rounded p-4 white align-self-start">
+                    <div class="col-lg-3 col-sm-12 border p-4 white align-self-start">
                         <h4 class="text-center"> Details </h4>
                         <hr class="hr-primary w-100">
 
@@ -313,25 +336,16 @@
                                     {{else}}
                                     0
                                     {{/if}}</p>
-                                <p class="text-left"> 2</p>
+                                <p class="text-left">
+                                    {{#if comments}}
+                                    {{comments.length}}
+                                    {{else}}
+                                    0
+                                    {{/if}}
+                                </p>
                             </div>
                         </div>
-                        {{#if ../viewuser}}
-                        {{else}}
-                        {{!-- <div id="deleteButton" class="row justify-content-between">
-                            <a data-toggle="modal" data-target="#confirmDelete{{id}}">
-                                <button type="button" class="btn btn-danger justify-content-center">
-                                    <i class="fas fa-trash-alt fa-lg"></i> &nbsp; Delete
-                                </button>
-                            </a>
 
-                            <a href="/profile/editProject/{{id}}">
-                                <button type="button" class="btn btn-success justify-content-center">
-                                    <i class="fas fa-edit fa-lg"></i> &nbsp; Edit
-                                </button>
-                            </a>
-                        </div> --}}
-                        {{/if}}
                     </div>
 
                 </div>
@@ -341,6 +355,36 @@
 
 
 
+    </div>
+
+    <!-- Delete Project Modal -->
+    <div class="modal fade" id="confirmDelete{{id}}" tabindex="-1" role="dialog"
+        aria-labelledby="confirmDelete{{id}}Label" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title text-center col-12">Confirmation</h5>
+                </div>
+                <div class="modal-body">
+                    <p class="my-3 text-center">
+                        Are you sure you want to delete <br>{{title}}?
+                    </p>
+                </div>
+                <div class="modal-footer py-1">
+                    <div class="row justify-content-between mx-auto w-100">
+                        <a href="/profile/delete/{{id}}">
+                            <button type="button" class="btn btn-danger">
+                                Yes
+
+                            </button>
+                        </a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     {{/each}}
@@ -406,7 +450,82 @@
 </script>
 
 <script>
+    function submitComment(id) {
+        function formatDate(date) {
+            var monthNames = [
+                "Jan", "Feb", "Mar",
+                "Apr", "May", "Jun", "Jul",
+                "Aug", "Sep", "Oct",
+                "Nov", "Dec"
+            ];
+
+            var day = date.getDate();
+            var monthIndex = date.getMonth();
+            var year = date.getFullYear();
+            var hours = date.getHours()
+            var minutes = date.getMinutes()
+            return day + ' ' + monthNames[monthIndex] + ' ' + year + ' ' + hours + ":" + minutes;
+        }
+
+        now = formatDate(new Date())
+        $('#commentForm' + id).submit(function (e) {
+            e.preventDefault()
+            e.stopImmediatePropagation()
+            url = '/profile/commentProject/' + id
+            data = $(this).serialize()
+            $.ajax({
+                url: url,
+                data: data,
+                method: 'POST'
+            }).then(function (response) {
+
+
+
+                $('#likedhrAfter' + id).prepend(`<li class="row mb-4">
+
+                                    <div class="col-1 pr-2">
+                        
+                                        <img class="avatar img-fluid rounded-circle deep-purple accent-3 z-depth-1"
+                                            onerror='this.src = "/img/profile/default.png"'
+                                                src="${$('#profileimg').attr('src')}">
+                                     
+                                    </div>
+
+                                    <div class="col-11 pl-2">
+                                        <div class="chat-body rounded white p-3 z-depth-1">
+                                            <div class="header d-flex">
+                                                <div class="flex-fill text-left">
+                                                    <strong class="primary-font">${$('#formUsername').text()}</strong>
+                                                </div>
+                                                <div class="flex-fill text-right">
+                                                    <small class="pull-right text-muted">
+                                                        <i class="far fa-clock mr-1"></i>${new Date()}
+                                                    </small>
+                                                </div>
+                                            </div>
+
+                                            <hr class="w-100">
+
+                                            <p class="text-left mb-0">
+                                               ${$('#commentContent' + id).val()}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>`
+
+                )
+
+                $('#commentContent' + id).val('')
+            }).catch(function (err) {
+                console.error(err);
+            });
+            return false;
+        })
+
+
+    }
     function viewProject(id) {
+
         url = '/profile/viewProject/' + id
         $.ajax({
             url: url,
@@ -419,8 +538,10 @@
         }).catch(function (err) {
             console.error(err);
         });
+        return false
     }
     function likeProject(id) {
+
         url = '/profile/like/' + id
         $.ajax({
             url: url,
@@ -428,16 +549,18 @@
             method: 'GET'
         }).then(function (response) {
 
-            $('#likeButton').addClass('btn-danger')
-            $('#likeButton').removeClass('btn-outline-danger')
-            $('#likeButton').html('Liked')
-            $('#likeButton').attr('onclick', `unlikeProject(${id})`)
+            $('#likeButton' + id).addClass('btn-danger')
+            $('#likeButton' + id).removeClass('btn-outline-danger')
+            $('#likeButton' + id).html('Liked')
+            $('#likeButton' + id).attr('onclick', `unlikeProject(${id})`)
 
         }).catch(function (err) {
             console.error(err);
         });
+        return false
     }
     function unlikeProject(id) {
+
         url = '/profile/unlike/' + id
         $.ajax({
             url: url,
@@ -445,14 +568,15 @@
             method: 'GET'
         }).then(function (response) {
 
-            $('#likeButton').addClass('btn-outline-danger')
-            $('#likeButton').removeClass('btn-danger')
-            $('#likeButton').html('Like')
-            $('#likeButton').attr('onclick', `likeProject(${id})`)
+            $('#likeButton' + id).addClass('btn-outline-danger')
+            $('#likeButton' + id).removeClass('btn-danger')
+            $('#likeButton' + id).html('Like')
+            $('#likeButton' + id).attr('onclick', `likeProject(${id})`)
 
         }).catch(function (err) {
             console.error(err);
         });
+        return false
     }
 </script>
 {{/extend}}

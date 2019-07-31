@@ -111,7 +111,6 @@ app.use(function (req, res, next) {
 			where: { user: res.locals.user.id }
 		}).then(notifications => {
 			res.locals.notifNum = notifications.length
-			console.log(`This is num ${notifications.length}`)
 			next();
 
 		})

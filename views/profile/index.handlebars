@@ -1,8 +1,7 @@
 <section class="profile">
 
-    <!-- Card -->
     <div class="card testimonial-card z-depth-2">
-        <!-- Background color -->
+        <!-- =============================== Banner Image =============================== -->
         <div class="vh-40 card-up indigo lighten-1 rounded-0 jarallax">
             <img class="img-fluid jarallax-img lozad" onerror='this.src="/img/profile/banner.png"'
                 src="/uploads/profile/{{user.id}}/banner.png" alt="">
@@ -39,49 +38,52 @@
             </div>
         </div>
 
-
         <!-- =============================== Content =============================== -->
-        <div style="" class="card-body p-0">
-
+        <div class="card-body p-0">
             <div class="row justify-content-around">
+
+                <!-- =============================== User Information =============================== -->
                 <div class="col-lg-3 col-sm-12">
                     <div class="profile-margin">
-                        <!-- Card -->
                         <div class="card testimonial-card ">
+                            <a href="/profile/edit" class="m-2 ml-auto text-secondary">
+                                <i class="fas fa-edit fa-lg"></i>
+                            </a>
 
-                            <!-- Background color -->
-                            <div style="height:auto;" class="card-up indigo lighten-1 rounded-0">
-                            </div>
-                            <a href="/profile/edit" class="m-2 ml-auto text-secondary"><i
-                                    class="fas fa-edit fa-lg"></i></a>
-                            <!-- Avatar -->
+                            <!-- Profile Image -->
                             <div class="avatar mx-auto white mt-4">
-
                                 <img onerror='this.src = "/img/profile/default.png"'
                                     src="/uploads/profile/{{user.id}}/profilePic.png"
                                     class="rounded-circle lozad border" alt="">
                             </div>
-                            <!-- Content -->
+
+                            <!-- User Details -->
                             <div class="card-body">
-                                <!-- Name -->
                                 <h3 class="card-title">{{user.username}}</h3>
 
                                 <h5 class="card-title text-muted">
-                                    {{#if user.accType}}
-                                    {{user.accType}}
+                                    {{#ifCond 'user.accType == "service"'}}
+                                    Service Provider
                                     {{else}}
-                                    None
-                                    {{/if}}
+                                    Client
+                                    {{/ifCond}}
                                 </h5>
 
                                 <br>
-                                <p class="text-left"> <a href="#" class="font-weight-bold" data-toggle="modal"
-                                        data-target="#followersModal">Followers:</a> {{followers.length}} </p>
+                                <p class="text-left">
+                                    <a href="#" class="font-weight-bold" data-toggle="modal"
+                                        data-target="#followersModal">Followers:
+                                    </a>
+                                    {{followers.length}}
+                                </p>
 
-                                <p class="text-left"> <a href="#" class="font-weight-bold" data-toggle="modal"
-                                        data-target="#followingModal">Following:</a> {{following.length}}</p>
+                                <p class="text-left">
+                                    <a href="#" class="font-weight-bold" data-toggle="modal"
+                                        data-target="#followingModal">Following:
+                                    </a>
+                                    {{following.length}}
+                                </p>
                                 <hr class="hr-primary">
-
 
                                 <p class="text-left"><b>Website:</b>
                                     {{#if user.website}}
@@ -91,7 +93,6 @@
                                     {{/if}}
                                 </p>
 
-
                                 <p class="text-left"><b>Birthday:</b>
                                     {{#if user.dob}}
                                     {{formatDate user.dob "DD MMM YYYY"}}
@@ -99,7 +100,6 @@
                                     <span class="text-muted">Not Set</span>
                                     {{/if}}
                                 </p>
-
 
                                 <p class="text-left"><b>Gender:</b>
                                     {{#if user.gender}}
@@ -109,7 +109,6 @@
                                     {{/if}}
                                 </p>
 
-
                                 <p class="text-left"><b>Location:</b>
                                     {{#if user.location}}
                                     {{user.location}}
@@ -117,7 +116,6 @@
                                     <span class="text-muted">Not Set</span>
                                     {{/if}}
                                 </p>
-
 
                                 <p class="text-left"><b>Occupation:</b>
                                     {{#if user.occupation}}
@@ -136,45 +134,37 @@
                         </div>
                     </div>
 
-                    <div class="mt-3">
-                        <!-- Card -->
-                        <div class="card testimonial-card ">
-                            <!-- Content -->
-                            <div class="card-body">
-                                <!-- Name -->
-                                <h4 class="card-title text-left">Bio</h4>
+                    <div class="card testimonial-card my-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-left">Bio</h4>
+                            <p class="text-left text-muted">
+                                {{#if user.bio}}
+                                {{user.bio}}
+                                {{else}}
+                                Not set
+                                {{/if}}
+                            </p>
+                            <hr class="hr-primary">
+                            <h4 class="card-title text-left">Skills</h4>
+                            <div class="row justify-content-start pl-2">
+                                {{#each skills}}
 
+                                <button type="button"
+                                    class="btn btn-outline-secondary btn-rounded waves-effect skill-button">{{this}}</button>
 
-                                <p class="text-left text-muted">
-                                    {{#if user.bio}}
-                                    {{user.bio}}
-                                    {{else}}
-                                    Not set
-                                    {{/if}}
-                                </p>
-                                <hr class="hr-primary">
-                                <h4 class="card-title text-left">Skills</h4>
-                                <div class="row justify-content-start pl-2">
-                                    {{#each skills}}
-
-                                    <button type="button"
-                                        class="btn btn-outline-secondary btn-rounded waves-effect skill-button">{{this}}</button>
-
-                                    {{/each}}
-
-                                </div>
-
-                                <hr class="hr-primary">
-
+                                {{/each}}
 
                             </div>
+
+                            <hr class="hr-primary">
+
+
                         </div>
                     </div>
 
-                    <br>
-                    <br>
                 </div>
 
+                <!-- =============================== User Content =============================== -->
                 <div class="classic-tabs col-lg-8 col-sm-12">
 
                     <ul class="nav tabs-white rounded-0" id="myClassicTabShadow" role="tablist">
@@ -185,17 +175,22 @@
                                 aria-controls="portfolio-classic-shadow" aria-selected="true">Portfolio</a>
                         </li>
 
+                        {{#ifCond 'user.accType == "service"'}}
                         <li class="nav-item">
                             <a class="nav-link waves-light" id="services-tab-classic-shadow" data-toggle="tab"
                                 href="#services-classic-shadow" role="tab" aria-controls="services-classic-shadow"
                                 aria-selected="false"> Services </a>
                         </li>
+                        {{else}}
 
-                        <li class="nav-item">
+                        {{/ifCond}}
+
+
+                        {{!-- <li class="nav-item">
                             <a class="nav-link waves-light" id="status-tab-classic-shadow" data-toggle="tab"
                                 href="#status-classic-shadow" role="tab" aria-controls="status-classic-shadow"
                                 aria-selected="false"> Status </a>
-                        </li>
+                        </li> --}}
 
                         <li class="nav-item">
                             <a class="nav-link waves-light" id="favs-tab-classic-shadow" data-toggle="tab"
@@ -206,7 +201,7 @@
                         <li class="nav-item">
                             <a class="nav-link waves-light" id="likes-tab-classic-shadow" data-toggle="tab"
                                 href="#likes-classic-shadow" role="tab" aria-controls="likes-classic-shadow"
-                                aria-selected="false"> likes </a>
+                                aria-selected="false"> Likes </a>
                         </li>
 
                     </ul>
@@ -217,19 +212,23 @@
                             role="tabpanel" aria-labelledby="portfolio-tab-classic-shadow">
                             {{> profile/_portfolioItem}}
                         </div>
-
+                        {{#ifCond 'user.accType == "service"'}}
                         {{!-- =============================== Services =============================== --}}
                         <div class="tab-pane fade profile-content" id="services-classic-shadow" role="tabpanel"
                             aria-labelledby="services-tab-classic-shadow">
                             {{> profile/_servicesItem}}
 
                         </div>
+                        {{else}}
+
+                        {{/ifCond}}
+
                         {{!-- =============================== Status =============================== --}}
-                        <div class="tab-pane fade profile-content" id="status-classic-shadow" role="tabpanel"
+                        {{!-- <div class="tab-pane fade profile-content" id="status-classic-shadow" role="tabpanel"
                             aria-labelledby="status-tab-classic-shadow">
 
 
-                        </div>
+                        </div> --}}
                         {{!-- =============================== Favourites =============================== --}}
                         <div class="tab-pane fade profile-content" id="favs-classic-shadow" role="tabpanel"
                             aria-labelledby="favs-tab-classic-shadow">
@@ -248,18 +247,10 @@
             </div>
 
         </div>
-        {{!-- <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#followersModal">
-            Launch
-        </button> --}}
-
-
-
-
 </section>
 
 {{#extend 'modals'}}
-<!-- Followers Modal -->
+<!-- =============================== Followers Modal =============================== -->
 <div class="modal fade" id="followersModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -304,7 +295,7 @@
     </div>
 </div>
 
-<!-- Following Modal -->
+<!-- =============================== Following Modal =============================== -->
 <div class="modal fade" id="followingModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -348,13 +339,4 @@
         </div>
     </div>
 </div>
-{{/extend}}
-
-{{#extend 'scripts'}}
-{{!-- <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
-<script>
-    const observer = lozad();
-    observer.observe();
-</script> --}}
-
 {{/extend}}

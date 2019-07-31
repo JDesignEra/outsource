@@ -1,19 +1,6 @@
 <div class="accordion md-accordion" id="accordionEx4" role="tablist" aria-multiselectable="true">
     <div class="card">
 
-        <!-- Card header -->
-        {{!-- <div class="card-header" role="tab" id="headingPortfolio4">
-
-            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx4" href="#collapsePortfolio4"
-                aria-expanded="true" aria-controls="collapsePortfolio4">
-
-                <h2 class="mb-0 text-dark">
-                    Test Images<i class="fas fa-angle-down rotate-icon"></i>
-                </h2>
-            </a>
-
-        </div> --}}
-
         <!-- Card body -->
         <div id="collapsePortfolio4" class="collapse show" role="tabpanel" aria-labelledby="headingPortfolio4"
             data-parent="#accordionEx4">
@@ -45,7 +32,7 @@
 
                     {{#each projects}}
                     <div class="col-sm-5 col-lg-4 py-0 px-1">
-                        <div class="portoflio-img-sm view overlay mb-1 rounded border-depth-2 p-0" data-toggle="modal"
+                        <div class="portoflio-img-sm view overlay mb-1 rounded border p-0" data-toggle="modal"
                             data-target="#project{{id}}">
 
                             <img src="/uploads/profile/{{uid}}/projects/{{id}}.png" class="h-100 lozad mx-auto d-block"
@@ -60,7 +47,7 @@
                                         <h5 class="col-12 text-white text-left font-weight-bold">
                                             {{title}}
                                         </h5>
-                                        <h6 style="font-size:2vh;" class="col-5 white-text text-left font-weight-bold">
+                                        <h6 style="font-size:2vh;" class="col-6 white-text text-left font-weight-bold">
                                             {{#if ../viewuser.id}}
                                             {{../viewuser.username}}
                                             {{else}}
@@ -79,10 +66,10 @@
 
                                             <i class="fas fa-comment"></i>
                                             {{#if comments}}
-                                    {{comments.length}}
-                                    {{else}}
-                                    0
-                                    {{/if}}
+                                            {{comments.length}}
+                                            {{else}}
+                                            0
+                                            {{/if}}
                                         </h6>
                                     </div>
 
@@ -195,13 +182,13 @@
                             <div class="col-lg-8 col-sm-12 align-self-center pr-0">
                                 {{#checkLiked likes ../user.id}}
 
-                                <button onclick="unlikeProject({{id}})" id="likeButton"
+                                <button onclick="unlikeProject({{id}})" id="likeButton{{id}}"
                                     class="btn btn-danger btn-block btn-rounded">
                                     <i class="far fa-heart"></i> Liked
                                 </button>
 
                                 {{else}}
-                                <button onclick="likeProject({{id}})" id="likeButton"
+                                <button onclick="likeProject({{id}})" id="likeButton{{id}}"
                                     class="btn btn-outline-danger btn-block btn-rounded">
                                     <i class="far fa-heart"></i> Like
                                 </button>
@@ -399,7 +386,7 @@
                         <h5 class="text-center text-muted">
                             No Comments
                         </h5>
-       
+
                         {{/if}}
 
 
@@ -428,7 +415,7 @@
                                     {{else}}
                                     0
                                     {{/if}}</p>
-                                <p class="text-left"> 
+                                <p class="text-left">
                                     {{#if comments}}
                                     {{comments.length}}
                                     {{else}}
@@ -617,6 +604,7 @@
 
     }
     function viewProject(id) {
+
         url = '/profile/viewProject/' + id
         $.ajax({
             url: url,
@@ -629,8 +617,10 @@
         }).catch(function (err) {
             console.error(err);
         });
+        return false
     }
     function likeProject(id) {
+
         url = '/profile/like/' + id
         $.ajax({
             url: url,
@@ -638,16 +628,18 @@
             method: 'GET'
         }).then(function (response) {
 
-            $('#likeButton').addClass('btn-danger')
-            $('#likeButton').removeClass('btn-outline-danger')
-            $('#likeButton').html('Liked')
-            $('#likeButton').attr('onclick', `unlikeProject(${id})`)
+            $('#likeButton'+ id).addClass('btn-danger')
+            $('#likeButton'+ id).removeClass('btn-outline-danger')
+            $('#likeButton'+ id).html('Liked')
+            $('#likeButton'+ id).attr('onclick', `unlikeProject(${id})`)
 
         }).catch(function (err) {
             console.error(err);
         });
+        return false
     }
     function unlikeProject(id) {
+
         url = '/profile/unlike/' + id
         $.ajax({
             url: url,
@@ -655,14 +647,15 @@
             method: 'GET'
         }).then(function (response) {
 
-            $('#likeButton').addClass('btn-outline-danger')
-            $('#likeButton').removeClass('btn-danger')
-            $('#likeButton').html('Like')
-            $('#likeButton').attr('onclick', `likeProject(${id})`)
+            $('#likeButton'+ id).addClass('btn-outline-danger')
+            $('#likeButton'+ id).removeClass('btn-danger')
+            $('#likeButton'+ id).html('Like')
+            $('#likeButton'+ id).attr('onclick', `likeProject(${id})`)
 
         }).catch(function (err) {
             console.error(err);
         });
+        return false
     }
 </script>
 {{/extend}}

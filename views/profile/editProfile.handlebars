@@ -1,20 +1,8 @@
 {{#extend 'stylesheets'}}
 <link rel="stylesheet" href="/css/vendor/croppie.css" />
-{{!-- <style>
-    #page {
-        background: #FFF;
-        padding: 20px;
-        margin: 20px;
-    }
 
-    #demo-basic {
-        width: 200px;
-        height: 300px;
-    }
-</style> --}}
 {{/extend}}
 <section class="edit-profile">
-    <!-- Button trigger modal -->
     <div class="col-12 card p-2 rounded-bottom-0 mb-4">
         <h1 class="col-12 text-center"> Edit Profile </h1>
     </div>
@@ -48,12 +36,7 @@
                         src="/uploads/profile/{{user.id}}/profilePic.png" id="profilePic" class="rounded-circle lozad"
                         alt="">
                     <div id="inputImg" class="mask flex-center waves-effect waves-light rgba-black-strong">
-
                         <small class="text-white">Change Image</small>
-                        {{!-- <div class="file-upload-circle" data-autosubmit="false">
-                            <input type="file" name="coverPicture" />
-
-                        </div> --}}
                     </div>
                     <input type="file" class="d-none" name="upload_image" id="upload_image">
                     <input type="hidden" name="imgString" id="imgString">
@@ -113,6 +96,8 @@
                             placeholder="Country">
                             {{#if user.location}}
                             <option value="{{user.location}}" selected>{{user.location}}</option>
+                            {{else}}
+                            <option value="Not Set">Not Set</option>
                             {{/if}}
                             {{#each countryList}}
                             <option value="{{this.name}}">{{this.name}}</option>
@@ -246,11 +231,12 @@
                     <hr class="hr-primary">
 
                     <div class="mx-auto row justify-content-between">
-                        <a href="/profile">
+                        <a href="/profile/" onclick="e.preventDefault;">
                             <button class="btn btn-secondary">
                                 Back
                             </button>
                         </a>
+
                         <button type="submit" class="btn btn-secondary">Update Changes</button>
                     </div>
                 </div>

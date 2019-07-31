@@ -9,27 +9,42 @@
             <li class="nav-item">
                 <a class="nav-link waves-light active show" id="likes-tab-classic-shadow" data-toggle="tab"
                     href="#likes-classic-shadow" role="tab" aria-controls="likes-classic-shadow" aria-selected="false">
-                    Likes </a>
+                    Likes
+                    {{#ifCond 'like_notifications.length > 0'}}
+                    <span class="text-danger font-weight-bold">!</span>
+                    {{/ifCond}}
+                    </a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link waves-light" id="comments-tab-classic-shadow" data-toggle="tab"
                     href="#comments-classic-shadow" role="tab" aria-controls="comments-classic-shadow"
                     aria-selected="false">
-                    Comments </a>
+                    Comments 
+                    {{#ifCond 'comment_notifications.length > 0'}}
+                    <span class="text-danger font-weight-bold">!</span>
+                    {{/ifCond}}</a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link waves-light" id="portfolio-tab-classic-shadow" data-toggle="tab"
                     href="#portfolio-classic-shadow" role="tab" aria-controls="portfolio-classic-shadow"
-                    aria-selected="true">Portfolio</a>
+                    aria-selected="true">Portfolio
+                    {{#ifCond 'project_notifications.length > 0'}}
+                    <span class="text-danger font-weight-bold">!</span>
+                    {{/ifCond}}
+                    </a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link waves-light" id="service-tab-classic-shadow" data-toggle="tab"
                     href="#service-classic-shadow" role="tab" aria-controls="service-classic-shadow"
                     aria-selected="false">
-                    Service </a>
+                    Service 
+                    {{#ifCond 'service_notifications.length > 0'}}
+                    <span class="text-danger font-weight-bold">!</span>
+                    {{/ifCond}}
+                    </a>
             </li>
 
         </ul>

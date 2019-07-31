@@ -31,18 +31,15 @@ function removeEmpty(array, item, length) {
 
 module.exports = {
     index: function (req, res) {
-
         User.findOne({
             where: {
                 id: req.user.id
             }
         }).then((user) => {
-            console.log(typeof user);
-            console.log(user.followers);
+
             followers = user && user.followers !== null ? user.followers.split(',') : [];
-
             following = user && user.following !== null ? user.following.split(',') : [];
-
+            socialmedias = user && user.social_media !== null ? socialmedias = user.social_media.split(',') : []
 
             if (user.skills != null) {
                 skills = user.skills.split(',')
@@ -53,26 +50,20 @@ module.exports = {
                 skills = []
             }
 
-            if (user.social_media != null) {
-                socialmedias = user.social_media.split(',')
-                removeEmpty(socialmedias, '', socialmedias.length)
-                removeEmpty(socialmedias, ' ', socialmedias.length)
-            }
-            else {
-                socialmedias = []
-            }
-
+            //Finds all user projects
             Project.findAll({
                 where: {
                     uid: req.user.id
                 },
                 order: [['datePosted', 'DESC']]
             }).then((projects) => {
+                //Finds all user services
                 Services.findAll({
                     where: {
                         uid: req.user.id
                     }
                 }).then((services) => {
+                    //Finds all Followers
                     User.findAll({
                         where: {
                             id: {
@@ -80,6 +71,7 @@ module.exports = {
                             }
                         }
                     }).then(followers => {
+                        //Finds all Following
                         User.findAll({
                             where: {
                                 id: {
@@ -87,26 +79,29 @@ module.exports = {
                                 }
                             }
                         }).then(following => {
-
-                            Project.findAll().then(likedProject => {
-
+                            Project.findAll(
+                            ).then(likedProject => {
                                 liked = []
                                 for (i = 0; i < likedProject.length; i++) {
-                                    if (likedProject[i].likes != null) {
-                                        likes = likedProject[i].likes.split(',')
-                                    }
-                                    else {
-                                        likes = []
-                                    }
+                                    likes = likedProject[i].likes !== null ? likes = likedProject[i].likes.split(',') : []
+
                                     if (likes.includes(req.user.id.toString())) {
                                         liked.push(likedProject[i])
                                     }
                                 }
+                                liked.reverse()
                                 projectIDs = []
                                 for (i = 0; i < projects.length; i++) {
                                     projectIDs.push(projects[i].id)
                                 }
+                                likedProjectIDs = []
+                                likedProjectUIDs = []
+                                for (i = 0; i < liked.length; i++) {
+                                    likedProjectIDs.push(liked[i].id)
+                                    likedProjectUIDs.push(liked[i].uid)
+                                }
 
+                                //Comments for self Portfolio
                                 Comments.findAll({
                                     where: { pid: { [Op.in]: projectIDs } }
                                 }).then(projectComments => {
@@ -118,75 +113,95 @@ module.exports = {
                                             }
                                         }
                                         projects[a].comments.reverse()
-
                                     }
 
-                                    Servicefavs.findAll({
-                                        where: {
-                                            uid: req.user.id
-                                        }
-                                    }).then((datas) => {
-                                        let serviceIds = [];
+                                    //Comments for liked Portfolio
+                                    Comments.findAll({
+                                        where: { pid: { [Op.in]: likedProjectIDs } }
+                                    }).then(likedProjectComments => {
+                                        for (a = 0; a < liked.length; a++) {
 
-                                        for (const data of datas) {
-                                            serviceIds.push(data['sid']);
-                                        }
-                                        if (datas) {
-                                            Services.findAll({
-                                                where: {
-                                                    id: { [Op.in]: serviceIds },
-                                                    uid: req.user.id
+                                            liked[a].comments = []
+                                            for (c = 0; c < likedProjectComments.length; c++) {
+                                                if (liked[a].id == likedProjectComments[c].pid) {
+                                                    liked[a].comments.push(likedProjectComments[c])
                                                 }
-                                            }).then(favs => {
-                                                res.render('profile/', {
-                                                    projects: projects,
-                                                    user: user,
-                                                    followers: followers,
-                                                    following: following,
-                                                    services: services,
-                                                    skills: skills,
-                                                    social_medias: socialmedias,
-                                                    open: req.params.open,
-                                                    favs: favs
-                                                });
+                                            }
+                                            liked[a].comments.reverse()
+                                        }
 
+                                        //Getting username for liked Portfolio
+                                        User.findAll({
+                                            where: { id: { [Op.in]: likedProjectUIDs } }
+                                        }).then(likedProjectUser => {
+                                            for (a = 0; a < liked.length; a++) {
+                                                for (c = 0; c < likedProjectUser.length; c++) {
+                                                    if (liked[a].uid == likedProjectUser[c].id) {
+
+                                                        liked[a].username = likedProjectUser[c].username
+                                                    }
+                                                }
+                                            }
+
+                                            //Getting liked portfolio user services
+                                            Services.findAll(
+
+                                            ).then(likedProjectService => {
+                                                for (p = 0; p < liked.length; p++) {
+                                                    liked[p].services = []
+                                                    for (s = 0; s < likedProjectService.length; s++) {
+                                                        if (liked[p].uid == likedProjectService[s].uid) {
+                                                            liked[p].services.push(likedProjectService[s])
+                                                        }
+                                                    }
+                                                    liked[p].services.reverse()
+                                                }
+
+                                                //Getting user favourites ID
+                                                Servicefavs.findAll({
+                                                    where: {
+                                                        uid: req.user.id
+                                                    }
+                                                }).then((datas) => {
+                                                    let serviceIds = [];
+
+                                                    for (const data of datas) {
+                                                        serviceIds.push(data['sid']);
+                                                    }
+                                                    //Getting user favourites using the ID
+                                                    Services.findAll({
+                                                        where: {
+                                                            id: { [Op.in]: serviceIds },
+                                                        }
+                                                    }).then(favs => {
+                                                        res.render('profile/', {
+                                                            user: user,
+                                                            followers: followers,
+                                                            following: following,
+                                                            skills: skills,
+                                                            social_medias: socialmedias,
+
+                                                            projects: projects,
+                                                            open: req.params.open,
+
+                                                            services: services,
+
+                                                            favs: favs,
+
+                                                            liked
+                                                        });
+                                                    })
+                                                })
                                             })
-
-                                        }
-
-                                        else {
-                                            res.render('profile/', {
-                                                projects: projects,
-                                                user: user,
-                                                followers: followers,
-                                                following: following,
-                                                services: services,
-                                                skills: skills,
-                                                social_medias: socialmedias,
-                                                open: req.params.open,
-                                                liked
-                                            });
-
-                                        }
-
-
+                                        })
                                     })
                                 })
                             })
-
-
-
-
                         })
                     })
-
-
                 })
-
             })
         })
-
-
     },
 
     viewProfile: function (req, res) {
@@ -291,10 +306,16 @@ module.exports = {
                                             else {
                                                 likes = []
                                             }
-                                            if (likes.includes(req.user.id.toString())) {
+
+
+                                            if (likes.includes(req.params.id.toString())) {
                                                 liked.push(likedProject[i])
                                             }
+
                                         }
+
+
+
                                         projectIDs = []
                                         for (i = 0; i < projects.length; i++) {
                                             projectIDs.push(projects[i].id)
@@ -342,7 +363,8 @@ module.exports = {
                                                             services: services,
                                                             skills: skills,
                                                             favs: favs,
-                                                            open: req.params.open
+                                                            open: req.params.open,
+                                                            liked
 
                                                         });
                                                     })
@@ -357,7 +379,8 @@ module.exports = {
                                                         services: services,
                                                         skills: skills,
                                                         social_medias: socialmedias,
-                                                        open: req.params.open
+                                                        open: req.params.open,
+                                                        liked
 
                                                     });
                                                 }
@@ -460,8 +483,6 @@ module.exports = {
                 social_media: socialmedias
             }
         }
-
-        // res.send(updates)
         User.update(
             updates
             ,
