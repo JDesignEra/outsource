@@ -267,9 +267,9 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body vh-30 overflow-auto">
                 {{#ifCond 'followers.length == 0'}}
-                <p class="text-center">{{viewuser.username}}have no followers ;-;</p>
+                <p class="text-center">{{viewuser.username}} have no followers ;-;</p>
                 {{else}}
                 {{#each followers}}
                 <a href="/profile/view/{{id}}">
@@ -290,7 +290,7 @@
 
                     </div>
                 </a>
-                <hr class="hr-primary">
+                <hr class="hr-primary p-0 mt-0">
                 {{/each}}
                 {{/ifCond}}
             </div>
@@ -312,7 +312,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body vh-30 overflow-auto">
                 {{#ifCond 'following.length == 0'}}
                 <p class="text-center"> Wow very empty. Much following.<br>{{viewuser.username}} Didn't following anyone
                 </p>
@@ -336,7 +336,7 @@
 
                     </div>
                 </a>
-                <hr class="hr-primary">
+                <hr class="hr-primary p-0 mt-0">
                 {{/each}}
                 {{/ifCond}}
             </div>

@@ -6,45 +6,57 @@
         {{!-- border-bottom border-top border-primary  --}}
         " id="myClassicTabShadow" role="tablist">
 
-            <li class="nav-item">
+            {{!-- =============================== Self =============================== --}}
+            <li class="nav-item ml-0">
                 <a class="nav-link waves-light active show" id="likes-tab-classic-shadow" data-toggle="tab"
                     href="#likes-classic-shadow" role="tab" aria-controls="likes-classic-shadow" aria-selected="false">
                     Likes
                     {{#ifCond 'like_notifications.length > 0'}}
                     <span class="text-danger font-weight-bold">!</span>
                     {{/ifCond}}
-                    </a>
+                </a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link waves-light" id="comments-tab-classic-shadow" data-toggle="tab"
                     href="#comments-classic-shadow" role="tab" aria-controls="comments-classic-shadow"
                     aria-selected="false">
-                    Comments 
+                    Comments
                     {{#ifCond 'comment_notifications.length > 0'}}
                     <span class="text-danger font-weight-bold">!</span>
                     {{/ifCond}}</a>
             </li>
 
             <li class="nav-item">
+                <a class="nav-link waves-light" id="followers-tab-classic-shadow" data-toggle="tab"
+                    href="#followers-classic-shadow" role="tab" aria-controls="followers-classic-shadow"
+                    aria-selected="false">
+                    Followers
+                    {{#ifCond 'followers_notifications.length > 0'}}
+                    <span class="text-danger font-weight-bold">!</span>
+                    {{/ifCond}}</a>
+            </li>
+
+            {{!-- =============================== Following =============================== --}}
+            <li class="nav-item ml-auto">
                 <a class="nav-link waves-light" id="portfolio-tab-classic-shadow" data-toggle="tab"
                     href="#portfolio-classic-shadow" role="tab" aria-controls="portfolio-classic-shadow"
                     aria-selected="true">Portfolio
                     {{#ifCond 'project_notifications.length > 0'}}
                     <span class="text-danger font-weight-bold">!</span>
                     {{/ifCond}}
-                    </a>
+                </a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link waves-light" id="service-tab-classic-shadow" data-toggle="tab"
                     href="#service-classic-shadow" role="tab" aria-controls="service-classic-shadow"
                     aria-selected="false">
-                    Service 
+                    Service
                     {{#ifCond 'service_notifications.length > 0'}}
                     <span class="text-danger font-weight-bold">!</span>
                     {{/ifCond}}
-                    </a>
+                </a>
             </li>
 
         </ul>
@@ -105,6 +117,42 @@
                                     <a href="/profile/view/{{uid}}">{{username}}</a> commented on
                                     <a href="/profile/openProject/{{pid}}/">{{title}}</a>
 
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
+                            <h6 class="text-muted text-right">
+                                {{formatDate date 'DD MMM YYYY'}}
+                            </h6>
+
+                        </div>
+                        <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    <h4 class="col-12 text-center text-muted my-5"> You have no notifications</h4>
+                    {{/if}}
+                </div>
+            </div>
+
+            {{!-- =============================== Followers =============================== --}}
+            <div class="tab-pane fade profile-content" id="followers-classic-shadow" role="tabpanel"
+                aria-labelledby="followers-tab-classic-shadow">
+                <div class="row justify-content-center mx-auto p-2 col-12">
+                    {{#if followers_notifications}}
+                    {{#each followers_notifications}}
+                    <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
+                        <div class="col-8 row mx-auto my-3">
+                            <img class="lozad border rounded-circle" style="width:50px; height:50px;"
+                                onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{uid}}/profilePic.png" alt="">
+
+                            <div class="pl-2 align-self-center pt-1">
+                                <h5 class="">
+                                    <a href="/profile/view/{{uid}}">{{username}}</a> followed you.
                                 </h5>
                             </div>
                         </div>

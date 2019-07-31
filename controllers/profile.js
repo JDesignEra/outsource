@@ -17,8 +17,6 @@ fonts = [
     "Arial", "Calibri", "Impact", "Courier", "Helvetica", "Times New Roman", "Verdana",
 ]
 fonts.sort()
-
-
 function removeEmpty(array, item, length) {
     index = array.indexOf(item);
     for (i = 0; i < length; i++) {
@@ -372,7 +370,7 @@ module.exports = {
                                                                     services: services,
 
                                                                     favs: favs,
-                                                                    
+
                                                                     liked
 
 
@@ -506,22 +504,11 @@ module.exports = {
                 id: req.params.id
             }
         }).then(followUser => {
-            followers = []
-            if (followUser.followers != null) {
-                followers = followUser.followers.split(',')
-                removeEmpty(followers, '', followers.length)
-                removeEmpty(followers, ' ', followers.length)
-            }
+            followers = followUser.followers != null ? followUser.followers.split(',') : []
             followers.push(req.user.id)
 
-            following = []
-            if (followUser.following != null) {
-                following = followUser.following.split(',')
-                removeEmpty(following, '', following.length)
-                removeEmpty(following, ' ', following.length)
-            }
+            following = followUser.following != null ? followUser.following.split(',') : []
             following.push(followUser.id)
-
 
             User.update({
                 followers: followers.toString()
@@ -539,6 +526,29 @@ module.exports = {
                                 id: req.user.id
                             }
                         }).then(selfUser => {
+                            Notification.findOne({
+                                where: {
+                                    uid: req.user.id,
+                                    user: followUser.id,
+                                    category: "Follow"
+                                }
+                            }).then(existNotif => {
+                                if (existNotif != null) {
+                                    res.redirect('back')
+                                }
+                                else {
+                                    Notification.create({
+                                        uid: req.user.id,
+                                        username: req.user.username,
+                                        pid: -1,
+                                        title: "None",
+                                        date: new Date(),
+                                        category: "Follow",
+                                        user: followUser.id
+                                    })
+                                    res.redirect('back')
+                                }
+                            })
                             res.redirect('back')
                         })
 
@@ -546,6 +556,7 @@ module.exports = {
 
         })
     },
+
     unfollow: function (req, res) {
         selfUserFollowing = req.user.following.split(',')
         if (selfUserFollowing.length > 0) {
@@ -624,11 +635,20 @@ module.exports = {
                         order: [['date', 'DESC']]
                     }).then(comment_notifications => {
 
-                        res.render('profile/viewNotifications', {
-                            project_notifications,
-                            like_notifications,
-                            service_notifications,
-                            comment_notifications
+                        Notification.findAll({
+                            where: {
+                                user: req.user.id,
+                                category: "Follow"
+                            },
+                            order: [['date', 'DESC']]
+                        }).then(followers_notifications => {
+                            res.render('profile/viewNotifications', {
+                                project_notifications,
+                                like_notifications,
+                                service_notifications,
+                                comment_notifications,
+                                followers_notifications
+                            })
                         })
                     })
                 })
