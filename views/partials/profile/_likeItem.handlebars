@@ -251,7 +251,8 @@
 
                                         </div>
                                         <div class="row justify-content-end mx-auto">
-                                            <button class="btn btn-secondary" onclick="submitComment({{id}})"> Submit
+                                            <button class="btn btn-secondary" onclick="likedsubmitComment({{id}})">
+                                                Submit
                                                 Comment </button>
                                         </div>
                                     </div>
@@ -279,7 +280,9 @@
                                         <div class="chat-body rounded white p-3 z-depth-1">
                                             <div class="header d-flex">
                                                 <div class="flex-fill text-left">
-                                                    <strong class="primary-font">{{ username }}</strong>
+                                                    <a href="/profile/view/{{uid}}">
+                                                        <strong class="primary-font">{{ username }}</strong>
+                                                    </a>
                                                 </div>
                                                 <div class="flex-fill text-right">
                                                     <small class="pull-right text-muted">
@@ -386,12 +389,13 @@
             </div>
         </div>
     </div>
-
     {{/each}}
+<p style="display: none;" id="Userid">{{user.id}}</p>
+
 </section>
 
 {{#if open}}
-<p id="openEvent">{{open}}</p>
+<p id="openEvent" style="display: none;">{{open}}</p>
 {{#extend 'scripts'}}
 <script>
     $(function () {
@@ -450,7 +454,7 @@
 </script>
 
 <script>
-    function submitComment(id) {
+    function likedsubmitComment(id) {
         function formatDate(date) {
             var monthNames = [
                 "Jan", "Feb", "Mar",
@@ -495,7 +499,9 @@
                                         <div class="chat-body rounded white p-3 z-depth-1">
                                             <div class="header d-flex">
                                                 <div class="flex-fill text-left">
-                                                    <strong class="primary-font">${$('#formUsername').text()}</strong>
+                                                    <a href="/profile/view/${$('#Userid').html()}">
+                                                        <strong class="primary-font">${$('#formUsername').text()}</strong>
+                                                    </a>
                                                 </div>
                                                 <div class="flex-fill text-right">
                                                     <small class="pull-right text-muted">

@@ -1,4 +1,5 @@
 counter = 0
+$('#removeButton').attr("disabled", true);
 for (i = 1; i < 6; i++) {
     skillInput = document.getElementById("skill" + i)
     if (skillInput.value != "") {
@@ -28,6 +29,7 @@ $("#removeButton").click(function () {
 
 });
 
+
 function disableOrEnable() {
     if (counter == 1) {
         $('#removeButton').attr("disabled", true);
@@ -47,7 +49,7 @@ function disableOrEnable() {
     }
 }
 
-//=================================
+//================================= Croppie =================================
 $(document).ready(function () {
     $('#inputImg').click(function () {
         $("#upload_image").trigger('click');

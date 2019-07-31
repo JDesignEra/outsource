@@ -343,22 +343,18 @@
                                 <li class="row mb-4">
 
                                     <div class="col-1 pr-2">
-                                        {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png') }}
                                         <img class="avatar img-fluid rounded-circle deep-purple accent-3 z-depth-1"
+                                            onerror='this.src = "/img/profile/default.png"'
                                             src="/uploads/profile/{{ uid }}/profilePic.png">
-                                        {{else}}
-                                        <div
-                                            class="deep-purple accent-3 white-text text-center rounded-circle z-depth-1 py-4">
-                                            <i class="far fa-user fa-lg"></i>
-                                        </div>
-                                        {{/ifFile}}
                                     </div>
 
                                     <div class="col-11 pl-2">
                                         <div class="chat-body rounded white p-3 z-depth-1">
                                             <div class="header d-flex">
                                                 <div class="flex-fill text-left">
-                                                    <strong class="primary-font">{{ username }}</strong>
+                                                    <a href="/profile/view/{{uid}}">
+                                                        <strong class="primary-font">{{ username }}</strong>
+                                                    </a>
                                                 </div>
                                                 <div class="flex-fill text-right">
                                                     <small class="pull-right text-muted">
@@ -382,7 +378,7 @@
                         <h5 class="text-center mb-3 text-muted">
                             <i class="far fa-comment-times fa-3x"></i>
                         </h5>
-
+                        <ul class="list-unstyled chat" id="hrAfter{{id}}"></ul>
                         <h5 class="text-center text-muted">
                             No Comments
                         </h5>
@@ -468,6 +464,7 @@
 
     {{/each}}
 </section>
+<p style="display: none;" id="Userid">{{user.id}}</p>
 
 {{#if open}}
 <p id="openEvent">{{open}}</p>
@@ -530,23 +527,7 @@
 
 <script>
     function submitComment(id) {
-        function formatDate(date) {
-            var monthNames = [
-                "Jan", "Feb", "Mar",
-                "Apr", "May", "Jun", "Jul",
-                "Aug", "Sep", "Oct",
-                "Nov", "Dec"
-            ];
-
-            var day = date.getDate();
-            var monthIndex = date.getMonth();
-            var year = date.getFullYear();
-            var hours = date.getHours()
-            var minutes = date.getMinutes()
-            return day + ' ' + monthNames[monthIndex] + ' ' + year + ' ' + hours + ":" + minutes;
-        }
-
-        now = formatDate(new Date())
+        console.log(id)
         $('#commentForm' + id).submit(function (e) {
             e.preventDefault()
             e.stopImmediatePropagation()
@@ -558,8 +539,7 @@
                 method: 'POST'
             }).then(function (response) {
 
-
-
+               
                 $('#hrAfter' + id).prepend(`<li class="row mb-4">
 
                                     <div class="col-1 pr-2">
@@ -574,7 +554,9 @@
                                         <div class="chat-body rounded white p-3 z-depth-1">
                                             <div class="header d-flex">
                                                 <div class="flex-fill text-left">
+                                                    <a href="/profile/view/${$('#Userid').html()}">
                                                     <strong class="primary-font">${$('#formUsername').text()}</strong>
+                                                    </a>
                                                 </div>
                                                 <div class="flex-fill text-right">
                                                     <small class="pull-right text-muted">
@@ -628,10 +610,10 @@
             method: 'GET'
         }).then(function (response) {
 
-            $('#likeButton'+ id).addClass('btn-danger')
-            $('#likeButton'+ id).removeClass('btn-outline-danger')
-            $('#likeButton'+ id).html('Liked')
-            $('#likeButton'+ id).attr('onclick', `unlikeProject(${id})`)
+            $('#likeButton' + id).addClass('btn-danger')
+            $('#likeButton' + id).removeClass('btn-outline-danger')
+            $('#likeButton' + id).html('Liked')
+            $('#likeButton' + id).attr('onclick', `unlikeProject(${id})`)
 
         }).catch(function (err) {
             console.error(err);
@@ -647,10 +629,10 @@
             method: 'GET'
         }).then(function (response) {
 
-            $('#likeButton'+ id).addClass('btn-outline-danger')
-            $('#likeButton'+ id).removeClass('btn-danger')
-            $('#likeButton'+ id).html('Like')
-            $('#likeButton'+ id).attr('onclick', `likeProject(${id})`)
+            $('#likeButton' + id).addClass('btn-outline-danger')
+            $('#likeButton' + id).removeClass('btn-danger')
+            $('#likeButton' + id).html('Like')
+            $('#likeButton' + id).attr('onclick', `likeProject(${id})`)
 
         }).catch(function (err) {
             console.error(err);
