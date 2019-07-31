@@ -17,6 +17,8 @@ const auth = require('./config/passport');
 const outsourceDb = require('./config/dbConnection');
 outsourceDb.setUpDB(false);
 
+const notifications = require('./models/notifications');
+
 const hbs = require('./helpers/hbs');
 
 //PayPal
@@ -74,8 +76,6 @@ app.set('view engine', 'handlebars');
 // Connect Flash
 app.use(flash());
 
-
-Notification = require('./models/notifications')
 // Render Engine Global Variable
 app.use(function (req, res, next) {
 	res.locals.user = req.user || null;
@@ -104,35 +104,23 @@ app.use(function (req, res, next) {
 
 	res.locals.toast = Object.keys(toast).length > 0 ? toast : null;
 
-	
+	// Notifications
 	if (res.locals.user != null) {
-
-		Notification.findAll({
+		notifications.findAll({
 			where: { user: res.locals.user.id }
 		}).then(notifications => {
 			res.locals.notifNum = notifications.length
 			next();
-
-		})
-
+		});
 	}
 	else{
 		next();
 	}
-
-
-
-
-
-
 });
-
-
-
 
 // Body Parser
 app.use(bodyParser.urlencoded({
-	limit: '5gb',
+	limit: '100mb',
 	extended: true,
 	parameterLimit: 50000
 }));
@@ -141,6 +129,7 @@ app.use(bodyParser.urlencoded({
 mime.init();
 
 // Static Folder
+app.use(express.static(path.join(__dirname, 'public/uploads'), { maxAge: 0 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
