@@ -158,12 +158,22 @@ module.exports = {
         Jobs.update({
             status: "done"
         }), {
-                where: {
-                    id: req.params.id
-                }
-            }.then(()=>{
+            where: {
+                id: req.params.id
+            }
+        }.then(() => {
+            Notification.create({
+                uid: req.user.id,
+                username: req.user.username,
+                pid: job.sid,
+                title: job.name,
+                date: new Date(),
+                category: "Complete_requests",
+                user: job.cid
+            }).then(() => {
                 req.flash('success', 'Job completed!');
                 res.redirect('back');
             })
+        })
     }
 }

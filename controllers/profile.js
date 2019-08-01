@@ -671,16 +671,25 @@ module.exports = {
                                             },
                                             order: [['date', 'DESC']]
                                         }).then(requests_cancelled_notifications => {
-                                            res.render('profile/viewNotifications', {
-                                                project_notifications,
-                                                like_notifications,
-                                                service_notifications,
-                                                comment_notifications,
-                                                followers_notifications,
-                                                jobs_notifications,
-                                                requests_notifications,
-                                                jobs_reject_notifications,
-                                                requests_cancelled_notifications
+                                            Notification.findAll({
+                                                where: {
+                                                    user: req.user.id,
+                                                    category: "Complete_requests"
+                                                },
+                                                order: [['date', 'DESC']]
+                                            }).then(complete_requests_notifications=>{
+                                                res.render('profile/viewNotifications',{
+                                                    project_notifications,
+                                                    like_notifications,
+                                                    service_notifications,
+                                                    comment_notifications,
+                                                    followers_notifications,
+                                                    jobs_notifications,
+                                                    requests_notifications,
+                                                    jobs_reject_notifications,
+                                                    requests_cancelled_notifications,
+                                                    complete_requests_notifications
+                                                })
                                             })
                                         })
                                     })
