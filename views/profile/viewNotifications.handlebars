@@ -36,6 +36,26 @@
                     <span class="text-danger font-weight-bold">!</span>
                     {{/ifCond}}</a>
             </li>
+            {{#ifCond 'user.accType == "service"'}}
+            <li class="nav-item">
+                <a class="nav-link waves-light" id="jobs-tab-classic-shadow" data-toggle="tab"
+                    href="#jobs-classic-shadow" role="tab" aria-controls="jobs-classic-shadow" aria-selected="false">
+                    Jobs
+                    {{#ifCond 'jobs_notifications.length > 0'}}
+                    <span class="text-danger font-weight-bold">!</span>
+                    {{/ifCond}}</a>
+            </li>
+            {{else}}
+            <li class="nav-item">
+                <a class="nav-link waves-light" id="requests-tab-classic-shadow" data-toggle="tab"
+                    href="#requests-classic-shadow" role="tab" aria-controls="requests-classic-shadow"
+                    aria-selected="false">
+                    Requests
+                    {{#ifCond 'requests_notifications.length > 0'}}
+                    <span class="text-danger font-weight-bold">!</span>
+                    {{/ifCond}}</a>
+            </li>
+            {{/ifCond}}
 
             {{!-- =============================== Following =============================== --}}
             <li class="nav-item ml-auto">
@@ -67,8 +87,11 @@
                 aria-labelledby="likes-tab-classic-shadow">
                 <div class="row justify-content-center mx-auto p-2 col-12">
                     {{#if like_notifications}}
-                    <a class="ml-auto" href="/profile/deleteAllNotifications/Likes"><button class="btn btn-secondary">
-                            Clear All </button></a>
+                    <div class="col-12 row justify-content-end mx-auto">
+                        <a class="ml-auto" href="/profile/deleteAllNotifications/Likes"><button
+                                class="btn btn-secondary">
+                                Clear All </button></a>
+                    </div>
                     {{#each like_notifications}}
                     <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
                         <div class="col-8 row mx-auto my-3">
@@ -107,8 +130,11 @@
                 aria-labelledby="comments-tab-classic-shadow">
                 <div class="row justify-content-center mx-auto p-2 col-12">
                     {{#if comment_notifications}}
-                    <a class="ml-auto" href="/profile/deleteAllNotifications/Comments"><button
-                            class="btn btn-secondary"> Clear All </button></a>
+                    <div class="col-12 row justify-content-end mx-auto">
+
+                        <a class="ml-auto" href="/profile/deleteAllNotifications/Comments"><button
+                                class="btn btn-secondary"> Clear All </button></a>
+                    </div>
                     {{#each comment_notifications}}
                     <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
                         <div class="col-8 row mx-auto my-3">
@@ -147,9 +173,12 @@
                 aria-labelledby="followers-tab-classic-shadow">
                 <div class="row justify-content-center mx-auto p-2 col-12">
                     {{#if followers_notifications}}
-                    <a class="ml-auto" href="/profile/deleteAllNotifications/Follow"><button
-                            class="btn btn-secondary">
-                        Clear All </button></a>
+                    <div class="col-12 row justify-content-end mx-auto">
+
+                        <a class="ml-auto" href="/profile/deleteAllNotifications/Follow"><button
+                                class="btn btn-secondary">
+                                Clear All </button></a>
+                    </div>
                     {{#each followers_notifications}}
                     <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
                         <div class="col-8 row mx-auto my-3">
@@ -181,14 +210,176 @@
                 </div>
             </div>
 
+            {{#ifCond 'user.accType == "service"'}}
+            {{!-- =============================== Jobs =============================== --}}
+            <div class="tab-pane fade profile-content" id="jobs-classic-shadow" role="tabpanel"
+                aria-labelledby="jobs-tab-classic-shadow">
+                <div class="row justify-content-center mx-auto p-2 col-12">
+                    {{#if jobs_reject_notifications}}
+                    <div class="col-12 row justify-content-end mx-auto">
+                        <a class="ml-auto" href="/profile/deleteAllNotifications/Jobs_Reject+"><button
+                                class="btn btn-secondary">
+                                Clear All </button></a>
+                    </div>
+                    {{#each jobs_reject_notifications}}
+                    <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
+                        <div class="col-8 row mx-auto my-3">
+                            <img class="lozad border rounded-circle" style="width:50px; height:50px;"
+                                onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{uid}}/profilePic.png" alt="">
+
+                            <div class="pl-2 align-self-center pt-1">
+                                <h5 class="">
+                                    <a href="/profile/view/{{uid}}">{{username}}</a> cancelled your service of <a
+                                        href="/services/view/{{uid}}/{{pid}}">{{title}}</a>.
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
+                            <h6 class="text-muted text-right">
+                                {{formatDate date 'DD MMM YYYY'}}
+                            </h6>
+
+                        </div>
+                        <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {{/each}}
+                    {{/if}}
+
+                    {{#if jobs_notifications}}
+                    <div class="col-12 row justify-content-end mx-auto">
+                        <a class="ml-auto" href="/profile/deleteAllNotifications/Jobs"><button
+                                class="btn btn-secondary">
+                                Clear All </button></a>
+                    </div>
+                    {{#each jobs_notifications}}
+                    <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
+                        <div class="col-8 row mx-auto my-3">
+                            <img class="lozad border rounded-circle" style="width:50px; height:50px;"
+                                onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{uid}}/profilePic.png" alt="">
+
+                            <div class="pl-2 align-self-center pt-1">
+                                <h5 class="">
+                                    <a href="/profile/view/{{uid}}">{{username}}</a> requested your service of <a
+                                        href="/services/view/{{uid}}/{{pid}}">{{title}}</a>.
+                                    <br><a class="small" href="/job">Please check Job Dashboard</a>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
+                            <h6 class="text-muted text-right">
+                                {{formatDate date 'DD MMM YYYY'}}
+                            </h6>
+
+                        </div>
+                        <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {{/each}}
+                    {{/if}}
+
+                    {{#ifCond 'jobs_reject_notifications.length == 0 && jobs_notifications.length == 0' }}
+                    <h4 class="col-12 text-center text-muted my-5"> You have no notifications</h4>
+                    {{/ifCond}}
+                </div>
+            </div>
+            {{else}}
+            {{!-- =============================== Requests =============================== --}}
+            <div class="tab-pane fade profile-content" id="requests-classic-shadow" role="tabpanel"
+                aria-labelledby="requests-tab-classic-shadow">
+                <div class="row justify-content-center mx-auto p-2 col-12">
+                    {{#if requests_cancelled_notifications}}
+                    <div class="col-12 row justify-content-end mx-auto">
+                        <a class="ml-auto" href="/profile/deleteAllNotifications/Requests_Cancel"><button
+                                class="btn btn-secondary">
+                                Clear All </button></a>
+                    </div>
+                    {{#each requests_cancelled_notifications}}
+                    <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
+                        <div class="col-8 row mx-auto my-3">
+                            <img class="lozad border rounded-circle" style="width:50px; height:50px;"
+                                onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{uid}}/profilePic.png" alt="">
+
+                            <div class="pl-2 align-self-center pt-1">
+                                <h5 class="">
+                                    <a href="/profile/view/{{uid}}">{{username}}</a> cancelled your request of <a
+                                        href="/services/view/{{uid}}/{{pid}}">{{title}}</a>.
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
+                            <h6 class="text-muted text-right">
+                                {{formatDate date 'DD MMM YYYY'}}
+                            </h6>
+
+                        </div>
+                        <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {{/each}}
+                    {{/if}}
+
+                    {{#if requests_notifications}}
+                    <div class="col-12 row justify-content-end mx-auto">
+                        <a class="ml-auto" href="/profile/deleteAllNotifications/Requests"><button
+                                class="btn btn-secondary">
+                                Clear All </button></a>
+                    </div>
+                    {{#each requests_notifications}}
+                    <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
+                        <div class="col-8 row mx-auto my-3">
+                            <img class="lozad border rounded-circle" style="width:50px; height:50px;"
+                                onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{uid}}/profilePic.png" alt="">
+
+                            <div class="pl-2 align-self-center pt-1">
+                                <h5 class="">
+                                    <a href="/profile/view/{{uid}}">{{username}}</a> accepted your request of <a
+                                        href="/services/view/{{uid}}/{{pid}}">{{title}}</a>.
+                                    <br><a class="small" href="/job">Please pay at Requests Dashboard to get started</a>
+
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
+                            <h6 class="text-muted text-right">
+                                {{formatDate date 'DD MMM YYYY'}}
+                            </h6>
+
+                        </div>
+                        <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    {{/if}}
+
+                    {{#ifCond 'requests_cancelled_notifications.length == 0 && requests_notifications.length == 0' }}
+                    <h4 class="col-12 text-center text-muted my-5"> You have no notifications</h4>
+                    {{/ifCond}}
+                </div>
+            </div>
+            {{/ifCond}}
+
+
+
             {{!-- =============================== Portfolio =============================== --}}
             <div class="tab-pane fade profile-content" id="portfolio-classic-shadow" role="tabpanel"
                 aria-labelledby="portfolio-tab-classic-shadow">
                 <div class="row justify-content-center mx-auto p-2 col-12">
                     {{#if project_notifications}}
-                    <a class="ml-auto" href="/profile/deleteAllNotifications/Projects"><button
-                            class="btn btn-secondary">
-                            Clear All </button></a>
+                    <div class="col-12 row justify-content-end mx-auto">
+                        <a class="ml-auto" href="/profile/deleteAllNotifications/Projects"><button
+                                class="btn btn-secondary">
+                                Clear All </button></a>
+                    </div>
                     {{#each project_notifications}}
                     <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
                         <div class="col-8 row mx-auto my-3">
@@ -227,9 +418,12 @@
                 aria-labelledby="service-tab-classic-shadow">
                 <div class="row justify-content-center mx-auto p-2 col-12">
                     {{#if service_notifications}}
-                    <a class="ml-auto" href="/profile/deleteAllNotifications/Services"><button
-                            class="btn btn-secondary">
-                            Clear All </button></a>
+                    <div class="col-12 row justify-content-end mx-auto">
+
+                        <a class="ml-auto" href="/profile/deleteAllNotifications/Services"><button
+                                class="btn btn-secondary">
+                                Clear All </button></a>
+                    </div>
                     {{#each service_notifications}}
                     <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
                         <div class="col-8 row mx-auto my-3">

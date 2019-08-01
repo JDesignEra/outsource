@@ -468,7 +468,6 @@ module.exports = {
                             console.log(err);
                         } else {
                             // payments details for this payKey, transactionId or trackingId
-                            // res.send(response);
                             Transactions.create({
                                 serviceProvider: freelancer.username,
                                 freelancerPaypal: freelancer.paypal,
@@ -500,78 +499,6 @@ module.exports = {
 
             })
         })
-
-
-
-
-
-        // Users.findOne({
-        //     where: {
-        //         id: req.user.id
-        //     }
-        // }).then((client) => {
-        //     Services.findOne({
-        //         where: {
-        //             id: req.params.id
-        //         }
-        //     }).then((service) => {
-        //         Users.findOne({
-        //             where: {
-        //                 id: service.uid
-        //             }
-        //         }).then((freelancer) => {
-        //             payerId = req.query.PayerID;
-        //             paymentId = req.query.paymentId;
-
-        //             var execute_payment_json = {
-        //                 "payer_id": payerId,
-        //                 "transactions": [{
-        //                     "amount": {
-        //                         "currency": "USD",
-        //                         "total": String(service.price)
-        //                     }
-        //                 }]
-        //             }
-
-        //             paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
-        //                 if (error) {
-        //                     console.log(error.response);
-        //                     throw error;
-        //                 } else {
-        //                     console.log("Get Payment Response");
-        //                     console.log(JSON.stringify(payment));
-
-        //                     Transactions.create({
-        //                         serviceProvider: freelancer.username,
-        //                         freelancerPaypal: freelancer.paypal,
-        //                         paypalMerchantID: payment.transactions[0].payee.merchant_id,
-
-        //                         paidWith: capitalize(payment.payer.payment_method),
-
-        //                         paypalTransactionID: payment.id,
-        //                         serviceName: payment.transactions[0].item_list.items[0].name,
-        //                         description: payment.transactions[0].description,
-        //                         price: payment.transactions[0].item_list.items[0].price,
-        //                         currency: payment.transactions[0].item_list.items[0].currency,
-        //                         date: payment.create_time,
-
-        //                         uid: client.id,
-
-        //                     }).then((transaction) => {
-        //                         // res.send("success")
-        //                         res.render("services/paymentDetails", {
-        //                             payment: payment,
-        //                             client: client,
-        //                             freelancer: freelancer
-        //                         })
-        //                     })
-
-        //                 }
-        //             })
-        //         })
-
-        //     })
-        // })
 
     },
 

@@ -1,5 +1,6 @@
 const Jobs = require('../models/jobs');
 const Services = require('../models/services');
+Notification = require('../models/notifications')
 
 let today = new Date();
 let dd = today.getDate();
@@ -26,6 +27,7 @@ module.exports = {
             })
         })
     },
+
     add: function (req, res) {
         Services.findOne({
             where: {
@@ -57,6 +59,15 @@ module.exports = {
                         salary: services.price,
                         status: "unaccepted"
                     }).then(job => {
+                        Notification.create({
+                            uid: req.user.id,
+                            username: req.user.username,
+                            pid: services.id,
+                            title: services.name,
+                            date: new Date(),
+                            category: "Jobs",
+                            user: services.uid
+                        })
                         req.flash('success', 'Job request sent successfully!');
                         res.redirect('back');
                     })
@@ -68,6 +79,7 @@ module.exports = {
             })
         })
     },
+
     delete: function (req, res) {
         Jobs.findOne({
             where: {
@@ -89,9 +101,27 @@ module.exports = {
                     }
                 }).then(() => {
                     if (job.cid !== req.user.id){
-                        req.flash('success', 'Job rejected');
+                        Notification.create({
+                            uid: req.user.id,
+                            username: req.user.username,
+                            pid: job.sid,
+                            title: job.name,
+                            date: new Date(),
+                            category: "Requests_Cancel",
+                            user: job.cid
+                        })
+                        req.flash('success', 'Job Reject');
                     }
                     else{
+                        Notification.create({
+                            uid: req.user.id,
+                            username: req.user.username,
+                            pid: job.sid,
+                            title: job.name,
+                            date: new Date(),
+                            category: "Jobs_Reject",
+                            user: job.uid
+                        })
                         req.flash('success', 'Request cancelled');
                     }
                     res.redirect('back');
@@ -108,8 +138,22 @@ module.exports = {
                 id: req.params.id
             }
         }).then((job)=>{
-            req.flash('success', 'Request accepted');
-            res.redirect('back');
+            Jobs.findOne({
+                where: {id: req.params.id}
+            }).then(job => {
+                Notification.create({
+                    uid: req.user.id,
+                    username: req.user.username,
+                    pid: job.sid,
+                    title: job.name,
+                    date: new Date(),
+                    category: "Requests",
+                    user: job.cid
+                })
+                req.flash('success', 'Request accepted');
+                res.redirect('/job');
+            })
+
         })
     }
 }
