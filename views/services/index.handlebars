@@ -1,6 +1,6 @@
 <section class="viewservice container mx-auto">
-    <div class="row justify-content-between">
-        <div class="col-4">
+    <div class="col-10 mx-auto row justify-content-around">
+        <div class="col-lg-6">
             <div class="service-overview">
                 <div class="card">
                     <div class="view overlay">
@@ -17,6 +17,21 @@
                             {{services.desc}}
                         </p>
                         <p class="card-text">Last updated: {{services.date}}</p>
+                        <div class="remarks">
+                            <form method="post" action="/job/add/{{services.id}}">
+                                <div class="form-group mb-4">
+                                    <label class="font-italic card-text" for="remarks">Remarks:</label>
+                                    <textarea class="form-control" id="remarks" name="remarks" rows="7"></textarea>
+                                </div>
+                                <div class="butcon text-right">
+                                    <button id="butreq" type="submit" class="btn btn-success">Request
+                                        Service
+                                    </button>
+                                    {{#if job}}<a href="/job/delete/{{job.id}}" class="btn btn-danger">Cancel
+                                        Request</a>{{/if}}
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <div class="card-footer deep-purple accent-2 white-text text-center mt-4">
                         <h5 class="m-0">
@@ -26,23 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-4">
-            <div class="remarks">
-                <form method="post" action="/job/add/{{services.id}}">
-                    <div class="form-group mb-4">
-                        <label class="font-italic" for="remarks">Remarks:</label>
-                        <textarea class="form-control" id="remarks" name="remarks" rows="7"></textarea>
-                    </div>
-                    <div class="butcon">
-                        <button id="butreq" type="submit" class="btn btn-success">Request
-                            Service
-                        </button>
-                        {{#if job}}<a href="/job/delete/{{job.id}}" class="btn btn-danger">Cancel Request</a>{{/if}}
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="col-4">
+        <div class="col-lg-4">
             <div class="user-overview">
                 <div class="">
                     <!-- Card -->
