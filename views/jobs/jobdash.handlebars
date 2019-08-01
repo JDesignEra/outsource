@@ -43,15 +43,10 @@
                                             Reject Job<i class="far fa-trash-alt ml-2"></i>
                                         </a>
                                         {{/ifCond}}
-                                        {{#ifCond 'this.status != "done"'}}
+                                        {{#ifCond 'this.status == "paid"'}}
                                         <a href="/jobs/submit/{{id}}" class="btn btn-sm btn-success material-tooltip-md"
                                             data-tooltip="tooltip" data-placement="top" title="Submit Job">
                                             Job completed<i class="far fa-check ml-2"></i>
-                                        {{/ifCond}}
-                                        {{#ifCond 'this.status == "done"'}}
-                                        <a href="/jobs/cancel/{{id}}" class="btn btn-sm btn-danger material-tooltip-md"
-                                            data-tooltip="tooltip" data-placement="top" title="Cancel submission">
-                                            Cancel submission<i class="far fa-check ml-2"></i>
                                         {{/ifCond}}
                                     </td>
                                 </tr>
