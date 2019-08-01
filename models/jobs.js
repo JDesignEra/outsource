@@ -12,6 +12,9 @@ const jobs = db.define('job', {
     uid: {
         type: Sequelize.INTEGER
     },
+    uname: {
+        type: Sequelize.STRING
+    },
     sid : {
         type: Sequelize.INTEGER
     },
@@ -35,6 +38,9 @@ const jobs = db.define('job', {
         type: Sequelize.DECIMAL,
         allowNull: false
     },
+    status: {
+        type: Sequelize.STRING
+    }
 });
 
 module.exports = jobs;

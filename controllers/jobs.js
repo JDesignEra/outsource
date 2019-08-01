@@ -47,13 +47,15 @@ module.exports = {
                     let remarks = req.body.remarks == undefined ? "None" : req.body.remarks.slice(0, 1999);
                     Jobs.create({
                         uid: services.uid,
+                        uname: services.username,
                         sid: services.id,
                         cid: req.user.id,
                         cname: req.user.username,
                         date: today,
                         name: services.name,
                         remarks,
-                        salary: services.price
+                        salary: services.price,
+                        status: "unaccepted"
                     }).then(job => {
                         req.flash('success', 'Job request sent successfully!');
                         res.redirect('back');
@@ -73,7 +75,11 @@ module.exports = {
             }
         }).then(job => {
             if (job == null) {
-                req.flash('warning', 'You do not have any jobs to reject');
+                req.flash('warning', 'You do not have any jobs to reject/cancel');
+                res.redirect('back');
+            }
+            else if (job.status == "accepted"){
+                req.flash('warning', 'Your request has already been accepted');
                 res.redirect('back');
             }
             else {
@@ -84,14 +90,26 @@ module.exports = {
                 }).then(() => {
                     if (job.cid !== req.user.id){
                         req.flash('success', 'Job rejected');
-                        res.redirect('back');
                     }
                     else{
                         req.flash('success', 'Request cancelled');
-                        res.redirect('back')
                     }
+                    res.redirect('back');
                 })
             }
+        })
+    },
+
+    accept: function(req, res){
+        Jobs.update({
+            status: "accepted"
+        }, {
+            where: {
+                id: req.params.id
+            }
+        }).then((job)=>{
+            req.flash('success', 'Request accepted');
+            res.redirect('back');
         })
     }
 }

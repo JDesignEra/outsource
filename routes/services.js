@@ -23,6 +23,8 @@ router.get('/delete/:id', isAuth, servicesController.delete)
 
 router.post('/fav/:id', servicesController.fav)
 
+router.get('/requests', isAuth, servicesController.requests)
+
 //Lemuel
 router.get('/payment/:id', isAuth, servicesController.payment)
 

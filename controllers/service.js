@@ -90,6 +90,18 @@ module.exports = {
             .catch(err => console.log(err));
     },
 
+    requests: function(req, res){
+        Jobs.findAll({
+            where: {
+                cid: req.user.id
+            }
+        }).then((jobs) => {
+            res.render('services/requests', {
+                jobs
+            })
+        })
+    },
+
     add: function (req, res) {
 
         if (req.user.accType === 'service') {

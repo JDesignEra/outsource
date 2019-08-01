@@ -1,8 +1,8 @@
-<section class="home">
+<section class="requests">
     <table id="dtMaterialDesignExample" class="table table-striped" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th class="th-sm">Client</th>
+                <th class="th-sm">Service provider</th>
                 <th class="th-sm">Date Requested</th>
                 <th class="th-sm">Service Name</th>
                 <th class="th-sm">Payment Amount</th>
@@ -11,19 +11,16 @@
             </tr>
         </thead>
         <tbody>
-            {{#if job}}
-            {{#each job}}
+            {{#if jobs}}
+            {{#each jobs}}
             <tr>
-                <td><a href="/profile/view/{{cid}}">{{cname}}</a></td>
+                <td><a href="/profile/view/{{uid}}">{{uname}}</a></td>
                 <td>{{date}}</td>
                 <td>{{name}}</td>
                 <td>${{salary}}</td>
                 <td>{{remarks}}</td>
                 <td class="row">
-                <form action="/job/accept/{{id}}">
-                <button type="submit" class="btn btn-success btn-sm col-lg-5 col-md-4 col-sm-3 material-tooltip-md" data-tooltip="tooltip" data-placement="top" title="Accept Job">Accept<i class="fa fa-check ml-1"></i></button>
-                <a href="/job/delete/{{id}}" class="btn btn-danger btn-sm col-lg-5 col-md-4 col-sm-3 material-tooltip-md" data-tooltip="tooltip" data-placement="top" title="Reject Job">Reject<i class="far fa-trash-alt ml-1"></i></a>
-                </form>
+                <a href="/job/delete/{{id}}" class="btn btn-danger btn-sm col-lg-6 col-md-4 col-sm-3 material-tooltip-md" data-tooltip="tooltip" data-placement="top" title="Cancel request">Cancel request<i class="far fa-trash-alt ml-1"></i></a>
                 </td>
             </tr>
             {{/each}}
@@ -35,5 +32,4 @@
 </section>
 {{#extend 'scripts'}}
 <script src="/js/vendor/mdb/modules/datatables.min.js"></script>
-<script src="/js/job.js"></script>
 {{/extend}}
