@@ -8,6 +8,6 @@ const jobController = require('../controllers/jobs.js')
 router.get('/', isAuth, jobController.index);
 router.post('/add/:id', isAuth, jobController.add);
 router.get('/delete/:id', isAuth, jobController.delete);
-router.post('/accept/:id', isAuth, jobController.accept);
+router.get('/accept/:id', isAuth, jobController.accept);
 
 module.exports = router;

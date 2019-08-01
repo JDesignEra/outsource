@@ -20,10 +20,8 @@
                 <td>${{salary}}</td>
                 <td>{{remarks}}</td>
                 <td class="row">
-                <form action="/job/accept/{{id}}">
-                <button type="submit" class="btn btn-success btn-sm col-lg-5 col-md-4 col-sm-3 material-tooltip-md" data-tooltip="tooltip" data-placement="top" title="Accept Job">Accept<i class="fa fa-check ml-1"></i></button>
+                <a href="/job/accept/{{id}}" class="btn btn-success btn-sm col-lg-5 col-md-4 col-sm-3 material-tooltip-md" data-tooltip="tooltip" data-placement="top" title="Accept Job">Accept<i class="fa fa-check ml-1"></i></a>
                 <a href="/job/delete/{{id}}" class="btn btn-danger btn-sm col-lg-5 col-md-4 col-sm-3 material-tooltip-md" data-tooltip="tooltip" data-placement="top" title="Reject Job">Reject<i class="far fa-trash-alt ml-1"></i></a>
-                </form>
                 </td>
             </tr>
             {{/each}}
