@@ -90,10 +90,6 @@ module.exports = {
                 req.flash('warning', 'You do not have any jobs to reject/cancel');
                 res.redirect('back');
             }
-            else if (job.status == "accepted") {
-                req.flash('warning', 'Your request has already been accepted');
-                res.redirect('back');
-            }
             else {
                 Jobs.destroy({
                     where: {
