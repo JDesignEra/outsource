@@ -161,7 +161,7 @@ module.exports = {
             where: {
                 id: req.params.id
             }
-        }.then(() => {
+        }.then(job => {
             Notification.create({
                 uid: req.user.id,
                 username: req.user.username,
