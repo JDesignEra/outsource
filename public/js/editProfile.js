@@ -1,5 +1,5 @@
 counter = 0
-$('#removeButton').attr("disabled", true);
+
 for (i = 1; i < 6; i++) {
     skillInput = document.getElementById("skill" + i)
     if (skillInput.value != "") {
@@ -9,6 +9,10 @@ for (i = 1; i < 6; i++) {
 
 for (j = 5; j > counter; j--) {
     emptyInput = document.getElementById("skillInput" + j).style.display = "none"
+}
+
+if (counter == 0) {
+    $('#removeButton').attr("disabled", true);
 }
 
 $("#addButton").click(function () {
@@ -31,7 +35,7 @@ $("#removeButton").click(function () {
 
 
 function disableOrEnable() {
-    if (counter == 1) {
+    if (counter == 0) {
         $('#removeButton').attr("disabled", true);
         return false
     }

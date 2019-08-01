@@ -6,6 +6,7 @@ const Jobs = require('../models/jobs');
 const Transactions = require('../models/transactions');
 const fs = require('fs');
 var paypal = require('paypal-rest-sdk');
+var Paypal_Adaptive = require('paypal-adaptive');
 
 let today = new Date();
 let dd = today.getDate();
@@ -21,6 +22,14 @@ if (mm < 10) {
 }
 today = dd + '/' + mm + '/' + yyyy;
 
+var Paypal = require('paypal-adaptive');
+
+var paypalSdk = new Paypal({
+    userId: 'leemuel01234-facilitator_api1.gmail.com',
+    password: 'JETYFMEU7DHBDSTT',
+    signature: 'AQLS5ZF6WYR8wy9.2UEIhPrMryMSA9ANj1yE6rEgi7SHbK.AfnwjTf0l',
+    sandbox: true //defaults to false
+});
 module.exports = {
     index: function (req, res) {
         Services.findAll({
@@ -185,8 +194,6 @@ module.exports = {
         })
             .catch(err => console.log(err))
     },
-
-
 
     edit: function (req, res) {
         let uid = req.user.id;
@@ -366,73 +373,73 @@ module.exports = {
 
     },
 
-
-
     sendPayment: function (req, res) {
-        Services.findOne({
-            where: {
-                id: req.params.id
-            }
-        })
-            .then((service) => {
-                Users.findOne({
-                    where: {
-                        id: req.user.id
-                    }
-                })
-                    .then((client) => {
-                        Users.findOne({
-                            where: {
-                                id: service.uid
-                            }
-                        })
-                            .then((freelancer) => {
-
-                                var create_payment_json = {
-                                    "intent": "sale",
-                                    "payer": {
-                                        "payment_method": "paypal"
-                                    },
-                                    "redirect_urls": {
-                                        "return_url": `http://localhost:5000/services/payment/${service.id}/success/`,
-                                        "cancel_url": "http://localhost:5000/"
-                                    },
-                                    "transactions": [{
-                                        "item_list": {
-                                            "items": [{
-                                                "name": service.name,
-                                                "sku": "001",
-                                                "price": String(service.price),
-                                                "currency": "USD",
-                                                "quantity": 1
-                                            }]
-                                        },
-                                        "amount": {
-                                            "currency": "USD",
-                                            "total": String(service.price)
-                                        },
-                                        "description": `Payment for ${service.name} by ${freelancer.username}`
-                                    }]
-                                };
-
-                                paypal.payment.create(create_payment_json, function (error, payment) {
-                                    if (error) {
-                                        throw error;
-                                    }
-
-                                    else {
-
-                                        for (i = 0; i < payment.links.length; i++) {
-                                            if (payment.links[i].rel == 'approval_url') {
-                                                req.flash('success', "Payment sent.")
-                                                res.redirect(payment.links[i].href)
-                                            }
-                                        }
-                                    }
-                                });
-                            })
-                    })
+    Services.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then((service) => {
+            Users.findOne({
+                where: {
+                    id: req.user.id
+                }
             })
+                .then((client) => {
+                    Users.findOne({
+                        where: {
+                            id: service.uid
+                        }
+                    })
+                        .then((freelancer) => {
+
+                            var payload = {
+                                requestEnvelope: {
+                                    errorLanguage: 'en_US'
+                                },
+                                actionType: 'PAY',
+                                currencyCode: 'USD',
+                                feesPayer: 'EACHRECEIVER',
+                                memo: `Payment for ${service.name} by ${freelancer.username}`,
+                                cancelUrl: 'http://localhost:5000/',
+                                returnUrl: `http://localhost:5000/services/payment/${service.id}/success/`,
+                                receiverList: {
+                                    receiver: [
+                                        {
+                                            email: `${freelancer.paypal}`,
+                                            amount: String(service.price),
+                                            primary: 'true'
+                                        },
+                                        {
+                                            email: 'outsource_paypal@gmail.com',
+                                            amount: String((service.price * 0.07).toFixed(2)),
+                                            primary: 'false'
+                                        }
+                                    ]
+                                }
+                            };
+
+                            paypalSdk.pay(payload, function (err, response) {
+                                if (err) {
+                                    console.log(err);
+                                    req.flash('The service provider has provided an invalid PayPal email.')
+                                    res.redirect('back');
+
+                                    console.log(response);
+
+                                } else {
+                                    // Response will have the original Paypal API response
+                                    console.log(response.payKey);
+                                    req.session.payKey = response.payKey
+                                    // But also a paymentApprovalUrl, so you can redirect the sender to checkout easily
+                                    res.redirect(response.paymentApprovalUrl);
+                                }
+                            });
+                        })
+                })
+        })
+
+
 
 
     },
@@ -453,58 +460,118 @@ module.exports = {
                         id: service.uid
                     }
                 }).then((freelancer) => {
-                    payerId = req.query.PayerID;
-                    paymentId = req.query.paymentId;
-
-                    var execute_payment_json = {
-                        "payer_id": payerId,
-                        "transactions": [{
-                            "amount": {
-                                "currency": "USD",
-                                "total": String(service.price)
-                            }
-                        }]
-                    }
-
-                    paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
-                        if (error) {
-                            console.log(error.response);
-                            throw error;
+                    var params = {
+                        payKey: req.session.payKey.toString()
+                    };
+                    paypalSdk.paymentDetails(params, function (err, response) {
+                        if (err) {
+                            console.log(err);
                         } else {
-                            console.log("Get Payment Response");
-                            console.log(JSON.stringify(payment));
-
+                            // payments details for this payKey, transactionId or trackingId
+                            // res.send(response);
                             Transactions.create({
                                 serviceProvider: freelancer.username,
                                 freelancerPaypal: freelancer.paypal,
-                                paypalMerchantID: payment.transactions[0].payee.merchant_id,
+                                paypalMerchantID: response.paymentInfoList.paymentInfo[0].receiver.accountId,
 
-                                paidWith: capitalize(payment.payer.payment_method),
+                                paidWith: response.sender.email,
 
-                                paypalTransactionID: payment.id,
-                                serviceName: payment.transactions[0].item_list.items[0].name,
-                                description: payment.transactions[0].description,
-                                price: payment.transactions[0].item_list.items[0].price,
-                                currency: payment.transactions[0].item_list.items[0].currency,
-                                date: payment.create_time,
+                                paypalTransactionID: response.paymentInfoList.paymentInfo[0].transactionId,
+                                serviceName: service.name,
+                                description: response.memo,
+                                price: response.paymentInfoList.paymentInfo[0].receiver.amount,
+                                currency: response.currencyCode,
+                                date: response.responseEnvelope.timestamp,
 
                                 uid: client.id,
 
                             }).then((transaction) => {
                                 // res.send("success")
                                 res.render("services/paymentDetails", {
-                                    payment: payment,
+                                    service,
+                                    response: response,
                                     client: client,
                                     freelancer: freelancer
                                 })
                             })
-
                         }
-                    })
+                    });
                 })
 
             })
         })
+
+
+
+
+
+        // Users.findOne({
+        //     where: {
+        //         id: req.user.id
+        //     }
+        // }).then((client) => {
+        //     Services.findOne({
+        //         where: {
+        //             id: req.params.id
+        //         }
+        //     }).then((service) => {
+        //         Users.findOne({
+        //             where: {
+        //                 id: service.uid
+        //             }
+        //         }).then((freelancer) => {
+        //             payerId = req.query.PayerID;
+        //             paymentId = req.query.paymentId;
+
+        //             var execute_payment_json = {
+        //                 "payer_id": payerId,
+        //                 "transactions": [{
+        //                     "amount": {
+        //                         "currency": "USD",
+        //                         "total": String(service.price)
+        //                     }
+        //                 }]
+        //             }
+
+        //             paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+        //                 if (error) {
+        //                     console.log(error.response);
+        //                     throw error;
+        //                 } else {
+        //                     console.log("Get Payment Response");
+        //                     console.log(JSON.stringify(payment));
+
+        //                     Transactions.create({
+        //                         serviceProvider: freelancer.username,
+        //                         freelancerPaypal: freelancer.paypal,
+        //                         paypalMerchantID: payment.transactions[0].payee.merchant_id,
+
+        //                         paidWith: capitalize(payment.payer.payment_method),
+
+        //                         paypalTransactionID: payment.id,
+        //                         serviceName: payment.transactions[0].item_list.items[0].name,
+        //                         description: payment.transactions[0].description,
+        //                         price: payment.transactions[0].item_list.items[0].price,
+        //                         currency: payment.transactions[0].item_list.items[0].currency,
+        //                         date: payment.create_time,
+
+        //                         uid: client.id,
+
+        //                     }).then((transaction) => {
+        //                         // res.send("success")
+        //                         res.render("services/paymentDetails", {
+        //                             payment: payment,
+        //                             client: client,
+        //                             freelancer: freelancer
+        //                         })
+        //                     })
+
+        //                 }
+        //             })
+        //         })
+
+        //     })
+        // })
 
     },
 
@@ -532,6 +599,8 @@ module.exports = {
         })
     }
 }
+
+
 function capitalize(components) {
     if (components == '') {
         components = 'None';

@@ -36,4 +36,5 @@ router.get('/receipt/', isAuth, servicesController.transactions)
 
 router.get('/receipt/:id/', isAuth, servicesController.viewPaymentDetails)
 
+// router.get('/test', servicesController.test)
 module.exports = router;

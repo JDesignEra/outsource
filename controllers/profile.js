@@ -802,9 +802,6 @@ module.exports = {
         })
     },
 
-
-
-
     //Projects
 
     submit: function (req, res) {
