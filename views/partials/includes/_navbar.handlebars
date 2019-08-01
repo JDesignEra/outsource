@@ -47,6 +47,9 @@
 					<a class="dropdown-item" href="/job">
 						<i class="far fa-briefcase mr-1"></i> Jobs Management
 					</a>
+					<a class="dropdown-item" href="services/requests">
+					<i class="far fa-id-card mr-1"></i> Requests management
+					</a>
 					<a class="dropdown-item" href="/services/receipt">
 						<i class="far fa-file-invoice-dollar mr-1"></i> Transaction Histories
 					</a>
@@ -75,9 +78,14 @@
 					<i class="far fa-user-tie mr-1"></i> Services Management
 				</a>
 			</li>
-			<li class="nav-item d-block d-md-none{{#ifStringContain url '/jos'}} active{{/ifStringContain}}">
+			<li class="nav-item d-block d-md-none{{#ifStringContain url '/job'}} active{{/ifStringContain}}">
 				<a class="nav-link rounded" href="/jobs">
 					<i class="far fa-briefcase mr-1"></i> Jobs Management
+				</a>
+			</li>
+			<li class="nav-item d-block d-md-none{{#ifStringContain url '/services/requests'}} active{{/ifStringContain}}">
+				<a class="nav-link rounded" href="/services/requests">
+					<i class="far fa-id-card mr-1"></i> Requests Management
 				</a>
 			</li>
 			<li class="nav-item d-block d-md-none{{#ifStringContain url '/services/receipt'}} active{{/ifStringContain}}">

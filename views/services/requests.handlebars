@@ -20,7 +20,7 @@
                 <td>${{salary}}</td>
                 <td>{{remarks}}</td>
                 <td class="row">
-                <a href="/job/delete/{{id}}" class="btn btn-danger btn-sm col-lg-6 col-md-4 col-sm-3 material-tooltip-md" data-tooltip="tooltip" data-placement="top" title="Cancel request">Cancel request<i class="far fa-trash-alt ml-1"></i></a>
+                <a href="/job/delete/{{id}}" class="btn btn-danger btn-sm col-lg-7 col-md-4 col-sm-3 material-tooltip-md" data-tooltip="tooltip" data-placement="top" title="Cancel request">Cancel request<i class="far fa-trash-alt ml-1"></i></a>
                 </td>
             </tr>
             {{/each}}
@@ -32,4 +32,5 @@
 </section>
 {{#extend 'scripts'}}
 <script src="/js/vendor/mdb/modules/datatables.min.js"></script>
+<script src="/js/servicesscript.js"></script>
 {{/extend}}
