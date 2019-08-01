@@ -69,7 +69,7 @@ module.exports = {
                             user: services.uid
                         })
                         req.flash('success', 'Job request sent successfully!');
-                        res.redirect('back');
+                        res.redirect('/services/payment/' + services.id);
                     })
                 }
                 else if (jobs.cid == req.user.id && services.id == jobs.sid) {
@@ -90,7 +90,7 @@ module.exports = {
                 req.flash('warning', 'You do not have any jobs to reject/cancel');
                 res.redirect('back');
             }
-            else if (job.status == "accepted"){
+            else if (job.status == "accepted") {
                 req.flash('warning', 'Your request has already been accepted');
                 res.redirect('back');
             }
@@ -100,7 +100,7 @@ module.exports = {
                         id: req.params.id
                     }
                 }).then(() => {
-                    if (job.cid !== req.user.id){
+                    if (job.cid !== req.user.id) {
                         Notification.create({
                             uid: req.user.id,
                             username: req.user.username,
@@ -112,7 +112,7 @@ module.exports = {
                         })
                         req.flash('success', 'Job Reject');
                     }
-                    else{
+                    else {
                         Notification.create({
                             uid: req.user.id,
                             username: req.user.username,
@@ -130,30 +130,43 @@ module.exports = {
         })
     },
 
-    accept: function(req, res){
+    accept: function (req, res) {
         Jobs.update({
             status: "accepted"
         }, {
-            where: {
-                id: req.params.id
-            }
-        }).then((job)=>{
-            Jobs.findOne({
-                where: {id: req.params.id}
-            }).then(job => {
-                Notification.create({
-                    uid: req.user.id,
-                    username: req.user.username,
-                    pid: job.sid,
-                    title: job.name,
-                    date: new Date(),
-                    category: "Requests",
-                    user: job.cid
+                where: {
+                    id: req.params.id
+                }
+            }).then((job) => {
+                Jobs.findOne({
+                    where: { id: req.params.id }
+                }).then(job => {
+                    Notification.create({
+                        uid: req.user.id,
+                        username: req.user.username,
+                        pid: job.sid,
+                        title: job.name,
+                        date: new Date(),
+                        category: "Requests",
+                        user: job.cid
+                    })
+                    req.flash('success', 'Request accepted');
+                    res.redirect('/job');
                 })
-                req.flash('success', 'Request accepted');
-                res.redirect('/job');
-            })
 
-        })
+            })
+    },
+
+    submit: function (req, res) {
+        Jobs.update({
+            status: "done"
+        }), {
+                where: {
+                    id: req.params.id
+                }
+            }.then(()=>{
+                req.flash('success', 'Job completed!');
+                res.redirect('back');
+            })
     }
 }
