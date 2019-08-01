@@ -1,3 +1,4 @@
+// mimeConfig by Joel
 const mime = require('mime');
 
 module.exports = {

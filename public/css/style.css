@@ -18,6 +18,10 @@ nav.navbar.top-nav-collapse .navbar-brand {
     background-position: center;
 }
 
+nav.navbar .dropdown-menu .dropdown-item i {
+    min-width: 20px;
+}
+
 nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     color: #ffffff !important;
     background-color: #dc3545 !important;

@@ -678,13 +678,13 @@ $(function() {
         $('#empty-search', '#files-table').remove();
         
         if (shown < 1) {
-            $('tbody', '#files-table').prepend(
-                '<tr id="empty-search">'
-                +'<td colspan=100>'
-                +'Couldn\t find anything for <span class="font-weight-bolder">' + val + '</span>'
-                +'</td>'
-                +'</tr>'
-            );
+            $('tbody', '#files-table').prepend(`
+                <tr id="empty-search">
+                    <td colspan=100>
+                        Couldn\'t find anything for <span class="font-weight-bolder">${val}</span>
+                    </td>
+                </tr>
+            `);
         }
     });
 

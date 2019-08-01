@@ -23,7 +23,7 @@
     "express-mysql-session": "^2.1.0",
     "express-session": "^1.16.2",
     "fs-extra": "^8.1.0",
-    "googleapis": "^41.0.1",
+    "googleapis": "^42.0.0",
     "jimp": "^0.6.4",
     "klaw": "^3.0.0",
     "lozad": "^1.9.0",
@@ -38,7 +38,7 @@
     "passport-local": "^1.0.0",
     "paypal-adaptive": "^0.4.2",
     "paypal-rest-sdk": "^1.8.1",
-    "sequelize": "^5.11.0"
+    "sequelize": "^5.12.2"
   },
   "devDependencies": {
     "browser-sync": "^2.26.7",

@@ -1,36 +1,73 @@
 <section class="requests">
-    <table id="dtMaterialDesignExample" class="table table-striped" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th class="th-sm">Service provider</th>
-                <th class="th-sm">Date Requested</th>
-                <th class="th-sm">Service Name</th>
-                <th class="th-sm">Payment Amount</th>
-                <th class="th-sm">Remarks</th>
-                <th class="th-sm"></th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#if jobs}}
-            {{#each jobs}}
-            <tr>
-                <td><a href="/profile/view/{{uid}}">{{uname}}</a></td>
-                <td>{{date}}</td>
-                <td>{{name}}</td>
-                <td>${{salary}}</td>
-                <td>{{remarks}}</td>
-                <td class="row">
-                <a href="/job/delete/{{id}}" class="btn btn-danger btn-sm col-lg-7 col-md-4 col-sm-3 material-tooltip-md" data-tooltip="tooltip" data-placement="top" title="Cancel request">Cancel request<i class="far fa-trash-alt ml-1"></i></a>
-                </td>
-            </tr>
-            {{/each}}
-            {{/if}}
-        </tbody>
-        <tfoot>
-        </tfoot>
-    </table>
+    <div class="row">
+        <div class="col-12 col-md-9 order-1 order-md-0">
+            <div class="card card-cascade narrower">
+                <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center text-center">
+                    <span class="white-text mx-3">Requests</span>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive table-hover w-100" style="padding: 0 15px;">
+                        <table id="requests-table" class="table table-striped text-center">
+                            <thead class="deep-purple accent-3 white-text">
+                                <tr>
+                                    <th id="provider" class="th-sm rounded-top-left">Service provider</th>
+                                    <th id="date" class="th-sm">Date Requested</th>
+                                    <th id="service" class="th-sm">Service Name</th>
+                                    <th id="payment" class="th-sm">Payment Amount</th>
+                                    <th id="remarks" class="th-sm">Remarks</th>
+                                    <th id="action" class="th-sm rounded-top-right">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {{#if jobs}}
+                                    {{#each jobs}}
+                                    <tr class="animted faster">
+                                        <td headers="provider" class="align-middle {{#if @last}}rounded-bottom-left{{/if}}">
+                                            <a href="/profile/view/{{uid}}">{{uname}}</a>
+                                        </td>
+                                        <td headers="date" class="align-middle">{{date}}</td>
+                                        <td headers="service" class="align-middle">{{name}}</td>
+                                        <td headers="payment" class="align-middle">${{salary}}</td>
+                                        <td headers="remarks" class="align-middle">{{remarks}}</td>
+                                        <td headers="action" class="align-middle {{#if @last}}rounded-bottom-right{{/if}}">
+                                            <a href="/jobs/delete/{{id}}" class="btn btn-sm btn-danger material-tooltip-md" data-tooltip="tooltip" data-placement="top" title="Cancel request">
+                                                Cancel request<i class="far fa-trash-alt ml-2"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                {{/if}}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {{#if jobs}}
+                        <p class="text-center grey-text small font-weight-bold mb-0">End of contents</p>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-3 my-4 my-md-0 order-0 order-md-1">
+            <div class="card card-cascade narrower">
+                <div class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center text-center">
+                    <span class="white-text mx-3">Action</span>
+                </div>
+
+                <div class="card-body">
+                    <div class="md-form md-outline my-0">
+                            <input id="action-search-input" class="form-control" type="text" name="search">
+                            <label for="action-search-input">Search Request</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
 {{#extend 'scripts'}}
-<script src="/js/vendor/mdb/modules/datatables.min.js"></script>
-<script src="/js/servicesscript.js"></script>
+    <script src="/js/servicesscript.js"></script>
 {{/extend}}

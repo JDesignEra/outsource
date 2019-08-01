@@ -46,6 +46,18 @@ $(function() {
         imageSizeAction.removeClass('d-none');
     }
 
+    $(window).on('resize', function() {
+        let imgWidth = document.querySelector('#content img').naturalWidth;
+        let contentWidth = $('#content').width();
+
+        if (imgWidth <= contentWidth) {
+            imageSizeAction.removeClass('d-none');
+        }
+        else {
+            imageSizeAction.addClass('d-none');
+        }
+    });
+
     imageSizeAction.on('click', function() {
         let _this = $(this);
         let img = $('img', '#content');
@@ -97,7 +109,7 @@ $(function() {
     }
 });
 
-// Code Syntax Highlight
+// #Content
 $(function() {
     let type = $('#content').attr('data-type');
 
@@ -127,12 +139,8 @@ $(function() {
             
             clearTimeout(this);
         }, 500);
-
-        let cm = $('#editor', '#content').find('.CodeMirror');
-        cm.addClass('rounded');
-
-        data = undefined;
-        $('script#data').remove();
+        
+        $('#editor', '#content').find('.CodeMirror').addClass('rounded');
     }
     else if (type === 'document') {
         let buffer = new ArrayBuffer(content.length);
@@ -152,6 +160,9 @@ $(function() {
             $('#rtf', '#content').html(elements);
         });
     }
+
+    if (content) content = undefined;
+    $('script#content').remove();
 });
 
 // Show Modal & Replace URL Without Redirecting

@@ -112,7 +112,6 @@ module.exports = {
     },
 
     add: function (req, res) {
-
         if (req.user.accType === 'service') {
             if (req.user.paypal === null || req.user.paypal === "") {
                 req.flash('warning', ['You need to set up your PayPal account to make a service'])

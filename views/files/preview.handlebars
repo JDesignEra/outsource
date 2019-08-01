@@ -1,6 +1,8 @@
 {{#extend 'stylesheets'}}
-<link type="text/css" href="/css/vendor/codemirror/codemirror.css" rel="stylesheet">
-<link id="editor-style" type="text/css" href="/css/vendor/codemirror/one-dark.css" rel="stylesheet">
+    {{#ifCond 'file.type === "code" || file.type === "text"'}}
+        <link type="text/css" href="/css/vendor/codemirror/codemirror.css" rel="stylesheet">
+        <link id="editor-style" type="text/css" href="/css/vendor/codemirror/one-dark.css" rel="stylesheet">
+    {{/ifCond}}
 {{/extend}}
 
 <section class="file-preview">
@@ -22,8 +24,8 @@
                                 <div id="rtf" class="p-3 rounded"></div>
                             {{else}}
                                 {{#ifCond 'file.type === "video"'}}
-                                    <video class="video-fluid z-depth-1" controls loop>
-                                        <source src="{{ file.link }}" type="{{ file.mime }}">
+                                    <video class="video-fluid z-depth-1" preload controls>
+                                        <source src="{{ file.link }}">
                                     </video>
                                 {{else}}
                                     <div class="text-center">
@@ -34,7 +36,6 @@
                                     </div>
                                 {{/ifCond}}
                             {{/ifCond}}
-                            
                         {{/ifCond}}
                     {{/ifCond}}
                 </div>
@@ -138,9 +139,23 @@
             <i class="far fa-window-close mr-1"></i>Close Preview
         </a>
 
+        {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
+            {{#ifCond 'file.type === "code" || file.type === "text" || file.type === "image"'}}
+                <a class="edit dropdown-item" href="">
+                    <i class="far fa-edit mr-1"></i>Edit
+                </a>
+            {{/ifCond}}
+        {{/ifCond}}
+
         {{#ifCond 'file.type === "code" || file.type === "text"'}}
             <button class="editor-mode dropdown-item" data-mode="dark">
                 <i class="far fa-adjust mr-1"></i>Light Mode
+            </button>
+        {{/ifCond}}
+
+        {{#ifCond 'file.type === "image"'}}
+            <button class="image-size dropdown-item d-none">
+                <i class="far fa-compress-wide mr-1"></i>Original Size
             </button>
         {{/ifCond}}
 
@@ -171,7 +186,7 @@
         <script src="/js/vendor/codemirror/addon/edit/matchbrackets.js" type="text/javascript"></script>
         <script src="/js/vendor/codemirror/addon/edit/matchtags.js" type="text/javascript"></script>
 
-        <script id="data" type="text/javascript">
+        <script id="content" type="text/javascript">
             let content = {{{json file.content}}};
         </script>
     {{/ifCond}}
@@ -183,7 +198,7 @@
         <script src="/js/vendor/rtfjs/EMFJS.bundle.min.js" type="text/javascript"></script>
         <script src="/js/vendor/rtfjs/RTFJS.bundle.min.js" type="text/javascript"></script>
 
-        <script id="data" type="text/javascript">
+        <script id="content" type="text/javascript">
             let content = {{{json file.content}}};
         </script>
     {{/ifCond}}

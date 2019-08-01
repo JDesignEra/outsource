@@ -634,6 +634,23 @@ body {
     border-top: 1px solid map-get($basic, "primary");
 }
 
+// borders
+.rounded-top-left {
+    border-top-left-radius: .25rem !important;
+}
+
+.rounded-top-right {
+    border-top-right-radius: .25rem !important;
+}
+
+.rounded-bottom-left {
+    border-bottom-left-radius: .25rem !important;
+}
+
+.rounded-bottom-right {
+    border-bottom-right-radius: .25rem !important;
+}
+
 // CUSTOM OVERWRITE
 // form validation
 .invalid-tooltip,

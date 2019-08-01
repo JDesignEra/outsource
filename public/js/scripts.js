@@ -132,6 +132,7 @@ $(function () {
 });
 
 // Benedict
+// ToDo: Removed when switched over to Facebook Passport
 window.fbAsyncInit = function() {
     FB.init({
         appId      : '900093130361854',

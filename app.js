@@ -76,7 +76,7 @@ app.set('view engine', 'handlebars');
 // Connect Flash
 app.use(flash());
 
-// Render Engine Global Variable
+// Global Variable
 app.use(function (req, res, next) {
 	res.locals.user = req.user || null;
 	res.locals.url = req.originalUrl;
@@ -125,7 +125,7 @@ app.use(bodyParser.urlencoded({
 	parameterLimit: 50000
 }));
 
-// init mime custom mapping
+// Init mime custom mapping
 mime.init();
 
 // Static Folder
@@ -138,7 +138,7 @@ app.use('/', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
 app.use('/services', require('./routes/services'));
 app.use('/files', require('./routes/files'));
-app.use('/job', require('./routes/jobs'));
+app.use('/jobs', require('./routes/jobs'));
 app.use(function (req, res) {
 	req.flash('error', 'Page not found.');
 	res.redirect('/');

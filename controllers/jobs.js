@@ -153,7 +153,8 @@ module.exports = {
                     req.flash('success', 'Request accepted');
                     res.redirect('/job');
                 })
-
+                req.flash('success', 'Request accepted');
+                res.redirect('/jobs');
             })
     },
 
