@@ -385,6 +385,11 @@ section.files .dataTables_wrapper .col-sm-12 {
     padding-right: 0;
 }
 
+section.files .dataTables_empty {
+    border-bottom-left-radius: .25rem !important;
+    border-bottom-right-radius: .25rem !important;
+}
+
 section.files #files-table td[headers="modified"]::first-letter {
     text-transform: capitalize;
 }
@@ -424,6 +429,16 @@ section.file-preview #content img.img-preview {
     -webkit-transition: width .5s ease-in-out;
     -o-transition: width .5s ease-in-out;
     transition: width .5s ease-in-out;
+}
+
+@media (max-width: 767px) {
+    section.files .dataTables_wrapper th#name {
+        border-top-right-radius: .25rem !important;
+    }
+
+    section.files #files-table tbody tr:last-child td[headers="name"] {
+        border-bottom-right-radius: .25rem !important;
+    }
 }
 
 @media (min-width: 767px) {

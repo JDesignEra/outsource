@@ -2,7 +2,7 @@
 {{setVar 'selectId' forms.select}}
     {{#each files}}
         <tr class="animated faster d-none">
-            <td headers="select">
+            <td headers="select"{{#if @last}} class="rounded-bottom-left"{{/if}}>
                 <div class="form-check">
                     <input id="ff-{{ this.id }}"
                         class="form-check-input" type="checkbox"
@@ -49,7 +49,7 @@
                     Only you
                 {{/if}}
             </td>
-            <td headers="modified" class="d-none d-md-table-cell">{{ this.modified }}</td>
+            <td headers="modified" class="d-none d-md-table-cell{{#if @last}} rounded-bottom-right{{/if}}">{{ this.modified }}</td>
         </tr>
     {{/each}}
 {{/if}}

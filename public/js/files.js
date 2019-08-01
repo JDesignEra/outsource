@@ -483,7 +483,7 @@ $(function() {
     let filters = ['name', 'size', 'type', 'shared', 'modified'];
 
     // Filters
-    $('.search-filters').on('click', function(e) {
+    $('.search-filters').on('click', function() {
         return false;
     });
 
@@ -680,21 +680,12 @@ $(function() {
         if (shown < 1) {
             $('tbody', '#files-table').prepend(`
                 <tr id="empty-search">
-                    <td colspan=100>
+                    <td class="rounded-bottom" colspan=100>
                         Couldn\'t find anything for <span class="font-weight-bolder">${val}</span>
                     </td>
                 </tr>
             `);
         }
-    });
-
-    searchInput.next('.mdb-autocomplete-wrap').on('click', function() {
-        $(this).prev('.mdb-autocomplete').trigger('keyup');
-        $(this).html('');
-    });
-
-    searchInput.next().next('.mdb-autocomplete-clear').on('click', function() {
-        $(this).prev().prev('.mdb-autocomplete').trigger('keyup');
     });
 
     // Search Autocomplete
@@ -727,11 +718,18 @@ $(function() {
 
         searchInput.mdbAutocomplete({ data: data });
 
-        if (wrapper.length > 0) {
-            wrapper.on('click', function(e) {
-                return false;
-            });
-        }
+        wrapper.on('click', function() {
+            return false;
+        });
+
+        searchInput.next('.mdb-autocomplete-wrap').on('click', function() {
+            $(this).prev('.mdb-autocomplete').trigger('keyup');
+            $(this).html('');
+        });
+
+        searchInput.next().next('.mdb-autocomplete-clear').on('click', function() {
+            $(this).prev().prev('.mdb-autocomplete').trigger('keyup');
+        });
     }
 });
 

@@ -10,7 +10,6 @@ let fileInput = (function () {
         focuses.each(function () {
             let _this = $(this);
 
-            console.log(_this);
             let removeBtn = _this.data('autosubmit') && _this.data('autosubmit') == false ? `
                 <button type="button" class="btn btn-sm btn-danger remove">
                     <i class="far fa-trash-alt mr-1"></i> Remove
