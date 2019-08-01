@@ -165,5 +165,17 @@ module.exports = {
                 req.flash('success', 'Job completed!');
                 res.redirect('back');
             })
+    },
+    cancel: function(req, res){
+        Jobs.update({
+            status: "accepted"
+        }), {
+                where: {
+                    id: req.params.id
+                }
+            }.then(()=>{
+                req.flash('warning', 'Job uncomplete');
+                res.redirect('back');
+            })
     }
 }

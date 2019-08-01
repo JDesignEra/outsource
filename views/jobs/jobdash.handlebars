@@ -12,7 +12,7 @@
                         <table id="jobs-table" class="table table-striped text-center">
                             <thead class="deep-purple accent-3 white-text">
                                 <tr>
-                                    <th id="provider" class="th-sm rounded-top-left">Service provider</th>
+                                    <th id="client" class="th-sm rounded-top-left">Client</th>
                                     <th id="date" class="th-sm">Date Requested</th>
                                     <th id="service" class="th-sm">Service Name</th>
                                     <th id="payment" class="th-sm">Payment Amount</th>
@@ -24,8 +24,8 @@
                             <tbody>
                                 {{#if job}}
                                 {{#each job}}
-                                <tr class="animted faster">
-                                    <td headers="provider" class="align-middle {{#if @last}}rounded-bottom-left{{/if}}">
+                                <tr class="animated faster">
+                                    <td headers="client" class="align-middle {{#if @last}}rounded-bottom-left{{/if}}">
                                         <a href="/profile/view/{{cid}}">{{cname}}</a>
                                     </td>
                                     <td headers="date" class="align-middle">{{date}}</td>
@@ -46,7 +46,12 @@
                                         {{#ifCond 'this.status != "done"'}}
                                         <a href="/jobs/submit/{{id}}" class="btn btn-sm btn-success material-tooltip-md"
                                             data-tooltip="tooltip" data-placement="top" title="Submit Job">
-                                            Submit Job<i class="far fa-check ml-2"></i>
+                                            Job completed<i class="far fa-check ml-2"></i>
+                                        {{/ifCond}}
+                                        {{#ifCond 'this.status == "done"'}}
+                                        <a href="/jobs/cancel/{{id}}" class="btn btn-sm btn-danger material-tooltip-md"
+                                            data-tooltip="tooltip" data-placement="top" title="Cancel submission">
+                                            Cancel submission<i class="far fa-check ml-2"></i>
                                         {{/ifCond}}
                                     </td>
                                 </tr>

@@ -10,5 +10,6 @@ router.post('/add/:id', isAuth, jobController.add);
 router.get('/delete/:id', isAuth, jobController.delete);
 router.get('/accept/:id', isAuth, jobController.accept);
 router.get('/submit/:id', isAuth, jobController.submit);
+router.get('cancel/:id', isAuth, jobController.cancel);
 
 module.exports = router;
