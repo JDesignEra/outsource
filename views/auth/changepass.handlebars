@@ -3,25 +3,25 @@
   <div class="row">
 		<div class="col-md-6 mx-auto">
 			<div class="card">
-				<form class="card-body text-center" action="/changepass" method="post">
+				<form class="card-body" action="/changepass" method="post">
 					<h3 class="text-center">Change Password</h3>
 
 					<div class="md-form md-outline">
-            <input type="password" name="currpass" class="form-control" />
+            <input id="currPass" type="password" class="form-control" name="currpass">
             <label for="currPass">Current Password</label>
 					</div>
 
 					<div class="md-form md-outline">
-            <input type="password" name="newpass" class="form-control" />
+            <input id="newPass" type="password" class="form-control" name="newpass">
             <label for="newPass">New Password</label>
 					</div>
 
           <div class="md-form md-outline">
-            <input type="password" name="confirmpass" class="form-control" />
+            <input id="confPass" type="password" class="form-control" name="confirmpass">
             <label for="confPass">Confirm New Password</label>
 					</div>
 
-          <button type="submit" class="btn btn-primary">Reset Password</button>
+          <button type="submit" class="btn btn-md btn-primary">Reset Password</button>
 				</form>
 			</div>
 		</div>
