@@ -187,12 +187,6 @@
 							onlogin="checkLoginState();" type="button">
 							<i class="fab fa-facebook-f"></i> Facebook
 						</fb:login-button>
-						<button class="btn-floating btn-md btn-tw g-signin2" data-onsuccess="onSignIn" type="button">
-							<i class="fab fa-google"></i> Google
-						</button>
-						<button class="btn-floating btn-md btn-git" type="button">
-							<i class="fab fa-github"></i> Github
-						</button>
 					</div>
 
 					<div class="dropdown-divider"></div>
@@ -259,8 +253,7 @@
 					<hr class="my-2">
 
 					<div class="flex-fill text-center">
-						<button class="btn-floating btn-md btn-fb" type="button" scope="public_profile,email"
-							onlogin="checkLoginState();">
+						<button href="/auth/facebook/callback" class="btn-floating btn-md btn-fb" type="button">
 							<i class="fab fa-facebook-f"></i> Facebook
 						</button>
 						<button class="btn-floating btn-md btn-tw" type="button">
