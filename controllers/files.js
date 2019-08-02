@@ -12,9 +12,11 @@ const literal = require('sequelize').literal;
 
 const bytesToSize = require('../helpers/bytesToSize');
 const email = require('../helpers/email');
+
 const filesFolders = require('../models/filesFolders');
 const filesFoldersComments = require('../models/filesFoldersComments');
 const users = require('../models/users');
+const notifications = require('../models/notifications');
 
 module.exports = {
     index: function (req, res) {
@@ -326,6 +328,16 @@ module.exports = {
 
                                                         data.update({shareUid: shareUid}).then(() => {
                                                             if (i >= datas.length - 1) {
+                                                                notifications.create({
+                                                                    uid: uid,
+                                                                    username: req.user.username,
+                                                                    pid: fid,
+                                                                    title: data['name'],
+                                                                    date: new Date(),
+                                                                    category: "Share",
+                                                                    user: userId
+                                                                });
+
                                                                 email.sendTemplate(
                                                                     user['email'],
                                                                     '[OutSource] A file or folder has been shared with you',
@@ -345,6 +357,16 @@ module.exports = {
                                                         });
                                                     }
                                                     else if (i >= datas.length - 1) {
+                                                        notifications.create({
+                                                            uid: uid,
+                                                            username: req.user.username,
+                                                            pid: fid,
+                                                            title: data['name'],
+                                                            date: new Date(),
+                                                            category: "Share",
+                                                            user: userId
+                                                        });
+
                                                         email.sendTemplate(
                                                             user['email'],
                                                             '[OutSource] A file or folder has been shared with you',
@@ -365,6 +387,16 @@ module.exports = {
                                             });
                                         }
                                         else {
+                                            notifications.create({
+                                                uid: uid,
+                                                username: req.user.username,
+                                                pid: fid,
+                                                title: data['name'],
+                                                date: new Date(),
+                                                category: "Share",
+                                                user: userId
+                                            });
+                                            
                                             email.sendTemplate(
                                                 user['email'],
                                                 '[OutSource] A file or folder has been shared with you',
@@ -653,8 +685,8 @@ module.exports = {
                             let successMsgs = [];
                             let shareUid = data['shareUid'].split(',').map(Number);
 
-                            for (const uid of delUids) {
-                                let i = shareUid.indexOf(parseInt(uid));
+                            for (const delUid of delUids) {
+                                let i = shareUid.indexOf(parseInt(delUid));
 
                                 if (i > -1) {
                                     let user = userDatas.find(v => v.id === shareUid[i]);
@@ -662,6 +694,16 @@ module.exports = {
 
                                     shareUid.splice(i, 1);
                                     emails.push(user['email']);
+
+                                    notifications.create({
+                                        uid: uid,
+                                        username: req.user.username,
+                                        pid: fid,
+                                        title: data['name'],
+                                        date: new Date(),
+                                        category: "Unshare",
+                                        user: user['id']
+                                    });
                                 }
                             }
 

@@ -295,6 +295,7 @@ $(function() {
         let rows = $('tbody tr', '#files-table');
         let i = 1;
 
+        $('.table-responsive').addClass('overflow-x-hidden');
         $(rows[0]).removeClass('d-none');
         $(rows[0]).addClass('flipInX').one(animationEnd, function() {
             $(this).removeClass('flipInX');
@@ -310,6 +311,11 @@ $(function() {
             i++;
 
             if (i === rows.length) {
+                setTimeout(function() {
+                    $('.table-responsive').removeClass('overflow-x-hidden');
+                    clearTimeout(this);
+                }, 500);
+
                 clearInterval(this);
             }
         }, 250);
@@ -955,13 +961,15 @@ $(function() {
                 $('.share-users', '#share-modal').removeClass('d-none');
                 
                 for (let i = 0, n = share['uids'].length; i < n; i++) {
+                    let roundedLeft = i >= n - 1 ? ' class="rounded-bottom-left"' : '';
+                    let roundedRight = i >= n - 1 ? ' class="rounded-bottom-right"' : '';
                     let uid = share['uids'][i];
                     let username = share['usernames'][i];
                     let email = share['emails'][i];
 
                     tbody.append(`
                         <tr>
-                            <td headers="share-select">
+                            <td headers="share-select"${roundedLeft}>
                                 <div class="form-check">
                                     <input id="su-${uid}" class="form-check-input" type="checkbox" name="uid" value="${uid}">
                                     <label class="form-check-label" for="su-${uid}"></label>
@@ -970,7 +978,7 @@ $(function() {
                             <td headers="share-username">
                                 ${username}
                             </td>
-                            <td headers="share-email">
+                            <td headers="share-email"${roundedRight}>
                                 ${email}
                             </td>
                         </tr>
