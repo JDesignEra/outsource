@@ -26,11 +26,11 @@ router.post('/fav/:id', servicesController.fav)
 router.get('/requests', isAuth, servicesController.requests)
 
 //Lemuel
-router.get('/payment/:id', isAuth, servicesController.payment)
+router.get('/payment/:id/:jobID', isAuth, servicesController.payment)
 
-router.post('/payment/:id', isAuth, servicesController.sendPayment)
+router.post('/payment/:id/:jobID', isAuth, servicesController.sendPayment)
 
-router.get('/payment/:id/success/', isAuth, servicesController.PaymentSuccess)
+router.get('/paymentSuccess/:id/:jobID', isAuth, servicesController.PaymentSuccess)
 
 router.get('/receipt/', isAuth, servicesController.transactions)
 

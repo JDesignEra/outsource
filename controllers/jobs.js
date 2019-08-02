@@ -45,7 +45,7 @@ module.exports = {
                     res.redirect('back');
                 }
 
-                else if (jobs == null || job.status == "done") {
+                else if (jobs == null || jobs.status == "done") {
                     let remarks = req.body.remarks == undefined ? "None" : req.body.remarks.slice(0, 1999);
                     Jobs.create({
                         uid: services.uid,
@@ -68,8 +68,10 @@ module.exports = {
                             category: "Jobs",
                             user: services.uid
                         })
-                        req.flash('success', 'Job request sent successfully!');
-                        res.redirect('/services/payment/' + services.id);
+                        req.flash('success', `Job request sent successfully! Please wait for ${job.uname}'s response`);
+                        // res.redirect('/services/payment/' + services.id);
+                        res.redirect('/services/');
+
                     })
                 }
                 else if (jobs.cid == req.user.id && services.id == jobs.sid) {
@@ -146,11 +148,13 @@ module.exports = {
                         category: "Requests",
                         user: job.cid
                     })
+                    console.log("lol")
                     req.flash('success', 'Request accepted');
-                    res.redirect('/job');
+                    res.redirect('/jobs');
                 })
-                req.flash('success', 'Request accepted');
-                res.redirect('/jobs');
+
+                // req.flash('success', 'Request accepted');
+                // res.redirect('/jobs');
             })
     },
 

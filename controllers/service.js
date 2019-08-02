@@ -206,10 +206,10 @@ module.exports = {
         }).then((services) => {
             if (req.user.id === services.uid) {
                 let imgPath = `/uploads/services/${uid}/${sid}.png`;
-                if (fs.existsSync(path.join('./public', imgPath))){
+                if (fs.existsSync(path.join('./public', imgPath))) {
                     imgPath = imgPath;
                 }
-                else{
+                else {
                     imgPath = null;
                 }
 
@@ -370,7 +370,8 @@ module.exports = {
                                 res.render('services/payment', {
                                     service: service,
                                     client: client,
-                                    freelancer: freelancer
+                                    freelancer: freelancer,
+                                    jobID: req.params.jobID
                                 });
                             })
                     })
@@ -407,7 +408,7 @@ module.exports = {
                                     feesPayer: 'EACHRECEIVER',
                                     memo: `Payment for ${service.name} by ${freelancer.username}`,
                                     cancelUrl: 'http://localhost:5000/',
-                                    returnUrl: `http://localhost:5000/services/payment/${service.id}/success/`,
+                                    returnUrl: `http://localhost:5000/services/paymentSuccess/${service.id}/${req.params.jobID}/`,
                                     receiverList: {
                                         receiver: [
                                             {
@@ -470,13 +471,16 @@ module.exports = {
                     }, {
                             where: {
                                 sid: service.id,
-                                cid: req.user.id
+                                cid: req.user.id,
+                                id: req.params.jobID
                             }
                         }).then((job) => {
                             Jobs.findOne({
                                 where: {
                                     sid: service.id,
-                                    cid: req.user.id
+                                    cid: req.user.id,
+                                    id: req.params.jobID
+
                                 }
                             }).then(job => {
                                 Notification.create({
@@ -534,15 +538,39 @@ module.exports = {
     },
 
     transactions: function (req, res) {
-        Transactions.findAll({
-            where: {
-                uid: req.user.id
-            }
-        }).then((transactions) => {
-            res.render('services/transactionLists', {
-                transactions
+        if (req.user.accType == "client") {
+            Transactions.findAll({
+                where: {
+                    uid: req.user.id
+                }
+            }).then((transactions) => {
+                res.render('services/transactionLists', {
+                    transactions
+                })
             })
-        })
+        }
+        else {
+            Transactions.findAll({
+                where: {
+                    serviceProvider: req.user.username
+                }
+            }).then((Service_Transactions) => {
+                Users.findAll(
+                ).then(Transaction_Clients => {
+
+                    for (t = 0; t < Service_Transactions.length; t++) {
+                        for (c = 0; c < Transaction_Clients.length; c++) {
+                            if (Service_Transactions[t].uid == Transaction_Clients[c].id) {
+                                Service_Transactions[t].clientName = Transaction_Clients[c].username
+                            }
+                        }
+                    }
+                    res.render('services/paymentLists', {
+                        transactions: Service_Transactions
+                    })
+                })
+            })
+        }
     },
 
     viewPaymentDetails: function (req, res) {
