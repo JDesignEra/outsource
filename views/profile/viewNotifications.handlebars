@@ -41,7 +41,7 @@
                 <a class="nav-link waves-light" id="jobs-tab-classic-shadow" data-toggle="tab"
                     href="#jobs-classic-shadow" role="tab" aria-controls="jobs-classic-shadow" aria-selected="false">
                     Jobs
-                    {{#ifCond 'jobs_reject_notifications.length == 0 && jobs_notifications.length == 0 && paid_jobs_notifications.length == 0' }}
+                    {{#ifCond 'jobs_reject_notifications.length == 0 || jobs_notifications.length == 0 || paid_jobs_notifications.length == 0' }}
                     {{else}}
                     <span class="text-danger font-weight-bold">!</span>
                     {{/ifCond}}</a>
@@ -52,13 +52,21 @@
                     href="#requests-classic-shadow" role="tab" aria-controls="requests-classic-shadow"
                     aria-selected="false">
                     Requests
-                    {{#ifCond 'requests_cancelled_notifications.length == 0 && requests_notifications.length == 0 && complete_requests_notifications.length == 0' }}
+                    {{#ifCond 'requests_cancelled_notifications.length == 0 || requests_notifications.length == 0 || complete_requests_notifications.length == 0' }}
                     {{else}}
                     <span class="text-danger font-weight-bold">!</span>
                     {{/ifCond}}</a>
             </li>
             {{/ifCond}}
 
+            <li class="nav-item">
+                <a class="nav-link waves-light" id="file-tab-classic-shadow" data-toggle="tab"
+                    href="#file-classic-shadow" role="tab" aria-controls="file-classic-shadow" aria-selected="false">
+                    File
+                    {{#ifCond 'file_share_notifications.length > 0 || file_unshare_notifications.length > 0 '}}
+                    <span class="text-danger font-weight-bold">!</span>
+                    {{/ifCond}}</a>
+            </li>
             {{!-- =============================== Following =============================== --}}
             <li class="nav-item ml-auto">
                 <a class="nav-link waves-light" id="portfolio-tab-classic-shadow" data-toggle="tab"
@@ -439,6 +447,82 @@
             </div>
             {{/ifCond}}
 
+            {{!-- =============================== File =============================== --}}
+            <div class="tab-pane fade profile-content" id="file-classic-shadow" role="tabpanel"
+                aria-labelledby="file-tab-classic-shadow">
+                <div class="row justify-content-center mx-auto p-2 col-12">
+                    {{#if file_share_notifications}}
+                    <div class="col-12 row justify-content-end mx-auto">
+                        <a class="ml-auto" href="/profile/deleteAllNotifications/Share"><button
+                                class="btn btn-secondary">
+                                Clear All </button></a>
+                    </div>
+                    {{#each file_share_notifications}}
+                    <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
+                        <div class="col-8 row mx-auto my-3">
+                            <img class="lozad border rounded-circle" style="width:50px; height:50px;"
+                                onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{uid}}/profilePic.png" alt="">
+
+                            <div class="pl-2 align-self-center pt-1">
+                                <h5 class="">
+                                    <a href="/profile/view/{{uid}}">{{username}}</a> shared <a
+                                        href="/services/view/{{uid}}/{{pid}}">{{title}}</a>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
+                            <h6 class="text-muted text-right">
+                                {{formatDate date 'DD MMM YYYY'}}
+                            </h6>
+
+                        </div>
+                        <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {{/each}}
+                    {{/if}}
+
+
+                    {{#if file_unshare_notifications}}
+                    <div class="col-12 row justify-content-end mx-auto">
+                        <a class="ml-auto" href="/profile/deleteAllNotifications/Unshare"><button
+                                class="btn btn-secondary">
+                                Clear All </button></a>
+                    </div>
+                    {{#each file_unshare_notifications}}
+                    <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
+                        <div class="col-8 row mx-auto my-3">
+                            <img class="lozad border rounded-circle" style="width:50px; height:50px;"
+                                onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{uid}}/profilePic.png" alt="">
+
+                            <div class="pl-2 align-self-center pt-1">
+                                <h5 class="">
+                                    <a href="/profile/view/{{uid}}">{{username}}</a> unshared <a
+                                        href="/services/view/{{uid}}/{{pid}}">{{title}}</a>.
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
+                            <h6 class="text-muted text-right">
+                                {{formatDate date 'DD MMM YYYY'}}
+                            </h6>
+
+                        </div>
+                        <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {{/each}}
+                    {{/if}}
+
+                    {{#ifCond 'file_share_notifications.length == 0 && file_unshare_notifications.length == 0'}}
+                    <h4 class="col-12 text-center text-muted my-5"> You have no notifications</h4>
+                    {{/ifCond}}
+                </div>
+            </div>
 
 
             {{!-- =============================== Portfolio =============================== --}}

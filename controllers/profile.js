@@ -684,22 +684,43 @@ module.exports = {
                                                         category: "Jobs_Paid"
                                                     }
                                                 }).then(paid_jobs_notifications => {
+                                                    Notification.findAll({
+                                                        where: {
+                                                            user: req.user.id,
+                                                            category: "Share"
+                                                        },
+                                                        order: [['date', 'DESC']]
+                                                    }).then(file_share_notifications => {
+                                                        Notification.findAll({
+                                                            where: {
+                                                                user: req.user.id,
+                                                                category: "Unshare"
+                                                            },
+                                                            order: [['date', 'DESC']]
+                                                        }).then(file_unshare_notifications => {
 
-                                                    res.render('profile/viewNotifications', {
-                                                        project_notifications,
-                                                        like_notifications,
-                                                        service_notifications,
-                                                        comment_notifications,
-                                                        followers_notifications,
 
-                                                        jobs_notifications,
-                                                        requests_notifications,
+                                                            res.render('profile/viewNotifications', {
+                                                                project_notifications,
+                                                                service_notifications,
 
-                                                        jobs_reject_notifications,
-                                                        requests_cancelled_notifications,
+                                                                like_notifications,
+                                                                comment_notifications,
+                                                                followers_notifications,
 
-                                                        paid_jobs_notifications,
-                                                        complete_requests_notifications
+                                                                file_share_notifications,
+                                                                file_unshare_notifications,
+
+                                                                jobs_notifications,
+                                                                requests_notifications,
+
+                                                                jobs_reject_notifications,
+                                                                requests_cancelled_notifications,
+
+                                                                paid_jobs_notifications,
+                                                                complete_requests_notifications
+                                                            })
+                                                        })
                                                     })
                                                 })
                                             })
