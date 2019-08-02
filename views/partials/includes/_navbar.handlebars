@@ -28,9 +28,9 @@
 				<a class="nav-link chip primary-reverse-light-gradient dropdown-toggle m-0 z-depth-1-half"
 					data-toggle="dropdown">
 					{{#ifFile (concat './public/uploads/profile/' user.id '/profilePic.png') }}
-						<img class="deep-purple lighten-5 z-depth-1-half" src="/uploads/profile/{{user.id}}/profilePic.png">
+					<img class="deep-purple lighten-5 z-depth-1-half" src="/uploads/profile/{{user.id}}/profilePic.png">
 					{{else}}
-						<i class="fas fa-user animated faster"></i>
+					<i class="fas fa-user animated faster"></i>
 					{{/ifFile}} {{user.username}}
 				</a>
 
@@ -41,15 +41,20 @@
 					<a class="dropdown-item" href="/files/my-drive">
 						<i class="far fa-folders mr-1"></i> Files Management
 					</a>
+					{{#ifCond 'user.accType == "service"'}}
 					<a class="dropdown-item" href="/services/manage">
 						<i class="far fa-user-tie mr-1"></i> Services Management
 					</a>
-					<a class="dropdown-item" href="/services/requests">
-						<i class="far fa-money-check mr-1"></i> Service Requests Management
-					</a>
+
 					<a class="dropdown-item" href="/jobs">
 						<i class="far fa-briefcase mr-1"></i> Jobs Management
 					</a>
+					{{else}}
+					<a class="dropdown-item" href="/services/requests">
+						<i class="far fa-money-check mr-1"></i> Service Requests Management
+					</a>
+					{{/ifCond}}
+
 					<a class="dropdown-item" href="/services/receipt">
 						<i class="far fa-file-invoice-dollar mr-1"></i> Transaction Histories
 					</a>
@@ -61,7 +66,8 @@
 			</li>
 
 			<!-- Mobile -->
-			<li class="nav-item d-block d-md-none{{#ifCond 'url !== "/profile/notifications"'}}{{#ifStringContain url '/profile'}} active{{/ifStringContain}}{{/ifCond}}">
+			<li
+				class="nav-item d-block d-md-none{{#ifCond 'url !== "/profile/notifications"'}}{{#ifStringContain url '/profile'}} active{{/ifStringContain}}{{/ifCond}}">
 				<hr class="hr-light my-2">
 				<a class="nav-link rounded" href="/profile">
 					<i class="far fa-id-card mr-1"></i> My Profile
@@ -72,23 +78,31 @@
 					<i class="far fa-folders mr-1"></i> Files Management
 				</a>
 			</li>
+
+			{{#ifCond 'user.accType == "service"'}}
 			<li
 				class="nav-item d-block d-md-none{{#ifStringContain url '/services/manage'}} active{{/ifStringContain}}">
 				<a class="nav-link rounded" href="/services/manage">
 					<i class="far fa-user-tie mr-1"></i> Services Management
 				</a>
 			</li>
-			<li class="nav-item d-block d-md-none{{#ifStringContain url '/services/requests'}} active{{/ifStringContain}}">
-				<a class="nav-link rounded" href="/services/requests">
-					<i class="far fa-money-check mr-1"></i> Service Requests Management
-				</a>
-			</li>
+
 			<li class="nav-item d-block d-md-none{{#ifStringContain url '/jobs'}} active{{/ifStringContain}}">
 				<a class="nav-link rounded" href="/jobs">
 					<i class="far fa-briefcase mr-1"></i> Jobs Management
 				</a>
 			</li>
-			<li class="nav-item d-block d-md-none{{#ifStringContain url '/services/receipt'}} active{{/ifStringContain}}">
+			{{else}}
+			<li
+				class="nav-item d-block d-md-none{{#ifStringContain url '/services/requests'}} active{{/ifStringContain}}">
+				<a class="nav-link rounded" href="/services/requests">
+					<i class="far fa-money-check mr-1"></i> Service Requests Management
+				</a>
+			</li>
+			{{/ifCond}}
+
+			<li
+				class="nav-item d-block d-md-none{{#ifStringContain url '/services/receipt'}} active{{/ifStringContain}}">
 				<a class="nav-link rounded" href="/services/receipt">
 					<i class="far fa-file-invoice-dollar mr-1"></i> Transaction Histories
 				</a>
@@ -169,7 +183,8 @@
 					<div class="dropdown-divider"></div>
 
 					<div class="flex-fill text-center">
-						<fb:login-button class="btn-floating btn-md btn-fb" scope="public_profile,email" onlogin="checkLoginState();" type="button">
+						<fb:login-button class="btn-floating btn-md btn-fb" scope="public_profile,email"
+							onlogin="checkLoginState();" type="button">
 							<i class="fab fa-facebook-f"></i> Facebook
 						</fb:login-button>
 						<button class="btn-floating btn-md btn-tw g-signin2" data-onsuccess="onSignIn" type="button">
@@ -244,7 +259,8 @@
 					<hr class="my-2">
 
 					<div class="flex-fill text-center">
-						<button class="btn-floating btn-md btn-fb" type="button" scope="public_profile,email" onlogin="checkLoginState();">
+						<button class="btn-floating btn-md btn-fb" type="button" scope="public_profile,email"
+							onlogin="checkLoginState();">
 							<i class="fab fa-facebook-f"></i> Facebook
 						</button>
 						<button class="btn-floating btn-md btn-tw" type="button">
@@ -268,45 +284,45 @@
 
 {{!-- <script>
 	//FACEBOOK API
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '900093130361854',
-      cookie     : true,
-      xfbml      : true,
-      version    : 'v4.0'
-    });
+	window.fbAsyncInit = function () {
+		FB.init({
+			appId: '900093130361854',
+			cookie: true,
+			xfbml: true,
+			version: 'v4.0'
+		});
 
-FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-});  
-      
-  };
+		FB.getLoginStatus(function (response) {
+			statusChangeCallback(response);
+		});
 
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-   
-   function statusChangeCallback(response){
-	   if(response.status === 'connected'){
-		   console.log('Logged in and authenticated');
-	   }
-	   else{
-		   console.log('Not Authenticated');
-	   }
-   }
-   
+	};
+
+	(function (d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) { return; }
+		js = d.createElement(s); js.id = id;
+		js.src = "https://connect.facebook.net/en_US/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+
+	function statusChangeCallback(response) {
+		if (response.status === 'connected') {
+			console.log('Logged in and authenticated');
+		}
+		else {
+			console.log('Not Authenticated');
+		}
+	}
+
 	function checkLoginState() {
-	FB.getLoginStatus(function(response) {
-		statusChangeCallback(response);
-	});
+		FB.getLoginStatus(function (response) {
+			statusChangeCallback(response);
+		});
 	}
 </script> --}}
 
 {{!-- <script src="https://apis.google.com/js/platform.js" async defer>
 
-<meta name="821570960771-kdkbr8kubob57h7r19j1pq7b47jmora9" content="821570960771-kdkbr8kubob57h7r19j1pq7b47jmora9.apps.googleusercontent.com">
+	<meta name="821570960771-kdkbr8kubob57h7r19j1pq7b47jmora9" content="821570960771-kdkbr8kubob57h7r19j1pq7b47jmora9.apps.googleusercontent.com">
 </script> --}}

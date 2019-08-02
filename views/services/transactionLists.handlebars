@@ -1,63 +1,162 @@
 <section class="transaction-list">
-    <section class="payment-details">
-        {{!-- 
-    <h1 class="col-12 text-center">Transaction Successful!</h1> --}}
-        <div class="row col-12 mb-2">
-            <a href="/profile" class="text-secondary">
-                <h4><i class="fas fa-chevron-left"></i> Profile</h4>
-            </a>
-        </div>
-        <div class="row col-10 justify-content-center z-depth-2 p-3 rounded mx-auto">
-            <h3 class="col-12 text-center">
-                Transaction List
-            </h3>
-            {{#if transactions}}
-            <div class="row col-12 secondary-color-dark rounded-top p-0">
-                <div class="col-3 border border-top-0 border-bottom-0 border-white py-2">
-                    <h5 class="text-white">Transaction ID</h5>
+    {{!-- <div class="row col-12 mb-2">
+        <a href="/profile" class="text-secondary">
+            <h4><i class="fas fa-chevron-left"></i> Profile</h4>
+        </a>
+    </div> --}}
+    <div class="row">
+        <div class="col-12 col-md-9 order-1 order-md-0">
+            <div class="card card-cascade narrower">
+                <div
+                    class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center text-center">
+                    <span class="white-text mx-3">Transactions
+                    </span>
                 </div>
-                <div class="col-2 border border-top-0 border-bottom-0 border-white py-2">
-                    <h5 class="text-white">Service Name</h5>
-                </div>
-                <div class="col-3 border border-top-0 border-bottom-0 border-white py-2">
-                    <h5 class="text-white">Description</h5>
-                </div>
-                <div class="col-2 border border-top-0 border-bottom-0 border-white py-2">
-                    <h5 class="text-white">Price</h5>
-                </div>
-                <div class="col-2 border border-top-0 border-bottom-0 border-white py-2">
-                    <h5 class="text-white">Date</h5>
+
+                <div class="card-body">
+                    <div class="table-responsive table-hover w-100" style="padding: 0 15px;">
+                        <table id="transaction-table" class="table table-striped text-center">
+                            <thead class="deep-purple accent-3 white-text">
+                                <tr>
+                                    <th id="transactionID" class="th-sm rounded-top-left">Transaction ID
+                                    </th>
+                                    <th id="name" class="th-sm">Service Name</th>
+                                    <th id="description" class="th-sm">Description</th>
+                                    <th id="price" class="th-sm">Price</th>
+                                    <th id="date" class="th-sm">Date</th>
+                                    <th id="action" class="th-sm rounded-top-right">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {{#if transactions}}
+                                {{#each transactions}}
+                                <tr class="animated faster">
+                                    <td headers="transactionID"
+                                        class="align-middle {{#if @last}}rounded-bottom-left{{/if}}">
+                                        <a href="/services/receipt/{{id}}">{{paypalTransactionID}}</a>
+                                    </td>
+                                    <td headers="name" class="align-middle">{{serviceName}}</td>
+                                    <td headers="description" class="align-middle">{{description}}</td>
+                                    <td headers="price" class="align-middle">${{price}}
+                                        {{currency}}</td>
+                                    <td headers="date" class="align-middle"> {{formatDate date "DD MMMM YYYY"}}</td>
+                                    <td headers="action" class="align-middle {{#if @last}}rounded-bottom-right{{/if}}">
+
+                                    </td>
+                                </tr>
+                                {{/each}}
+
+                                {{/if}}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {{#if jobs}}
+                    <p class="text-center grey-text small font-weight-bold mb-0">End of contents</p>
+                    {{/if}}
                 </div>
             </div>
-            {{#each transactions}}
-            <div class="row col-12 py-2 p-0 border-bottom">
-                <div class="col-3">
-                    <a href="/services/receipt/{{id}}"><p>{{paypalTransactionID}}</p></a>
-                </div>
-                <div class="col-2">
-                    <p>{{serviceName}}</p>
-                </div>
-                <div class="col-3">
-                    <p>{{description}}</p>
-                </div>
-                <div class="col-2">
-                    <p>${{price}}
-                        {{currency}}</p>
-                </div>
-                <div class="col-2">
-                    {{formatDate date "DD MMMM YYYY"}}
-                </div>
-            </div>
-            {{/each}}
-
-            {{else}}
-            <h4 class="col-12 text-center">
-                You have no transactions
-            </h4>
-            {{/if}}
-
-
         </div>
 
-    </section>
+        <div class="col-12 col-md-3 my-4 my-md-0 order-0 order-md-1">
+            <div class="card card-cascade narrower">
+                <div
+                    class="view view-cascade primary-light-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-center align-items-center text-center">
+                    <span class="white-text mx-3">Action</span>
+                </div>
+
+                <div class="card-body">
+                    <div class="md-form md-outline my-0">
+                        <input id="action-search-input" class="form-control" type="text" name="search">
+                        <label for="action-search-input">Search Transaction by Service Name</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
+
+{{#extend 'scripts'}}
+<script>
+    // Material Design example
+$(document).ready(function () {
+    let table = $('#transaction-table', 'section.transaction-list');
+    let trs = $('tbody tr', '#transaction-table');
+
+    table.DataTable({
+        ordering: true,
+        order: [[1, 'asc']],
+        paging: false,
+        info: false,
+        searching: false,
+        language: { emptyTable: 'No transactions.' },
+        columnDefs: [{
+            orderable: false,
+            targets: 5
+        }],
+    });
+
+    $('input[name="search"]', 'section.transaction-list').on('keyup', function() {
+        let val = $(this).val().toLowerCase();
+        let shown = trs.length;
+
+        trs.each(function() {
+            let _this = $(this);
+
+            if (val) {
+                let tds = _this.children('td[headers]:not([headers="action"], [id="empty-search"])');
+                let show = false;
+
+                for (let i = 0, n = tds.length; i < n && !show; i++) {
+                    td = $(tds[i]);
+                    
+                    if (td.text().toLowerCase().indexOf(val) > -1) {
+                        show = true;
+                    }
+                }
+                
+                if (show && _this.attr('style')) {
+                    _this.removeAttr('style');
+
+                    _this.addClass('flipInX').one(animationEnd, function() {
+                        _this.removeClass('flipInX');
+                    });
+                }
+                else if (!show) {
+                    if (!_this.attr('style')) {
+                        _this.addClass('flipOutX').one(animationEnd, function() {
+                            _this.removeClass('flipOutX');
+                            _this.prop('style', 'display: none !important;');
+                        });
+                    }
+
+                    shown--;
+                }
+            }
+            else {
+                if (_this.attr('style')) {
+                    _this.removeAttr('style');
+                    _this.addClass('flipInX').one(animationEnd, function() {
+                        $(this).removeClass('flipInX');
+                    });
+                }
+            }
+        });
+
+        $('#empty-search', '#transaction-table').remove();
+        
+        if (shown < 1) {
+            $('tbody', '#transaction-table').prepend(`
+                <tr id="empty-search">
+                    <td class="rounded-bottom" colspan=100>
+                        Couldn\'t find anything for <span class="font-weight-bolder">${val}</span>
+                    </td>
+                </tr>
+            `);
+        }
+    });
+});
+</script>
+{{/extend}}
