@@ -34,11 +34,10 @@
                                     <td headers="remarks" class="align-middle">{{remarks}}</td>
                                     <td headers="action" class="align-middle {{#if @last}}rounded-bottom-right{{/if}}">
                                         {{#ifCond 'this.status == "unaccepted"'}}
-                                        <a href="/jobs/accept/{{id}}"
-                                            class="btn btn-sm btn-success material-tooltip-md" data-tooltip="tooltip"
-                                            data-placement="top" title="Accept Job">
+                                        <a href="/jobs/accept/{{id}}" class="btn btn-sm btn-success material-tooltip-md"
+                                            data-tooltip="tooltip" data-placement="top" title="Accept Job">
                                             Accept Job<i class="far fa-check ml-2"></i></a>
-                                            <a href="/jobs/delete/{{id}}" class="btn btn-sm btn-danger material-tooltip-md"
+                                        <a href="/jobs/delete/{{id}}" class="btn btn-sm btn-danger material-tooltip-md"
                                             data-tooltip="tooltip" data-placement="top" title="Reject Job">
                                             Reject Job<i class="far fa-times ml-2"></i>
                                         </a>
@@ -50,6 +49,9 @@
                                         <a href="/jobs/submit/{{id}}" class="btn btn-sm btn-success material-tooltip-md"
                                             data-tooltip="tooltip" data-placement="top" title="Submit Job">
                                             Job completed<i class="far fa-check ml-2"></i></a>
+                                        {{/ifCond}}
+                                        {{#ifCond 'this.status == "done"'}}
+                                        Completed
                                         {{/ifCond}}
                                     </td>
                                 </tr>
