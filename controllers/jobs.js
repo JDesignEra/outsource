@@ -157,22 +157,28 @@ module.exports = {
     submit: function (req, res) {
         Jobs.update({
             status: "done"
-        }), {
+        }, {
             where: {
                 id: req.params.id
             }
-        }.then(job => {
-            Notification.create({
-                uid: req.user.id,
-                username: req.user.username,
-                pid: job.sid,
-                title: job.name,
-                date: new Date(),
-                category: "Complete_requests",
-                user: job.cid
-            }).then(() => {
-                req.flash('success', 'Job completed!');
-                res.redirect('back');
+        }).then(job => {
+            Jobs.findOne({
+                where: {
+                    id: req.params.id
+                }
+            }).then(jobs => {
+                Notification.create({
+                    uid: req.user.id,
+                    username: req.user.username,
+                    pid: jobs.sid,
+                    title: jobs.name,
+                    date: new Date(),
+                    category: "Complete_requests",
+                    user: jobs.cid
+                }).then(() => {
+                    req.flash('success', 'Job completed!');
+                    res.redirect('back');
+                })
             })
         })
     }

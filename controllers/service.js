@@ -466,42 +466,59 @@ module.exports = {
                                 sid: service.id,
                                 cid: req.user.id
                             }
-                        }).then(() => {
-                            var params = {
-                                payKey: req.session.payKey.toString()
-                            };
-                            paypalSdk.paymentDetails(params, function (err, response) {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    // payments details for this payKey, transactionId or trackingId
-                                    Transactions.create({
-                                        serviceProvider: freelancer.username,
-                                        freelancerPaypal: freelancer.paypal,
-                                        paypalMerchantID: response.paymentInfoList.paymentInfo[0].receiver.accountId,
-
-                                        paidWith: response.sender.email,
-
-                                        paypalTransactionID: response.paymentInfoList.paymentInfo[0].transactionId,
-                                        serviceName: service.name,
-                                        description: response.memo,
-                                        price: response.paymentInfoList.paymentInfo[0].receiver.amount,
-                                        currency: response.currencyCode,
-                                        date: response.responseEnvelope.timestamp,
-
-                                        uid: client.id,
-
-                                    }).then((transaction) => {
-                                        // res.send("success")
-                                        res.render("services/paymentDetails", {
-                                            service,
-                                            response: response,
-                                            client: client,
-                                            freelancer: freelancer
-                                        })
-                                    })
+                        }).then((job) => {
+                            Jobs.findOne({
+                                where: {
+                                    sid: service.id,
+                                    cid: req.user.id
                                 }
-                            });
+                            }).then(job => {
+                                Notification.create({
+                                    uid: req.user.id,
+                                    username: req.user.username,
+                                    pid: job.sid,
+                                    title: job.name,
+                                    date: new Date(),
+                                    category: "Jobs_Paid",
+                                    user: job.uid
+                                })
+                                var params = {
+                                    payKey: req.session.payKey.toString()
+                                };
+                                paypalSdk.paymentDetails(params, function (err, response) {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        // payments details for this payKey, transactionId or trackingId
+                                        Transactions.create({
+                                            serviceProvider: freelancer.username,
+                                            freelancerPaypal: freelancer.paypal,
+                                            paypalMerchantID: response.paymentInfoList.paymentInfo[0].receiver.accountId,
+
+                                            paidWith: response.sender.email,
+
+                                            paypalTransactionID: response.paymentInfoList.paymentInfo[0].transactionId,
+                                            serviceName: service.name,
+                                            description: response.memo,
+                                            price: response.paymentInfoList.paymentInfo[0].receiver.amount,
+                                            currency: response.currencyCode,
+                                            date: response.responseEnvelope.timestamp,
+
+                                            uid: client.id,
+
+                                        }).then((transaction) => {
+                                            // res.send("success")
+                                            req.flash('success', 'Payment successful')
+                                            res.render("services/paymentDetails", {
+                                                service,
+                                                response: response,
+                                                client: client,
+                                                freelancer: freelancer
+                                            })
+                                        })
+                                    }
+                                })
+                            })
                         })
                 })
 
@@ -544,59 +561,4 @@ function capitalize(components) {
     else {
         return components.charAt(0).toUpperCase() + components.slice(1);
     }
-}
-stuff = {
-    "id": "PAYID-LUXJSKQ1FW03336LR286012X",
-    "intent": "sale",
-    "state": "approved",
-    "cart": "2VP90248MC2795219",
-    "payer": {
-        "payment_method": "paypal",
-        "status": "VERIFIED",
-        "payer_info":
-        {
-            "email": "annadoe_outsourcetest@gmail.com",
-            "first_name": "Anna",
-            "last_name": "Doe",
-            "payer_id": "E9AYRMSE2YS4C",
-            "shipping_address":
-            {
-                "recipient_name": "Anna Doe",
-                "line1": "1 Main St",
-                "city": "San Jose",
-                "state": "CA",
-                "postal_code":
-                    "95131",
-                "country_code": "US"
-            },
-            "country_code": "US"
-        }
-    },
-
-    "transactions": [{
-        "amount": { "total": "1000.00", "currency": "USD", "details": {} },
-        "payee": { "merchant_id": "UVD23V44LPMAJ", "email": "johndoe_outsourcetest@gmail.com" },
-
-        "description": "Payment for Money lend by Ryuse",
-
-        "item_list": {
-            "items": [{ "name": "Money lend", "sku": "001", "price": "1000.00", "currency": "USD", "quantity": 1 }],
-
-            "shipping_address": {
-                "recipient_name": "Anna Doe",
-                "line1": "1 Main St",
-                "city": "San Jose",
-                "state": "CA",
-                "postal_code": "95131",
-                "country_code": "US"
-            },
-
-            "shipping_options": [null]
-        },
-        "related_resources": [{ "sale": { "id": "4XP58233JB345524E", "state": "completed", "amount": { "total": "1000.00", "currency": "USD", "details": { "subtotal": "1000.00" } }, "payment_mode": "INSTANT_TRANSFER", "protection_eligibility": "ELIGIBLE", "protection_eligibility_type": "ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE", "transaction_fee": { "value": "29.30", "currency": "USD" }, "parent_payment": "PAYID-LUXJSKQ1FW03336LR286012X", "create_time": "2019-07-17T03:44:13Z", "update_time": "2019-07-17T03:44:13Z", "links": [{ "href": "https://api.sandbox.paypal.com/v1/payments/sale/4XP58233JB345524E", "rel": "self", "method": "GET" }, { "href": "https://api.sandbox.paypal.com/v1/payments/sale/4XP58233JB345524E/refund", "rel": "refund", "method": "POST" }, { "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAYID-LUXJSKQ1FW03336LR286012X", "rel": "parent_payment", "method": "GET" }] } }]
-    }],
-
-    "create_time": "2019-07-17T03:44:14Z",
-
-    "links": [{ "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAYID-LUXJSKQ1FW03336LR286012X", "rel": "self", "method": "GET" }], "httpStatusCode": 200
 }

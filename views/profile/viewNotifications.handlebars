@@ -215,9 +215,42 @@
             <div class="tab-pane fade profile-content" id="jobs-classic-shadow" role="tabpanel"
                 aria-labelledby="jobs-tab-classic-shadow">
                 <div class="row justify-content-center mx-auto p-2 col-12">
+                    {{#if paid_jobs_notifications}}
+                    <div class="col-12 row justify-content-end mx-auto">
+                        <a class="ml-auto" href="/profile/deleteAllNotifications/Jobs_Paid"><button
+                                class="btn btn-secondary">
+                                Clear All </button></a>
+                    </div>
+                    {{#each paid_jobs_notifications}}
+                    <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
+                        <div class="col-8 row mx-auto my-3">
+                            <img class="lozad border rounded-circle" style="width:50px; height:50px;"
+                                onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{uid}}/profilePic.png" alt="">
+
+                            <div class="pl-2 align-self-center pt-1">
+                                <h5 class="">
+                                    <a href="/profile/view/{{uid}}">{{username}}</a> cancelled your service of <a
+                                        href="/services/view/{{uid}}/{{pid}}">{{title}}</a>.
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
+                            <h6 class="text-muted text-right">
+                                {{formatDate date 'DD MMM YYYY'}}
+                            </h6>
+
+                        </div>
+                        <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {{/each}}
+                    {{/if}}
+
                     {{#if jobs_reject_notifications}}
                     <div class="col-12 row justify-content-end mx-auto">
-                        <a class="ml-auto" href="/profile/deleteAllNotifications/Jobs_Reject+"><button
+                        <a class="ml-auto" href="/profile/deleteAllNotifications/Jobs_Reject"><button
                                 class="btn btn-secondary">
                                 Clear All </button></a>
                     </div>
@@ -282,7 +315,7 @@
                     {{/each}}
                     {{/if}}
 
-                    {{#ifCond 'jobs_reject_notifications.length == 0 && jobs_notifications.length == 0' }}
+                    {{#ifCond 'jobs_reject_notifications.length == 0 && jobs_notifications.length == 0 && paid_jobs_notifications.length == 0' }}
                     <h4 class="col-12 text-center text-muted my-5"> You have no notifications</h4>
                     {{/ifCond}}
                 </div>
@@ -292,6 +325,41 @@
             <div class="tab-pane fade profile-content" id="requests-classic-shadow" role="tabpanel"
                 aria-labelledby="requests-tab-classic-shadow">
                 <div class="row justify-content-center mx-auto p-2 col-12">
+
+                    {{#if complete_requests_notifications}}
+                    <div class="col-12 row justify-content-end mx-auto">
+                        <a class="ml-auto" href="/profile/deleteAllNotifications/Complete_requests"><button
+                                class="btn btn-secondary">
+                                Clear All </button></a>
+                    </div>
+                    {{#each complete_requests_notifications}}
+                    <div id="notif{{id}}" class="col-12 row justify-content-between z-depth-1 my-2">
+                        <div class="col-8 row mx-auto my-3">
+                            <img class="lozad border rounded-circle" style="width:50px; height:50px;"
+                                onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{uid}}/profilePic.png" alt="">
+
+                            <div class="pl-2 align-self-center pt-1">
+                                <h5 class="">
+                                    <a href="/profile/view/{{uid}}">{{username}}</a> completed your request of <a
+                                        href="/services/view/{{uid}}/{{pid}}">{{title}}</a>.
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-2 align-self-center pt-2 row justify-content-end mx-auto">
+                            <h6 class="text-muted text-right">
+                                {{formatDate date 'DD MMM YYYY'}}
+                            </h6>
+
+                        </div>
+                        <button type="button" class="close mx-auto" onclick="deleteNotif({{id}})">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {{/each}}
+                    {{/if}}
+
+
                     {{#if requests_cancelled_notifications}}
                     <div class="col-12 row justify-content-end mx-auto">
                         <a class="ml-auto" href="/profile/deleteAllNotifications/Requests_Cancel"><button
@@ -342,7 +410,8 @@
                                 <h5 class="">
                                     <a href="/profile/view/{{uid}}">{{username}}</a> accepted your request of <a
                                         href="/services/view/{{uid}}/{{pid}}">{{title}}</a>.
-                                    <br><a class="small" href="/jobs">Please pay at Requests Dashboard to get started</a>
+                                    <br><a class="small" href="/jobs">Please pay at Requests Dashboard to get
+                                        started</a>
 
                                 </h5>
                             </div>
@@ -361,7 +430,7 @@
                     {{else}}
                     {{/if}}
 
-                    {{#ifCond 'requests_cancelled_notifications.length == 0 && requests_notifications.length == 0' }}
+                    {{#ifCond 'requests_cancelled_notifications.length == 0 && requests_notifications.length == 0 && complete_requests_notifications.length == 0' }}
                     <h4 class="col-12 text-center text-muted my-5"> You have no notifications</h4>
                     {{/ifCond}}
                 </div>
