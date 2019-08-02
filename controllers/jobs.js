@@ -45,7 +45,7 @@ module.exports = {
                     res.redirect('back');
                 }
 
-                else if (jobs == null) {
+                else if (jobs == null || job.status == "done") {
                     let remarks = req.body.remarks == undefined ? "None" : req.body.remarks.slice(0, 1999);
                     Jobs.create({
                         uid: services.uid,
@@ -155,24 +155,26 @@ module.exports = {
     },
 
     submit: function (req, res) {
-        Jobs.findOne({
+        Jobs.update({
+            status: "done"
+        }, {
             where: {
                 id: req.params.id
             }
-        }).then(jobs => {
-            Notification.create({
-                uid: req.user.id,
-                username: req.user.username,
-                pid: jobs.sid,
-                title: jobs.name,
-                date: new Date(),
-                category: "Complete_requests",
-                user: jobs.cid
-            }).then(() => {
-                Jobs.destroy({
-                    where: {
-                        id: req.params.id
-                    }
+        }).then(job => {
+            Jobs.findOne({
+                where: {
+                    id: req.params.id
+                }
+            }).then(jobs => {
+                Notification.create({
+                    uid: req.user.id,
+                    username: req.user.username,
+                    pid: jobs.sid,
+                    title: jobs.name,
+                    date: new Date(),
+                    category: "Complete_requests",
+                    user: jobs.cid
                 }).then(() => {
                     req.flash('success', 'Job completed!');
                     res.redirect('back');

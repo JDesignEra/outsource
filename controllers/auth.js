@@ -262,12 +262,20 @@ module.exports = {
             res.render('auth/changepass');
         }
         else if (req.method === "POST") {
+            //let errors = []
             let currPass = req.body.currpass
             let password = req.body.newpass;
             let cfmPass = req.body.confirmpass;
 
             if (password !== cfmPass) {
+                req.flash('error','Passwords do not match.');
+                res.redirect('/changepass');
                 // Display error password and confirm password does not match
+            }
+            if(password.length < 8)
+            {
+                req.flash('error','Password must be more than 8 characters');
+                res.redirect('/changepass');
             }
             else {
                 User.findOne({
@@ -297,6 +305,8 @@ module.exports = {
                     }
                     else {
                         // Dispaly error user does not exist
+                        req.flash('error','User do not exist');
+                        res.redirect('/changepass');
                     }
                 });
             }

@@ -76,6 +76,21 @@ function localStrategy(passport) {
 //             });
 //         }
 //     ));
+
+//FACEBOOK API
+
+passport.use(new FacebookStrategy({
+    clientID: '900093130361854',
+    clientSecret: 'ce031e037bf20d523f2c62f3ae0da1f0',
+    callbackURL: 'https://outsource.jdesignera.com/auth/facebook/callback'
+  },
+  function(accessToken, refreshToken, profile, cb) {
+      console.log(accessToken,refreshToken);
+    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
  }
 
 module.exports = { localStrategy };
