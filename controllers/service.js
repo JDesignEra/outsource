@@ -206,6 +206,12 @@ module.exports = {
         }).then((services) => {
             if (req.user.id === services.uid) {
                 let imgPath = `/uploads/services/${uid}/${sid}.png`;
+                if (fs.existsSync(path.join('./public', imgPath))){
+                    imgPath = imgPath;
+                }
+                else{
+                    imgPath = null;
+                }
 
                 res.render('services/edit', {
                     services: services,
