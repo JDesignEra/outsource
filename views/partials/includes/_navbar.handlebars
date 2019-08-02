@@ -25,12 +25,11 @@
 				</a>
 			</li>
 			<li class="nav-item dropdown my-auto d-none d-md-block">
-				<a class="nav-link chip primary-reverse-light-gradient dropdown-toggle m-0 z-depth-1-half"
-					data-toggle="dropdown">
+				<a class="nav-link chip primary-reverse-light-gradient dropdown-toggle m-0 z-depth-1-half" data-toggle="dropdown">
 					{{#ifFile (concat './public/uploads/profile/' user.id '/profilePic.png') }}
-					<img class="deep-purple lighten-5 z-depth-1-half" src="/uploads/profile/{{user.id}}/profilePic.png">
+						<img class="deep-purple lighten-5 z-depth-1-half" src="/uploads/profile/{{user.id}}/profilePic.png">
 					{{else}}
-					<i class="fas fa-user animated faster"></i>
+						<i class="fas fa-user animated faster"></i>
 					{{/ifFile}} {{user.username}}
 				</a>
 
@@ -80,8 +79,7 @@
 			</li>
 
 			{{#ifCond 'user.accType == "service"'}}
-			<li
-				class="nav-item d-block d-md-none{{#ifStringContain url '/services/manage'}} active{{/ifStringContain}}">
+			<li class="nav-item d-block d-md-none{{#ifStringContain url '/services/manage'}} active{{/ifStringContain}}">
 				<a class="nav-link rounded" href="/services/manage">
 					<i class="far fa-user-tie mr-1"></i> Services Management
 				</a>
@@ -93,8 +91,7 @@
 				</a>
 			</li>
 			{{else}}
-			<li
-				class="nav-item d-block d-md-none{{#ifStringContain url '/services/requests'}} active{{/ifStringContain}}">
+			<li class="nav-item d-block d-md-none{{#ifStringContain url '/services/requests'}} active{{/ifStringContain}}">
 				<a class="nav-link rounded" href="/services/requests">
 					<i class="far fa-money-check mr-1"></i> Service Requests Management
 				</a>
@@ -316,6 +313,5 @@
 </script> --}}
 
 {{!-- <script src="https://apis.google.com/js/platform.js" async defer>
-
 	<meta name="821570960771-kdkbr8kubob57h7r19j1pq7b47jmora9" content="821570960771-kdkbr8kubob57h7r19j1pq7b47jmora9.apps.googleusercontent.com">
 </script> --}}
