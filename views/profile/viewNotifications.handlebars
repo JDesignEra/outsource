@@ -41,7 +41,8 @@
                 <a class="nav-link waves-light" id="jobs-tab-classic-shadow" data-toggle="tab"
                     href="#jobs-classic-shadow" role="tab" aria-controls="jobs-classic-shadow" aria-selected="false">
                     Jobs
-                    {{#ifCond 'jobs_notifications.length > 0'}}
+                    {{#ifCond 'jobs_reject_notifications.length == 0 && jobs_notifications.length == 0 && paid_jobs_notifications.length == 0' }}
+                    {{else}}
                     <span class="text-danger font-weight-bold">!</span>
                     {{/ifCond}}</a>
             </li>
@@ -51,7 +52,8 @@
                     href="#requests-classic-shadow" role="tab" aria-controls="requests-classic-shadow"
                     aria-selected="false">
                     Requests
-                    {{#ifCond 'requests_notifications.length > 0'}}
+                    {{#ifCond 'requests_cancelled_notifications.length == 0 && requests_notifications.length == 0 && complete_requests_notifications.length == 0' }}
+                    {{else}}
                     <span class="text-danger font-weight-bold">!</span>
                     {{/ifCond}}</a>
             </li>
