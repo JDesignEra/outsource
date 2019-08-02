@@ -37,10 +37,10 @@
                                         <a href="/job/accept/{{id}}"
                                             class="btn btn-sm btn-success material-tooltip-md" data-tooltip="tooltip"
                                             data-placement="top" title="Accept Job">
-                                            Send payment<i class="far fa-dollar-sign ml-2"></i></a>
+                                            Accept Job<i class="far fa-check ml-2"></i></a>
                                             <a href="/jobs/delete/{{id}}" class="btn btn-sm btn-danger material-tooltip-md"
                                             data-tooltip="tooltip" data-placement="top" title="Reject Job">
-                                            Reject Job<i class="far fa-trash-alt ml-2"></i>
+                                            Reject Job<i class="far fa-times ml-2"></i>
                                         </a>
                                         {{/ifCond}}
                                         {{#ifCond 'this.status == "paid"'}}
