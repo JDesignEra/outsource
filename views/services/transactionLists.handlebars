@@ -23,8 +23,8 @@
                                     <th id="name" class="th-sm">Service Name</th>
                                     <th id="description" class="th-sm">Description</th>
                                     <th id="price" class="th-sm">Price</th>
-                                    <th id="date" class="th-sm">Date</th>
-                                    <th id="action" class="th-sm rounded-top-right">Action</th>
+                                    <th id="date" class="th-sm rounded-top-right">Date</th>
+                                    <th id="action" class="d-none"></th>
                                 </tr>
                             </thead>
 
@@ -40,10 +40,9 @@
                                     <td headers="description" class="align-middle">{{description}}</td>
                                     <td headers="price" class="align-middle">${{price}}
                                         {{currency}}</td>
-                                    <td headers="date" class="align-middle"> {{formatDate date "DD MMMM YYYY"}}</td>
-                                    <td headers="action" class="align-middle {{#if @last}}rounded-bottom-right{{/if}}">
-
-                                    </td>
+                                    <td headers="date" class="align-middle {{#if @last}}rounded-bottom-right{{/if}}">
+                                        {{formatDate date "DD MMMM YYYY"}}</td>
+                                    <th class="d-none" headers="action"></th>
                                 </tr>
                                 {{/each}}
 
@@ -81,82 +80,82 @@
 {{#extend 'scripts'}}
 <script>
     // Material Design example
-$(document).ready(function () {
-    let table = $('#transaction-table', 'section.transaction-list');
-    let trs = $('tbody tr', '#transaction-table');
+    $(document).ready(function () {
+        let table = $('#transaction-table', 'section.transaction-list');
+        let trs = $('tbody tr', '#transaction-table');
 
-    table.DataTable({
-        ordering: true,
-        order: [[1, 'asc']],
-        paging: false,
-        info: false,
-        searching: false,
-        language: { emptyTable: 'No transactions.' },
-        columnDefs: [{
-            orderable: false,
-            targets: 5
-        }],
-    });
-
-    $('input[name="search"]', 'section.transaction-list').on('keyup', function() {
-        let val = $(this).val().toLowerCase();
-        let shown = trs.length;
-
-        trs.each(function() {
-            let _this = $(this);
-
-            if (val) {
-                let tds = _this.children('td[headers]:not([headers="action"], [id="empty-search"])');
-                let show = false;
-
-                for (let i = 0, n = tds.length; i < n && !show; i++) {
-                    td = $(tds[i]);
-                    
-                    if (td.text().toLowerCase().indexOf(val) > -1) {
-                        show = true;
-                    }
-                }
-                
-                if (show && _this.attr('style')) {
-                    _this.removeAttr('style');
-
-                    _this.addClass('flipInX').one(animationEnd, function() {
-                        _this.removeClass('flipInX');
-                    });
-                }
-                else if (!show) {
-                    if (!_this.attr('style')) {
-                        _this.addClass('flipOutX').one(animationEnd, function() {
-                            _this.removeClass('flipOutX');
-                            _this.prop('style', 'display: none !important;');
-                        });
-                    }
-
-                    shown--;
-                }
-            }
-            else {
-                if (_this.attr('style')) {
-                    _this.removeAttr('style');
-                    _this.addClass('flipInX').one(animationEnd, function() {
-                        $(this).removeClass('flipInX');
-                    });
-                }
-            }
+        table.DataTable({
+            ordering: true,
+            order: [[1, 'asc']],
+            paging: false,
+            info: false,
+            searching: false,
+            language: { emptyTable: 'No transactions.' },
+            columnDefs: [{
+                orderable: false,
+                targets: 5
+            }],
         });
 
-        $('#empty-search', '#transaction-table').remove();
-        
-        if (shown < 1) {
-            $('tbody', '#transaction-table').prepend(`
+        $('input[name="search"]', 'section.transaction-list').on('keyup', function () {
+            let val = $(this).val().toLowerCase();
+            let shown = trs.length;
+
+            trs.each(function () {
+                let _this = $(this);
+
+                if (val) {
+                    let tds = _this.children('td[headers]:not([headers="action"], [id="empty-search"])');
+                    let show = false;
+
+                    for (let i = 0, n = tds.length; i < n && !show; i++) {
+                        td = $(tds[i]);
+
+                        if (td.text().toLowerCase().indexOf(val) > -1) {
+                            show = true;
+                        }
+                    }
+
+                    if (show && _this.attr('style')) {
+                        _this.removeAttr('style');
+
+                        _this.addClass('flipInX').one(animationEnd, function () {
+                            _this.removeClass('flipInX');
+                        });
+                    }
+                    else if (!show) {
+                        if (!_this.attr('style')) {
+                            _this.addClass('flipOutX').one(animationEnd, function () {
+                                _this.removeClass('flipOutX');
+                                _this.prop('style', 'display: none !important;');
+                            });
+                        }
+
+                        shown--;
+                    }
+                }
+                else {
+                    if (_this.attr('style')) {
+                        _this.removeAttr('style');
+                        _this.addClass('flipInX').one(animationEnd, function () {
+                            $(this).removeClass('flipInX');
+                        });
+                    }
+                }
+            });
+
+            $('#empty-search', '#transaction-table').remove();
+
+            if (shown < 1) {
+                $('tbody', '#transaction-table').prepend(`
                 <tr id="empty-search">
                     <td class="rounded-bottom" colspan=100>
                         Couldn\'t find anything for <span class="font-weight-bolder">${val}</span>
                     </td>
                 </tr>
             `);
-        }
+            }
+        });
     });
-});
 </script>
 {{/extend}}
