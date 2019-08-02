@@ -95,7 +95,7 @@
                     <div id="action-search" class="input-group px-3 mt-2 mb-3">
                         <div class="md-form md-outline">
                             <input id="action-search-input" class="form-control mdb-autocomplete" type="text" name="search">
-                            <button class="mdb-autocomplete-clear deep-purple-text">
+                            <button class="mdb-autocomplete-clear deep-purple-text{{#if files}}{{else}} d-none{{/if}}">
                                 <i class="far fa-times"></i>
                             </button>
                             <label for="action-search-input">Search</label>

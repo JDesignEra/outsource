@@ -718,18 +718,27 @@ $(function() {
 
         searchInput.mdbAutocomplete({ data: data });
 
-        wrapper.on('click', function() {
-            return false;
-        });
+        if (data.length > 0) {
+            let autocompleteClear = searchInput.next().next('.mdb-autocomplete-clear');
 
-        searchInput.next('.mdb-autocomplete-wrap').on('click', function() {
-            $(this).prev('.mdb-autocomplete').trigger('keyup');
-            $(this).html('');
-        });
+            autocompleteClear.removeClass('d-none');
 
-        searchInput.next().next('.mdb-autocomplete-clear').on('click', function() {
-            $(this).prev().prev('.mdb-autocomplete').trigger('keyup');
-        });
+            wrapper.on('click', function() {
+                return false;
+            });
+    
+            searchInput.next('.mdb-autocomplete-wrap').on('click', function() {
+                $(this).prev('.mdb-autocomplete').trigger('keyup');
+                $(this).html('');
+            });
+    
+            autocompleteClear.on('click', function() {
+                $(this).prev().prev('.mdb-autocomplete').trigger('keyup');
+            });
+        }
+        else {
+            searchInput.next('.mdb-autocomplete-clear').addClass('d-none');
+        }
     }
 });
 

@@ -1,4 +1,34 @@
-<div class="row">
+{{setVar "mainType" "vCenter"}}
+<section class="change-password">
+  <div class="row">
+		<div class="col-md-6 mx-auto">
+			<div class="card">
+				<form class="card-body text-center" action="/changepass" method="post">
+					<h3 class="text-center">Change Password</h3>
+
+					<div class="md-form md-outline">
+            <input type="password" name="currpass" class="form-control" />
+            <label for="currPass">Current Password</label>
+					</div>
+
+					<div class="md-form md-outline">
+            <input type="password" name="newpass" class="form-control" />
+            <label for="newPass">New Password</label>
+					</div>
+
+          <div class="md-form md-outline">
+            <input type="password" name="confirmpass" class="form-control" />
+            <label for="confPass">Confirm New Password</label>
+					</div>
+
+          <button type="submit" class="btn btn-primary">Reset Password</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+{{!-- <div class="row">
   <div class="col-md-12">
     <form action="/changepass" method="POST">
       <legend>
@@ -27,4 +57,4 @@
       </div>
     </form>
   </div>
-</div>
+</div> --}}
