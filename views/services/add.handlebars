@@ -4,17 +4,17 @@
 		<form method="post" id="addService" action="/services/add" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-lg-9">
-					<div class="form-group">
-						<label class="font-italic" for="name">Service name:</label>
-						<input class="form-control" type="text" name="name" id="name" style="width: 50%" required>
+					<div class="md-form md-outline">
+						<label for="name">Service name</label>
+						<input class="form-control w-50" type="text" name="name" id="name" required>
 					</div>
-					<div class="form-group mb-4">
-						<label class="font-italic" for="desc">Service Description:</label>
+					<div class="md-form md-outline">
+						<label for="desc">Service Description</label>
 						<textarea class="form-control" id="desc" name="desc" rows="7"></textarea>
 					</div>
-					<div class="form-group">
-						<label class="font-italic" for="price">Price ($):</label>
-						<input class="form-control" type="number" name="price" id="price" style="width: 20%" required>
+					<div class="md-form md-outline">
+						<label for="price">Price ($)</label>
+						<input class="form-control w-20" type="number" name="price" id="price" style="width: 20%" required>
 					</div>
 				</div>
 				<div class="col-lg-3">

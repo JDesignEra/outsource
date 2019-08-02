@@ -107,14 +107,24 @@ function categoryCheck() {
 
 // Replace upload image
 $(function() {
+    let focus = $('.file-upload');
     if (typeof img !== 'undefined') {
-        let focus = $('.preview', '.file-upload');
+        let preview = focus.find('.preview');
         
-        focus.addClass('d-block');
-        focus.find('.renderer').html(`<img src="${img}">`);
+        preview.addClass('d-block');
+        preview.find('.renderer').html(`<img src="${img}">`);
 
         img = undefined
         $('script#img-script').remove();
+    }
+    else {
+        let cardText = focus.find('.card-text');
+        let icon = cardText.find('i');
+        let text = cardText.find('p.font-weight-bolder');
+
+        icon.removeClass('fa-cloud-upload-alt');
+        icon.addClass('fa-image');
+        text.text('No image uploaded')
     }
 });
 
