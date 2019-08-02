@@ -43,10 +43,13 @@
                                             Reject Job<i class="far fa-times ml-2"></i>
                                         </a>
                                         {{/ifCond}}
+                                        {{#ifCond 'this.status == "accepted"'}}
+                                        Awaiting payment
+                                        {{/ifCond}}
                                         {{#ifCond 'this.status == "paid"'}}
                                         <a href="/jobs/submit/{{id}}" class="btn btn-sm btn-success material-tooltip-md"
                                             data-tooltip="tooltip" data-placement="top" title="Submit Job">
-                                            Job completed<i class="far fa-check ml-2"></i>
+                                            Job completed<i class="far fa-check ml-2"></i></a>
                                         {{/ifCond}}
                                     </td>
                                 </tr>
