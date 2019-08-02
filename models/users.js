@@ -23,6 +23,11 @@ const users = db.define('user', {
         allowNull: false,
         unique: true
     },
+    facebookId: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: true
+    },
     resetPasswordToken: {
         type: Sequelize.STRING,
     },

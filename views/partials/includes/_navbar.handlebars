@@ -181,10 +181,9 @@
 					<div class="dropdown-divider"></div>
 
 					<div class="flex-fill text-center">
-						<fb:login-button class="btn-floating btn-md btn-fb" scope="public_profile,email"
-							onlogin="checkLoginState();" type="button">
+						<a class="btn-floating btn-md btn-fb p-0" href="/login/facebook/callback">
 							<i class="fab fa-facebook-f"></i> Facebook
-						</fb:login-button>
+						</a>
 					</div>
 
 					<div class="dropdown-divider"></div>
@@ -272,47 +271,3 @@
 		</div>
 	</div>
 </div>
-
-{{!-- <script>
-	//FACEBOOK API
-	window.fbAsyncInit = function () {
-		FB.init({
-			appId: '900093130361854',
-			cookie: true,
-			xfbml: true,
-			version: 'v4.0'
-		});
-
-		FB.getLoginStatus(function (response) {
-			statusChangeCallback(response);
-		});
-
-	};
-
-	(function (d, s, id) {
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) { return; }
-		js = d.createElement(s); js.id = id;
-		js.src = "https://connect.facebook.net/en_US/sdk.js";
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-
-	function statusChangeCallback(response) {
-		if (response.status === 'connected') {
-			console.log('Logged in and authenticated');
-		}
-		else {
-			console.log('Not Authenticated');
-		}
-	}
-
-	function checkLoginState() {
-		FB.getLoginStatus(function (response) {
-			statusChangeCallback(response);
-		});
-	}
-</script> --}}
-
-{{!-- <script src="https://apis.google.com/js/platform.js" async defer>
-	<meta name="821570960771-kdkbr8kubob57h7r19j1pq7b47jmora9" content="821570960771-kdkbr8kubob57h7r19j1pq7b47jmora9.apps.googleusercontent.com">
-</script> --}}
