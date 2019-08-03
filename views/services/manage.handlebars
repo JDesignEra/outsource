@@ -14,9 +14,7 @@
                         <img onerror='this.src = "/img/services/default.jpg"' class="card-img-top"
                             src="/uploads/services/{{uid}}/{{id}}.png" alt="Image not available">
 
-                        <a href="#!">
-                            <div class="mask rgba-black-light"></div>
-                        </a>
+                        <a><div class="mask rgba-black-light"></div></a>
                     </div>
 
                     <div class="btn-action ml-auto mr-3">
@@ -37,32 +35,38 @@
                     </div>
 
                     <div class="card-body pb-2">
-                        <div class="d-flex mt-3">
+                        <div class="d-flex align-items-center mt-4">
                             <div class="flex-fill">
                                 <h4 class="card-title mb-0" data-names="{{name}}">{{name}}</h4>
                             </div>
 
-                            <div class="flex-fill text-right">
-                                <span class="font-weight-bold">{{views}}</span>
-                                <i class="far fa-eye fa-fw ml-1"></i>
+                            <div class="flex-fill text-right font-weight-bold">
+                                {{views}}<i class="far fa-eye fa-fw ml-2"></i>
                             </div>
                         </div>
 
                         <hr>
 
                         <p class="card-text">
-                            {{ desc }}<br>
-                            Last Updated: {{date}}
+                            {{ desc }}
                         </p>
 
-                        <div class="viewcounts text-right mt-4 text-right">
-                            <form method="post" action="/services/fav/{{id}}">
-                                <button class="favs btn btn-sm btn-red material-tooltip-sm" data-tooltip="tooltip"
-                                    data-placement="top" title="Favourite/Unfavourite" type="submit">
-                                    <span class="font-weight-bold">{{favourites}}</span>
-                                    <i class="fas fa-heart fa-fw"></i>
-                                </button>
-                            </form>
+                        <div class="d-flex align-items-end">
+                            <div class="flex-fill">
+                                <span class="text-muted small mb-0">
+                                    Last Updated: {{date}}
+                                </span>
+                            </div>
+
+                            <div class="flex-fill">
+                                <form class="text-right" method="post" action="/services/fav/{{id}}">
+                                    <button class="favs btn btn-sm btn-red mr-0 material-tooltip-sm" data-tooltip="tooltip" data-placement="top" title="Favourite/Unfavourite" type="submit">
+                                        <span class="font-weight-bold">
+                                            {{favourites}}<i class="fas fa-heart fa-fw ml-2"></i>
+                                        </span>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
 

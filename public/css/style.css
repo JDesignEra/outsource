@@ -406,12 +406,15 @@ section.files .breadcrumb a:hover {
     color: #ffffff;
 }
 
+section.files #action-card .list-group-item.delete-action:hover,
 section.file-preview #action-card .list-group-item.close-preview:hover,
 section.file-edit #action-card .list-group-item.close-edit:hover,
 #mobile-action .dropdown-item.close-preview:active,
 #mobile-action .dropdown-item.close-preview:hover,
 #mobile-action .dropdown-item.close-edit:active,
-#mobile-action .dropdown-item.close-edit:hover {
+#mobile-action .dropdown-item.close-edit:hover,
+#mobile-action .dropdown-item.delete-action:active,
+#mobile-action .dropdown-item.delete-action:hover {
     background-color: #dc3545;
 }
 
@@ -421,8 +424,18 @@ section.file-edit #action-card .list-group-item.save:hover,
     background-color: #009688;
 }
 
-section.file-preview #content > #rtf {
+section.file-preview #content > #rtf,
+section.file-preview #content > #docx {
     background-color: #f5f5f5;
+}
+
+section.file-preview #content iframe {
+    border: none;
+}
+
+section.file-preview #content > #docx img {
+    max-width: 100%;
+    height: auto;
 }
 
 section.file-preview #content img.img-preview {

@@ -47,8 +47,9 @@ $(function() {
     }
 
     $(window).on('resize', function() {
-        let imgWidth = document.querySelector('#content img').naturalWidth;
         let contentWidth = $('#content').width();
+        let img = document.querySelector('#content img');
+        let imgWidth = img ? img.naturalWidth : contentWidth + 1;
 
         if (imgWidth <= contentWidth) {
             imageSizeAction.removeClass('d-none');
@@ -112,6 +113,7 @@ $(function() {
 // #Content
 $(function() {
     let type = $('#content').attr('data-type');
+    let ext = $('#content').attr('data-ext');
 
     if (type === 'code' || type === 'text') {
         CodeMirror.modeURL = '/js/vendor/codemirror/mode/%N/%N.js';
@@ -143,22 +145,27 @@ $(function() {
         $('#editor', '#content').find('.CodeMirror').addClass('rounded');
     }
     else if (type === 'document') {
-        let buffer = new ArrayBuffer(content.length);
-        let bufferView = new Uint8Array(buffer);
+        if (ext === 'rtf') {
+            let buffer = new ArrayBuffer(content.length);
+            let bufferView = new Uint8Array(buffer);
 
-        for (let i = 0, n = content.length; i < n; i++) {
-            bufferView[i] = content.charCodeAt(i);
+            for (let i = 0, n = content.length; i < n; i++) {
+                bufferView[i] = content.charCodeAt(i);
+            }
+
+            RTFJS.loggingEnabled(false);
+            WMFJS.loggingEnabled(false);
+            EMFJS.loggingEnabled(false);
+            
+            const doc = new RTFJS.Document(buffer);
+
+            doc.render().then(function(elements) {
+                $('#rtf', '#content').html(elements);
+            });
         }
-
-        RTFJS.loggingEnabled(false);
-        WMFJS.loggingEnabled(false);
-        EMFJS.loggingEnabled(false);
-        
-        const doc = new RTFJS.Document(buffer);
-
-        doc.render().then(function(elements) {
-            $('#rtf', '#content').html(elements);
-        });
+        else if (ext === 'docx') {
+            $('#docx', '#content').html(content);
+        }
     }
 
     if (content) content = undefined;

@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const archiver = require('archiver');
 const fs = require('fs-extra');
 const jimp = require('jimp');
+const mammoth = require('mammoth');
 const moment = require('moment');
 const mime = require('mime');
 const walk = require('klaw');
@@ -1256,7 +1257,19 @@ module.exports = {
                         file['content'] = fs.readFileSync(path.join(root, data['fullPath']), 'utf-8');
                     }
                     else if (data['type'] === 'document') {
-                        file['content'] = fs.readFileSync(path.join(root, data['fullPath']), 'utf-8');
+                        if (ext === 'rtf') {
+                            file['content'] = fs.readFileSync(path.join(root, data['fullPath']), 'utf-8');
+                        }
+                        else if (ext === 'docx') {
+                            mammoth.convertToHtml({ path: path.join(root, data['fullPath']) }).then(result => {
+                                file['content'] = result.value;
+                            },
+                            {
+                                styleMap: [
+                                    "u => u"
+                                ]
+                            });
+                        }
                     }
                     else if (data['type'] === 'video') {
                         file['mime'] = mime.getType(ext);

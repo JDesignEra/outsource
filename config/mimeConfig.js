@@ -25,6 +25,8 @@ module.exports = {
         mime.define({ 'code/xml': ['xml'] }, true);                         // XML Code File
 
         // Document Files
+        mime.define({ 'document/docx': ['docx'] }, true)                    // Microsoft Words File
+        mime.define({ 'document/pdf': ['pdf'] }, true)                      // PDF File
         mime.define({ 'document/rtf': ['rtf'] }, true)                      // Rich Text File
 
         // Application Files

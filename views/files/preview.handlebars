@@ -13,27 +13,42 @@
                     <span class="white-text mx-3">{{file.name}}</span>
                 </div>
                 
-                <div id="content" class="card-body" data-id="{{ file.id }}" data-type="{{ file.type }}">
+                <div id="content" class="card-body" data-id="{{ file.id }}" data-type="{{ file.type }}" data-ext="{{ file.ext }}"{{#ifCond 'file.type === "document" && file.ext === "pdf"'}} style="height: 144vh;"{{/ifCond}}>
                     {{#ifCond 'file.type === "image"'}}
                         <img class="img-preview img-fluid d-block mx-auto w-100" src="{{ file.link }}">
                     {{else}}
                         {{#ifCond 'file.type === "code" || file.type === "text"'}}
                             <div id="editor" data-name="{{ file.name }}"></div>
                         {{else}}
-                            {{#ifCond 'file.type === "document"'}}
+                            {{#ifCond 'file.type === "document" && file.ext === "rtf"'}}
                                 <div id="rtf" class="p-3 rounded"></div>
                             {{else}}
-                                {{#ifCond 'file.type === "video"'}}
-                                    <video class="video-fluid z-depth-1" preload controls>
-                                        <source src="{{ file.link }}">
-                                    </video>
+                                {{#ifCond 'file.type === "document" && file.ext === "docx"'}}
+                                    <div id="docx" class="p-3 rounded"></div>
                                 {{else}}
-                                    <div class="text-center">
-                                        <p class="mb-5 text-danger">
-                                            <i class="far fa-exclamation-triangle fa-10x"></i>
-                                        </p>
-                                        <h1>This File Cannot Be Previewed</h1>
-                                    </div>
+                                    {{#ifCond 'file.type === "document" && file.ext === "pdf"'}}
+                                        <object class="rounded" data="{{file.link}}" type="application/pdf" width="100%" height="100%">
+                                            <embed src="{{file.link}}" type="application/pdf">
+                                                <p class="mb-5 text-danger">
+                                                    <i class="far fa-exclamation-triangle fa-10x"></i>
+                                                </p>
+                                                <h1>This browser does not support PDFs preview.</h1>
+                                            </embed>
+                                        </object>
+                                    {{else}}
+                                        {{#ifCond 'file.type === "video"'}}
+                                            <video class="video-fluid z-depth-1" preload controls>
+                                                <source src="{{ file.link }}">
+                                            </video>
+                                        {{else}}
+                                            <div class="text-center">
+                                                <p class="mb-5 text-danger">
+                                                    <i class="far fa-exclamation-triangle fa-10x"></i>
+                                                </p>
+                                                <h1>This File Cannot Be Previewed</h1>
+                                            </div>
+                                        {{/ifCond}}
+                                    {{/ifCond}}
                                 {{/ifCond}}
                             {{/ifCond}}
                         {{/ifCond}}
