@@ -31,39 +31,6 @@ function localStrategy(passport) {
             })
     }));
 
-//     passport.use(new FacebookStrategy({
-//         clientID: configAuth.facebookAuth.clientID,
-//         clientSecret: configAuth.facebookAuth.clientSecret,
-//         callbackURL: configAuth.facebookAuth.callbackURL
-//     },
-//         function (accessToken, refreshToken, profile, done) {
-//             process.nextTick(function () {
-//                 User.findOne({ 'facebook.id': profile.id }, function (err, user) {
-//                     if (err) {
-//                         return done(err);
-//                     }
-//                     if (user) {
-//                         return done(null, user);
-//                     }
-//                     else {
-//                         var newUser = new User();
-//                         newUser.facebook.id = profile.id;
-//                         newUser.facebook.token = token.accessToken;
-//                         newUser.facebook.name = profile.username
-//                         newUser.facebook.email = profile.enmails[0].value;
-
-//                         newUser.save(function (err) {
-//                             if (err) {
-//                                 throw err;
-//                             }
-//                             return done(null, newUser);
-//                         })
-//                     }
-//                 })
-//             });
-//         }
-//     ));
-
     //FACEBOOK API
     passport.use('facebookLogin', new FacebookStrategy({
             clientID: '900093130361854',
@@ -158,13 +125,12 @@ function localStrategy(passport) {
     });
 
     passport.deserializeUser((userId, done) => {
-        User.findByPk(userId)
-            .then((user) => {
-                done(null, user);
-            })
-            .catch((done) => {
-                console.log(done);
-            });
+        User.findByPk(userId).then((user) => {
+            done(null, user);
+        })
+        .catch((done) => {
+            console.log(done);
+        });
     });
  }
 

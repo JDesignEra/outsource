@@ -41,11 +41,9 @@ module.exports = {
             res.render('services/list', {
                 services: serviceDatas
             });
-        })
-            .catch(err => console.log(err));
+        }).catch(err => console.log(err));
     },
     view: function (req, res) {
-
         Services.findOne({
             where: {
                 id: req.params.id
@@ -64,23 +62,22 @@ module.exports = {
                 }).then((job) => {
                     Services.update({
                         views: services.views + 1
-                    }, {
-                            where: {
-                                id: req.params.id
-                            }
-                        }).then(() => {
-                            res.render('services/index', {
-                                services,
-                                serviceuser: user,
-                                job
-                            });
-                        })
-                })
+                    },
+                    {
+                        where: {
+                            id: req.params.id
+                        }
+                    }).then(() => {
+                        res.render('services/index', {
+                            services,
+                            serviceuser: user,
+                            job
+                        });
+                    });
+                });
             }).catch(err => console.log(err));
-        })
-
+        });
     },
-
     management: function (req, res) {
         Services.findAll({
             where: {
@@ -90,15 +87,12 @@ module.exports = {
                 ['name', 'ASC']
             ],
             raw: true
-        })
-            .then((services) => {
-                res.render('services/manage', {
-                    services: services,
-                });
-            })
-            .catch(err => console.log(err));
+        }).then((services) => {
+            res.render('services/manage', {
+                services: services,
+            });
+        }).catch(err => console.log(err));
     },
-
     requests: function (req, res) {
         Jobs.findAll({
             where: {
@@ -110,7 +104,6 @@ module.exports = {
             })
         })
     },
-
     add: function (req, res) {
         if (req.user.accType === 'service') {
             if (req.user.paypal === null || req.user.paypal === "") {
@@ -155,8 +148,6 @@ module.exports = {
                 fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
             }
 
-
-
             //Notifies users
             if (req.user.followers != null && req.user.followers.split(',').length > 0) {
                 follower = req.user.followers.split(',')
@@ -187,13 +178,8 @@ module.exports = {
                 req.flash('success', 'Service added successfully!')
                 res.redirect('/services/manage');
             }
-
-
-
-        })
-            .catch(err => console.log(err))
+        }).catch(err => console.log(err))
     },
-
     edit: function (req, res) {
         let uid = req.user.id;
         let sid = req.params.id;
@@ -234,39 +220,37 @@ module.exports = {
             category: req.body.categories.toString(),
             date: today,
             time: new Date().getTime()
-        }, {
-                where: {
-                    id: req.params.id
+        },
+        {
+            where: {
+                id: req.params.id
+            }
+        }).then(() => {
+            if (req.file !== undefined) {
+                // Check if directory exists if not create directory
+                if (!fs.existsSync('./public/uploads/services/' + req.user.id)) {
+                    fs.mkdirSync('./public/uploads/services/' + req.user.id);
                 }
-            }).then(() => {
-                if (req.file !== undefined) {
-                    console.log(req.params.id);
-                    // Check if directory exists if not create directory
-                    if (!fs.existsSync('./public/uploads/services/' + req.user.id)) {
-                        fs.mkdirSync('./public/uploads/services/' + req.user.id);
-                    }
-                    // Move file
-                    let serviceId = req.params.id;
-                    fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
-                }
+                // Move file
+                let serviceId = req.params.id;
+                fs.renameSync(req.file['path'], './public/uploads/services/' + req.user.id + '/' + serviceId + '.png');
+            }
 
-                req.flash('success', 'Changes saved successfully!');
-                res.redirect('/services/manage');
-            }).catch(err => console.log(err));
+            req.flash('success', 'Changes saved successfully!');
+            res.redirect('/services/manage');
+        }).catch(err => console.log(err));
     },
     delete: function (req, res) {
         Services.findOne({
             where: {
                 id: req.params.id,
                 uid: req.user.id
-            },
+            }
         }).then((services) => {
-
             if (services == null) {
                 req.flash('warning', 'You do not have any services to delete');
                 res.redirect('/services/manage');
             }
-
             else {
                 Services.destroy({
                     where: {
@@ -275,11 +259,10 @@ module.exports = {
                 }).then((services) => {
                     req.flash('success', 'Service successfully deleted!');
                     res.redirect('/services/manage');
-                })
+                });
             }
-        })
+        });
     },
-
     fav: function (req, res) {
         Servicefavs.findOne({
             where: {
@@ -339,117 +322,92 @@ module.exports = {
         })
 
     },
-
     //Lemuel
     payment: function (req, res) {
-        console.log(req.params.id)
         Services.findOne({
             where: {
                 id: req.params.id
             }
-        })
-            .then((service) => {
-                console.log(service)
-                console.log('1 \n===============================================================')
+        }).then((service) => {
+            Users.findOne({
+                where: {
+                    id: req.user.id
+                }
+            }).then((client) => {
                 Users.findOne({
                     where: {
-                        id: req.user.id
+                        id: service.uid
                     }
-                })
-                    .then((client) => {
-                        console.log(client)
-                        console.log('2 \n===============================================================')
-                        Users.findOne({
-                            where: {
-                                id: service.uid
-                            }
-                        })
-                            .then((freelancer) => {
-                                console.log(freelancer)
-                                console.log('3 \n===============================================================')
-                                res.render('services/payment', {
-                                    service: service,
-                                    client: client,
-                                    freelancer: freelancer,
-                                    jobID: req.params.jobID
-                                });
-                            })
-                    })
-            })
-
+                }).then((freelancer) => {
+                    res.render('services/payment', {
+                        service: service,
+                        client: client,
+                        freelancer: freelancer,
+                        jobID: req.params.jobID
+                    });
+                });
+            });
+        });
     },
-
     sendPayment: function (req, res) {
         Services.findOne({
             where: {
                 id: req.params.id
             }
-        })
-            .then((service) => {
+        }).then((service) => {
+            Users.findOne({
+                where: {
+                    id: req.user.id
+                }
+            }).then((client) => {
                 Users.findOne({
                     where: {
-                        id: req.user.id
+                        id: service.uid
                     }
-                })
-                    .then((client) => {
-                        Users.findOne({
-                            where: {
-                                id: service.uid
-                            }
-                        })
-                            .then((freelancer) => {
+                }).then((freelancer) => {
+                    var payload = {
+                        requestEnvelope: {
+                            errorLanguage: 'en_US'
+                        },
+                        actionType: 'PAY',
+                        currencyCode: 'USD',
+                        feesPayer: 'EACHRECEIVER',
+                        memo: `Payment for ${service.name} by ${freelancer.username}`,
+                        cancelUrl: 'http://localhost:5000/',
+                        returnUrl: `http://localhost:5000/services/paymentSuccess/${service.id}/${req.params.jobID}/`,
+                        receiverList: {
+                            receiver: [
+                                {
+                                    email: `${freelancer.paypal}`,
+                                    amount: String(service.price),
+                                    primary: 'true'
+                                },
+                                {
+                                    email: 'outsource_paypal@gmail.com',
+                                    amount: String((service.price * 0.07).toFixed(2)),
+                                    primary: 'false'
+                                }
+                            ]
+                        }
+                    };
 
-                                var payload = {
-                                    requestEnvelope: {
-                                        errorLanguage: 'en_US'
-                                    },
-                                    actionType: 'PAY',
-                                    currencyCode: 'USD',
-                                    feesPayer: 'EACHRECEIVER',
-                                    memo: `Payment for ${service.name} by ${freelancer.username}`,
-                                    cancelUrl: 'http://localhost:5000/',
-                                    returnUrl: `http://localhost:5000/services/paymentSuccess/${service.id}/${req.params.jobID}/`,
-                                    receiverList: {
-                                        receiver: [
-                                            {
-                                                email: `${freelancer.paypal}`,
-                                                amount: String(service.price),
-                                                primary: 'true'
-                                            },
-                                            {
-                                                email: 'outsource_paypal@gmail.com',
-                                                amount: String((service.price * 0.07).toFixed(2)),
-                                                primary: 'false'
-                                            }
-                                        ]
-                                    }
-                                };
+                    paypalSdk.pay(payload, function (err, response) {
+                        if (err) {
+                            req.flash('The service provider has provided an invalid PayPal email.')
+                            res.redirect('back');
 
-                                paypalSdk.pay(payload, function (err, response) {
-                                    if (err) {
-                                        console.log(err);
-                                        req.flash('The service provider has provided an invalid PayPal email.')
-                                        res.redirect('back');
-
-                                        console.log(response);
-
-                                    } else {
-                                        // Response will have the original Paypal API response
-                                        console.log(response.payKey);
-                                        req.session.payKey = response.payKey
-                                        // But also a paymentApprovalUrl, so you can redirect the sender to checkout easily
-                                        res.redirect(response.paymentApprovalUrl);
-                                    }
-                                });
-                            })
-                    })
-            })
-
-
-
-
+                        }
+                        else {
+                            // Response will have the original Paypal API response
+                            req.session.payKey = response.payKey
+                            // But also a paymentApprovalUrl, so you can redirect the sender to checkout easily
+                            res.redirect(response.paymentApprovalUrl);
+                        }
+                    });
+                });
+            });
+        });
     },
-
     PaymentSuccess: function (req, res) {
         Users.findOne({
             where: {
@@ -468,75 +426,71 @@ module.exports = {
                 }).then((freelancer) => {
                     Jobs.update({
                         status: "paid"
-                    }, {
+                    },
+                    {
+                        where: {
+                            sid: service.id,
+                            cid: req.user.id,
+                            id: req.params.jobID
+                        }
+                    }).then((job) => {
+                        Jobs.findOne({
                             where: {
                                 sid: service.id,
                                 cid: req.user.id,
                                 id: req.params.jobID
                             }
-                        }).then((job) => {
-                            Jobs.findOne({
-                                where: {
-                                    sid: service.id,
-                                    cid: req.user.id,
-                                    id: req.params.jobID
-
-                                }
-                            }).then(job => {
-                                Notification.create({
-                                    uid: req.user.id,
-                                    username: req.user.username,
-                                    pid: job.sid,
-                                    title: job.name,
-                                    date: new Date(),
-                                    category: "Jobs_Paid",
-                                    user: job.uid
-                                })
-                                var params = {
-                                    payKey: req.session.payKey.toString()
-                                };
-                                paypalSdk.paymentDetails(params, function (err, response) {
-                                    if (err) {
-                                        console.log(err);
-                                    } else {
-                                        // payments details for this payKey, transactionId or trackingId
-                                        Transactions.create({
-                                            serviceProvider: freelancer.username,
-                                            freelancerPaypal: freelancer.paypal,
-                                            paypalMerchantID: response.paymentInfoList.paymentInfo[0].receiver.accountId,
-
-                                            paidWith: response.sender.email,
-
-                                            paypalTransactionID: response.paymentInfoList.paymentInfo[0].transactionId,
-                                            serviceName: service.name,
-                                            description: response.memo,
-                                            price: response.paymentInfoList.paymentInfo[0].receiver.amount,
-                                            currency: response.currencyCode,
-                                            date: response.responseEnvelope.timestamp,
-
-                                            uid: client.id,
-
-                                        }).then((transaction) => {
-                                            // res.send("success")
-                                            req.flash('success', 'Payment successful')
-                                            res.render("services/paymentDetails", {
-                                                service,
-                                                response: response,
-                                                client: client,
-                                                freelancer: freelancer
-                                            })
-                                        })
-                                    }
-                                })
+                        }).then(job => {
+                            Notification.create({
+                                uid: req.user.id,
+                                username: req.user.username,
+                                pid: job.sid,
+                                title: job.name,
+                                date: new Date(),
+                                category: "Jobs_Paid",
+                                user: job.uid
                             })
-                        })
-                })
 
-            })
-        })
+                            var params = {
+                                payKey: req.session.payKey.toString()
+                            };
 
+                            paypalSdk.paymentDetails(params, function (err, response) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                else {
+                                    // payments details for this payKey, transactionId or trackingId
+                                    Transactions.create({
+                                        serviceProvider: freelancer.username,
+                                        freelancerPaypal: freelancer.paypal,
+                                        paypalMerchantID: response.paymentInfoList.paymentInfo[0].receiver.accountId,
+                                        paidWith: response.sender.email,
+                                        paypalTransactionID: response.paymentInfoList.paymentInfo[0].transactionId,
+                                        serviceName: service.name,
+                                        description: response.memo,
+                                        price: response.paymentInfoList.paymentInfo[0].receiver.amount,
+                                        currency: response.currencyCode,
+                                        date: response.responseEnvelope.timestamp,
+                                        uid: client.id,
+                                    }).then((transaction) => {
+                                        // res.send("success")
+                                        req.flash('success', 'Payment successful')
+                                        res.render("services/paymentDetails", {
+                                            service,
+                                            response: response,
+                                            client: client,
+                                            freelancer: freelancer
+                                        });
+                                    });
+                                }
+                            });
+                        });
+                    });
+                });
+            });
+        });
     },
-
     transactions: function (req, res) {
         if (req.user.accType == "client") {
             Transactions.findAll({
@@ -557,7 +511,6 @@ module.exports = {
             }).then((Service_Transactions) => {
                 Users.findAll(
                 ).then(Transaction_Clients => {
-
                     for (t = 0; t < Service_Transactions.length; t++) {
                         for (c = 0; c < Transaction_Clients.length; c++) {
                             if (Service_Transactions[t].uid == Transaction_Clients[c].id) {
@@ -565,14 +518,14 @@ module.exports = {
                             }
                         }
                     }
+
                     res.render('services/paymentLists', {
                         transactions: Service_Transactions
-                    })
-                })
-            })
+                    });
+                });
+            });
         }
     },
-
     viewPaymentDetails: function (req, res) {
         Transactions.findOne({
             where: {
@@ -581,11 +534,10 @@ module.exports = {
         }).then((transaction) => {
             res.render('services/viewPaymentDetails', {
                 transaction
-            })
-        })
+            });
+        });
     }
 }
-
 
 function capitalize(components) {
     if (components == '') {

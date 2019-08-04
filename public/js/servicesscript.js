@@ -101,7 +101,7 @@ function categoryCheck() {
     var error = document.getElementById('categoryErr');
     var button = document.getElementById('butaddService');
     var ticks = 0;
-    console.log('FIRE')
+    
     for (var i = 0; i < categories.length; i++) {
         if (categories[i].checked == true) {
             ticks++;

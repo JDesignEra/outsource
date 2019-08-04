@@ -81,58 +81,39 @@ module.exports = {
                             res.redirect('/register');
                         }
                         else {
-                            User.findOne({ where: { email: req.body.email } })
-                                .then(user => {
-                                    if (user) {
-                                        req.flash('forms', {
-                                            errors: {
-                                                email: user.email + ' is already registered.'
-                                            },
-                                            username: username,
-                                            email: email,
-                                            password: password,
-                                            cfmPassword: cfmPassword
+                            User.findOne({ where: { email: req.body.email } }).then(user => {
+                                if (user) {
+                                    req.flash('forms', {
+                                        errors: {
+                                            email: user.email + ' is already registered.'
+                                        },
+                                        username: username,
+                                        email: email,
+                                        password: password,
+                                        cfmPassword: cfmPassword
+                                    });
+
+                                    res.redirect('/register');
+                                }
+                                else {
+                                    bcrypt.genSalt(10, (err, salt) => {
+                                        bcrypt.hash(password, salt, (err, hash) => {
+                                            User.create({
+                                                username: username,
+                                                email: email,
+                                                password: hash,
+                                                accType: accType,
+                                                // followers: 0,
+                                                // following: 0,
+
+                                            }).then(user => {
+                                                req.flash('success', user.username + ' register successfully. You may login now.');
+                                                res.redirect('./');
+                                            }).catch(err => console.log(err))
                                         });
-
-                                        res.redirect('/register');
-                                    }
-                                    else {
-                                        bcrypt.genSalt(10, (err, salt) => {
-                                            bcrypt.hash(password, salt, (err, hash) => {
-                                                User.create({
-                                                    username: username,
-                                                    email: email,
-                                                    password: hash,
-                                                    accType: accType,
-                                                    // followers: 0,
-                                                    // following: 0,
-
-                                                }).then(user => {
-                                                    req.flash('success', user.username + ' register successfully. You may login now.');
-                                                    res.redirect('./');
-                                                }).catch(err => console.log(err))
-                                            });
-                                        });
-                                        // bcrypt.genSalt(10, function (err, salt) {
-                                        //     bcrypt.hash(password, salt, function (err, hash) {
-                                        //         password = bcrypt.hashSync(password, salt)
-
-                                        //         User.create({
-                                        //             username: username,
-                                        //             email,
-                                        //             password,
-                                        //             accType,
-                                        //             followers: 0,
-                                        //             following: 0,
-
-                                        //         }).then(user => {
-                                        //             req.flash('success', user.username + ' register successfully. You may login now.');
-                                        //             res.redirect('./');
-                                        //         }).catch(err => console.log(err));
-                                        //     });
-                                        // });
-                                    }
-                                });
+                                    });
+                                }
+                            });
                         }
                     });
                 }
@@ -174,10 +155,7 @@ module.exports = {
         }
     },
     reset: function (req, res) {
-        console.log('reset');
-        console.log(req.method);
         if (req.method === "GET") {
-            console.log('resetget');
             res.render('auth/reset', { token: req.params.token });
         }
         else if (req.method === "POST") {
@@ -186,12 +164,10 @@ module.exports = {
             
             if (req.body.newpass.length < 8) {
                 errors.push('Passwords have to be at least 8 characters.');
-                console.log('password needs 8 chars');
             }
 
             if (req.body.newpass != req.body.newconfirmpass) {
                 errors.push("Passwords do not match.");
-                console.log('password does not match');
             }
 
             if (errors.length > 0) {
@@ -206,13 +182,11 @@ module.exports = {
                     }
                 }).then(user => {
                     if (!user) {
-                        console.log('resetpost1');
                         req.flash('error', 'Password reset token is invalid or has expired.');
                         res.redirect('back');
                     }
                     else {
                         if (req.body.newpass === req.body.newconfirmpass) {
-                            console.log('resetpost1');
                             let password = req.body.newpass
         
                             bcrypt.genSalt(10, (err, salt) => {
@@ -223,7 +197,6 @@ module.exports = {
                                         resetPasswordExpires: Date.now() + 36000
                                     }).then(() => {
                                         req.flash('success', 'Password have been successfully changed!');
-                                        console.log('password changed')
                                         res.redirect('/');
                                     });
                                 });
@@ -247,12 +220,10 @@ module.exports = {
                         where: {
                             id: req.params.id
                         }
+                    }).then((user) => {
+                        req.flash('success', 'Account successfully deleted!');
+                        res.redirect('/')
                     })
-                        .then((user) => {
-                            console.log('destroy');
-                            req.flash('success', 'Account successfully deleted!');
-                            res.redirect('/')
-                        })
                 }
             })
         }

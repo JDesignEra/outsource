@@ -279,10 +279,12 @@ module.exports = {
                                             }
 
                                         }
+
                                         liked.reverse()
 
                                         likedProjectIDs = []
                                         likedProjectUIDs = []
+
                                         for (i = 0; i < liked.length; i++) {
                                             likedProjectIDs.push(liked[i].id)
                                             likedProjectUIDs.push(liked[i].uid)
@@ -296,11 +298,11 @@ module.exports = {
                                                 projects[a].comments = []
                                                 for (c = 0; c < projectComments.length; c++) {
                                                     if (projects[a].id == projectComments[c].pid) {
-                                                        projects[a].comments.push(projectComments[c])
+                                                        projects[a].comments.push(projectComments[c]);
                                                     }
                                                 }
-                                                projects[a].comments.reverse()
 
+                                                projects[a].comments.reverse();
                                             }
 
                                             //Comments for view user liked Portfolio
@@ -329,8 +331,7 @@ module.exports = {
                                                         }
                                                     }
                                                     //Getting liked portfolio user services
-                                                    Services.findAll(
-                                                    ).then(likedProjectService => {
+                                                    Services.findAll().then(likedProjectService => {
                                                         for (p = 0; p < liked.length; p++) {
                                                             liked[p].services = []
                                                             for (s = 0; s < likedProjectService.length; s++) {
@@ -346,9 +347,11 @@ module.exports = {
                                                             }
                                                         }).then((datas) => {
                                                             let serviceIds = [];
+
                                                             for (const data of datas) {
                                                                 serviceIds.push(data['sid']);
                                                             }
+
                                                             Services.findAll({
                                                                 where: {
                                                                     id: { [Op.in]: serviceIds },
@@ -360,32 +363,26 @@ module.exports = {
                                                                     followers: followers,
                                                                     following: following,
                                                                     followedUser: followedUser,
-
                                                                     social_medias: socialmedias,
                                                                     skills: skills,
-
                                                                     projects: projects,
                                                                     open: req.params.open,
-
                                                                     services: services,
-
                                                                     favs: favs,
-
                                                                     liked
 
-
                                                                 });
-                                                            })
-                                                        }).catch(err => console.log(err))
-                                                    })
-                                                })
-                                            })
-                                        })
-                                    })
-                                })
-                            })
-                        })
-                    })
+                                                            });
+                                                        }).catch(err => console.log(err));
+                                                    });
+                                                });
+                                            });
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
                 }
                 else {
                     req.flash('error', "This user does not exist.")
@@ -842,14 +839,14 @@ module.exports = {
 
             Project.update({
                 likes: likers.toString()
-            }, {
-                    where: { id: likedProject.id }
-                }).then(likedProject => {
-                    res.redirect('back')
-                })
+            },
+            {
+                where: { id: likedProject.id }
+            }).then(likedProject => {
+                res.redirect('back')
+            });
         })
     },
-
     //Comment system
     postComment: function (req, res) {
         Comments.create({
@@ -871,24 +868,19 @@ module.exports = {
                         date: new Date(),
                         category: "Comments",
                         user: commentedProject.uid
-                    })
+                    });
                 }
 
-                res.redirect('back')
-            })
-
-
-        })
+                res.redirect('back');
+            });
+        });
     },
-
     //Projects
-
     submit: function (req, res) {
         res.render('profile/submitProjects', {
             fonts: fonts
-        })
+        });
     },
-
     submitProject: function (req, res) {
         let uid = req.user.id
         let title = req.body.title
@@ -905,62 +897,57 @@ module.exports = {
             content: content,
             datePosted: datePosted,
             views: views,
-        })
-            .then((projects) => {
-
-                //Saves image file to folder
-                if (imgfile !== undefined) {
-                    if (!fs.existsSync('./public/uploads/profile/' + req.user.id)) {
-                        fs.mkdirSync('./public/uploads/profile/' + req.user.id);
-                    }
-
-                    // Creates user id directory for upload if not exist
-                    if (!fs.existsSync('./public/uploads/profile/' + req.user.id + '/projects/')) {
-                        fs.mkdirSync('./public/uploads/profile/' + req.user.id + '/projects/');
-                    }
-
-                    // Move file
-                    let projectsId = projects.id;
-                    fs.renameSync(imgfile['path'], './public/uploads/profile/' + req.user.id + '/projects/' + projectsId + '.png');
+        }).then((projects) => {
+            //Saves image file to folder
+            if (imgfile !== undefined) {
+                if (!fs.existsSync('./public/uploads/profile/' + req.user.id)) {
+                    fs.mkdirSync('./public/uploads/profile/' + req.user.id);
                 }
 
+                // Creates user id directory for upload if not exist
+                if (!fs.existsSync('./public/uploads/profile/' + req.user.id + '/projects/')) {
+                    fs.mkdirSync('./public/uploads/profile/' + req.user.id + '/projects/');
+                }
 
-                //Notifies users
-                if (req.user.followers != null && req.user.followers.split(',').length > 0) {
-                    follower = req.user.followers.split(',')
+                // Move file
+                let projectsId = projects.id;
+                fs.renameSync(imgfile['path'], './public/uploads/profile/' + req.user.id + '/projects/' + projectsId + '.png');
+            }
+
+
+            //Notifies users
+            if (req.user.followers != null && req.user.followers.split(',').length > 0) {
+                follower = req.user.followers.split(',');
+
+                for (i = 0; i < follower.length; i++) {
+                    follower[i] = parseInt(follower[i])
+                }
+                
+                User.findAll({
+                    where: {
+                        id: { [Op.in]: follower }
+                    }
+                }).then(followerUser => {
                     for (i = 0; i < follower.length; i++) {
-                        follower[i] = parseInt(follower[i])
+                        Notification.create({
+                            uid: req.user.id,
+                            username: req.user.username,
+                            pid: projects.id,
+                            title: projects.title,
+                            date: projects.datePosted,
+                            category: "Projects",
+                            user: followerUser[i].id
+                        })
                     }
-                    User.findAll({
-                        where: {
-                            id: { [Op.in]: follower }
-                        }
-                    }).then(followerUser => {
-                        for (i = 0; i < follower.length; i++) {
-                            Notification.create({
-                                uid: req.user.id,
-                                username: req.user.username,
-                                pid: projects.id,
-                                title: projects.title,
-                                date: projects.datePosted,
-                                category: "Projects",
-                                user: followerUser[i].id
-                            })
-                        }
-                        res.redirect('/profile/');
-                    })
-                }
-                else {
                     res.redirect('/profile/');
-                }
-
-
-
-            })
-            .catch(err => console.log(err))
+                })
+            }
+            else {
+                res.redirect('/profile/');
+            }
+        }).catch(err => console.log(err));
 
     },
-
     editProject: function (req, res) {
         Project.findOne({
             where: {
@@ -978,14 +965,12 @@ module.exports = {
                     fonts: fonts,
                     project,
                     img: imgPath
-                })
+                });
             }
         })
 
     },
-
     editProjectPost: function (req, res) {
-
         let uid = req.user.id
         let title = req.body.title
         let category = req.body.projectCategory.toString()
@@ -1005,11 +990,8 @@ module.exports = {
                 where: {
                     id: req.params.id
                 }
-            })
-
-            .then((updateProject) => {
+            }).then((updateProject) => {
                 if (coverimg !== undefined) {
-
                     // Creates user id directory for upload if not exist
                     if (!fs.existsSync('./public/uploads/profile/' + req.user.id)) {
                         fs.mkdirSync('./public/uploads/profile/' + req.user.id);
@@ -1023,50 +1005,38 @@ module.exports = {
                     fs.renameSync(coverimg['path'], newPath);
                 }
 
-
-
                 res.redirect('/profile/');
-            })
-            .catch(err => console.log(err))
+            }).catch(err => console.log(err));
 
 
     },
-
     viewProject: function (req, res) {
         Project.findOne({
             where: {
                 id: req.params.id
             }
-
-        })
-            .then((project) => {
-
-                User.findOne({
+        }).then((project) => {
+            User.findOne({
+                where: {
+                    id: project.uid
+                }
+            }).then((user) => {
+                Services.findAll({
                     where: {
-                        id: project.uid
+                        uid: project.uid
                     }
 
-                }).then((user) => {
-
-                    Services.findAll({
-                        where: {
-                            uid: project.uid
-                        }
-
-                    }).then(((services) => {
-                        res.render('profile/viewProject', {
-                            project: project,
-                            services: services,
-                            user: user
-                        })
-                    }))
-
-
-                })
-            })
+                }).then((services) => {
+                    res.render('profile/viewProject', {
+                        project: project,
+                        services: services,
+                        user: user
+                    });
+                });
+            });
+        });
 
     },
-
     deleteProject: function (req, res) {
         Project.findOne({
             id: req.params.id,
@@ -1081,13 +1051,11 @@ module.exports = {
                     {
                         id: req.params.id
                     }
-                })
-                    .then((project) => {
-                        req.flash('success', ['Project successfully deleted!'])
-                        res.redirect('/profile')
-                    })
+                }).then((project) => {
+                    req.flash('success', ['Project successfully deleted!'])
+                    res.redirect('/profile')
+                });
             }
         })
     },
-
 }

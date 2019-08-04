@@ -24,8 +24,8 @@ module.exports = {
         }).then(job => {
             res.render("jobs/jobdash", {
                 job
-            })
-        })
+            });
+        });
     },
 
     add: function (req, res) {
@@ -67,19 +67,18 @@ module.exports = {
                             date: new Date(),
                             category: "Jobs",
                             user: services.uid
-                        })
+                        });
                         req.flash('success', `Job request sent successfully! Please wait for ${job.uname}'s response`);
                         // res.redirect('/services/payment/' + services.id);
                         res.redirect('/services/');
-
-                    })
+                    });
                 }
                 else if (jobs.cid == req.user.id && services.id == jobs.sid) {
                     req.flash('warning', 'You cannot request for this service until completion of previous request');
                     res.redirect('back');
                 }
-            })
-        })
+            });
+        });
     },
 
     delete: function (req, res) {
@@ -107,7 +106,8 @@ module.exports = {
                             date: new Date(),
                             category: "Requests_Cancel",
                             user: job.cid
-                        })
+                        });
+
                         req.flash('success', 'Job Reject');
                     }
                     else {
@@ -119,43 +119,46 @@ module.exports = {
                             date: new Date(),
                             category: "Jobs_Reject",
                             user: job.uid
-                        })
+                        });
+
                         req.flash('success', 'Request cancelled');
                     }
+                    
                     res.redirect('back');
-                })
+                });
             }
-        })
+        });
     },
 
     accept: function (req, res) {
         Jobs.update({
             status: "accepted"
-        }, {
-                where: {
-                    id: req.params.id
-                }
-            }).then((job) => {
-                Jobs.findOne({
-                    where: { id: req.params.id }
-                }).then(job => {
-                    Notification.create({
-                        uid: req.user.id,
-                        username: req.user.username,
-                        pid: job.sid,
-                        title: job.name,
-                        date: new Date(),
-                        category: "Requests",
-                        user: job.cid
-                    })
-                    console.log("lol")
-                    req.flash('success', 'Request accepted');
-                    res.redirect('/jobs');
-                })
+        },
+        {
+            where: {
+                id: req.params.id
+            }
+        }).then((job) => {
+            Jobs.findOne({
+                where: { id: req.params.id }
+            }).then(job => {
+                Notification.create({
+                    uid: req.user.id,
+                    username: req.user.username,
+                    pid: job.sid,
+                    title: job.name,
+                    date: new Date(),
+                    category: "Requests",
+                    user: job.cid
+                });
+                
+                req.flash('success', 'Request accepted');
+                res.redirect('/jobs');
+            });
 
-                // req.flash('success', 'Request accepted');
-                // res.redirect('/jobs');
-            })
+            // req.flash('success', 'Request accepted');
+            // res.redirect('/jobs');
+        });
     },
 
     submit: function (req, res) {
@@ -182,8 +185,8 @@ module.exports = {
                 }).then(() => {
                     req.flash('success', 'Job completed!');
                     res.redirect('back');
-                })
-            })
-        })
+                });
+            });
+        });
     }
 }

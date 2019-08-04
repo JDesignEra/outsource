@@ -357,8 +357,8 @@
 
 <script>
     function followUser(id) {
-        console.log(id)
-        url = '/profile/follow/' + id
+        url = '/profile/follow/' + id;
+
         $.ajax({
             url: url,
             //data: data,
@@ -366,17 +366,16 @@
         }).then(function (response) {
             // Do stuff with the response, like add it to the page dynamically.
             //$('body').append(response);
-            console.log(id)
-            $('#followButton').addClass('active')
-            $('#followButton').html('Followed')
-            $('#followButton').attr('onclick', `unfollowUser(${id})`)
+            $('#followButton').addClass('active');
+            $('#followButton').html('Followed');
+            $('#followButton').attr('onclick', `unfollowUser(${id})`);
         }).catch(function (err) {
             console.error(err);
         });
     }
     function unfollowUser(id) {
-        console.log(id)
-        url = '/profile/unfollow/' + id
+        url = '/profile/unfollow/' + id;
+
         $.ajax({
             url: url,
             //data: data,
@@ -384,11 +383,9 @@
         }).then(function (response) {
             // Do stuff with the response, like add it to the page dynamically.
             //$('body').append(response);
-            console.log(id)
-            $('#followButton').removeClass('active')
-            $('#followButton').html('Follow')
-            $('#followButton').attr('onclick', `followUser(${id})`)
-
+            $('#followButton').removeClass('active');
+            $('#followButton').html('Follow');
+            $('#followButton').attr('onclick', `followUser(${id})`);
         }).catch(function (err) {
             console.error(err);
         });

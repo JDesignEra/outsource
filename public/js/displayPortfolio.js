@@ -5,4 +5,4 @@ $(window).ready(function () {
         container[i].innerHTML = content[i].innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>')
      
     }
-})
+});

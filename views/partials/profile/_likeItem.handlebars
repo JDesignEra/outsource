@@ -434,23 +434,20 @@
 
 <script>
     $("[id^=confirmDelete]").on('show.bs.modal', function (e) {
-        idname = $(this).attr('id').toString()
+        idname = $(this).attr('id').toString();
+        num = idname.slice((idname.length - 2), idname.length);
 
-        num = idname.slice((idname.length - 2), idname.length)
-        $("#project" + num).modal('hide')
-
-    })
+        $("#project" + num).modal('hide');
+    });
 
     $("[id^=confirmDelete]").on('hide.bs.modal', function (e) {
-        idname = $(this).attr('id').toString()
-
+        idname = $(this).attr('id').toString();
         num = idname.slice((idname.length - 2), idname.length)
+
         setTimeout(function () {
             $("#project" + num).modal('show')
-            console.log("eh")
-        }, 400)
-
-    })
+        }, 400);
+    });
 </script>
 
 <script>
@@ -473,115 +470,107 @@
 
         now = formatDate(new Date())
         $('#commentForm' + id).submit(function (e) {
-            e.preventDefault()
-            e.stopImmediatePropagation()
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
             url = '/profile/commentProject/' + id
             data = $(this).serialize()
+
             $.ajax({
                 url: url,
                 data: data,
                 method: 'POST'
             }).then(function (response) {
+                $('#likedhrAfter' + id).prepend(`
+                    <li class="row mb-4">
+                        <div class="col-1 pr-2">
+                            <img class="avatar img-fluid rounded-circle white accent-3 z-depth-1" onerror='this.src = "/img/profile/default.png"' src="${$('#profileimg').attr('src')}">
+                        </div>
 
-
-
-                $('#likedhrAfter' + id).prepend(`<li class="row mb-4">
-
-                                    <div class="col-1 pr-2">
-                        
-                                        <img class="avatar img-fluid rounded-circle white accent-3 z-depth-1"
-                                            onerror='this.src = "/img/profile/default.png"'
-                                                src="${$('#profileimg').attr('src')}">
-                                     
+                        <div class="col-11 pl-2">
+                            <div class="chat-body rounded white p-3 z-depth-1">
+                                <div class="header d-flex">
+                                    <div class="flex-fill text-left">
+                                        <a href="/profile/view/${$('#Userid').html()}">
+                                            <strong class="primary-font">${$('#formUsername').text()}</strong>
+                                        </a>
                                     </div>
-
-                                    <div class="col-11 pl-2">
-                                        <div class="chat-body rounded white p-3 z-depth-1">
-                                            <div class="header d-flex">
-                                                <div class="flex-fill text-left">
-                                                    <a href="/profile/view/${$('#Userid').html()}">
-                                                        <strong class="primary-font">${$('#formUsername').text()}</strong>
-                                                    </a>
-                                                </div>
-                                                <div class="flex-fill text-right">
-                                                    <small class="pull-right text-muted">
-                                                        <i class="far fa-clock mr-1"></i>${new Date()}
-                                                    </small>
-                                                </div>
-                                            </div>
-
-                                            <hr class="w-100">
-
-                                            <p class="text-left mb-0">
-                                               ${$('#commentContent' + id).val()}
-                                            </p>
-                                        </div>
+                                    <div class="flex-fill text-right">
+                                        <small class="pull-right text-muted">
+                                            <i class="far fa-clock mr-1"></i>${new Date()}
+                                        </small>
                                     </div>
-                                </li>`
+                                </div>
 
-                )
+                                <hr class="w-100">
 
-                $('#commentContent' + id).val('')
+                                <p class="text-left mb-0">
+                                    ${$('#commentContent' + id).val()}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                `);
+
+                $('#commentContent' + id).val('');
             }).catch(function (err) {
                 console.error(err);
             });
+
             return false;
         })
 
 
     }
     function viewProject(id) {
+        url = '/profile/viewProject/' + id;
 
-        url = '/profile/viewProject/' + id
         $.ajax({
             url: url,
             //data: data,
             method: 'GET'
         }).then(function (response) {
-
-            $('#viewproject' + id).attr('onclick', ``)
-
+            $('#viewproject' + id).attr('onclick', ``);
         }).catch(function (err) {
             console.error(err);
         });
+
         return false
     }
     function likeProject(id) {
+        url = '/profile/like/' + id;
 
-        url = '/profile/like/' + id
         $.ajax({
             url: url,
             //data: data,
             method: 'GET'
         }).then(function (response) {
-
-            $('#likeButton' + id).addClass('btn-danger')
-            $('#likeButton' + id).removeClass('btn-outline-danger')
-            $('#likeButton' + id).html('Liked')
-            $('#likeButton' + id).attr('onclick', `unlikeProject(${id})`)
-
+            $('#likeButton' + id).addClass('btn-danger');
+            $('#likeButton' + id).removeClass('btn-outline-danger');
+            $('#likeButton' + id).html('Liked');
+            $('#likeButton' + id).attr('onclick', `unlikeProject(${id})`);
         }).catch(function (err) {
             console.error(err);
         });
+
         return false
     }
     function unlikeProject(id) {
+        url = '/profile/unlike/' + id;
 
-        url = '/profile/unlike/' + id
         $.ajax({
             url: url,
             //data: data,
             method: 'GET'
         }).then(function (response) {
-
-            $('#likeButton' + id).addClass('btn-outline-danger')
-            $('#likeButton' + id).removeClass('btn-danger')
-            $('#likeButton' + id).html('Like')
-            $('#likeButton' + id).attr('onclick', `likeProject(${id})`)
-
+            $('#likeButton' + id).addClass('btn-outline-danger');
+            $('#likeButton' + id).removeClass('btn-danger');
+            $('#likeButton' + id).html('Like');
+            $('#likeButton' + id).attr('onclick', `likeProject(${id})`);
         }).catch(function (err) {
             console.error(err);
         });
+        
         return false
     }
 </script>
