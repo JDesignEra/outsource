@@ -27,47 +27,6 @@ function uploadImage() {
 
 
     test1.execCommand("insertHTML", false, img);
-
-    // interact('.resize-drag')
-    //     .resizable({
-    //         // resize from all edges and corners
-    //         edges: { left: true, right: true, bottom: true, top: true },
-
-    //         modifiers: [
-    //             // keep the edges inside the parent
-    //             interact.modifiers.restrictEdges({
-    //                 outer: 'parent',
-    //                 endOnly: true,
-    //             }),
-
-    //             // minimum size
-    //             interact.modifiers.restrictSize({
-    //                 min: { width: 100, height: 50 },
-    //             }),
-    //         ],
-
-    //         inertia: true
-    //     })
-    //     .on('resizemove', function (event) {
-    //         var target = event.target,
-    //             x = (parseFloat(target.getAttribute('data-x')) || 0),
-    //             y = (parseFloat(target.getAttribute('data-y')) || 0);
-
-    //         // update the element's style
-    //         target.style.width = event.rect.width + 'px';
-    //         target.style.height = event.rect.height + 'px';
-
-    //         // translate when resizing from top or left edges
-    //         x += event.deltaRect.left;
-    //         y += event.deltaRect.top;
-
-    //         target.style.webkitTransform = target.style.transform =
-    //             'translate(' + x + 'px,' + y + 'px)';
-
-    //         target.setAttribute('data-x', x);
-    //         target.setAttribute('data-y', y);
-    //         target.textContent = Math.round(event.rect.width) + '\u00D7' + Math.round(event.rect.height);
-    //     });
 }
 
 function uploadAudio() {
@@ -118,8 +77,6 @@ function toggleSource() {
         test.contentWindow.document.body.innerHTML = test.contentWindow.document.body.textContent;
         showingSourceCode = false
         $('#sourceCodeBtn').removeClass('active')
-        //document.getElementById("sourceCodeBtn").className = "btn btn-secondary"
-        // document.getElementById("richTextEditorBtns").style.display = "block"
         event.preventDefault()
 
     }
@@ -127,9 +84,6 @@ function toggleSource() {
         test.contentWindow.document.body.textContent = test.contentWindow.document.body.innerHTML
         showingSourceCode = true
         $('#sourceCodeBtn').addClass('active')
-
-        // document.getElementById("sourceCodeBtn").className = "btn btn-secondary active"
-        // document.getElementById("richTextEditorBtns").style.display = "none"
         event.preventDefault()
     }
 
@@ -218,7 +172,7 @@ $(document).change(function () {
     }
 
 
-    if ($('#title').val() != "" && ($('#coverPicture').val() != "" || $('#imageRender').attr('src') != "") && category_counter > 0) {
+    if ($('#title').val() != "" && ($('#coverPicture').val() != "" && $('#imageRender').attr('src') != "") && category_counter > 0) {
         $('#portfolio-tab-classic-shadow').removeClass("disabled muted")
         $('#portfolio-tab-classic-shadow').addClass("text-secondary")
     }
