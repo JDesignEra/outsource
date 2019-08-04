@@ -1,6 +1,6 @@
 {
   "name": "outsource",
-  "version": "18.0.0",
+  "version": "18.2.0",
   "description": "This is for OOADP Project",
   "main": "app.js",
   "scripts": {
@@ -39,7 +39,7 @@
     "passport-local": "^1.0.0",
     "paypal-adaptive": "^0.4.2",
     "paypal-rest-sdk": "^1.8.1",
-    "sequelize": "^5.12.2"
+    "sequelize": "^5.12.3"
   },
   "devDependencies": {
     "browser-sync": "^2.26.7",

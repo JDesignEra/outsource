@@ -399,6 +399,12 @@ section.file-preview #content img.img-preview {
     transition: width .5s ease-in-out;
 }
 
+section.file-preview #action-card .shortcuts,
+section.file-edit #action-card .shortcuts {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
 @media (max-width: 767px) {
     section.files .dataTables_wrapper th#name {
         border-top-right-radius: .25rem !important;

@@ -129,7 +129,7 @@ $(function() {
             maxHighlightLength: Infinity,
             viewportMargin: Infinity,
             spellcheck: true,
-            matchBrackets: true,
+            matchBrackets: true
         });
 
         CodeMirror.autoLoadMode(editor, mode);
@@ -143,6 +143,41 @@ $(function() {
         }, 500);
         
         $('#editor', '#content').find('.CodeMirror').addClass('rounded');
+
+        // Mobile Shortcuts
+        $('.search', '#mobile-action-menu .shortcut-actions').on('click', function() {
+            editor.execCommand('find');
+        });
+
+        $('.next', '#mobile-action-menu .shortcut-actions').on('click', function() {
+            editor.execCommand('findNext');
+        });
+
+        $('.previous', '#mobile-action-menu .shortcut-actions').on('click', function() {
+            editor.execCommand('findPrev');
+        });
+
+        $('.jump', '#mobile-action-menu .shortcut-actions').on('click', function() {
+            editor.execCommand('jumpToLine');
+        });
+
+        // Editor Hotkeys Collapse Arrow
+        $('a[href="#shortcut-infos"]', '#action-card .shortcuts').on('click', function() {
+            let _this = $(this);
+
+            if (_this.hasClass('collapsed')) {
+                let icon = _this.find('.fa-angle-down');
+                
+                icon.addClass('fa-angle-up');
+                icon.removeClass('fa-angle-down');
+            }
+            else {
+                let icon = _this.find('.fa-angle-up');
+                
+                icon.addClass('fa-angle-down');
+                icon.removeClass('fa-angle-up');
+            }
+        });
     }
     else if (type === 'document') {
         if (ext === 'rtf') {

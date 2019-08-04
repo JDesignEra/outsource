@@ -1,6 +1,7 @@
 {{#extend 'stylesheets'}}
     {{#ifCond 'file.type === "code" || file.type === "text"'}}
         <link type="text/css" href="/css/vendor/codemirror/codemirror.css" rel="stylesheet">
+        <link type="text/css" href="/css/vendor/codemirror/dialog.css" rel="stylesheet">
         <link type="text/css" href="/css/vendor/codemirror/show-hint.css" rel="stylesheet">
         <link type="text/css" href="/css/vendor/codemirror/lint.css" rel="stylesheet">
         <link id="editor-style" type="text/css" href="/css/vendor/codemirror/one-dark.css" rel="stylesheet">
@@ -45,6 +46,105 @@
                     <span class="white-text mx-3">Actions</span>
                 </div>
 
+                {{#ifCond 'file.type === "code" || file.type === "text"'}}
+                    <div class="shortcuts my-3">
+                        <a class="collapsed" data-toggle="collapse" href="#shortcut-infos">
+                            <h6 class="mt-2 mb-3">
+                                <i class="far fa-keyboard mr-2"></i>Editor Hotkeys
+                                <i class="float-right pr-3 mt-1 fas fa-angle-down"></i>
+                            </h6>
+                        </a>
+
+                        <div id="shortcut-infos" class="collapse">
+                            <div class="d-flex">
+                                <div class="flex-fill small font-weight-bold text-muted">
+                                    <p>Select All</p>
+                                    <p>Copy</p>
+                                    <p>Cut</p>
+                                    <p class="mb-0">Paste</p>
+                                </div>
+
+                                <div class="flex-fill small text-right">
+                                    <p><kbd>Ctrl + A</kbd> / <kbd>&#8984; + A</kbd></p>
+                                    <p><kbd>Ctrl + C</kbd> / <kbd>&#8984; + C</kbd></p>
+                                    <p><kbd>Ctrl + X</kbd> / <kbd>&#8984; + X</kbd></p>
+                                    <p class="mb-0"><kbd>Ctrl + V</kbd> / <kbd>&#8984; + V</kbd></p>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex">
+                                <div class="flex-fill small font-weight-bold text-muted">
+                                    <p>Undo</p>
+                                    <p class="mb-0">Redo</p>
+                                </div>
+
+                                <div class="flex-fill small text-right">
+                                    <p><kbd>Ctrl + Z</kbd> / <kbd>&#8984; + Z</kbd></p>
+                                    <p class="mb-0"><kbd>Ctrl + Y</kbd> / <kbd>&#8984; + Y</kbd></p>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex">
+                                <div class="flex-fill small font-weight-bold text-muted">
+                                    <p>Go To First Line</p>
+                                    <p>Go To Last Line</p>
+                                    <p>Go To Start Of Line</p>
+                                    <p class="mb-0">Go To End Of Line</p>
+                                </div>
+
+                                <div class="flex-fill small text-right">
+                                    <p><kbd>Ctrl + Home</kbd> / <kbd>&#8984; + &#8593;</kbd></p>
+                                    <p><kbd>Ctrl + End</kbd> / <kbd>&#8984; + &#8595;</kbd></p>
+                                    <p><kbd>Alt + &#8592;</kbd> / <kbd>Ctrl + A</kbd></p>
+                                    <p class="mb-0"><kbd>Alt + &#8594;</kbd> / <kbd>Ctrl + E</kbd></p>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex">
+                                <div class="flex-fill small font-weight-bold text-muted">
+                                    <p>Auto-Indent Selction</p>
+                                    <p>Indent Right</p>
+                                    <p class="mb-0">Indent Left</p>
+                                </div>
+
+                                <div class="flex-fill small text-right">
+                                    <p><kbd><i class="fas fa-arrow-alt-up"></i> + &#8633;</kbd></p>
+                                    <p><kbd>Ctrl + ]</kbd></p>
+                                    <p class="mb-0"><kbd>Ctrl + [</kbd></p>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex mb-3">
+                                <div class="flex-fill small font-weight-bold text-muted">
+                                    <p>Start Searching</p>
+                                    <p>Find Next</p>
+                                    <p>Find Previous</p>
+                                    <p>Replace</p>
+                                    <p>Replace All</p>
+                                    <p class="mb-0">Jump To Line</p>
+                                </div>
+
+                                <div class="flex-fill small text-right">
+                                    <p><kbd>Ctrl + F</kbd> / <kbd>&#8984; + F</kbd></p>
+                                    <p><kbd>Ctrl + G</kbd> / <kbd>&#8984; + G</kbd></p>
+                                    <p><kbd><i class="fas fa-arrow-alt-up"></i> + Ctrl + G</kbd> / <kbd><i class="fas fa-arrow-alt-up"></i> + &#8984; + G</kbd></p>
+                                    <p><kbd><i class="fas fa-arrow-alt-up"></i> + Ctrl + F</kbd> / <kbd><i class="fas fa-arrow-alt-up"></i> + &#8984; + F</kbd></p>
+                                    <p><kbd><i class="fas fa-arrow-alt-up"></i> + Ctrl + R</kbd> / <kbd><i class="fas fa-arrow-alt-up"></i> + &#8984; + &#8997; + F</kbd></p>
+                                    <p class="mb-0"><kbd>Alt + G</kbd></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/ifCond}}
+
                 <div class="list-group list-group-flush">
                     <a class="close-edit list-group-item list-group-item-action" href="{{ prevUrl }}">
                         <i class="far fa-window-close mr-1"></i>Close Edit
@@ -64,12 +164,82 @@
     </div>
 </section>
 
+{{#extend "fixedAction"}}
+<!-- Mobile FAB Action -->
+<div id="mobile-action" class="dropdown fixed-bottom text-right d-block d-lg-none">
+    <button class="btn btn-floating primary-gradient dropdown-toggle" type="button" data-toggle="dropdown">
+        <i class="fas fa-ellipsis-h"></i>
+    </button>
+
+    <div id="mobile-action-menu" class="dropdown-menu mb-2">
+        <a class="close-edit dropdown-item" href="{{ prevUrl }}">
+            <i class="far fa-window-close mr-1"></i>Close Edit
+        </a>
+
+        <button class="save dropdown-item" type="button">
+            <i class="far fa-save mr-1"></i>Save
+        </button>
+
+        {{#ifCond 'file.type === "code" || file.type === "text"'}}
+            <hr class="my-2">
+            
+            <div class="shortcut-actions">
+                <h6 class="dropdown-header text-primary">Editor Actions</h6>
+                <hr class="my-1">
+
+                <button class="editor-mode dropdown-item" data-mode="dark">
+                    <i class="far fa-adjust mr-1"></i>Light Mode
+                </button>
+                <button class="select-all dropdown-item">
+                    <i class="far fa-i-cursor mr-1"></i>Select All
+                </button>
+                <button class="undo dropdown-item">
+                    <i class="far fa-undo-alt mr-1"></i>Undo
+                </button>
+                <button class="redo dropdown-item">
+                    <i class="far fa-redo-alt mr-1"></i>Redo
+                </button>
+                <button class="search dropdown-item">
+                    <i class="far fa-search mr-1"></i>Search
+                </button>
+                <button class="next dropdown-item">
+                    <i class="far fa-forward mr-1"></i>Find Next
+                </button>
+                <button class="previous dropdown-item">
+                    <i class="far fa-backward mr-1"></i>Find Previous
+                </button>
+                <button class="replace dropdown-item">
+                    <i class="far fa-edit mr-1"></i>Replace
+                </button>
+                <button class="replace-all dropdown-item">
+                    <i class="far fa-edit mr-1"></i>Replace All
+                </button>
+                <button class="jump dropdown-item">
+                    <i class="far fa-grip-lines mr-1"></i>Jump To Line
+                </button>
+            </div>
+        {{/ifCond}}
+
+        <hr class="my-2">
+
+        <div class="smooth-scroll">
+            <a class="dropdown-item" href="#top">
+                <i class="fas fa-arrow-up"></i> To Top
+            </a>
+        </div>
+    </div>
+</div>
+{{/extend}}
+
 {{#extend 'scripts'}}
-{{!-- <script src="/js/vendor/froala_editor.pkgd.min.js" type="text/javascript"></script> --}}
     {{#ifCond 'file.type === "code" || file.type === "text"'}}
         <script src="/js/vendor/codemirror/codemirror.js" type="text/javascript"></script>
         <script src="/js/vendor/codemirror/mode/meta.js" type="text/javascript"></script>
         <script src="/js/vendor/codemirror/addon/mode/loadmode.js" type="text/javascript"></script>
+        <script src="/js/vendor/codemirror/addon/dialog/dialog.js" type="text/javascript"></script>
+        <script src="/js/vendor/codemirror/addon/search/search.js" type="text/javascript"></script>
+        <script src="/js/vendor/codemirror/addon/search/searchcursor.js" type="text/javascript"></script>
+        <script src="/js/vendor/codemirror/addon/search/jump-to-line.js" type="text/javascript"></script>
         <script src="/js/vendor/codemirror/addon/edit/matchbrackets.js" type="text/javascript"></script>
         <script src="/js/vendor/codemirror/addon/edit/closebrackets.js" type="text/javascript"></script>
         <script src="/js/vendor/codemirror/addon/hint/show-hint.js" type="text/javascript"></script>
