@@ -40,7 +40,7 @@
                                 {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
                                     <img src="/uploads/profile/{{uid}}/profilePic.png" class="rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                 {{else}}
-                                    <img src="/img/profile/default.png" class="rounded-circle img-fluid z-depth-1">
+                                    <img src="/img/profile/default.png" class="rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                 {{/ifFile}}
 
                                 <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{username}}</a>
