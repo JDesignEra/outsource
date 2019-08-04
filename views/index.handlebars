@@ -84,7 +84,7 @@
             {{#each services.topFavs}}
                 <div class="col-12 col-md-3 d-flex align-items-stretch mt-4 mt-md-0">
                     <div class="card w-100">
-                        <div class="view overlay">
+                        <div class="view overlay border-bottom border-primary rounded-top">
                             {{#ifFile (concat './public/uploads/services/' this.uid '/' this.id '.png')}}
                                 <img class="card-img-top" src="/uploads/services/{{this.uid}}/{{this.id}}.png">
                             {{else}}
@@ -175,8 +175,8 @@
             {{#if services.topViews}}
                 {{#each services.topViews}}
                     <div class="col-12 col-md-3 d-flex align-items-stretch mt-4 mt-md-0">
-                        <div class="card w-100">
-                            <div class="view overlay">
+                        <div class="card z-depth-3 w-100">
+                            <div class="view overlay border-bottom border-primary rounded-top">
                                 {{#ifFile (concat './public/uploads/services/' this.uid '/' this.id '.png')}}
                                     <img class="card-img-top" src="/uploads/services/{{this.uid}}/{{this.id}}.png">
                                 {{else}}
@@ -263,7 +263,7 @@
             {{#each services.randoms}}
                 <div class="col-12 col-md-3 d-flex align-items-stretch mt-4 mt-md-0">
                     <div class="card w-100">
-                        <div class="view overlay">
+                        <div class="view overlay border-bottom border-primary rounded-top">
                             {{#ifFile (concat './public/uploads/services/' this.uid '/' this.id '.png')}}
                                 <img class="card-img-top" src="/uploads/services/{{this.uid}}/{{this.id}}.png">
                             {{else}}
@@ -354,8 +354,8 @@
             {{#if portfolios.topViews}}
                 {{#each portfolios.topViews}}
                     <div class="col-12 col-md-3 d-flex align-items-stretch mt-4 mt-md-0">
-                        <div class="card w-100">
-                            <div class="view overlay">
+                        <div class="card z-depth-3 w-100">
+                            <div class="view overlay border-bottom border-primary rounded-top">
                                 {{#ifFile (concat './public/uploads/profile/' this.uid '/projects/' this.id '.png')}}
                                     <img class="card-img-top" src="/uploads/profile/{{this.uid}}/projects/{{this.id}}.png">
                                 {{else}}
@@ -397,6 +397,14 @@
                                         {{this.views}}<i class="far fa-eye ml-2"></i>
                                     </div>
                                 </div>
+
+                                <hr class="w-100">
+                            
+                                <div class="flex-fill">
+                                    <p class="card-text">
+                                        {{this.content}}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -420,7 +428,7 @@
             {{#each portfolios.randoms}}
                 <div class="col-12 col-md-3 d-flex align-items-stretch mt-4 mt-md-0">
                     <div class="card w-100">
-                        <div class="view overlay">
+                        <div class="view overlay border-bottom border-primary rounded-top">
                             {{#ifFile (concat './public/uploads/profile/' this.uid '/projects/' this.id '.png')}}
                                 <img class="card-img-top" src="/uploads/profile/{{this.uid}}/projects/{{this.id}}.png">
                             {{else}}
@@ -461,6 +469,14 @@
                                 <div class="d-flex align-items-center font-weight-bold ml-3">
                                     {{this.views}}<i class="far fa-eye ml-2"></i>
                                 </div>
+                            </div>
+
+                            <hr class="w-100">
+                            
+                            <div class="flex-fill">
+                                <p class="card-text">
+                                    {{this.content}}
+                                </p>
                             </div>
                         </div>
                     </div>
