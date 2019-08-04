@@ -65,6 +65,13 @@ $(function () {
     }
 });
 
+// Toast
+$(function () {
+    if (typeof toastMsgs !== 'undefined') {
+        toast().init();
+    }
+});
+
 // Init fileInput
 $(function () {
     if ($('.files-upload').length > 0 || $('.file-upload').length > 0) {
@@ -93,13 +100,6 @@ $(function () {
     $('[data-tooltip="tooltip"]').tooltip();
 });
 
-// Toast
-$(function () {
-    if (typeof toastMsgs !== 'undefined') {
-        toast().init();
-    }
-});
-
 // Material Select
 $(function () {
     $('.mdb-select').material_select();
@@ -114,8 +114,8 @@ $(function () {
 /* Lemuel */
 $(function () {
     objectFitImages();
-    jarallax(document.querySelectorAll('.jarallax'));
-    jarallax(document.querySelectorAll('.jarallax-keep-img'), {
+    jarallax($('.jarallax'));
+    jarallax($('.jarallax-keep-img'), {
         keepImg: true,
     });
 });

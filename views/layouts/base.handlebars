@@ -30,8 +30,7 @@
 
 	{{{ block 'hero' }}}
 
-	<main
-		class="container-fluid mb-4 pb-4{{#ifCond 'mainType != "null" && mainType == "vCenter"'}} d-flex flex-column justify-content-center{{/ifCond}}{{#ifExtend 'hero'}} mt-4 pt-4{{else}} mt-5 pt-3 pt-md-7{{/ifExtend}} animated fadeIn">
+	<main class="container-fluid mb-4 pb-4{{#ifCond 'mainType != "null" && mainType == "vCenter"'}} d-flex flex-column justify-content-center{{/ifCond}}{{#ifExtend 'hero'}} mt-4 pt-4{{else}} mt-5 pt-3 pt-md-7{{/ifExtend}} animated fadeIn">
 		{{{ body }}}
 	</main>
 

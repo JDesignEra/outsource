@@ -12,7 +12,8 @@ const sequelize = new Sequelize(db.database, db.username, db.password, {
         min: 0,
         accquire: 30000,
         idle: 10000
-    }
+    },
+    logging: false
 });
 
 module.exports = sequelize;

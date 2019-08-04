@@ -76,46 +76,364 @@
 {{/extend}}
 
 <section class="home">
-    <h5>TESTING CLASSES &amp; ELEMENTS</h5>
-    <button class="btn btn-primary">Primary</button>
-    <button class="btn btn-secondary">Secondary</button>
-    <button class="btn btn-success">Success</button>
-    <button class="btn btn-danger">Danger</button>
-    <button class="btn btn-warning">Warning</button>
-    <button class="btn btn-info">Info</button>
+    <h3 class="h3-responsive font-weight-bold text-center text-primary my-4">
+        Top Favourite Services
+    </h3>
+    <div class="row">
+        {{#if services.topFavs}}
+            {{#each services.topFavs}}
+                <div class="col-12 col-md-3 d-flex align-items-stretch mt-4 mt-md-0">
+                    <div class="card w-100">
+                        <div class="view overlay">
+                            {{#ifFile (concat './public/uploads/services/' this.uid '/' this.id '.png')}}
+                                <img class="card-img-top" src="/uploads/services/{{this.uid}}/{{this.id}}.png">
+                            {{else}}
+                                <img class="card-img-top" src="/img/services/default.jpg">
+                            {{/ifFile}}
+
+                            <a><div class="mask rgba-black-light"></div></a>
+                        </div>
+
+                        <a class="btn-floating btn-action btn-primary ml-auto mr-3 material-tooltip-sm" data-tooltip="tooltip" data-placement="top" title="View More Details" href="/services/view/{{this.uid}}/{{this.id}}">
+                            <i class="far fa-eye"></i>
+                        </a>
+
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex mt-2">
+                                <div class="flex-fill">
+                                    {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
+                                        <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="width: 2rem;">
+                                    {{else}}
+                                        <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="width: 2rem;">
+                                    {{/ifFile}}
+
+                                    <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{username}}</a>
+                                </div>
+
+                                <div class="d-flex align-items-center">
+                                    <span class="text-muted small">
+                                        <i class="far fa-clock mr-2"></i>{{this.date}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex mt-4">
+                                <div class="flex-fill">
+                                    <h4 class="card-title mb-0">{{this.name}}</h4>
+                                </div>
+
+                                <div class="d-flex align-items-center font-weight-bold ml-3">
+                                    {{this.views}}<i class="far fa-eye ml-2"></i>
+                                </div>
+                            </div>
+
+                            <hr class="w-100">
+                            
+                            <div class="flex-fill">
+                                <p class="card-text">
+                                    {{this.desc}}
+                                </p>
+                            </div>
+
+                            <div class="d-flex">
+                                <form class="flex-fill text-right" method="post" action="/services/fav/{{this.id}}">
+                                    <button class="btn btn-sm btn-red mr-0 material-tooltip-sm" data-tooltip="tooltip" data-placement="top" title="Favourite/Unfavourite">
+                                        <span class="font-weight-bold">
+                                            {{this.favourites}}<i class="fas fa-heart ml-2"></i>
+                                        </span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="card-footer deep-purple accent-3 white-text text-center">
+                            ${{this.price}}
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        {{/if}}
+    </div>
+
+    <hr class="mt-6 mb-0">
     
-    <button class="btn-floating btn-lg btn-primary"><i class="fas fa-bolt"></i></button>
-    <button class="btn-floating btn-secondary"><i class="fas fa-leaf"></i></button>
-    <button class="btn-floating btn-sm btn-success"><i class="fas fa-star"></i></button>
+    <h3 class="h3-responsive font-weight-bold text-center text-primary mb-4 mt-8">
+        Top View Services
+    </h3>
+    <section class="view jarallax z-depth-3 mx-n3 px-3 py-5" data-jarallax-video="mp4:/vid/home_parallax/1.mp4">
+        <div class="mask flex-center rgba-deep-purple-light"></div>
+        <div class="row">
+            {{#if services.topViews}}
+                {{#each services.topViews}}
+                    <div class="col-12 col-md-3 d-flex align-items-stretch mt-4 mt-md-0">
+                        <div class="card w-100">
+                            <div class="view overlay">
+                                {{#ifFile (concat './public/uploads/services/' this.uid '/' this.id '.png')}}
+                                    <img class="card-img-top" src="/uploads/services/{{this.uid}}/{{this.id}}.png">
+                                {{else}}
+                                    <img class="card-img-top" src="/img/services/default.jpg">
+                                {{/ifFile}}
 
-    <a href="#">Link</a>
+                                <a><div class="mask rgba-black-light"></div></a>
+                            </div>
 
-    <!-- Material switch -->
-    <div class="switch">
-        <label>
-            Off
-            <input type="checkbox">
-            <span class="lever"></span> On
-        </label>
+                            <a class="btn-floating btn-action btn-primary ml-auto mr-3 material-tooltip-sm" data-tooltip="tooltip" data-placement="top" title="View More Details" href="/services/view/{{this.uid}}/{{this.id}}">
+                                <i class="far fa-eye"></i>
+                            </a>
+
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex mt-2">
+                                    <div class="flex-fill">
+                                        {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
+                                            <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="width: 2rem;">
+                                        {{else}}
+                                            <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="width: 2rem;">
+                                        {{/ifFile}}
+
+                                        <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{username}}</a>
+                                    </div>
+
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted small">
+                                            <i class="far fa-clock mr-2"></i>{{this.date}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex mt-4">
+                                    <div class="flex-fill">
+                                        <h4 class="card-title mb-0">{{this.name}}</h4>
+                                    </div>
+
+                                    <div class="d-flex align-items-center font-weight-bold ml-3">
+                                        {{this.views}}<i class="far fa-eye ml-2"></i>
+                                    </div>
+                                </div>
+
+                                <hr class="w-100">
+                                
+                                <div class="flex-fill">
+                                    <p class="card-text">
+                                        {{this.desc}}
+                                    </p>
+                                </div>
+
+                                <div class="d-flex">
+                                    <form class="flex-fill text-right" method="post" action="/services/fav/{{this.id}}">
+                                        <button class="btn btn-sm btn-red mr-0 material-tooltip-sm" data-tooltip="tooltip" data-placement="top" title="Favourite/Unfavourite">
+                                            <span class="font-weight-bold">
+                                                {{this.favourites}}<i class="fas fa-heart ml-2"></i>
+                                            </span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="card-footer deep-purple accent-3 white-text text-center">
+                                ${{this.price}}
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            {{/if}}
+        </div>
+    </section>
+
+    <h3 class="h3-responsive font-weight-bold text-center text-primary mb-4 mt-8">
+        Random Services
+    </h3>
+    <div class="row">
+        {{#if services.randoms}}
+            {{#each services.randoms}}
+                <div class="col-12 col-md-3 d-flex align-items-stretch mt-4 mt-md-0">
+                    <div class="card w-100">
+                        <div class="view overlay">
+                            {{#ifFile (concat './public/uploads/services/' this.uid '/' this.id '.png')}}
+                                <img class="card-img-top" src="/uploads/services/{{this.uid}}/{{this.id}}.png">
+                            {{else}}
+                                <img class="card-img-top" src="/img/services/default.jpg">
+                            {{/ifFile}}
+
+                            <a><div class="mask rgba-black-light"></div></a>
+                        </div>
+
+                        <a class="btn-floating btn-action btn-primary ml-auto mr-3 material-tooltip-sm" data-tooltip="tooltip" data-placement="top" title="View More Details" href="/services/view/{{this.uid}}/{{this.id}}">
+                            <i class="far fa-eye"></i>
+                        </a>
+
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex mt-2">
+                                <div class="flex-fill">
+                                    {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
+                                        <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="width: 2rem;">
+                                    {{else}}
+                                        <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="width: 2rem;">
+                                    {{/ifFile}}
+
+                                    <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{username}}</a>
+                                </div>
+
+                                <div class="d-flex align-items-center">
+                                    <span class="text-muted small">
+                                        <i class="far fa-clock mr-2"></i>{{this.date}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex mt-4">
+                                <div class="flex-fill">
+                                    <h4 class="card-title mb-0">{{this.name}}</h4>
+                                </div>
+
+                                <div class="d-flex align-items-center font-weight-bold ml-3">
+                                    {{this.views}}<i class="far fa-eye ml-2"></i>
+                                </div>
+                            </div>
+
+                            <hr class="w-100">
+                            
+                            <div class="flex-fill">
+                                <p class="card-text">
+                                    {{this.desc}}
+                                </p>
+                            </div>
+
+                            <div class="d-flex">
+                                <form class="flex-fill text-right" method="post" action="/services/fav/{{this.id}}">
+                                    <button class="btn btn-sm btn-red mr-0 material-tooltip-sm" data-tooltip="tooltip" data-placement="top" title="Favourite/Unfavourite">
+                                        <span class="font-weight-bold">
+                                            {{this.favourites}}<i class="fas fa-heart ml-2"></i>
+                                        </span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="card-footer deep-purple accent-3 white-text text-center">
+                            ${{this.price}}
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        {{/if}}
     </div>
 
-    <!-- Default switch -->
-    <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" id="customSwitches">
-        <label class="custom-control-label" for="customSwitches">Toggle this switch element</label>
+    <hr class="mt-6 mb-0">
+
+    <h3 class="h3-responsive font-weight-bold text-center text-primary mb-4 mt-8">
+        Top Portfolio Views
+    </h3>
+    <section class="view jarallax z-depth-3 mx-n3 px-3 py-5" data-jarallax-video="mp4:/vid/home_parallax/2.mp4">
+        <div class="mask flex-center rgba-deep-purple-light"></div>
+        <div class="row">
+            {{#if portfolios.topViews}}
+                {{#each portfolios.topViews}}
+                    <div class="col-12 col-md-3 d-flex align-items-stretch mt-4 mt-md-0">
+                        <div class="card w-100">
+                            <div class="view overlay">
+                                {{#ifFile (concat './public/uploads/profile/' this.uid '/projects/' this.id '.png')}}
+                                    <img class="card-img-top" src="/uploads/profile/{{this.uid}}/projects/{{this.id}}.png">
+                                {{else}}
+                                    <img class="card-img-top" src="/img/profile/banner.png">
+                                {{/ifFile}}
+
+                                <a><div class="mask rgba-black-light"></div></a>
+                            </div>
+
+                            <a class="btn-floating btn-action btn-primary ml-auto mr-3 material-tooltip-sm" data-tooltip="tooltip" data-placement="top" title="View More Details" href="/profile/view/{{this.uid}}">
+                                <i class="far fa-eye"></i>
+                            </a>
+
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex mt-2">
+                                    <div class="flex-fill">
+                                        {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
+                                            <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="width: 2rem;">
+                                        {{else}}
+                                            <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="width: 2rem;">
+                                        {{/ifFile}}
+
+                                        <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{username}}</a>
+                                    </div>
+
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted small">
+                                            <i class="far fa-clock mr-2"></i>{{this.date}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex mt-4">
+                                    <div class="flex-fill">
+                                        <h4 class="card-title mb-0">{{this.title}}</h4>
+                                    </div>
+
+                                    <div class="d-flex align-items-center font-weight-bold ml-3">
+                                        {{this.views}}<i class="far fa-eye ml-2"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            {{/if}}
+        </div>
+    </section>
+
+    <h3 class="h3-responsive font-weight-bold text-center text-primary mb-4 mt-8">
+        Random Portfolios
+    </h3>
+    <div class="row">
+        {{#if portfolios.randoms}}
+            {{#each portfolios.randoms}}
+                <div class="col-12 col-md-3 d-flex align-items-stretch mt-4 mt-md-0">
+                    <div class="card w-100">
+                        <div class="view overlay">
+                            {{#ifFile (concat './public/uploads/profile/' this.uid '/projects/' this.id '.png')}}
+                                <img class="card-img-top" src="/uploads/profile/{{this.uid}}/projects/{{this.id}}.png">
+                            {{else}}
+                                <img class="card-img-top" src="/img/profile/banner.png">
+                            {{/ifFile}}
+
+                            <a><div class="mask rgba-black-light"></div></a>
+                        </div>
+
+                        <a class="btn-floating btn-action btn-primary ml-auto mr-3 material-tooltip-sm" data-tooltip="tooltip" data-placement="top" title="View More Details" href="/profile/view/{{this.uid}}">
+                            <i class="far fa-eye"></i>
+                        </a>
+
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex mt-2">
+                                <div class="flex-fill">
+                                    {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
+                                        <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="width: 2rem;">
+                                    {{else}}
+                                        <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="width: 2rem;">
+                                    {{/ifFile}}
+
+                                    <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{username}}</a>
+                                </div>
+
+                                <div class="d-flex align-items-center">
+                                    <span class="text-muted small">
+                                        <i class="far fa-clock mr-2"></i>{{this.date}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex mt-4">
+                                <div class="flex-fill">
+                                    <h4 class="card-title mb-0">{{this.title}}</h4>
+                                </div>
+
+                                <div class="d-flex align-items-center font-weight-bold ml-3">
+                                    {{this.views}}<i class="far fa-eye ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        {{/if}}
     </div>
-
-    <p class="mt-5">
-        <h5>DEFAULT HR</h5>
-        <hr>
-
-        <h5 class="pt-3">HR-WHITE</h5>
-        <hr class="hr-white">
-
-        <h5 class="pt-3">HR-DARK</h5>
-        <hr class="hr-dark">
-
-        <h5 class="pt-3">HR-PRIMARY</h5>
-        <hr class="hr-primary">
-    </p>
 </section>
