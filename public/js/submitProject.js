@@ -149,7 +149,7 @@ $(function () {
         }
     }
 
-    if ($('#title').val() != "" && ($('#coverPicture').val() != "" || $('#imageRender').attr('src') != "") && category_counter > 0) {
+    if ($('#title').val() != "" && ($('#coverPicture').val() != "" || $('#imageRender').attr('src') != undefined) && category_counter > 0) {
         $('#portfolio-tab-classic-shadow').removeClass("disabled muted")
         $('#portfolio-tab-classic-shadow').addClass("text-secondary")
     }
@@ -172,7 +172,7 @@ $(document).change(function () {
     }
 
 
-    if ($('#title').val() != "" && ($('#coverPicture').val() != "" && $('#imageRender').attr('src') != "") && category_counter > 0) {
+    if ($('#title').val() != "" && ($('#coverPicture').val() != "" || $('#imageRender').attr('src') != undefined) && category_counter > 0) {
         $('#portfolio-tab-classic-shadow').removeClass("disabled muted")
         $('#portfolio-tab-classic-shadow').addClass("text-secondary")
     }
