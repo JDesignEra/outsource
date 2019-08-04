@@ -38,7 +38,7 @@ module.exports = {
 
                     portfolios.findAll({
                         order: [['views', 'DESC']],
-                        limit: 8
+                        limit: 4
                     }).then(topPortfolioViews => {
                         for (let portfolio of topPortfolioViews) {
                             let datePosted = moment.duration(moment(new Date).diff(portfolio['datePosted']));
@@ -53,7 +53,7 @@ module.exports = {
 
                         portfolios.findAll({
                             order: sequelize.literal('rand()'),
-                            limit: 8
+                            limit: 4
                         }).then(randomPorfolios => {
                             if (randomPorfolios.length > 0) {
                                 for (let [i, portfolio] of randomPorfolios.entries()) {

@@ -13,6 +13,7 @@ module.exports = {
         mime.define({ 'code/html': ['html'] }, true);                       // HTML Code File
         mime.define({ 'code/java': ['java'] }, true);                       // Java Code File
         mime.define({ 'code/javascript': ['js'] }, true);                   // Javascript Code File
+        mime.define({ 'code/json': ['json'] }, true);                       // Json File
         mime.define({ 'code/lua': ['lua'] }, true);                         // Lua Code File
         mime.define({ 'code/markdown': ['md'] }, true);                     // Markdown Documentation File
         mime.define({ 'code/php': ['php'] }, true);                         // PHP Code File
@@ -23,6 +24,7 @@ module.exports = {
         mime.define({ 'code/twig': ['twig'] }, true);                       // Twig Code File
         mime.define({ 'code/xaml': ['xaml'] }, true);                       // XAML Code File
         mime.define({ 'code/xml': ['xml'] }, true);                         // XML Code File
+        mime.define({ 'code/yaml': ['yaml'] }, true);                       // YAML Code File
 
         // Document Files
         mime.define({ 'document/docx': ['docx'] }, true)                    // Microsoft Words File

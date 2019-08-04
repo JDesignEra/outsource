@@ -244,63 +244,18 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
     height: 2px;
 }
 
-/* Froala Editor */
-/* .fr-toolbar,
-.fr-toolbar .fr-newline {
-    background: #651fff;
-}
-
-.fr-toolbar .fr-more-toolbar {
-    background: #b388ff;
-}
-
-.fr-toolbar .fr-command.fr-btn.fr-open:not(:hover):not(:focus):not(:active) {
-    background: #b388ff;
-}
-
-.fr-toolbar.fr-top,
-.fr-box.fr-basic .fr-wrapper,
-.second-toolbar {
-    border-color: #651fff;
-}
-
-.fr-toolbar .fr-command.fr-btn i,
-.fr-toolbar .fr-command.fr-btn svg path,
-.fr-popup .fr-command.fr-btn svg path,
-.fr-modal .fr-command.fr-btn svg path {
-    color: #ffffff;
-    fill: #ffffff;
-}
-
-.fr-desktop .fr-command:hover:not(.fr-table-cell),
-.fr-desktop .fr-command:focus:not(.fr-table-cell),
-.fr-desktop .fr-command.fr-btn-hover:not(.fr-table-cell),
-.fr-desktop .fr-command.fr-expanded:not(.fr-table-cell) {
-    background: #b388ff;
-}
-
-.fr-toolbar .fr-btn-grp .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
-.fr-toolbar .fr-more-toolbar .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
-.fr-toolbar .fr-buttons:not(.fr-tabs) .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
-.fr-popup .fr-btn-grp .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
-.fr-popup .fr-more-toolbar .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
-.fr-popup .fr-buttons:not(.fr-tabs) .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
-.fr-modal .fr-btn-grp .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
-.fr-modal .fr-more-toolbar .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path,
-.fr-modal .fr-buttons:not(.fr-tabs) .fr-command.fr-btn.fr-active:not(.fr-dropdown) svg path {
-    fill: #009688;
-}
-
-.fr-wrapper::after {
-    display: none;
-} */
-
 /* CodeMirror */
 .CodeMirror {
     height: auto;
     -webkit-transition: all .15s linear;
     -o-transition: all .15s linear;
     transition: all .15s linear;
+}
+
+.CodeMirror-gutter-elt {
+    min-width: 24px !important;
+    padding-left: .5rem !important;
+    padding-right: .5rem !important;
 }
 
 .CodeMirror-linenumber {

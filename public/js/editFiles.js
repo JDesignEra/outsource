@@ -17,13 +17,39 @@ $(function() {
             mode: mode,
             theme: 'one-dark one-light',
             lineNumbers: true,
+            gutters: ['CodeMirror-lint-markers'],
             scrollbarStyle: null,
             maxHighlightLength: Infinity,
             viewportMargin: Infinity,
             spellcheck: true,
             matchBrackets: true,
             autoCloseBrackets: true,
+            lint: mode === 'javascript' ? {esversion: 6} : true
         });
+
+        CodeMirror.commands.autocomplete = function(editor) {
+            if (mode === 'xml') {
+                CodeMirror.showHint(editor, CodeMirror.hint.html);
+            }
+            else if (mode === 'javascript') {
+                CodeMirror.showHint(editor, CodeMirror.hint.javascript);
+            }
+            else if (mode === 'css') {
+                CodeMirror.showHint(editor, CodeMirror.hint.css);
+            }
+            else if (mode === 'html') {
+                CodeMirror.showHint(editor, CodeMirror.hint.html);
+            }
+            else if (mode === 'sql') {
+                CodeMirror.showHint(editor, CodeMirror.hint.sql);
+            }
+            else if (mode === 'python') {
+                CodeMirror.showHint(editor, CodeMirror.hint.python);
+            }
+            else {
+                CodeMirror.showHint(editor, CodeMirror.hint.auto);
+            }
+        };
 
         CodeMirror.autoLoadMode(editor, mode);
         
@@ -49,6 +75,14 @@ $(function() {
             });
             
             input.val(cm.getValue());
+        });
+
+        editor.on('keyup', (cm, e) => {
+            let ignoreKey = [8, 9, 13, 17, 18, 19, 20, 27, 32, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 91, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 145];
+
+            if (ignoreKey.indexOf(e.keyCode) === -1) {
+                cm.execCommand('autocomplete');
+            }
         });
     }
     else if (type === 'image') {
