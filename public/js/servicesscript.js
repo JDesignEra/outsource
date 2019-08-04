@@ -1,27 +1,33 @@
 //List service
 function search() {
-    let input = document.getElementById('search').value;
+    let input = $('#search').val();
     let filter = input.toUpperCase();
-    let cards = document.querySelectorAll('.servicecards');
-    let name = document.querySelectorAll('.name');
+    let cards = $('.servicecards');
+    let name = $('.name');
     
-    for (let i = 0; i < cards.length; i++) {
-        let focus = cards[i]
-        let compare = name[i].dataset.names;
+    for (let i = 0, n = cards.length; i < n; i++) {
+        let focus = $(cards[i]);
+        let compare = $(name[i]).data('names');
 
         if (compare.toUpperCase().includes(filter)) {
             if ($(focus).hasClass('d-none')) {
                 $(focus).removeClass('d-none');
-                $(focus).addClass('animated fadeIn').one(animationEnd, function() {
-                    $(this).removeClass('animated fadeIn');
+                $(focus).addClass('animated faster fadeIn').one(animationEnd, function() {
+                    let _this = $(this);
+                    
+                    _this.removeClass('animated faster fadeIn');
+                    _this.addClass('d-flex');
                 });
             }
         }
         else {
             if (!$(focus).hasClass('d-none')){
-                $(focus).addClass('animated fadeOut').one(animationEnd, function(){
-                    $(this).removeClass('animated fadeOut');
-                    $(focus).addClass('d-none');
+                $(focus).addClass('animated faster fadeOut').one(animationEnd, function(){
+                    let _this = $(this);
+
+                    _this.removeClass('animated faster fadeOut');
+                    _this.removeClass('d-flex');
+                    _this.addClass('d-none');
                 })
             }
         }
