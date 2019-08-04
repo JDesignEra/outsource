@@ -55,31 +55,46 @@ module.exports = {
                             order: sequelize.literal('rand()'),
                             limit: 8
                         }).then(randomPorfolios => {
-                            for (let [i, portfolio] of randomPorfolios.entries()) {
-                                let datePosted = moment.duration(moment(new Date).diff(portfolio['datePosted']));
-                                datePosted = datePosted / (1000 * 60 * 60 * 24) < 1 ? `${datePosted.humanize()} ago` : moment(datePosted).format('DD/MM/YYYY');
-
-                                portfolio['date'] = datePosted;
-
-                                users.findByPk(portfolio['uid']).then(user => {
-                                    portfolio['username'] = user['username'];
-                                });
-
-                                if (i >= randomPorfolios.length - 1) {
-                                    setTimeout(() => {
-                                        res.render('index', {
-                                            services: {
-                                                topFavs: topServiceFavs,
-                                                topViews: topServiceViews,
-                                                randoms: randomServices
-                                            },
-                                            portfolios: {
-                                                topViews: topPortfolioViews,
-                                                randoms: randomPorfolios
-                                            },
-                                        });
-                                    }, 100);
+                            if (randomPorfolios.length > 0) {
+                                for (let [i, portfolio] of randomPorfolios.entries()) {
+                                    let datePosted = moment.duration(moment(new Date).diff(portfolio['datePosted']));
+                                    datePosted = datePosted / (1000 * 60 * 60 * 24) < 1 ? `${datePosted.humanize()} ago` : moment(datePosted).format('DD/MM/YYYY');
+    
+                                    portfolio['date'] = datePosted;
+    
+                                    users.findByPk(portfolio['uid']).then(user => {
+                                        portfolio['username'] = user['username'];
+                                    });
+    
+                                    if (i >= randomPorfolios.length - 1) {
+                                        setTimeout(() => {
+                                            res.render('index', {
+                                                services: {
+                                                    topFavs: topServiceFavs,
+                                                    topViews: topServiceViews,
+                                                    randoms: randomServices
+                                                },
+                                                portfolios: {
+                                                    topViews: topPortfolioViews,
+                                                    randoms: randomPorfolios
+                                                },
+                                            });
+                                        }, 100);
+                                    }
                                 }
+                            }
+                            else {
+                                res.render('index', {
+                                    services: {
+                                        topFavs: topServiceFavs,
+                                        topViews: topServiceViews,
+                                        randoms: randomServices
+                                    },
+                                    portfolios: {
+                                        topViews: topPortfolioViews,
+                                        randoms: randomPorfolios
+                                    },
+                                });
                             }
                         });
                     });
