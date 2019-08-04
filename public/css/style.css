@@ -656,6 +656,12 @@ body.modal-open {
     padding: 5px;
 }
 
+.manage .card .avatar {
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+}
+
 .viewservice .service-overview .card .card-img-top {
     max-height: 20rem;
 }
