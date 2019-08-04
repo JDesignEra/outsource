@@ -14,7 +14,7 @@ function search() {
                 $(focus).removeClass('d-none');
                 $(focus).addClass('animated faster fadeIn').one(animationEnd, function() {
                     let _this = $(this);
-                    
+
                     _this.removeClass('animated faster fadeIn');
                     _this.addClass('d-flex');
                 });
@@ -46,22 +46,28 @@ $('select.category-select').on('change', function(e) {
     let cards = $('.servicecards');
     let category = $(this).find('option:selected').text().replace(/\s/g, '');
     
-    for (let i = 0; i < cards.length; i++) {
-        let focus = cards[i];
+    for (let i = 0, n = cards.length; i < n; i++) {
+        let focus = $(cards[i]);
 
         if (($(focus).hasClass(category) || category === "ShowAll")) {
             if ($(focus).hasClass('d-none')) {
                 $(focus).removeClass('d-none');
-                $(focus).addClass('animated fadeIn').one(animationEnd, function() {
-                    $(this).removeClass('animated fadeIn');
+                $(focus).addClass('animated faster fadeIn').one(animationEnd, function() {
+                    let _this = $(this);
+
+                    _this.removeClass('animated faster fadeIn');
+                    _this.addClass('d-flex');
                 });
             }
         }
         else {
             if (!$(focus).hasClass('d-none')){
-                $(focus).addClass('animated fadeOut').one(animationEnd, function(){
-                    $(this).removeClass('animated fadeOut');
-                    $(focus).addClass('d-none');
+                $(focus).addClass('animated faster fadeOut').one(animationEnd, function(){
+                    let _this = $(this);
+
+                    _this.removeClass('animated faster fadeOut');
+                    _this.addClass('d-none');
+                    _this.removeClass('d-flex');
                 })
             }
         }
