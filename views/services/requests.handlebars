@@ -45,6 +45,12 @@
                                             Cancel request<i class="far fa-times ml-2"></i>
                                         </a>
                                         {{/ifCond}}
+                                        {{#ifCond 'this.status == "paid"'}}
+                                        Awaiting completion of request
+                                        {{/ifCond}}
+                                        {{#ifCond 'this.status == "done"'}}
+                                        Request completed
+                                        {{/ifCond}}
                                     </td>
                                 </tr>
                                 {{/each}}
