@@ -1,14 +1,16 @@
 {{setVar "mainType" "vCenter"}}
 
-<section class="register container">
-	<div class="fullscreen-bg view">
-		<video autoplay muted loop id="myVideo">
+{{#extend 'videoBg'}}
+	<div class="video-bg-wrapper view">
+		<video class="video-bg" autoplay muted loop>
 			<source src="/vid/register/beach.mp4" type="video/mp4">
 		</video>
 		
-		<div class="mask flex-center rgba-black-strong"></div>
+		<div class="mask flex-center rgba-deep-purple-light"></div>
 	</div>
+{{/extend}}
 
+<section class="register container">
 	<ul class="nav nav-tabs md-tabs primary-gradient mx-auto" role="tablist">
 		<li class="nav-item nav-item flex-fill text-center">
 			<a class="nav-link active" data-toggle="tab" href="#cTab" role="tab">
