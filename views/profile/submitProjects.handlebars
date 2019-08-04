@@ -9,7 +9,7 @@
                 </li>
 
                 <li class="nav-item m-0">
-                    <a class="nav-link waves-light px-5 disabled muted" id="portfolio-tab-classic-shadow" data-toggle="tab"
+                    <a class="nav-link waves-light px-5 muted" id="portfolio-tab-classic-shadow" data-toggle="tab"
                         href="#ContentTab" role="tab" aria-controls="ContentTab" aria-selected="true">2: Content</a>
                 </li>
             </ul>
@@ -29,7 +29,7 @@
 
                             <h3>Cover Image</h3>
                             <div class="file-upload" data-autosubmit="false">
-                                <input type="file" name="coverPicture" id="coverPicture"/>
+                                <input type="file" name="coverPicture" id="coverPicture" />
                             </div>
                             <p class="text-muted mt-1"> This will be the cover image that will be shown in your profile
                             </p>
@@ -88,84 +88,97 @@
                     <div class="col-12">
                         <h1 class="text-center"> Content </h1>
                     </div>
+                    
                     <div class="mx-auto row justify-content-center pb-0 mb-0 overflow-auto mt-3">
 
                         <div class="secondary-color row mx-auto justify-content-between w-90 rounded-top py-1">
                             <div class="col-9 row mx-auto p-0">
                                 <div id="editTools" class="col-4 row mr-2 show">
                                     {{!-- Text Change --}}
-                                    <button class="btn btn-secondary btn-sm shadow-none" onclick="execFunc('bold');">
+                                    <button class="btn btn-secondary btn-sm shadow-none" data-toggle="tooltip"
+                                        title="Bold" onclick="execFunc('bold');">
                                         <i class=" fas fa-bold"></i>
-                                    </button>
-                                    <button class="btn btn-secondary btn-sm shadow-none" onclick="execFunc('italic');">
+                                    </button></a>
+                                    <button class="btn btn-secondary btn-sm shadow-none" data-toggle="tooltip"
+                                        title="Italic" onclick="execFunc('italic');">
                                         <i class="fas fa-italic"></i>
                                     </button>
-                                    <button class="btn btn-secondary btn-sm shadow-none"
-                                        onclick="execFunc('underline');">
+                                    <button class="btn btn-secondary btn-sm shadow-none" data-toggle="tooltip"
+                                        title="Underline" onclick="execFunc('underline');">
                                         <i class="fas fa-underline"></i>
                                     </button>
+                                    <a data-toggle="tooltip" title="More Text Option">
+                                        <button class="btn btn-secondary btn-sm shadow-none" id="moreTextEditButton"
+                                            onclick="event.preventDefault();" data-toggle="collapse"
+                                            data-target="#moreTextEdit" aria-expanded="false">
 
-                                    <button class="btn btn-secondary btn-sm shadow-none" id="moreTextEditButton"
-                                        onclick="event.preventDefault();" data-toggle="collapse"
-                                        data-target="#moreTextEdit" aria-expanded="false">
+                                            <span class="">𝐓</span>
 
-                                        <span class="">𝐓</span>
+                                            <i class="fas fa-ellipsis-v"></i>
 
-                                        <i class="fas fa-ellipsis-v"></i>
-
-                                    </button>
+                                        </button>
+                                    </a>
                                 </div>
 
                                 <div id="editTools" class="col-4 row mr-2 show">
-                                    <button class="btn btn-secondary btn-sm shadow-none"
-                                        onclick="execFunc('justifyLeft');">
+                                    <button class="btn btn-secondary btn-sm shadow-none" data-toggle="tooltip"
+                                        title="Justify Left" onclick="execFunc('justifyLeft');">
                                         <i class="fas fa-align-left"></i>
                                     </button>
-                                    <button class="btn btn-secondary btn-sm shadow-none"
-                                        onclick="execFunc('justifyCenter');">
+                                    <button class="btn btn-secondary btn-sm shadow-none" data-toggle="tooltip"
+                                        title="Justify Center" onclick="execFunc('justifyCenter');">
                                         <i class="fas fa-align-center"></i>
                                     </button>
-                                    <button class="btn btn-secondary btn-sm shadow-none"
-                                        onclick="execFunc('insertUnorderedList');">
+                                    <button class="btn btn-secondary btn-sm shadow-none" data-toggle="tooltip"
+                                        title="Bullet Point" onclick="execFunc('insertUnorderedList');">
                                         <i class="fas fa-list-ul"></i>
                                     </button>
-                                    <button id="moreParagraphEditButton" class="btn btn-secondary btn-sm shadow-none"
-                                        onclick="event.preventDefault();" data-toggle="collapse"
-                                        data-target="#moreParagraphEdit" aria-expanded="false">
-                                        <i class="fas fa-paragraph"></i><i class="fas fa-ellipsis-v"></i>
-                                    </button>
+                                    <a href="#" data-toggle="tooltip" title="More Pharagraph Options">
+                                        <button id="moreParagraphEditButton"
+                                            class="btn btn-secondary btn-sm shadow-none"
+                                            onclick="event.preventDefault();" data-toggle="collapse"
+                                            data-target="#moreParagraphEdit" aria-expanded="false">
+                                            <i class="fas fa-paragraph"></i><i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </a>
                                 </div>
 
                                 <div id="editTools" class="col-4 row show">
-                                    <button class="btn btn-secondary btn-sm shadow-none" onclick="createLink();">
+                                    <button class="btn btn-secondary btn-sm shadow-none" data-toggle="tooltip"
+                                        title="Create Link" onclick="createLink();">
                                         <i class="fas fa-link"></i>
                                     </button>
-
-                                    <button class="btn btn-secondary btn-sm shadow-none" data-toggle="modal"
-                                        data-target="#insertImageModal" onclick="event.preventDefault();">
-                                        <i class="fas fa-image"></i>
-                                    </button>
-
-                                    <button id="moreMediaButton" class="btn btn-secondary btn-sm shadow-none"
-                                        onclick="event.preventDefault();" data-toggle="collapse"
-                                        data-target="#moreMedia" aria-expanded="false">
-                                        <i class="fas fa-plus"></i> <i class="fas fa-ellipsis-v"></i>
-                                    </button>
+                                    <a href="#" data-toggle="tooltip" title="Insert Image">
+                                        <button class="btn btn-secondary btn-sm shadow-none" data-toggle="modal"
+                                            data-target="#insertImageModal" onclick="event.preventDefault();">
+                                            <i class="fas fa-image"></i>
+                                        </button>
+                                    </a>
+                                    <a href="#" data-toggle="tooltip" title="More Media Options">
+                                        <button id="moreMediaButton" class="btn btn-secondary btn-sm shadow-none"
+                                            onclick="event.preventDefault();" data-toggle="collapse"
+                                            data-target="#moreMedia" aria-expanded="false">
+                                            <i class="fas fa-plus"></i> <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
 
                             <div class="col-3 row justify-content-end mx-auto">
-                                <button class="btn btn-secondary btn-sm shadow-none" onclick="execFunc('undo');">
+                                <button class="btn btn-secondary btn-sm shadow-none" data-toggle="tooltip" title="Undo"
+                                    onclick="execFunc('undo');">
                                     <i class="fas fa-undo"></i>
                                 </button>
-                                <button class="btn btn-secondary btn-sm shadow-none" onclick="execFunc('redo');">
+                                <button class="btn btn-secondary btn-sm shadow-none" data-toggle="tooltip" title="Redo"
+                                    onclick="execFunc('redo');">
                                     <i class="fas fa-redo"></i>
                                 </button>
-
-                                <button id="sourceCodeBtn" class="btn btn-secondary btn-sm shadow-none"
-                                    data-target="#editTools" data-toggle="collapse" onclick="toggleSource();">
-                                    <i class="fas fa-code"></i>
-                                </button>
+                                <a href="#" data-toggle="tooltip" title="HTML Mode">
+                                    <button id="sourceCodeBtn" class="btn btn-secondary btn-sm shadow-none"
+                                        data-target="#editTools" data-toggle="collapse" onclick="toggleSource();">
+                                        <i class="fas fa-code"></i>
+                                    </button>
+                                </a>
 
                             </div>
 
@@ -175,21 +188,22 @@
                             <div class="col-12 row">
                                 <div class="collapse col-12 row justify-content-start" id="moreTextEdit">
                                     <button class="btn btn-secondary-dark text-white btn-sm shadow-none"
+                                        data-toggle="tooltip" title="Strikethrough"
                                         onclick="execFunc('strikeThrough');">
                                         <i class="fas fa-strikethrough"></i>
                                     </button>
 
                                     <button class="btn btn-secondary-dark text-white btn-sm shadow-none"
-                                        onclick="execFunc('superscript');">
+                                        data-toggle="tooltip" title="Superscript" onclick="execFunc('superscript');">
                                         <i class="fas fa-superscript"></i>
                                     </button>
 
                                     <button class="btn btn-secondary-dark text-white btn-sm shadow-none"
-                                        onclick="execFunc('subscript');">
+                                        data-toggle="tooltip" title="Subscript" onclick="execFunc('subscript');">
                                         <i class="fas fa-subscript"></i>
                                     </button>
 
-                                    <div class="dropdown">
+                                    <div class="dropdown" data-toggle="tooltip" title="Fonts">
                                         <button
                                             class="btn btn-secondary-dark text-white btn-sm shadow-none dropdown-toggle"
                                             type="button" id="fontFamily" data-toggle="dropdown" aria-haspopup="true"
@@ -207,7 +221,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="dropdown">
+                                    <div class="dropdown" data-toggle="tooltip" title="Headings">
                                         <button
                                             class="btn btn-secondary-dark text-white btn-sm shadow-none dropdown-toggle"
                                             type="button" id="fontHeading" data-toggle="dropdown" aria-haspopup="true"
@@ -241,23 +255,26 @@
                                 <div class="col-8 row p-0">
                                     <div class="collapse col-12 mx-auto row" id="moreParagraphEdit">
                                         <button class="btn btn-secondary-dark text-white btn-sm shadow-none"
+                                            data-toggle="tooltip" title="Justify Right"
                                             onclick="execFunc('justifyRight');">
                                             <i class="fas fa-align-right"></i>
                                         </button>
                                         <button class="btn btn-secondary-dark text-white btn-sm shadow-none"
+                                            data-toggle="tooltip" title="Justify Full"
                                             onclick="execFunc('justifyFull');">
                                             <i class="fas fa-align-justify"></i>
                                         </button>
                                         <button class="btn btn-secondary-dark text-white btn-sm shadow-none"
+                                            data-toggle="tooltip" title="Number List"
                                             onclick="execFunc('insertOrderedList');">
                                             <i class="fas fa-list-ol"></i>
                                         </button>
                                         <button class="btn btn-secondary-dark text-white btn-sm shadow-none"
-                                            onclick="execFunc('indent');">
+                                            data-toggle="tooltip" title="Indent" onclick="execFunc('indent');">
                                             <i class="fas fa-indent"></i>
                                         </button>
                                         <button class="btn btn-secondary-dark text-white btn-sm shadow-none"
-                                            onclick="execFunc('outdent');">
+                                            data-toggle="tooltip" title="Outdent" onclick="execFunc('outdent');">
                                             <i class="fas fa-outdent"></i>
                                         </button>
                                     </div>
@@ -269,22 +286,26 @@
                                 <div class="col-3 row mr-1"></div>
                                 <div class="col-4 row">
                                     <div class="collapse col-12 mx-auto row" id="moreMedia">
+                                        <a href="#" data-toggle="tooltip" title="Insert Audio">
                                         <button class="btn btn-secondary-dark text-white btn-sm shadow-none"
                                             data-toggle="modal" data-target="#insertAudioModal"
                                             onclick="event.preventDefault();">
                                             <i class="fas fa-music"></i>
-                                        </button>
+                                        </button></a>
 
-                                        <button class="btn btn-secondary-dark text-white btn-sm shadow-none"
-                                            data-toggle="modal" data-target="#insertVideoModal"
-                                            onclick="event.preventDefault();">
+                                        <a href="#" data-toggle="tooltip" title="Insert Video">
+                                            <button class="btn btn-secondary-dark text-white btn-sm shadow-none"
+                                                data-toggle="modal" data-target="#insertVideoModal"
+                                                onclick="event.preventDefault();">
 
-                                            <i class="fas fa-video"></i>
-                                        </button>
-                                        <button class="btn btn-secondary-dark text-white btn-sm shadow-none"
-                                            onclick="execFunc('insertHorizontalRule');">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
+                                                <i class="fas fa-video"></i>
+                                            </button></a>
+
+                                        <a href="#" data-toggle="tooltip" title="Insert Horizontal Line">
+                                            <button class="btn btn-secondary-dark text-white btn-sm shadow-none"
+                                                onclick="execFunc('insertHorizontalRule');">
+                                                <i class="fas fa-minus"></i>
+                                            </button></a>
                                     </div>
                                 </div>
                             </div>
@@ -299,7 +320,8 @@
                             onkeyup="updateTextArea();">
                         </iframe>
 
-                        <textarea name="content" id="content" cols="30" rows="10" style="display: none" required></textarea>
+                        <textarea name="content" id="content" cols="30" rows="10" style="display: none"
+                            required></textarea>
 
 
                     </div>
@@ -455,9 +477,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">You have an empty content</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 Please add some content for your portfolio ;-;

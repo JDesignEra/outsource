@@ -153,7 +153,7 @@ function updateTextArea() {
     if (area.value == "") {
         $("#contentEmpty").modal('show')
         // alert("Please fill in your content")
-    }   
+    }
 }
 
 
@@ -165,10 +165,11 @@ $(function () {
     //Enable iframe to be edited
     test1.body.contentEditable = true
 
-
     //Enable iframe to be edited
     test.contentWindow.document.body.innerHTML = $("#content").val();
 
+    //Tooltip initialization
+    $('[data-toggle="tooltip"]').tooltip()
 
     //Image
     if (typeof img !== 'undefined') {
