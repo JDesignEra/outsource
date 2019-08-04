@@ -2,42 +2,75 @@
     <div class="col-10 mx-auto row justify-content-around">
         <div class="col-lg-6">
             <div class="service-overview">
-                <div class="card">
-                    <div class="view overlay">
+                <div class="card w-100">
+                    <div class="view overlay border-bottom border-primary rounded-top">
                         <img onerror='this.src = "/img/services/default.jpg"' class="card-img-top"
-                            src="/uploads/services/{{services.uid}}/{{services.id}}.png" alt="Image unavailable">
+                            src="/uploads/services/{{services.uid}}/{{services.id}}.png" alt="Image not available">
                         <a>
-                            <div class="mask rgba-white-slight"></div>
+                            <div class="mask rgba-black-light"></div>
                         </a>
                     </div>
-                    <div class="card-body">
-                        <h4 class="card-title">{{services.name}}</h4>
-                        <hr>
-                        <p class="card-text">
-                            {{services.desc}}
-                        </p>
-                        <p class="card-text">Last updated: {{services.date}}</p>
-                        <div class="remarks">
-                            <form method="post" action="/jobs/add/{{services.id}}">
-                                <div class="form-group mb-4">
-                                    <label class="font-italic card-text" for="remarks">Remarks:</label>
-                                    <textarea class="form-control" id="remarks" name="remarks" rows="7"></textarea>
-                                </div>
-                                <div class="butcon text-right">
-                                    <button id="butreq" type="submit" class="btn btn-success">Request
-                                        Service
-                                    </button>
-                                    {{#if job}}<a href="/jobs/delete/{{job.id}}" class="btn btn-danger">Cancel
-                                        Request</a>{{/if}}
-                                </div>
-                            </form>
+
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex mt-2">
+                            <div class="flex-fill">
+                                {{#ifFile (concat './public/uploads/profile/' services.uid '/profilePic.png')}}
+                                <img src="/uploads/profile/{{services.uid}}/profilePic.png"
+                                    class="rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                {{else}}
+                                <img src="/img/profile/default.png" class="rounded-circle img-fluid z-depth-1"
+                                    style="max-width: 2rem;" style="max-width: 2rem;">
+                                {{/ifFile}}
+
+                                <a class="align-middle ml-1" href="/profile/view/{{services.uid}}">{{services.username}}</a>
+                            </div>
+
+                            <div class="d-flex align-items-center">
+                                <span class="text-muted small">
+                                    <i class="far fa-clock mr-2"></i>{{services.date}}
+                                </span>
+                            </div>
                         </div>
+
+                        <div class="d-flex mt-4">
+                            <div class="flex-fill">
+                                <h4 class="card-title mb-0">{{services.name}}</h4>
+                            </div>
+
+                            <div class="d-flex align-items-center font-weight-bold ml-3">
+                                {{services.views}}<i class="far fa-eye ml-2"></i>
+                            </div>
+                        </div>
+
+                        <hr class="w-100">
+
+                        <div class="flex-fill">
+                            <p class="card-text">
+                                {{services.desc}}
+                            </p>
+                        </div>
+                        <div class="remarks">
+                        <form method="post" action="/jobs/add/{{services.id}}">
+                            <div class="md-form md-outline">
+                                <label class="font-italic card-text" for="remarks">Remarks</label>
+                                <textarea class="form-control" id="remarks" name="remarks" rows="7"></textarea>
+                            </div>
+                            <div class="butcon text-right">
+                                <button id="butreq" type="submit" class="btn btn-success">Request
+                                    Service
+                                </button>
+                                {{#if job}}<a href="/jobs/delete/{{job.id}}" class="btn btn-danger">Cancel
+                                    Request</a>{{/if}}
+                            </div>
+                        </form>
                     </div>
-                    <div class="card-footer deep-purple accent-2 white-text text-center mt-4">
+                    </div>
+                    <div class="card-footer deep-purple accent-2 white-text text-center">
                         <h5 class="m-0">
                             ${{services.price}}
                         </h5>
                     </div>
+
                 </div>
             </div>
         </div>

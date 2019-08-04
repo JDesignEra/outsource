@@ -7,7 +7,7 @@ const servicesController = require('../controllers/service.js');
 
 router.get('/', servicesController.index)
 
-router.get('/view/:uid/:id', servicesController.view)
+router.get('/view/:uid/:id', isAuth, servicesController.view)
 
 router.get('/manage', isAuth, servicesController.management)
 
