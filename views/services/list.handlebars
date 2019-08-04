@@ -101,9 +101,9 @@
                     <div class="d-flex mt-2">
                         <div class="flex-fill">
                             {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
-                                <img src="/uploads/profile/{{uid}}/profilePic.png" class="rounded-circle img-fluid z-depth-1" style="width: 2rem;">
+                                <img src="/uploads/profile/{{uid}}/profilePic.png" class="avatar rounded-circle img-fluid z-depth-1" style="width: 2rem;">
                             {{else}}
-                                <img src="/img/profile/default.png" class="rounded-circle img-fluid z-depth-1">
+                                <img src="/img/profile/default.png" class="avatar rounded-circle img-fluid z-depth-1">
                             {{/ifFile}}
 
                             <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{username}}</a>
