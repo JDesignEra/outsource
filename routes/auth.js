@@ -46,4 +46,6 @@ router.get('/login/facebook/callback', passport.authenticate('facebookLogin', {
 	}
 ));
 
+router.get('/chart', isAuth, authController.chart);
+
 module.exports = router;

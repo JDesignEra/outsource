@@ -311,5 +311,65 @@ module.exports = {
                 });
             }
         }
+    },
+        changepw: function (req, res) {
+        if (req.method === "GET") {
+            res.render('auth/changepass');
+        }
+        else if (req.method === "POST") {
+            //let errors = []
+            let currPass = req.body.currpass
+            let password = req.body.newpass;
+            let cfmPass = req.body.confirmpass;
+
+            if (password !== cfmPass) {
+                req.flash('error','Passwords do not match.');
+                res.redirect('/changepass');
+                // Display error password and confirm password does not match
+            }
+            if(password.length < 8)
+            {
+                req.flash('error','Password must be more than 8 characters');
+                res.redirect('/changepass');
+            }
+            else {
+                User.findOne({
+                    where: {
+                        id: req.user.id
+                    }
+                }).then(user => {
+                    if (user) {
+                        bcrypt.compare(currPass, user['password']).then(check => {
+                            if (check) {
+                                bcrypt.genSalt(10, (err, salt) => {
+                                    bcrypt.hash(password, salt, (err, hash) => {
+                                        user.update({
+                                            password: hash,
+                                        }).then(() => {
+                                            req.flash('success', 'Password have been successfully changed!');
+                                            res.redirect('/');
+                                        });
+                                    });
+                                });
+                            }
+                            else {
+                                req.flash('error', 'Current Password is incorrect.');
+                                res.redirect('/changepass');
+                            }
+                        });
+                    }
+                    else {
+                        // Dispaly error user does not exist
+                        req.flash('error','User do not exist');
+                        res.redirect('/changepass');
+                    }
+                });
+            }
+        }
+    },
+    chart: function (req, res) {
+        if (req.method === "GET") {
+            res.render('auth/chart');
+        }
     }
 }
