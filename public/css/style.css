@@ -29,7 +29,7 @@
 nav.navbar .navbar-brand {
     min-width: 93px;
     min-height: 30px;
-    background-image: url("/img/logo/normal.png");
+    background-image: url("/img/logo/normal.png"), url("/img/logo/darker.png");
     background-repeat: no-repeat;
     background-size: 100% auto;
     background-position: center;
@@ -38,7 +38,7 @@ nav.navbar .navbar-brand {
 nav.navbar.top-nav-collapse .navbar-brand {
     min-width: 93px;
     min-height: 30px;
-    background-image: url("/img/logo/darker.png");
+    background-image: url("/img/logo/darker.png"), url("/img/logo/normal.png");
     background-repeat: no-repeat;
     background-size: 100% auto;
     background-position: center;
