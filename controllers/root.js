@@ -17,7 +17,7 @@ module.exports = {
                     attributes: ['username', 'email', 'followers', 'website', 'gender', 'location', 'occupation', 'bio', 'skills'],
                 }).then(user => {
                     service['user'] = user;
-                    service['user']['skills'] = service['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''});
+                    service['user']['skills'] = service['user']['skills'] ? service['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''}) : [];
 
                     Object.keys(countryList.countries).forEach(key => {
                         if (countryList.countries[key].name === service['user']['location']) {
@@ -37,7 +37,7 @@ module.exports = {
                         attributes: ['username', 'email', 'followers', 'website', 'gender', 'location', 'occupation', 'bio', 'skills'],
                     }).then(user => {
                         service['user'] = user;
-                        service['user']['skills'] = service['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''});
+                        service['user']['skills'] = service['user']['skills'] ? service['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''}) : [];
 
                         Object.keys(countryList.countries).forEach(key => {
                             if (countryList.countries[key].name === service['user']['location']) {
@@ -57,7 +57,7 @@ module.exports = {
                             attributes: ['username', 'email', 'followers', 'website', 'gender', 'location', 'occupation', 'bio', 'skills'],
                         }).then(user => {
                             service['user'] = user;
-                            service['user']['skills'] = service['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''});
+                            service['user']['skills'] = service['user']['skills'] ? service['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''}) : [];
 
                             Object.keys(countryList.countries).forEach(key => {
                                 if (countryList.countries[key].name === service['user']['location']) {
@@ -82,7 +82,7 @@ module.exports = {
                                 attributes: ['username', 'email', 'followers', 'website', 'gender', 'location', 'occupation', 'bio', 'skills'],
                             }).then(user => {
                                 portfolio['user'] = user;
-                                portfolio['user']['skills'] = portfolio['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''});
+                                portfolio['user']['skills'] = portfolio['user']['skills'] ? portfolio['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''}): [];
 
                                 Object.keys(countryList.countries).forEach(key => {
                                     if (countryList.countries[key].name === portfolio['user']['location']) {
@@ -108,7 +108,7 @@ module.exports = {
                                         attributes: ['username', 'email', 'followers', 'website', 'gender', 'location', 'occupation', 'bio', 'skills'],
                                     }).then(user => {
                                         portfolio['user'] = user;
-                                        portfolio['user']['skills'] = portfolio['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''});
+                                        portfolio['user']['skills'] = portfolio['user']['skills'] ? portfolio['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''}) : [];
 
                                         Object.keys(countryList.countries).forEach(key => {
                                             if (countryList.countries[key].name === portfolio['user']['location']) {

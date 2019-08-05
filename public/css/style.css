@@ -1,30 +1,4 @@
 /* Joel */
-/* Scrollbar */
-::-webkit-scrollbar {
-    width: 12px !important;
-    background: #ffffff !important;
-}
-
-::-webkit-scrollbar-track {
-    background-color: #ffffff !important;
-    border-radius: 1rem !important;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5) !important;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5) !important;
-}
-
-::-webkit-scrollbar-thumb {
-    /* background-color: #651fff !important; */
-    background-image: -webkit-gradient(linear, left top, right top, from(#7c4dff), to(#6200ea)) !important;
-    background-image: -webkit-linear-gradient(left, #7c4dff 0%, #6200ea 100%) !important;
-    background-image: linear-gradient(to right, #7c4dff 0%, #6200ea 100%) !important;
-    border: 2px solid #d4d4d4 !important;
-    border-radius: 1rem !important;
-}
-
-::-webkit-scrollbar-button {
-    display: none !important;
-}
-
 /* Navbar */
 nav.navbar .navbar-brand {
     min-width: 93px;
@@ -91,6 +65,32 @@ nav.navbar .dropdown-menu .dropdown-item.text-danger:hover {
         width: 300%;
         left: -100%;
     }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 12px !important;
+    background: #ffffff !important;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #ffffff !important;
+    border-radius: 1rem !important;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5) !important;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5) !important;
+}
+
+::-webkit-scrollbar-thumb {
+    /* background-color: #651fff !important; */
+    background-image: -webkit-gradient(linear, left top, right top, from(#7c4dff), to(#6200ea)) !important;
+    background-image: -webkit-linear-gradient(left, #7c4dff 0%, #6200ea 100%) !important;
+    background-image: linear-gradient(to right, #7c4dff 0%, #6200ea 100%) !important;
+    border: 2px solid #d4d4d4 !important;
+    border-radius: 1rem !important;
+}
+
+::-webkit-scrollbar-button {
+    display: none !important;
 }
 
 /* FileInput.js style */

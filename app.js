@@ -29,6 +29,10 @@ paypal.configure({
 
 const app = express();
 
+// Static Folder
+app.use(express.static(path.join(__dirname, 'public/uploads'), { maxAge: 0 }));
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Session
 app.use(session({
 	secret: '$2y$10$1fs/4go1gKR39/cXficd0eG1qg16/Fj.UxNI4WQelTbWzXOzp8tBS',
@@ -114,10 +118,6 @@ app.use(bodyParser.urlencoded({
 
 // Init mime custom mapping
 mime.init();
-
-// Static Folder
-app.use(express.static(path.join(__dirname, 'public/uploads'), { maxAge: 0 }));
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/', require('./routes/root'));
