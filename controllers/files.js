@@ -720,15 +720,14 @@ module.exports = {
                                         }
                                     }).then(datas => {
                                         for (const [i, data] of datas.entries()) {
-                                            let shareUid = data['shareUid'] ? data['shareUid'].split(',').map(Number) : [];
-
                                             for (const [x, uid] of delUids.entries()) {
+                                                let shareUid = data['shareUid'] ? data['shareUid'].split(',').map(Number) : [];
                                                 let z = shareUid.indexOf(parseInt(uid));
 
                                                 if (z > -1) {
                                                     shareUid.splice(z, 1);
-                                                    shareUid.join(',');
 
+                                                    shareUid = shareUid.join(',');
                                                     shareUid = shareUid.length > 0 ? shareUid : null;
 
                                                     data.update({ shareUid: shareUid }).then(() => {
