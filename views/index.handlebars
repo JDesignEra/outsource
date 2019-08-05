@@ -76,7 +76,7 @@
 {{/extend}}
 
 <section class="home">
-    <section class="deep-purple lighten-5 mx-n3 my-4 px-3 py-5 z-depth-1">
+    <section class="service-favs deep-purple lighten-5 mx-n3 my-4 px-3 py-5 z-depth-1">
         <h3 class="h3-responsive font-weight-bold text-center text-primary mb-4">
             Top Favourite Services
         </h3>
@@ -89,9 +89,9 @@
                                 <div class="face front d-flex flex-column rounded">
                                     <div class="view overlay border-bottom border-primary rounded-top">
                                         {{#ifFile (concat './public/uploads/services/' this.uid '/' this.id '.png')}}
-                                            <img class="card-img-top" src="/uploads/services/{{this.uid}}/{{this.id}}.png">
+                                            <img loading="lazy" class="card-img-top" src="/uploads/services/{{this.uid}}/{{this.id}}.png">
                                         {{else}}
-                                            <img class="card-img-top" src="/img/services/default.jpg">
+                                            <img loading="lazy" class="card-img-top" src="/img/services/default.jpg">
                                         {{/ifFile}}
 
                                         <a><div class="mask rgba-black-light"></div></a>
@@ -110,9 +110,9 @@
                                         <div class="d-flex mt-2">
                                             <div class="flex-fill">
                                                 {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
-                                                    <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                    <img loading="lazy" src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                 {{else}}
-                                                    <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                    <img loading="lazy" src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                 {{/ifFile}}
 
                                                 <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{this.user.username}}</a>
@@ -162,9 +162,9 @@
                                 <div class="face back d-flex flex-column rounded">
                                     <div class="view overlay border-bottom border-primary rounded-top">
                                         {{#ifFile (concat './public/uploads/profile/' this.uid '/' 'banner.png')}}
-                                            <img class="card-img-top" src="/uploads/profile/{{this.uid}}/banner.png">
+                                            <img loading="lazy" class="card-img-top" src="/uploads/profile/{{this.uid}}/banner.png">
                                         {{else}}
-                                            <img class="card-img-top" src="/img/profile/default.png">
+                                            <img loading="lazy" class="card-img-top" src="/img/profile/default.png">
                                         {{/ifFile}}
 
                                         <a><div class="mask rgba-black-light"></div></a>
@@ -184,9 +184,9 @@
                                             <div class="flex-fill">
                                                 <h6 class="card-title mb-0">
                                                     {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
-                                                        <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                        <img loading="lazy" src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                     {{else}}
-                                                        <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                        <img loading="lazy" src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                     {{/ifFile}}
 
                                                     <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{this.user.username}}</a>
@@ -302,7 +302,7 @@
         </div>
     </section>
     
-    <section class="{{#if services.topViews}}{{else}}d-flex align-items-center {{/if}}view jarallax z-depth-2 mx-n3 my-4 px-3 pb-5 pt-9 z-depth-1" data-jarallax-video="mp4:/vid/home_parallax/1.mp4">
+    <section class="service-views {{#if services.topViews}}{{else}} d-flex align-items-center {{/if}} view jarallax z-depth-2 mx-n3 my-4 px-3 pb-5 pt-9 z-depth-1" data-jarallax-video="mp4:/vid/home_parallax/1.mp4">
         <div class="mask rgba-deep-purple-light">
             <h3 class="h3-responsive font-weight-bold text-center text-white mb-4 mt-2 p-3">
                 Top View Services
@@ -317,9 +317,9 @@
                                 <div class="face front d-flex flex-column rounded">
                                     <div class="view overlay border-bottom border-primary rounded-top">
                                         {{#ifFile (concat './public/uploads/services/' this.uid '/' this.id '.png')}}
-                                            <img class="card-img-top" src="/uploads/services/{{this.uid}}/{{this.id}}.png">
+                                            <img loading="lazy" class="card-img-top" src="/uploads/services/{{this.uid}}/{{this.id}}.png">
                                         {{else}}
-                                            <img class="card-img-top" src="/img/services/default.jpg">
+                                            <img loading="lazy" class="card-img-top" src="/img/services/default.jpg">
                                         {{/ifFile}}
 
                                         <a><div class="mask rgba-black-light"></div></a>
@@ -338,9 +338,9 @@
                                         <div class="d-flex mt-2">
                                             <div class="flex-fill">
                                                 {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
-                                                    <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                    <img loading="lazy" src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                 {{else}}
-                                                    <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                    <img loading="lazy" src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                 {{/ifFile}}
 
                                                 <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{this.user.username}}</a>
@@ -390,9 +390,9 @@
                                 <div class="face back d-flex flex-column rounded">
                                     <div class="view overlay border-bottom border-primary rounded-top">
                                         {{#ifFile (concat './public/uploads/profile/' this.uid '/' 'banner.png')}}
-                                            <img class="card-img-top" src="/uploads/profile/{{this.uid}}/banner.png">
+                                            <img loading="lazy" class="card-img-top" src="/uploads/profile/{{this.uid}}/banner.png">
                                         {{else}}
-                                            <img class="card-img-top" src="/img/profile/default.png">
+                                            <img loading="lazy" class="card-img-top" src="/img/profile/default.png">
                                         {{/ifFile}}
 
                                         <a><div class="mask rgba-black-light"></div></a>
@@ -412,9 +412,9 @@
                                             <div class="flex-fill">
                                                 <h6 class="card-title mb-0">
                                                     {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
-                                                        <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                        <img loading="lazy" src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                     {{else}}
-                                                        <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                        <img loading="lazy" src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                     {{/ifFile}}
 
                                                     <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{this.user.username}}</a>
@@ -530,7 +530,7 @@
         </div>
     </section>
 
-    <section class="deep-purple lighten-5 mx-n3 my-4 px-3 py-5 z-depth-1">
+    <section class="random-services deep-purple lighten-5 mx-n3 my-4 px-3 py-5 z-depth-1">
         <h3 class="h3-responsive font-weight-bold text-center text-primary mb-4">
             Random Services
         </h3>
@@ -544,9 +544,9 @@
                                 <div class="face front d-flex flex-column rounded">
                                     <div class="view overlay border-bottom border-primary rounded-top">
                                         {{#ifFile (concat './public/uploads/services/' this.uid '/' this.id '.png')}}
-                                            <img class="card-img-top" src="/uploads/services/{{this.uid}}/{{this.id}}.png">
+                                            <img loading="lazy" class="card-img-top" src="/uploads/services/{{this.uid}}/{{this.id}}.png">
                                         {{else}}
-                                            <img class="card-img-top" src="/img/services/default.jpg">
+                                            <img loading="lazy" class="card-img-top" src="/img/services/default.jpg">
                                         {{/ifFile}}
 
                                         <a><div class="mask rgba-black-light"></div></a>
@@ -565,9 +565,9 @@
                                         <div class="d-flex mt-2">
                                             <div class="flex-fill">
                                                 {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
-                                                    <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                    <img loading="lazy" src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                 {{else}}
-                                                    <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                    <img loading="lazy" src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                 {{/ifFile}}
 
                                                 <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{this.user.username}}</a>
@@ -617,9 +617,9 @@
                                 <div class="face back d-flex flex-column rounded">
                                     <div class="view overlay border-bottom border-primary rounded-top">
                                         {{#ifFile (concat './public/uploads/profile/' this.uid '/' 'banner.png')}}
-                                            <img class="card-img-top" src="/uploads/profile/{{this.uid}}/banner.png">
+                                            <img loading="lazy" class="card-img-top" src="/uploads/profile/{{this.uid}}/banner.png">
                                         {{else}}
-                                            <img class="card-img-top" src="/img/profile/default.png">
+                                            <img loading="lazy" class="card-img-top" src="/img/profile/default.png">
                                         {{/ifFile}}
 
                                         <a><div class="mask rgba-black-light"></div></a>
@@ -639,9 +639,9 @@
                                             <div class="flex-fill">
                                                 <h6 class="card-title mb-0">
                                                     {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
-                                                        <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                        <img loading="lazy" src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                     {{else}}
-                                                        <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                        <img loading="lazy" src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                     {{/ifFile}}
 
                                                     <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{this.user.username}}</a>
@@ -757,7 +757,7 @@
         </div>
     </section>
     
-    <section class="{{#if services.topViews}}{{else}}d-flex align-items-center {{/if}}view jarallax z-depth-2 mx-n3 my-4 px-3 pb-5 pt-9 z-depth-1" data-jarallax-video="mp4:/vid/home_parallax/2.mp4">
+    <section class="portfolio-views {{#if services.topViews}}{{else}} d-flex align-items-center {{/if}} view jarallax z-depth-2 mx-n3 my-4 px-3 pb-5 pt-9 z-depth-1" data-jarallax-video="mp4:/vid/home_parallax/2.mp4">
         <div class="mask rgba-deep-purple-light">
             <h3 class="h3-responsive font-weight-bold text-center text-white mb-4 mt-2 p-3">
                 Top Portfolio Views
@@ -773,9 +773,9 @@
                                 <div class="face front d-flex flex-column rounded">
                                     <div class="view overlay border-bottom border-primary rounded-top">
                                         {{#ifFile (concat './public/uploads/profile/' this.uid '/projects/' this.id '.png')}}
-                                            <img class="card-img-top" src="/uploads/profile/{{this.uid}}/projects/{{this.id}}.png">
+                                            <img loading="lazy" class="card-img-top" src="/uploads/profile/{{this.uid}}/projects/{{this.id}}.png">
                                         {{else}}
-                                            <img class="card-img-top" src="/img/profile/banner.png">
+                                            <img loading="lazy" class="card-img-top" src="/img/profile/banner.png">
                                         {{/ifFile}}
 
                                         <a><div class="mask rgba-black-light"></div></a>
@@ -790,13 +790,13 @@
                                         </a>
                                     </div>
 
-                                    <div class="card-body d-flex flex-column">
+                                    <div class="card-body d-flex flex-column" style="max-height: 68.5%;">
                                         <div class="d-flex mt-2">
                                             <div class="flex-fill">
                                                 {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
-                                                    <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                    <img loading="lazy" src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                 {{else}}
-                                                    <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                    <img loading="lazy" src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                 {{/ifFile}}
 
                                                 <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{this.user.username}}</a>
@@ -821,7 +821,7 @@
 
                                         <hr class="w-100">
                                     
-                                        <div class="flex-fill overflow-auto card-text" style="max-height: 145px;">
+                                        <div class="flex-fill overflow-auto card-text">
                                             {{{this.content}}}
                                         </div>
                                     </div>
@@ -830,9 +830,9 @@
                                 <div class="face back d-flex flex-column rounded">
                                     <div class="view overlay border-bottom border-primary rounded-top">
                                         {{#ifFile (concat './public/uploads/profile/' this.uid '/' 'banner.png')}}
-                                            <img class="card-img-top" src="/uploads/profile/{{this.uid}}/banner.png">
+                                            <img loading="lazy" class="card-img-top" src="/uploads/profile/{{this.uid}}/banner.png">
                                         {{else}}
-                                            <img class="card-img-top" src="/img/profile/default.png">
+                                            <img loading="lazy" class="card-img-top" src="/img/profile/default.png">
                                         {{/ifFile}}
 
                                         <a><div class="mask rgba-black-light"></div></a>
@@ -852,9 +852,9 @@
                                             <div class="flex-fill">
                                                 <h6 class="card-title mb-0">
                                                     {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
-                                                        <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                        <img loading="lazy" src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                     {{else}}
-                                                        <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                        <img loading="lazy" src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                     {{/ifFile}}
 
                                                     <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{this.user.username}}</a>
@@ -970,7 +970,7 @@
         </div>
     </section>
     
-    <section class="deep-purple lighten-5 mx-n3 my-4 px-3 py-5 z-depth-1">
+    <section class="random-portfolios deep-purple lighten-5 mx-n3 my-4 px-3 py-5 z-depth-1">
         <h3 class="h3-responsive font-weight-bold text-center text-primary mb-4">
             Random Portfolios
         </h3>
@@ -984,9 +984,9 @@
                                 <div class="face front d-flex flex-column rounded">
                                     <div class="view overlay border-bottom border-primary rounded-top">
                                         {{#ifFile (concat './public/uploads/profile/' this.uid '/projects/' this.id '.png')}}
-                                            <img class="card-img-top" src="/uploads/profile/{{this.uid}}/projects/{{this.id}}.png">
+                                            <img loading="lazy" class="card-img-top" src="/uploads/profile/{{this.uid}}/projects/{{this.id}}.png">
                                         {{else}}
-                                            <img class="card-img-top" src="/img/profile/banner.png">
+                                            <img loading="lazy" class="card-img-top" src="/img/profile/banner.png">
                                         {{/ifFile}}
 
                                         <a><div class="mask rgba-black-light"></div></a>
@@ -1001,13 +1001,13 @@
                                         </a>
                                     </div>
 
-                                    <div class="card-body d-flex flex-column">
+                                    <div class="card-body d-flex flex-column" style="max-height: 68.5%;">
                                         <div class="d-flex mt-2">
                                             <div class="flex-fill">
                                                 {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
-                                                    <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                    <img loading="lazy" src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                 {{else}}
-                                                    <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                    <img loading="lazy" src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                 {{/ifFile}}
 
                                                 <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{this.user.username}}</a>
@@ -1032,7 +1032,7 @@
 
                                         <hr class="w-100">
                                     
-                                        <div class="flex-fill overflow-auto card-text" style="max-height: 145px;">
+                                        <div class="flex-fill overflow-auto card-text">
                                             {{{this.content}}}
                                         </div>
                                     </div>
@@ -1041,9 +1041,9 @@
                                 <div class="face back d-flex flex-column rounded">
                                     <div class="view overlay border-bottom border-primary rounded-top">
                                         {{#ifFile (concat './public/uploads/profile/' this.uid '/' 'banner.png')}}
-                                            <img class="card-img-top" src="/uploads/profile/{{this.uid}}/banner.png">
+                                            <img loading="lazy" class="card-img-top" src="/uploads/profile/{{this.uid}}/banner.png">
                                         {{else}}
-                                            <img class="card-img-top" src="/img/profile/default.png">
+                                            <img loading="lazy" class="card-img-top" src="/img/profile/default.png">
                                         {{/ifFile}}
 
                                         <a><div class="mask rgba-black-light"></div></a>
@@ -1063,9 +1063,9 @@
                                             <div class="flex-fill">
                                                 <h6 class="card-title mb-0">
                                                     {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
-                                                        <img src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                        <img loading="lazy" src="/uploads/profile/{{uid}}/profilePic.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                     {{else}}
-                                                        <img src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
+                                                        <img loading="lazy" src="/img/profile/default.png" class="d-inline rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                                     {{/ifFile}}
 
                                                     <a class="align-middle ml-1" href="/profile/view/{{uid}}">{{this.user.username}}</a>
@@ -1183,9 +1183,5 @@
 </section>
 
 {{#extend 'scripts'}}
-<script type="text/javascript">
-    $(function() {
-        $('.face.front, .face.back').addClass('h-100');
-    });
-</script>
+<script src="/js/index.js" type="text/javascript"></script>
 {{/extend}}

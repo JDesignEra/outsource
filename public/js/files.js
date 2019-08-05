@@ -313,6 +313,7 @@ $(function() {
             if (i === rows.length) {
                 setTimeout(function() {
                     $('.table-responsive').removeClass('overflow-x-hidden');
+                    
                     clearTimeout(this);
                 }, 500);
 

@@ -12,7 +12,7 @@
                 
                 <div id="content" class="m-3"{{#if file.id}} data-id="{{file.id}}"{{/if}}>
                     {{#ifCond 'file.type === "image"'}}
-                        <img class="img-fluid w-100" src="{{ file.link }}">
+                        <img loading="lazy" class="img-fluid w-100" src="{{ file.link }}">
 
                     {{else}}
                         {{#ifCond 'file.type === "code" || file.type === "text"'}}

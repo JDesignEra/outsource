@@ -4,7 +4,7 @@
             <div class="service-overview">
                 <div class="card w-100">
                     <div class="view overlay border-bottom border-primary rounded-top">
-                        <img onerror='this.src = "/img/services/default.jpg"' class="card-img-top"
+                        <img loading="lazy" onerror='this.src = "/img/services/default.jpg"' class="card-img-top"
                             src="/uploads/services/{{services.uid}}/{{services.id}}.png" alt="Image not available">
                         <a>
                             <div class="mask rgba-black-light"></div>
@@ -71,7 +71,7 @@
                         <!-- Background color -->
                         <div style="height:auto;" class="card-up indigo view lighten-1 rounded-0">
 
-                            <img class="img-fluid jarallax-img lozad" onerror='this.src="/img/profile/banner.png"'
+                            <img loading="lazy" class="img-fluid jarallax-img " onerror='this.src="/img/profile/banner.png"'
                                 src="/uploads/profile/{{serviceuser.id}}/banner.png" alt="">
 
                             <div class="mask flex-center waves-effect waves-light">
@@ -81,8 +81,8 @@
                         </div>
                         <!-- Avatar -->
                         <div class="avatar mx-auto white mt-4">
-                            <img onerror='this.src = "/img/profile/default.png"'
-                                src="/uploads/profile/{{serviceuser.id}}/profilePic.png" class="rounded-circle lozad"
+                            <img loading="lazy" onerror='this.src = "/img/profile/default.png"'
+                                src="/uploads/profile/{{serviceuser.id}}/profilePic.png" class="rounded-circle "
                                 alt="">
                         </div>
 

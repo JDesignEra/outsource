@@ -118,7 +118,7 @@ module.exports = {
                                     });
     
                                     if (i >= randomPorfolios.length - 1) {
-                                        setTimeout(() => {
+                                        setTimeout(function() {
                                             res.render('index', {
                                                 services: {
                                                     topFavs: topServiceFavs,
@@ -130,7 +130,9 @@ module.exports = {
                                                     randoms: randomPorfolios
                                                 },
                                             });
-                                        }, 100);
+
+                                            clearTimeout(this);
+                                        }, 50);
                                     }
                                 }
                             }

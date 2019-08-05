@@ -124,7 +124,7 @@ $(function() {
         let preview = focus.find('.preview');
         
         preview.addClass('d-block');
-        preview.find('.renderer').html(`<img src="${img}">`);
+        preview.find('.renderer').html(`<img src="${img}" loading="lazy">`);
 
         img = undefined
         $('script#img-script').remove();

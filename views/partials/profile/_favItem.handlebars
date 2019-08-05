@@ -9,7 +9,7 @@
                     <div class="col-12 col-md-4 col-lg-4">
                         <div class="z-depth-2 card">
                             <div class="view overlay">
-                                <img onerror='this.src = "/img/services/default.jpg"' class="card-img-top"
+                                <img loading="lazy" onerror='this.src = "/img/services/default.jpg"' class="card-img-top"
                                     src="/uploads/services/{{uid}}/{{id}}.png">
                                 <a>
                                     <div class="mask rgba-black-light"></div>
@@ -25,10 +25,10 @@
                                 <div class="d-flex mt-2">
                                     <div class="flex-fill text-left">
                                         {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png')}}
-                                        <img src="/uploads/profile/{{uid}}/profilePic.png"
+                                        <img loading="lazy" src="/uploads/profile/{{uid}}/profilePic.png"
                                             class="rounded-circle img-fluid z-depth-1" style="max-width: 2rem;">
                                         {{else}}
-                                        <img src="/img/profile/default.png" class="rounded-circle img-fluid z-depth-1"
+                                        <img loading="lazy" src="/img/profile/default.png" class="rounded-circle img-fluid z-depth-1"
                                             style="max-width: 2rem;">
                                         {{/ifFile}}
 

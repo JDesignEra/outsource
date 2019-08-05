@@ -13,7 +13,7 @@
                         <div class="portoflio-img-sm view overlay mb-1 rounded p-0 border" data-toggle="modal"
                             data-target="#likedproject{{id}}">
 
-                            <img src="/uploads/profile/{{uid}}/projects/{{id}}.png" class="h-100 lozad mx-auto d-block"
+                            <img loading="lazy" src="/uploads/profile/{{uid}}/projects/{{id}}.png" class="h-100  mx-auto d-block"
                                 alt="">
 
                             <div id="viewproject{{id}}" onclick="viewProject({{id}})"
@@ -100,9 +100,9 @@
                         <div class="col-lg-3 col-sm-12 row justify-content-start pl-4">
 
                             <div class="col-2 align-self-center p-0 h-100">
-                                <img onerror='this.src = "/img/profile/default.png"'
+                                <img loading="lazy" onerror='this.src = "/img/profile/default.png"'
                                     src="/uploads/profile/{{uid}}/profilePic.png"
-                                    class="white img-fluid rounded-circle lozad " alt="">
+                                    class="white img-fluid rounded-circle  " alt="">
                             </div>
 
                             <div class="col-8 align-self-center pl-3 h-100">
@@ -158,9 +158,9 @@
                     <div class="container black w-100 row justify-content-center mx-0 py-5">
 
                         <div class="row justify-content-center mx-auto">
-                            <img onerror='this.src = "/img/profile/default.png"'
+                            <img loading="lazy" onerror='this.src = "/img/profile/default.png"'
                                 src="/uploads/profile/{{uid}}/profilePic.png"
-                                class="white img-fluid rounded-circle lozad" style="height: 80px; width: 80x;">
+                                class="white img-fluid rounded-circle " style="height: 80px; width: 80x;">
                             <h3 class="col-12 text-center white-text font-weight-bold my-3">
                                 Services by
                                 {{username}}
@@ -175,7 +175,7 @@
 
                                     <div class="card">
                                         <div class="view overlay">
-                                            <img class="card-img-top service-img"
+                                            <img loading="lazy" class="card-img-top service-img"
                                                 src="/uploads/services/{{uid}}/{{id}}.png">
                                         </div>
 
@@ -232,7 +232,7 @@
                                 <li class="row mb-4">
 
                                     <div class="col-1 pr-2">
-                                        <img class="avatar img-fluid rounded-circle white accent-3 z-depth-1"
+                                        <img loading="lazy" class="avatar img-fluid rounded-circle white accent-3 z-depth-1"
                                             id="profileimg" onerror='this.src = "/img/profile/default.png"'
                                             src="/uploads/profile/{{../user.id}}/profilePic.png">
                                     </div>
@@ -277,7 +277,7 @@
 
                                     <div class="col-1 pr-2">
 
-                                        <img class="avatar img-fluid rounded-circle white accent-3 z-depth-1"
+                                        <img loading="lazy" class="avatar img-fluid rounded-circle white accent-3 z-depth-1"
                                             onerror='this.src = "/img/profile/default.png"'
                                             src="/uploads/profile/{{ uid }}/profilePic.png">
 
@@ -437,6 +437,8 @@
             setTimeout(function () {
                 backdrop = document.querySelectorAll('.modal-backdrop')
                 backdrop[1].style.zIndex = 1060;
+
+                clearTimeout(this);
             }, 10)
         }
     )
@@ -456,6 +458,8 @@
 
         setTimeout(function () {
             $("#project" + num).modal('show')
+
+            clearTimeout(this);
         }, 400);
     });
 </script>
@@ -493,7 +497,7 @@
                 $('#likedhrAfter' + id).prepend(`
                     <li class="row mb-4">
                         <div class="col-1 pr-2">
-                            <img class="avatar img-fluid rounded-circle white accent-3 z-depth-1" onerror='this.src = "/img/profile/default.png"' src="${$('#profileimg').attr('src')}">
+                            <img loading="lazy" class="avatar img-fluid rounded-circle white accent-3 z-depth-1" onerror='this.src = "/img/profile/default.png"' src="${$('#profileimg').attr('src')}">
                         </div>
 
                         <div class="col-11 pl-2">

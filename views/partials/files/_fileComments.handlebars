@@ -5,7 +5,7 @@
             <li class="row mb-4">
                 <div class="col-3 pr-2">
                     {{#ifFile (concat './public/uploads/profile/' this.uid '/profilePic.png') }}
-                        <img class="avatar img-fluid rounded-circle deep-purple accent-3 z-depth-1" src="/uploads/profile/{{ this.uid }}/profilePic.png">
+                        <img loading="lazy" class="avatar img-fluid rounded-circle deep-purple accent-3 z-depth-1" src="/uploads/profile/{{ this.uid }}/profilePic.png">
                     {{else}}
                         <div class="deep-purple accent-3 white-text text-center rounded-circle z-depth-1 py-4">
                             <i class="far fa-user fa-lg"></i>

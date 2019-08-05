@@ -1,6 +1,5 @@
 // File(s) Upload by Joel
 let fileInput = (function () {
-
     'use strict';
     let publicFuncs = {};
 
@@ -135,7 +134,7 @@ let fileInput = (function () {
                         let reader = new FileReader();
 
                         reader.onload = function (e) {
-                            renderer.html(`<img src="${e.target.result}" />`);
+                            renderer.html(`<img src="${e.target.result}" loading="lazy" />`);
                         };
 
                         reader.readAsDataURL(file);

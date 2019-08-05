@@ -16,7 +16,7 @@
                 
                 <div id="content" class="card-body" data-id="{{ file.id }}" data-type="{{ file.type }}" data-ext="{{ file.ext }}"{{#ifCond 'file.type === "document" && file.ext === "pdf"'}} style="height: 144vh;"{{/ifCond}}>
                     {{#ifCond 'file.type === "image"'}}
-                        <img class="img-preview img-fluid d-block mx-auto w-100" src="{{ file.link }}">
+                        <img loading="lazy" class="img-preview img-fluid d-block mx-auto w-100" src="{{ file.link }}">
                     {{else}}
                         {{#ifCond 'file.type === "code" || file.type === "text"'}}
                             <div id="editor" data-name="{{ file.name }}"></div>
@@ -38,7 +38,7 @@
                                         </object>
                                     {{else}}
                                         {{#ifCond 'file.type === "video"'}}
-                                            <video class="video-fluid z-depth-1" preload controls>
+                                            <video class="video-fluid z-depth-1" preload="auto" controls>
                                                 <source src="{{ file.link }}">
                                             </video>
                                         {{else}}

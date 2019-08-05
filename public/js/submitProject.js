@@ -20,6 +20,7 @@ function uploadImage() {
         + " id='" + id + "'class='img-fluid resize-drag'"
         + " width='" + width + "%'"
         + " height='" + height + "%'"
+        + ' loading="lazy"'
         + ">";
         
     test1.execCommand("insertHTML", false, img);
@@ -117,7 +118,7 @@ $(function () {
         let focus = $('.preview', '.file-upload');
 
         focus.addClass('d-block');
-        focus.find('.renderer').html(`<img id="imageRender" src="${img}">`);
+        focus.find('.renderer').html(`<img id="imageRender" src="${img}" loading="lazy">`);
 
         img = undefined;
         $('script#img-script').remove();

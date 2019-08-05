@@ -3,7 +3,7 @@
     <div class="card testimonial-card z-depth-2">
         <!-- =============================== Banner Image =============================== -->
         <div class="vh-40 card-up indigo lighten-1 rounded-0 jarallax">
-            <img class="img-fluid jarallax-img lozad" onerror='this.src="/img/profile/banner.png"'
+            <img loading="lazy" class="img-fluid jarallax-img " onerror='this.src="/img/profile/banner.png"'
                 src="/uploads/profile/{{user.id}}/banner.png" alt="">
             <div class="mask flex-center waves-effect waves-light">
                 <div class="h-100 w-100 col-12 align-items-end row justify-content-end p-0">
@@ -50,9 +50,9 @@
 
                             <!-- Profile Image -->
                             <div class="avatar mx-auto white mt-4">
-                                <img onerror='this.src = "/img/profile/default.png"'
+                                <img loading="lazy" onerror='this.src = "/img/profile/default.png"'
                                     src="/uploads/profile/{{user.id}}/profilePic.png"
-                                    class="rounded-circle lozad border" alt="">
+                                    class="rounded-circle  border" alt="">
                             </div>
 
                             <!-- User Details -->
@@ -269,7 +269,7 @@
                 <a href="/profile/view/{{id}}">
                     <div class="row justify-content-start">
                         <div class="col-2">
-                            <img onerror='this.src = "/img/profile/default.png"'
+                            <img loading="lazy" onerror='this.src = "/img/profile/default.png"'
                                 src="/uploads/profile/{{id}}/profilePic.png" class="rounded-circle border w-100" alt="">
                         </div>
                         <div class="col-5">
@@ -314,7 +314,7 @@
                 <a href="/profile/view/{{id}}">
                     <div class="row justify-content-start">
                         <div class="col-2">
-                            <img onerror='this.src = "/img/profile/default.png"'
+                            <img loading="lazy" onerror='this.src = "/img/profile/default.png"'
                                 src="/uploads/profile/{{id}}/profilePic.png" class="rounded-circle w-100 border" alt="">
                         </div>
                         <div class="col-5">
