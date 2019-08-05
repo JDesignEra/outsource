@@ -73,7 +73,7 @@
                                     {{/ifCond}}
                                 </h5>
 
-
+                                {{#if user}}
                                 <div class="">
                                     {{#ifCond 'followedUser == true'}}
                                     <p onclick="unfollowUser({{viewuser.id}})" id="followButton"
@@ -85,6 +85,7 @@
                                         Follow </p>
                                     {{/ifCond}}
                                 </div>
+                                {{/if}}
 
                                 <br>
                                 <p class="text-left"> <a href="#" class="font-weight-bold" data-toggle="modal"

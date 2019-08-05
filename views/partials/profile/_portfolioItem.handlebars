@@ -177,6 +177,7 @@
                             </div>
 
                         </div>
+                        {{#if ../user}}
                         {{#if ../viewuser}}
                         <div class="col-lg-2 col-sm-12 row justify-content-end px-0">
                             <div class="col-lg-8 col-sm-12 align-self-center pr-0">
@@ -212,6 +213,7 @@
                                 </a>
                             </div>
                         </div>
+                        {{/if}}
                         {{/if}}
                     </div>
                 </div>
@@ -296,6 +298,7 @@
                         <h4 class="text-center"> Comments </h4>
                         <hr class="hr-primary">
 
+                        {{#if ../user}}
                         <form class="chat-message flex-fill" id="commentForm{{id}}" method="POST"
                             action="/profile/commentProject/{{id}}">
                             <ul class="list-unstyled chat">
@@ -334,8 +337,12 @@
 
                             </ul>
                         </form>
+                        {{else}}
+                        <h5 class="text-center flex-fill text-muted my-5">You must be logged in to comment.</h5>
+                        {{/if}}
 
                         <hr class="hr-primary">
+
                         {{#if comments}}
                         <div class="chat-message flex-fill">
                             <ul class="list-unstyled chat" id="hrAfter{{id}}">
@@ -569,7 +576,7 @@
             }).catch(function (err) {
                 console.error(err);
             });
-            
+
             return false;
         });
     }
