@@ -308,7 +308,7 @@
                 Top View Services
             </h3>
         </div>
-        <div class="{{#if services.topViews}}row{{else}}flex-fill{{/if}}"{{#if portfolio.topViews}}{{else}} style="z-index: 1;"{{/if}}>
+        <div class="{{#if services.topViews}}row{{else}}flex-fill{{/if}}"{{#if services.topViews}}{{else}} style="z-index: 1;"{{/if}}>
             {{#if services.topViews}}
                 {{#each services.topViews}}
                     <div class="col-12 col-md-3 d-flex align-items-stretch mt-4 mt-md-0">
@@ -518,12 +518,14 @@
                     </div>
                 {{/each}}
             {{else}}
-                <h1 class="h1-responsive font-weight-bold text-center text-danger my-4">
-                    <i class="far fa-exclamation-triangle fa-3x"></i>
-                </h1>
-                <h1 class="h1-responsive font-weight-bold text-center text-white">
-                    No Services To Display
-                </h1>
+                <div class="col-12">
+                    <h1 class="h1-responsive font-weight-bold text-center text-danger my-4">
+                        <i class="far fa-exclamation-triangle fa-3x"></i>
+                    </h1>
+                    <h1 class="h1-responsive font-weight-bold text-center text-white">
+                        No Services To Display
+                    </h1>
+                </div>
             {{/if}}
         </div>
     </section>
@@ -956,12 +958,14 @@
                     </div>
                 {{/each}}
             {{else}}
-                <h1 class="h1-responsive font-weight-bold text-center text-danger my-4">
-                    <i class="far fa-exclamation-triangle fa-3x"></i>
-                </h1>
-                <h1 class="h1-responsive font-weight-bold text-center text-white">
-                    No Portfolios To Display
-                </h1>
+                <div class="col-12">
+                    <h1 class="h1-responsive font-weight-bold text-center text-danger my-4">
+                        <i class="far fa-exclamation-triangle fa-3x"></i>
+                    </h1>
+                    <h1 class="h1-responsive font-weight-bold text-center text-white">
+                        No Portfolios To Display
+                    </h1>
+                </div>
             {{/if}}
         </div>
     </section>

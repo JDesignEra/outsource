@@ -1,6 +1,6 @@
 {
   "name": "outsource",
-  "version": "18.4.0",
+  "version": "18.4.2",
   "description": "This is for OOADP Project",
   "main": "app.js",
   "scripts": {
