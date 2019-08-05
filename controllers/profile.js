@@ -409,10 +409,12 @@ module.exports = {
             else {
                 skills = []
             }
+            social_medias = user.social_media != null ? social_medias = user.social_media.split(',') : ["","","","",""];
             res.render("profile/editProfile", {
                 user: user,
                 countryList: countryList,
-                skills: skills
+                skills: skills,
+                social_medias
             })
 
         })
@@ -840,11 +842,11 @@ module.exports = {
             Project.update({
                 likes: likers.toString()
             },
-            {
-                where: { id: likedProject.id }
-            }).then(likedProject => {
-                res.redirect('back')
-            });
+                {
+                    where: { id: likedProject.id }
+                }).then(likedProject => {
+                    res.redirect('back')
+                });
         })
     },
     //Comment system
@@ -922,7 +924,7 @@ module.exports = {
                 for (i = 0; i < follower.length; i++) {
                     follower[i] = parseInt(follower[i])
                 }
-                
+
                 User.findAll({
                     where: {
                         id: { [Op.in]: follower }
