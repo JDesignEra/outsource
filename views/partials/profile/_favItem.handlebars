@@ -82,8 +82,13 @@
                     {{/each}}
                 </div>
                 {{else}}
-                <div>
-                    <h3 class="text-center font-weight-bold">No Favourites</h3>
+                <div class="row justify-content-center">
+                    <h1>{{#if ../viewuser.id}}
+                        This user has no favourites
+                        {{else}}
+                        You have no favourites
+
+                        {{/if}}</h1>
                 </div>
                 {{/if}}
             </div>
