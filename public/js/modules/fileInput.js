@@ -104,15 +104,16 @@ let fileInput = (function () {
                     if (_this.hasClass('file-upload') && files.length > 1) {
                         error = 'Only 1 file upload is allow.';
                     }
-                    else if (input.attr('accept')) {
-                        let validation = new RegExp(input.attr('accept').replace(/\s/g, '').replace(',', '|'));
+                    // else if (input.attr('accept')) {
+                    //     let validation = new RegExp(input.attr('accept').replace(/\s/g, '').replace(',', '|'));
+                    //     console.log(input.attr('accept').replace(/\s/g, ''));
 
-                        for (let x = 0, n = files.length; x < n; x++) {
-                            if (!validation.test(files[x].type)) {
-                                error = `File type is not allowed, for ${files[x].name}.`;
-                            }
-                        }
-                    }
+                    //     for (let x = 0, n = files.length; x < n; x++) {
+                    //         if (!validation.test(files[x].type)) {
+                    //             error = `File type is not allowed, for ${files[x].name}.`;
+                    //         }
+                    //     }
+                    // }
                 }
 
                 if (error) {
