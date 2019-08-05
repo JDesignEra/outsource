@@ -396,7 +396,7 @@ $(function() {
                     let type = checked.last().attr('data-type');
                     let editAction = singleActions.find('a.edit');
 
-                    if (type === 'code') {
+                    if (type === 'code' || type === 'image') {
                         editAction.attr('href', `${window.location.pathname}/${checked.last().attr('data-id')}/~edit`);
 
                         editAction.removeClass('d-none');
