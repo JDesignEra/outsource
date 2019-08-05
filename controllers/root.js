@@ -1,3 +1,4 @@
+const countryList = require('countries-list');
 const sequelize = require('sequelize');
 
 const services = require('../models/services');
@@ -11,8 +12,18 @@ module.exports = {
             limit: 4
         }).then(topServiceFavs => {
             for (let service of topServiceFavs) {
-                users.findByPk(service['uid']).then(user => {
-                    service['username'] = user['username'];
+                users.findOne({
+                    where: { id: service['uid'] },
+                    attributes: ['username', 'email', 'followers', 'website', 'gender', 'location', 'occupation', 'bio', 'skills'],
+                }).then(user => {
+                    service['user'] = user;
+                    service['user']['skills'] = service['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''});
+
+                    Object.keys(countryList.countries).forEach(key => {
+                        if (countryList.countries[key].name === service['user']['location']) {
+                            service['user']['country'] = key;
+                        }
+                    });
                 });
             }
 
@@ -21,8 +32,18 @@ module.exports = {
                 limit: 4
             }).then(topServiceViews => {
                 for (let service of topServiceViews) {
-                    users.findByPk(service['uid']).then(user => {
-                        service['username'] = user['username'];
+                    users.findOne({
+                        where: { id: service['uid'] },
+                        attributes: ['username', 'email', 'followers', 'website', 'gender', 'location', 'occupation', 'bio', 'skills'],
+                    }).then(user => {
+                        service['user'] = user;
+                        service['user']['skills'] = service['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''});
+
+                        Object.keys(countryList.countries).forEach(key => {
+                            if (countryList.countries[key].name === service['user']['location']) {
+                                service['user']['country'] = key;
+                            }
+                        });
                     });
                 }
 
@@ -31,8 +52,18 @@ module.exports = {
                     limit: 4
                 }).then(randomServices => {
                     for (let service of randomServices) {
-                        users.findByPk(service['uid']).then(user => {
-                            service['username'] = user['username'];
+                        users.findOne({
+                            where: { id: service['uid'] },
+                            attributes: ['username', 'email', 'followers', 'website', 'gender', 'location', 'occupation', 'bio', 'skills'],
+                        }).then(user => {
+                            service['user'] = user;
+                            service['user']['skills'] = service['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''});
+
+                            Object.keys(countryList.countries).forEach(key => {
+                                if (countryList.countries[key].name === service['user']['location']) {
+                                    service['user']['country'] = key;
+                                }
+                            });
                         });
                     }
 
@@ -46,8 +77,18 @@ module.exports = {
 
                             portfolio['date'] = datePosted;
 
-                            users.findByPk(portfolio['uid']).then(user => {
-                                portfolio['username'] = user['username'];
+                            users.findOne({
+                                where: { id: portfolio['uid'] },
+                                attributes: ['username', 'email', 'followers', 'website', 'gender', 'location', 'occupation', 'bio', 'skills'],
+                            }).then(user => {
+                                portfolio['user'] = user;
+                                portfolio['user']['skills'] = portfolio['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''});
+
+                                Object.keys(countryList.countries).forEach(key => {
+                                    if (countryList.countries[key].name === portfolio['user']['location']) {
+                                        portfolio['user']['country'] = key;
+                                    }
+                                });
                             });
                         }
 
@@ -62,8 +103,18 @@ module.exports = {
     
                                     portfolio['date'] = datePosted;
     
-                                    users.findByPk(portfolio['uid']).then(user => {
-                                        portfolio['username'] = user['username'];
+                                    users.findOne({
+                                        where: { id: portfolio['uid'] },
+                                        attributes: ['username', 'email', 'followers', 'website', 'gender', 'location', 'occupation', 'bio', 'skills'],
+                                    }).then(user => {
+                                        portfolio['user'] = user;
+                                        portfolio['user']['skills'] = portfolio['user']['skills'].split(',').filter(function(el) {return el !== null && el !== ''});
+
+                                        Object.keys(countryList.countries).forEach(key => {
+                                            if (countryList.countries[key].name === portfolio['user']['location']) {
+                                                portfolio['user']['country'] = key;
+                                            }
+                                        });
                                     });
     
                                     if (i >= randomPorfolios.length - 1) {
