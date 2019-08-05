@@ -15,8 +15,11 @@ module.exports = {
 
         oauth2Client.setCredentials({ refresh_token: config.refreshToken });
 
-        const token = await oauth2Client.refreshAccessToken();
-        const accessToken = token.credentials.access_token;
+        const accessToken = await oauth2Client.getAccessToken();
+
+        // Deprecated
+        // const token = await oauth2Client.refreshAccessToken();
+        // const accessToken = token.credentials.access_token;
 
         const smtpTransport = nodemailer.createTransport({
             service: 'gmail',
@@ -50,8 +53,11 @@ module.exports = {
 
         oauth2Client.setCredentials({ refresh_token: config.refreshToken });
 
-        const token = await oauth2Client.refreshAccessToken();
-        const accessToken = token.credentials.access_token;
+        const accessToken = await oauth2Client.getAccessToken();
+
+        // Depreciated
+        // const token = await oauth2Client.refreshAccessToken();
+        // const accessToken = token.credentials.access_token;
 
         const smtpTransport = nodemailer.createTransport({
             service: 'gmail',
