@@ -49,7 +49,6 @@ _**Note:** Remember to do a `npm i --only-dev` first._
 * [googleapis](https://www.npmjs.com/package/googleapis)
 * [jimp](https://www.npmjs.com/package/jimp)
 * [klaw](https://www.npmjs.com/package/klaw)
-* [lozad](https://www.npmjs.com/package/lozad)
 * [mammoth](https://www.npmjs.com/package/mammoth)
 * [mime](https://www.npmjs.com/package/mime)
 * [moment](https://www.npmjs.com/package/moment)
