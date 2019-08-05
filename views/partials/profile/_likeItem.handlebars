@@ -250,7 +250,7 @@
 
 
                                             <textarea class="form-control" name="commentContent"
-                                                id="commentContent{{id}}" maxlength="300"></textarea>
+                                                id="likedcommentContent{{id}}" maxlength="300"></textarea>
 
 
                                         </div>
@@ -310,13 +310,16 @@
                             </ul>
                         </div>
                         {{else}}
-                        <h5 class="text-center mb-3 text-muted">
-                            <i class="far fa-comment-times fa-3x"></i>
-                        </h5>
+                        <ul class="list-unstyled chat" id="likedhrAfter{{id}}"></ul>
 
-                        <h5 class="text-center text-muted">
-                            No Comments
-                        </h5>
+                        <div id="likednoComments{{id}}">
+                            <h5 class="text-center mb-3 text-muted">
+                                <i class="far fa-comment-times fa-3x"></i>
+                            </h5>
+                            <h5 class="text-center text-muted">
+                                No Comments
+                            </h5>
+                        </div>
 
                         {{/if}}
 
@@ -459,14 +462,14 @@
 
 <script>
     function likedsubmitComment(id) {
-        function formatDate(date) {
+        function formatDate() {
             var monthNames = [
                 "Jan", "Feb", "Mar",
                 "Apr", "May", "Jun", "Jul",
                 "Aug", "Sep", "Oct",
                 "Nov", "Dec"
             ];
-
+            var date = new Date()
             var day = date.getDate();
             var monthIndex = date.getMonth();
             var year = date.getFullYear();
@@ -475,7 +478,6 @@
             return day + ' ' + monthNames[monthIndex] + ' ' + year + ' ' + hours + ":" + minutes;
         }
 
-        now = formatDate(new Date())
         $('#commentForm' + id).submit(function (e) {
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -519,7 +521,8 @@
                     </li>
                 `);
 
-                $('#commentContent' + id).val('');
+                $('#likedcommentContent' + id).val('');
+                $('#likednoComments'+id).css("display", "none")
             }).catch(function (err) {
                 console.error(err);
             });

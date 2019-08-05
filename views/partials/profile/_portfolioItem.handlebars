@@ -382,14 +382,15 @@
                             </ul>
                         </div>
                         {{else}}
-                        <h5 class="text-center mb-3 text-muted">
-                            <i class="far fa-comment-times fa-3x"></i>
-                        </h5>
                         <ul class="list-unstyled chat" id="hrAfter{{id}}"></ul>
-                        <h5 class="text-center text-muted">
-                            No Comments
-                        </h5>
-
+                        <div id="noComments">
+                            <h5 class="text-center mb-3 text-muted">
+                                <i class="far fa-comment-times fa-3x"></i>
+                            </h5>
+                            <h5 class="text-center text-muted">
+                                No Comments
+                            </h5>
+                        </div>
                         {{/if}}
 
 
@@ -573,6 +574,7 @@
                 `);
 
                 $('#commentContent' + id).val('');
+                $('#noComments').css("display","none")
             }).catch(function (err) {
                 console.error(err);
             });
