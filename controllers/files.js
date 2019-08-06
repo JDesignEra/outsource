@@ -151,10 +151,19 @@ module.exports = {
             // shareTree
             filesFolders.findAll({
                 where: {
-                    shareUid: { [Op.like]: `${uid}` }
+                    shareUid: { [Op.like]: `%${uid}%` },
                 },
+                raw: true
             }).then(datas => {
                 if (datas.length > 0) {
+                    datas.sort((a, b) => {
+                        if (a['type'] === 'folder') {
+                            return -1;
+                        }
+
+                        return 1;
+                    });
+
                     for (const [i, data] of datas.entries()) {
                         let root = `public/uploads/files/${data['uid']}`;
                         let directory = path.join(root, data['fullPath']);
@@ -173,8 +182,8 @@ module.exports = {
                                 
                                 let size = bytesToSize.convert(stats['size']);
                                 size = size === '0 Bytes' ? '--' : size;
-        
-                                if (rootUrl === '/files/share-drive' && stats.isFile() && folderDir.toLowerCase() === dir.toLowerCase()) {
+
+                                if (rootUrl === '/files/share-drive' && stats.isFile() && files.some(v => v.fullPath && v.fullPath.toLowerCase() !== `/${folderDir.toLowerCase()}`)) {
                                     let type = mime.getType(name);
                                     type = type ? type.slice(0, type.indexOf('/')) : data['type'];
                 
@@ -197,7 +206,8 @@ module.exports = {
                                             size: size,
                                             type: 'folder',
                                             modified: modified,
-                                            link: link
+                                            link: link,
+                                            fullPath: data['fullPath']
                                         });
                                     }
                                     
