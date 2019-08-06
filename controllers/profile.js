@@ -10,8 +10,6 @@ fs = require('fs')
 countries = require('countries-list')
 moment = require('moment');
 Op = require('sequelize').Op
-// sequelize = require('sequelize')
-
 
 fonts = [
     "Arial", "Calibri", "Impact", "Courier", "Helvetica", "Times New Roman", "Verdana",
@@ -172,6 +170,7 @@ module.exports = {
                                                         }
                                                     }).then(favs => {
                                                         res.render('profile/', {
+                                                            hostURL: req.headers.host,
                                                             user: user,
                                                             followers: followers,
                                                             following: following,

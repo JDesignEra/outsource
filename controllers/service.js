@@ -373,8 +373,8 @@ module.exports = {
                         currencyCode: 'USD',
                         feesPayer: 'EACHRECEIVER',
                         memo: `Payment for ${service.name} by ${freelancer.username}`,
-                        cancelUrl: 'http://localhost:5000/',
-                        returnUrl: `http://localhost:5000/services/paymentSuccess/${service.id}/${req.params.jobID}/`,
+                        cancelUrl: `http://${req.headers.host}/`,
+                        returnUrl: `http://${req.headers.host}/services/paymentSuccess/${service.id}/${req.params.jobID}/`,
                         receiverList: {
                             receiver: [
                                 {

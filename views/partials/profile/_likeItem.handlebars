@@ -13,8 +13,8 @@
                         <div class="portoflio-img-sm view overlay mb-1 rounded p-0 border" data-toggle="modal"
                             data-target="#likedproject{{id}}">
 
-                            <img loading="lazy" src="/uploads/profile/{{uid}}/projects/{{id}}.png" class="h-100  mx-auto d-block"
-                                alt="">
+                            <img loading="lazy" src="/uploads/profile/{{uid}}/projects/{{id}}.png"
+                                class="h-100  mx-auto d-block" alt="">
 
                             <div id="viewproject{{id}}" onclick="viewProject({{id}})"
                                 class="mask flex-center waves-effect waves-light rgba-black-strong">
@@ -159,8 +159,8 @@
 
                         <div class="row justify-content-center mx-auto">
                             <img loading="lazy" onerror='this.src = "/img/profile/default.png"'
-                                src="/uploads/profile/{{uid}}/profilePic.png"
-                                class="white img-fluid rounded-circle " style="height: 80px; width: 80x;">
+                                src="/uploads/profile/{{uid}}/profilePic.png" class="white img-fluid rounded-circle "
+                                style="height: 80px; width: 80x;">
                             <h3 class="col-12 text-center white-text font-weight-bold my-3">
                                 Services by
                                 {{username}}
@@ -217,150 +217,189 @@
 
                 </div>
 
-                <div class="modal-footer blue-grey lighten-5 row mx-auto justify-content-around col-12">
+                <div class="modal-footer blue-grey lighten-5">
+                    <div class="row mx-auto justify-content-around col-12">
+                        {{!-- Comments --}}
+                        <div id="commentSection" class="col-lg-8 col-sm-12 border p-4 white">
+                            <h4 class="text-center"> Comments </h4>
+                            <hr class="hr-primary">
 
-                    {{!-- Comments --}}
-                    <div id="commentSection" class="col-lg-8 col-sm-12 border p-4 white">
-                        <h4 class="text-center"> Comments </h4>
-                        <hr class="hr-primary">
+                            {{#if ../user}}
+                            <form class="chat-message flex-fill" id="commentForm{{id}}" method="POST"
+                                action="/profile/commentProject/{{id}}">
+                                <ul class="list-unstyled chat">
 
-                        {{#if ../user}}
-                        <form class="chat-message flex-fill" id="commentForm{{id}}" method="POST"
-                            action="/profile/commentProject/{{id}}">
-                            <ul class="list-unstyled chat">
+                                    <li class="row mb-4">
 
-                                <li class="row mb-4">
+                                        <div class="col-1 pr-2">
+                                            <img loading="lazy"
+                                                class="avatar img-fluid rounded-circle white accent-3 z-depth-1"
+                                                id="profileimg" onerror='this.src = "/img/profile/default.png"'
+                                                src="/uploads/profile/{{../user.id}}/profilePic.png">
+                                        </div>
 
-                                    <div class="col-1 pr-2">
-                                        <img loading="lazy" class="avatar img-fluid rounded-circle white accent-3 z-depth-1"
-                                            id="profileimg" onerror='this.src = "/img/profile/default.png"'
-                                            src="/uploads/profile/{{../user.id}}/profilePic.png">
-                                    </div>
-
-                                    <div class="col-11 pl-2">
-                                        <div class="chat-body rounded white p-3 z-depth-1">
-                                            <div class="header d-flex">
-                                                <div class="flex-fill text-left">
-                                                    <strong class="primary-font"
-                                                        id="formUsername">{{../user.username }}</strong>
+                                        <div class="col-11 pl-2">
+                                            <div class="chat-body rounded white p-3 z-depth-1">
+                                                <div class="header d-flex">
+                                                    <div class="flex-fill text-left">
+                                                        <strong class="primary-font"
+                                                            id="formUsername">{{../user.username }}</strong>
+                                                    </div>
                                                 </div>
+
+                                                <hr class="w-100">
+
+
+                                                <textarea class="form-control" name="commentContent"
+                                                    id="likedcommentContent{{id}}" maxlength="300"></textarea>
+
+
                                             </div>
-
-                                            <hr class="w-100">
-
-
-                                            <textarea class="form-control" name="commentContent"
-                                                id="likedcommentContent{{id}}" maxlength="300"></textarea>
-
-
-                                        </div>
-                                        <div class="row justify-content-end mx-auto">
-                                            <button class="btn btn-secondary" onclick="likedsubmitComment({{id}})">
-                                                Submit
-                                                Comment </button>
-                                        </div>
-                                    </div>
-                                </li>
-
-                            </ul>
-                        </form>
-                        {{else}}
-                        <h5 class="text-center flex-fill text-muted my-5">You must be logged in to comment.</h5>
-                        {{/if}}
-
-                        <hr class="hr-primary">
-                        {{#if comments}}
-                        <div class="chat-message flex-fill">
-                            <ul class="list-unstyled chat" id="likedhrAfter{{id}}">
-                                {{#each comments}}
-                                <li class="row mb-4">
-
-                                    <div class="col-1 pr-2">
-
-                                        <img loading="lazy" class="avatar img-fluid rounded-circle white accent-3 z-depth-1"
-                                            onerror='this.src = "/img/profile/default.png"'
-                                            src="/uploads/profile/{{ uid }}/profilePic.png">
-
-                                    </div>
-
-                                    <div class="col-11 pl-2">
-                                        <div class="chat-body rounded white p-3 z-depth-1">
-                                            <div class="header d-flex">
-                                                <div class="flex-fill text-left">
-                                                    <a href="/profile/view/{{uid}}">
-                                                        <strong class="primary-font">{{ username }}</strong>
-                                                    </a>
-                                                </div>
-                                                <div class="flex-fill text-right">
-                                                    <small class="pull-right text-muted">
-                                                        <i class="far fa-clock mr-1"></i>{{ date }}
-                                                    </small>
-                                                </div>
+                                            <div class="row justify-content-end mx-auto">
+                                                <button class="btn btn-secondary" onclick="likedsubmitComment({{id}})">
+                                                    Submit
+                                                    Comment </button>
                                             </div>
-
-                                            <hr class="w-100">
-
-                                            <p class="text-left mb-0">
-                                                {{ content }}
-                                            </p>
                                         </div>
+                                    </li>
+
+                                </ul>
+                            </form>
+                            {{else}}
+                            <h5 class="text-center flex-fill text-muted my-5">You must be logged in to comment.</h5>
+                            {{/if}}
+
+                            <hr class="hr-primary">
+                            {{#if comments}}
+                            <div class="chat-message flex-fill">
+                                <ul class="list-unstyled chat" id="likedhrAfter{{id}}">
+                                    {{#each comments}}
+                                    <li class="row mb-4">
+
+                                        <div class="col-1 pr-2">
+
+                                            <img loading="lazy"
+                                                class="avatar img-fluid rounded-circle white accent-3 z-depth-1"
+                                                onerror='this.src = "/img/profile/default.png"'
+                                                src="/uploads/profile/{{ uid }}/profilePic.png">
+
+                                        </div>
+
+                                        <div class="col-11 pl-2">
+                                            <div class="chat-body rounded white p-3 z-depth-1">
+                                                <div class="header d-flex">
+                                                    <div class="flex-fill text-left">
+                                                        <a href="/profile/view/{{uid}}">
+                                                            <strong class="primary-font">{{ username }}</strong>
+                                                        </a>
+                                                    </div>
+                                                    <div class="flex-fill text-right">
+                                                        <small class="pull-right text-muted">
+                                                            <i class="far fa-clock mr-1"></i>{{ date }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+
+                                                <hr class="w-100">
+
+                                                <p class="text-left mb-0">
+                                                    {{ content }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                            {{else}}
+                            <ul class="list-unstyled chat" id="likedhrAfter{{id}}"></ul>
+
+                            <div id="likednoComments{{id}}">
+                                <h5 class="text-center mb-3 text-muted">
+                                    <i class="far fa-comment-times fa-3x"></i>
+                                </h5>
+                                <h5 class="text-center text-muted">
+                                    No Comments
+                                </h5>
+                            </div>
+
+                            {{/if}}
+
+
+
+                        </div>
+
+                        {{!-- Details --}}
+                        <div class="col-lg-3 col-sm-12 p-0">
+
+                            <div class="border p-4 white">
+                                <h4 class="text-center"> Details </h4>
+                                <hr class="hr-primary w-100">
+
+                                <div class="row justify-content-between">
+                                    <div class="col-6">
+                                        <p class="text-right font-weight-bold"> Last Update:</p>
+                                        <p class="text-right font-weight-bold"> Views: </p>
+                                        <p class="text-right font-weight-bold"> Likes: </p>
+                                        <p class="text-right font-weight-bold"> Comments: </p>
                                     </div>
-                                </li>
-                                {{/each}}
-                            </ul>
-                        </div>
-                        {{else}}
-                        <ul class="list-unstyled chat" id="likedhrAfter{{id}}"></ul>
+                                    <div class="col-6">
+                                        <p class="text-left"> {{formatDate datePosted "DD/MM/YYYY"}}</p>
+                                        <p class="text-left"> {{views}}</p>
+                                        <p class="text-left">
+                                            {{#if likes}}
+                                            {{getNum likes}}
+                                            {{else}}
+                                            0
+                                            {{/if}}</p>
+                                        <p class="text-left">
+                                            {{#if comments}}
+                                            {{comments.length}}
+                                            {{else}}
+                                            0
+                                            {{/if}}
+                                        </p>
+                                    </div>
+                                </div>
 
-                        <div id="likednoComments{{id}}">
-                            <h5 class="text-center mb-3 text-muted">
-                                <i class="far fa-comment-times fa-3x"></i>
-                            </h5>
-                            <h5 class="text-center text-muted">
-                                No Comments
-                            </h5>
-                        </div>
-
-                        {{/if}}
-
-
-
-                    </div>
-
-                    {{!-- Details --}}
-
-                    <div class="col-lg-3 col-sm-12 border p-4 white align-self-start">
-                        <h4 class="text-center"> Details </h4>
-                        <hr class="hr-primary w-100">
-
-                        <div class="row justify-content-between">
-                            <div class="col-6">
-                                <p class="text-right font-weight-bold"> Last Update:</p>
-                                <p class="text-right font-weight-bold"> Views: </p>
-                                <p class="text-right font-weight-bold"> Likes: </p>
-                                <p class="text-right font-weight-bold"> Comments: </p>
                             </div>
-                            <div class="col-6">
-                                <p class="text-left"> {{formatDate datePosted "DD/MM/YYYY"}}</p>
-                                <p class="text-left"> {{views}}</p>
-                                <p class="text-left">
-                                    {{#if likes}}
-                                    {{getNum likes}}
-                                    {{else}}
-                                    0
-                                    {{/if}}</p>
-                                <p class="text-left">
-                                    {{#if comments}}
-                                    {{comments.length}}
-                                    {{else}}
-                                    0
-                                    {{/if}}
-                                </p>
+
+                            <div class="border p-4 white mt-4">
+                                <h4 class="text-center ">Share</h4>
+                                <hr class="hr-primary w-100">
+
+                                <div class="btn-group btn-group-sm btn-block" role="group" aria-label="Basic example">
+                                    <a target="_blank" class="btn btn-tw btn-md btn-sm"
+                                        href="https://twitter.com/intent/tweet?text=Check+out+{{title}}+at+&url=http://{{../hostURL}}/profile/view/{{uid}}/{{id}}">
+                                        <i class="fab fa-twitter pr-1"></i>
+
+                                    </a>
+
+                                    <a target="_blank" class="btn btn-fb btn-md btn-sm"
+                                        href="https://www.facebook.com/sharer/sharer.php?u=http://{{../hostURL}}/profile/view/{{uid}}/{{id}}">
+                                        <i class="fab fa-facebook-f pr-1"></i>
+                                    </a>
+
+                                    <a target="_blank" class="btn btn-li btn-md btn-sm"
+                                        href="https://www.linkedin.com/shareArticle?mini=true&url=http://{{../hostURL}}/profile/view/{{uid}}/{{id}}&title={{title}}&summary=Check+out+{{title}}+at+&source=http://{{../hostURL}}/profile/view/{{uid}}/{{id}}">
+                                        <i class="fab fa-linkedin-in pr-1"></i>
+
+                                    </a>
+
+                                    <a target="_blank" class="btn btn-reddit btn-md btn-sm"
+                                        href="http://www.reddit.com/submit?url=http://{{../hostURL}}/profile/view/{{uid}}/{{id}}&title={{title}}">
+                                        <i class="fab fa-reddit-alien pr-1"></i>
+
+                                    </a>
+
+                                    <a target="_blank" class="btn btn-tmblr btn-md btn-sm"
+                                        href="http://www.tumblr.com/share/link?url=http://{{../hostURL}}/profile/view/{{uid}}/{{id}}&description=Check+out+{{title}}+at+Outsource">
+                                        <i class="fab fa-tumblr"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
 
             </div>
@@ -526,7 +565,7 @@
                 `);
 
                 $('#likedcommentContent' + id).val('');
-                $('#likednoComments'+id).css("display", "none")
+                $('#likednoComments' + id).css("display", "none")
             }).catch(function (err) {
                 console.error(err);
             });
@@ -588,6 +627,13 @@
         return false
     }
 </script>
+
+<style>
+    .btn-tmblr {
+    background-color: #34526f !important;
+    color: #fff;
+}
+</style>
 {{/extend}}
 {{/if}}
 {{/extend}}
