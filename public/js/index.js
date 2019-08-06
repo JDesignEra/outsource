@@ -1,15 +1,37 @@
 // index by Joel
 $(function() {
+    let MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+    let observer = new MutationObserver(function(mutations, observer) {
+        mutations.forEach(obj => {
+            console.log(obj);
+
+            let value = obj.target.attributes[1].nodeValue;
+
+            if (parseFloat(value.slice(7, -3)) > 0) {
+                obj.target.childNodes[1].childNodes[1].classList.add('h-100');
+                obj.target.childNodes[1].childNodes[3].classList.add('h-100');
+            }
+        });
+    });
+
+    let wrapper = document.querySelectorAll('section.home .card-wrapper');
+
+    wrapper.forEach(el => {
+        observer.observe(el, {
+            subtree: false,
+            attributes: true,
+            attributeFilter: ['style']
+        });
+    });
+
     let cardWrapper = $('.card-wrapper', 'section.home');
     let cardFaces = cardWrapper.find('.face');
-
-    cardFaces.addClass('h-100');
 
     cardWrapper = $('.card-wrapper', 'section.portfolio-views, section.random-portfolios');
 
     cardWrapper.each(function() {
         let wrapper = $(this);
-        let cardFaces = cardWrapper.find('.face');
+        // let cardFaces = cardWrapper.find('.face');
 
         cardFaces.each(function() {
             let _this = $(this);
@@ -17,6 +39,8 @@ $(function() {
             let overlayHeight = _this.find('.view.overlay').height();
             let imgTop = _this.find('.card-img-top');
             let imgHeight = imgTop.height();
+
+            // _this.addClass('h-100');
 
             if (imgHeight > overlayHeight) {
                 let calcMargin = Math.abs((imgHeight - overlayHeight) / 2);
