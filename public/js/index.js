@@ -31,7 +31,7 @@ $(function() {
 
     cardWrapper.each(function() {
         let wrapper = $(this);
-        // let cardFaces = cardWrapper.find('.face');
+        let cardFaces = cardWrapper.find('.face');
 
         cardFaces.each(function() {
             let _this = $(this);
@@ -40,7 +40,9 @@ $(function() {
             let imgTop = _this.find('.card-img-top');
             let imgHeight = imgTop.height();
 
-            // _this.addClass('h-100');
+            if (!_this.hasClass('h-100')) {
+                _this.addClass('h-100');
+            };
 
             if (imgHeight > overlayHeight) {
                 let calcMargin = Math.abs((imgHeight - overlayHeight) / 2);
