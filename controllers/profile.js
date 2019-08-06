@@ -358,6 +358,7 @@ module.exports = {
                                                                 }
                                                             }).then((favs) => {
                                                                 res.render('profile/viewProfile', {
+                                                                    hostURL: req.headers.host,
                                                                     viewuser: viewuser,
                                                                     followers: followers,
                                                                     following: following,
