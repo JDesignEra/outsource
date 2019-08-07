@@ -149,6 +149,9 @@
                             <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#upload-modal">
                                 <i class="far fa-cloud-upload-alt mr-1"></i>Upload File(s)
                             </button>
+                            <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#gdrive-upload-modal">
+                                <i class="fab fa-google-drive mr-1"></i>Upload File(s) to Google Drive
+                            </button>
                             <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newfile-modal">
                                 <i class="far fa-file-plus mr-1"></i>New File
                             </button>
@@ -166,6 +169,12 @@
                         </p>
 
                         <div class="list-group list-group-flush">
+                            {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
+                                <button class="google-copy list-group-item list-group-item-action animated faster d-none">
+                                    <i class="fab fa-google-drive mr-1"></i>Copy to Google Drive
+                                </button>
+                            {{/ifCond}}
+
                             <div class="single-select animated faster">
                                 <a class="download list-group-item list-group-item-action" href="{{ postRoot }}" download>
                                     <i class="far fa-cloud-download-alt mr-1"></i>Download
@@ -597,6 +606,37 @@
     </div>
 </div>
 
+<!-- Upload Google Drive Modal -->
+<div id="gdrive-upload-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header deep-purple accent-2 white-text">
+                <h4 class="modal-title">
+                    <i class="fab fa-google-drive mr-1"></i> UPLOAD FILE(S) TO GOOGLE DRIVE
+                </h4>
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form class="files-upload" action="{{ postRoot }}/~gdriveupload" method="post" enctype="multipart/form-data">
+                    <input type="file" name="files" multiple />
+                    <p class="text-center m-0 mt-3">
+                        <small class="form-text text-muted">
+                            You are can only upload up to a maximum of 5mb per file.
+                        </small>
+                        <small class="form-text text-danger font-weight-500">
+                            * If uploaded file or files exist in the current directory, that file or files will be overwritten.
+                        </small>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Info Modal (For Mobile) -->
 <div id="info-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -744,6 +784,12 @@
             <small class="p-3 font-weight-bolder grey-text select-count">0 Item Selected</small>
 
             <hr class="my-2">
+
+            {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}
+                <button class="google-copy dropdown-item d-none">
+                    <i class="fab fa-google-drive mr-1"></i>Copy to Google Drive
+                </button>
+            {{/ifCond}}
 
             <div class="single-select">
                 {{#ifCond 'urlRoot === "/files/my-drive" || urlRoot === "/files"'}}

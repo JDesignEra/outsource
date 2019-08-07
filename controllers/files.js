@@ -10,6 +10,7 @@ const mime = require('mime');
 const walk = require('klaw');
 const Op = require('sequelize').Op;
 const literal = require('sequelize').literal;
+const { google } = require('googleapis');
 
 const bytesToSize = require('../helpers/bytesToSize');
 const email = require('../helpers/email');
@@ -183,7 +184,7 @@ module.exports = {
                                 let size = bytesToSize.convert(stats['size']);
                                 size = size === '0 Bytes' ? '--' : size;
 
-                                if (rootUrl === '/files/share-drive' && stats.isFile() && files.some(v => v.fullPath && v.fullPath.toLowerCase() !== `/${folderDir.toLowerCase()}`)) {
+                                if (rootUrl === '/files/share-drive' && stats.isFile() && !files.some(v => v.fullPath && v.fullPath.toLowerCase() === `/${folderDir.toLowerCase()}`)) {
                                     let type = mime.getType(name);
                                     type = type ? type.slice(0, type.indexOf('/')) : data['type'];
                 
@@ -930,6 +931,140 @@ module.exports = {
         else {
             req.flash('error', 'You do not have permission to edit this file.');
             res.redirect(dir === '/' ? `${rootUrl}` :  `${rootUrl}/${dir}`);
+        }
+    },
+    googleDriveCopy: function(req, res) {
+        let uid = req.user.id;
+        let root = `public/uploads/files/${uid}/`;
+        let rootUrl = req.params[0] ? `/files${req.params[0]}` : `/files`;
+        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~move/gi, '') : '/';
+        dir = dir ? dir : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
+        
+        if (req.body.fid) {
+            let ids = Array.isArray(req.body.fid) ? req.body.fid : [req.body.fid];
+            
+            filesFolders.findAll({
+                where: {
+                    id: { [Op.in]: ids },
+                    uid: uid
+                }
+            }).then(datas => {
+                let gExpire = req.user.gExpire ? moment.duration(moment(new Date).diff(req.user.gExpire)) : 0;
+
+                if (!req.user.gAccessToken || gExpire > 3000000) {
+                    res.redirect('/auth/google');
+                }
+                else {
+                    const oauth2Client = new google.auth.OAuth2();
+
+                    oauth2Client.setCredentials({
+                        access_token: req.user.gAccessToken
+                    });
+
+                    const drive = google.drive({
+                        version: 'v3',
+                        auth: oauth2Client
+                    });
+
+                    let flashMsgs = {success: [], error: []};
+
+                    for (const [i, data] of datas.entries()) {
+                        if (data['type'] !== 'folder') {
+                            let name = data['name'];
+                            let mimeType = mime.getType(data['name']);
+
+                            let driveResponse = drive.files.create({
+                                requestBody: {
+                                    name: name,
+                                    mimeType: mimeType
+                                },
+                                media: {
+                                    mimeType: mimeType,
+                                    body: fs.createReadStream(path.join(root, data['fullPath']))
+                                }
+                            });
+
+                            driveResponse.then(data => {
+                                if (data.status === 200) {
+                                    flashMsgs['success'].push(`${name} uploaded to Google Drive sucessfully.`);
+                                }
+                                else {
+                                    flashMsgs['error'].push(`${name} failed to upload to Google Drive.`);
+                                }
+
+                                setTimeout(() => {  // Ensures Message is Pushed
+                                    loopRedirect(req, res, rootUrl, dir, i, datas.length, flashMsgs, ids);
+                                }, 850);
+                            });
+                        }
+                        else {
+                            flashMsgs['error'].push(`${name} failed to upload to Google Drive because it's a folder.`);
+                        }
+                    }
+                }
+            });
+        }
+        else {
+            req.flash('error', 'No file or folder selected.');
+            res.redirect(dir === '/' ? rootUrl : `${rootUrl}/${dir}`);
+        }
+    },
+    googleDriveUpload: function(req, res) {
+        let rootUrl = req.params[0] ? `/files${req.params[0]}` : `/files`;
+        let dir = req.params['dir'] !== undefined ? '/' + req.params['dir'].replace(/~move/gi, '') : '/';
+        dir = dir ? dir : '/';
+        dir = dir.length > 1 && dir[0] === '/' ? dir.slice(1) : dir;
+        dir = dir.length > 1 && dir[dir.length - 1] === '/' ? dir.slice(0, -1) : dir;
+
+        let files = req.files;
+        let flashMsgs = {success: [], warning: [], error: []};
+        let gExpire = req.user.gExpire ? moment.duration(moment(new Date).diff(req.user.gExpire)) : 0;
+
+        if (!req.user.gAccessToken || gExpire > 3000000) {
+            res.redirect('/auth/google');
+        }
+        else {
+            for (const [i, file] of files.entries()) {
+                let fileName = file['originalname'];
+                let type = mime.getType(fileName) || file['mimetype'];
+
+                const oauth2Client = new google.auth.OAuth2();
+
+                oauth2Client.setCredentials({ access_token: req.user.gAccessToken });
+
+                const drive = google.drive({
+                    version: 'v3',
+                    auth: oauth2Client
+                });
+
+                let driveResponse = drive.files.create({
+                    requestBody: {
+                        name: fileName,
+                        mimeType: type
+                    },
+                    media: {
+                        mimeType: type,
+                        body: fs.createReadStream(file['path'])
+                    }
+                });
+
+                driveResponse.then(data => {
+                    fs.remove(file['path']);
+
+                    if (data.status === 200) {
+                        flashMsgs['success'].push(`${fileName} uploaded to Google Drive sucessfully.`);
+                    }
+                    else {
+                        flashMsgs['error'].push(`${fileName} failed to upload to Google Drive.`);
+                    }
+
+                    setTimeout(() => {  // Ensures Message is Pushed
+                        loopRedirect(req, res, rootUrl, dir, i, files.length, flashMsgs);
+                    }, 850);
+                });
+            }
         }
     },
     move: function(req, res) {

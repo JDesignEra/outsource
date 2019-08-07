@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
+const multer = require('multer')
 
 const upload = multer({dest: './public/uploads/temp'});
 const { isAuth } = require('../middlewares/auth');
@@ -11,6 +11,8 @@ router.post('(/my-drive|/share-drive)?/:dir([/%-~_a-z0-9]+)?/~comment', isAuth, 
 router.post('(/my-drive)?/:dir([/%-_a-z0-9]+)?/~copy', isAuth, filesController.copy);
 router.post('(/my-drive)?/:dir([/%-_a-z0-9]+)?/~delete', isAuth, filesController.delete);
 router.post('(/my-drive)?/:dir([/%-_a-z0-9]+)?/~delshareuser', isAuth, filesController.delShareUser);
+router.post('(/my-drive)?/:dir([/%-_a-z0-9]+)?/~gdrivecopy', isAuth, filesController.googleDriveCopy);
+router.post('(/my-drive)?/:dir([/%-_a-z0-9]+)?/~gdriveupload', isAuth, upload.array('files'), filesController.googleDriveUpload);
 router.post('(/my-drive)?/:dir([/%-_a-z0-9]+)?/~move', isAuth, filesController.move);
 router.post('(/my-drive)?/:dir([/%-_a-z0-9]+)?/~newfile', isAuth, filesController.newfile);
 router.post('(/my-drive)?/:dir([/%-_a-z0-9]+)?/~newfolder', isAuth, filesController.newfolder);

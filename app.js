@@ -12,12 +12,12 @@ const mySqlStore = require('express-mysql-session');
 const db = require('./config/db');
 const auth = require('./config/passport');
 
+const hbs = require('./helpers/hbs');
+
 const outsourceDb = require('./config/dbConnection');
 outsourceDb.setUpDB(false);
 
 const notifications = require('./models/notifications');
-
-const hbs = require('./helpers/hbs');
 
 //PayPal
 var paypal = require('paypal-rest-sdk');

@@ -373,15 +373,48 @@ $(function() {
                     _this = $(this);
 
                     if (_this.hasClass('d-none')) {
+                        _this.removeClass('d-none');
+
                         if (_this.hasClass('animated')) {
-                            _this.removeClass('d-none');
         
                             _this.addClass('flipInX').one(animationEnd, function() {
                                 $(this).removeClass('flipInX');
                             });
                         }
+                    }
+                });
+
+                // Google Upload
+                let googleCopy = focus.find('.google-copy');
+                let flag = true;
+
+                checked.each(function() {
+                    if ($(this).attr('data-type') === 'folder') flag = false;
+                });
+                
+                googleCopy.each(function() {
+                    _this = $(this);
+
+                    if (flag && _this.hasClass('d-none')) {
+                        _this.removeClass('d-none');
+
+                        if (_this.hasClass('animated')) {
+                            _this.addClass('flipInX').one(animationEnd, function() {
+                                $(this).removeClass('flipInX');
+                            });
+                        }
+                    }
+                    else if (!flag && !_this.hasClass('d-none')) {
+                        if (_this.hasClass('animated')) {
+                            _this.addClass('flipOutX').one(animationEnd, function() {
+                                let _this = $(this);
+
+                                _this.addClass('d-none');
+                                _this.removeClass('flipOutX');
+                            });
+                        }
                         else {
-                            _this.removeClass('d-none');
+                            _this.addClass('d-none');
                         }
                     }
                 });
@@ -391,14 +424,13 @@ $(function() {
                 // Download link and Edit Link
                 if (count === 1) {
                     let downloadAction = singleActions.find('a.download');
-                    downloadAction.attr('href', `${window.location.pathname}/${checked.last().attr('data-id')}/~download`);
-
-                    let type = checked.last().attr('data-type');
                     let editAction = singleActions.find('a.edit');
+                    let type = checked.last().attr('data-type');
+
+                    downloadAction.attr('href', `${window.location.pathname}/${checked.last().attr('data-id')}/~download`);
 
                     if (type === 'code' || type === 'image') {
                         editAction.attr('href', `${window.location.pathname}/${checked.last().attr('data-id')}/~edit`);
-
                         editAction.removeClass('d-none');
                     }
                     else {
@@ -887,11 +919,17 @@ $(function() {
 
 // Action Buttons
 $(function() {
+    let form = $('#action-form');
+
     // Delete
     $('.delete-action').on('click', function() {
-        let form = $('#action-form');
-        
         form.attr('action', form.attr('action') + '~delete');
+        form.submit();
+    });
+
+    // Upload to Google Drive
+    $('.google-copy').on('click', function() {
+        form.attr('action', form.attr('action') + '~gdrivecopy');
         form.submit();
     });
 

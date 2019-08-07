@@ -23,6 +23,20 @@ const users = db.define('user', {
         allowNull: false,
         unique: true
     },
+    googleId: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: true
+    },
+    gAccessToken: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: true
+    },
+    gExpire: {
+        type: Sequelize.DATE,
+        allowNull: true
+    },
     facebookId: {
         type: Sequelize.STRING,
         allowNull: true,
