@@ -39,7 +39,7 @@
     "passport-local": "^1.0.0",
     "paypal-adaptive": "^0.4.2",
     "paypal-rest-sdk": "^1.8.1",
-    "sequelize": "^5.12.3"
+    "sequelize": "^5.15.1"
   },
   "devDependencies": {
     "browser-sync": "^2.26.7",
